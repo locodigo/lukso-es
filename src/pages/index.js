@@ -15,60 +15,60 @@ import FAQIcon from '../../static/img/icons/icon-faq-gradient.png';
 
 function Index() {
   return (
-    <Layout description="Network, Standards, Tools and Guides for development on LUKSO and related standards.">
+    <Layout description="Redes, Estándares, Guías y Herramientas para desarrollar en LUKSO.">
       <div className={styles.container}>
         <Headline />
         <CallToActionButton
           bgColor="#6270A4"
           color="#ffffff"
-          link="./guides/browser-extension/install-browser-extension"
-          text="DOWNLOAD THE BROWSER EXTENSION"
+          link="./es/guides/browser-extension/install-browser-extension"
+          text="DESCARGA LA EXTENSION PARA EL NAVEGADOR"
         />
         <br />
         <CallToActionButton
           bgColor="#FFCCCC"
           color="#383838"
-          link="./networks/l16-testnet/parameters"
-          text="PARTICIPATE IN NETWORKS"
+          link="./es/networks/l16-testnet/parameters"
+          text="PARTICIPA EN LAS REDES"
         />
         <br />
         <div className={styles.cardContainer}>
           <Box
             icon={NetworksIcon}
-            link="./networks/l16-testnet/parameters"
-            title="NETWORKS"
+            link="./es/networks/l16-testnet/parameters"
+            title="REDES"
             className="networks"
-            content="Learn how to participate in LUKSO's test networks."
+            content="Descubre como participar en las redes de prueba LUKSO."
           />
           <Box
             icon={StandardsIcon}
-            link="./standards/introduction"
-            title="STANDARDS"
+            link="./es/standards/introduction"
+            title="ESTÁNDARES"
             className="standards"
-            content="Learn about the new smart contract standards that will change the way we interact with Blockchain."
+            content="Aprende más sobre los nuevos estándares de contratos inteligentes que cambiarán la forma en que interactuamos con la Blockchain."
           />
           <Box
             icon={ToolsIcon}
-            link="./tools/getting-started"
-            title="TOOLS"
+            link="./es/tools/getting-started"
+            title="HERRAMIENTAS"
             className="tools"
-            content="Discover tools that help you to interact with Universal Profiles and NFT2.0."
+            content="Encuentra herramientas que te ayudarán a interactuar con los Perfiles Universales y los NFT2.0."
           />
         </div>
         <div className={styles.cardContainer}>
           <Box
             icon={GuidesIcon}
-            link="./guides/getting-started"
-            title="GUIDES"
+            link="./es/guides/getting-started"
+            title="GUÍAS"
             className="guides"
-            content="Guides and tutorials to help you get started with the LUKSO ecosystem."
+            content="Guías y tutoriales que te ayudarán a descubrir el ecosistema LUKSO."
           />
           <Box
             icon={FAQIcon}
-            link="./faq/lukso"
-            title="FAQ"
+            link="./es/faq/lukso"
+            title="Preguntas frecuentes"
             className="faq"
-            content="Frequently Asked Questions."
+            content="Las preguntas más frecuentes."
           />
         </div>
       </div>
