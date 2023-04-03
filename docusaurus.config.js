@@ -69,6 +69,7 @@ module.exports = {
   ],
   themeConfig: {
     image: 'img/lukso-docs-opengraph.jpg',
+    trailingSlash: true,
     navbar: {
       title: 'LUKSO',
       logo: {
