@@ -35,9 +35,9 @@ Para entender bien los LSPs, deberían estudiarse en el siguiente orden:
 
 - **[LSP12 - Activos emitidos](./universal-profile/lsp12-issued-assets.md)**
 
-- **[LSP9 - Bóveda](./universal-profilel/lsp9-vault.md)**
+- **[LSP9 - Bóveda](./universal-profile/lsp9-vault.md)**
 
-- **[LSP10 - Bóvedas recibidas](./universal-profile/lsp10-bóvedas-recibidas.md)**
+- **[LSP10 - Bóvedas recibidas](./universal-profile/lsp10-received-vaults.md)**
 
 ## Más información
 
