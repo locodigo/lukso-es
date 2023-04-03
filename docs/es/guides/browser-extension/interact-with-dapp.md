@@ -9,16 +9,18 @@ import TabItem from '@theme/TabItem';
 # Interactuar con una dApp
 
 :::danger
+
 La Extensión del Navegador UP está actualmente en la versión **alfa de desarrollo**. ¡NO la utilices en producción!
+
 :::
 
 :::note
+
 Si tienes **MetaMask** instalado, *haz click derecho en ambos* MetaMask y Extensión UP y selecciona "Esto puede leer y cambiar datos del sitio > cuando haces click en la extensión". De esta manera puedes seleccionar por pestaña, que extensión puede leer tu sitio. Puedes restablecerlo cerrando la pestaña.
 
 <img width="400" src="https://user-images.githubusercontent.com/232662/192822200-392b19f1-321b-4a59-928a-f71876bec6f3.png" />
+
 :::
-
-
 
 ## Configuración
 
@@ -214,18 +216,12 @@ await contract.methods
 
 **Ejemplo**: Escucha de eventos de modificación de cuentas:
 
-<Tabs>
-  <TabItem value="web3" label="web3">
-
 ```js
 window.ethereum.on('accountsChanged', (addresses: string[]) => {
   const newAddress = addresses[0];
   ...
 }
 ```
-
-  </TabItem>
-</Tabs>
 
 ## dApp Muestra
 
