@@ -5,66 +5,66 @@ title: LSP8IdentifiableDigitalAsset
 
 # LSP8IdentifiableDigitalAsset
 
-## deploy
+## Despliegue
 
 ```js
 lspFactory.LSP8IdentifiableDigitalAsset.deploy(digitalAssetProperties [, options]);
 ```
 
-Deploys a mintable [LSP8 Identifiable Digital Asset](../../../standards/nft-2.0/LSP8-Identifiable-Digital-Asset).
+Despliega un [Activo Digital Identificable LSP8](../../../standards/nft-2.0/LSP8-Identifiable-Digital-Asset) Acuñable.
 
 :::info
-By default LSPFactory deploys the [`Mintable`](https://github.com/lukso-network/lsp-smart-contracts/blob/develop/contracts/LSP8IdentifiableDigitalAsset/presets/LSP8Mintable.sol) implementation of LSP8 digital assets. To call the `mint` function import the `LSP8Mintable` abi from the [lsp-smart-contracts library](https://github.com/lukso-network/lsp-smart-contracts).
+Por defecto, LSPFactory despliega la implementación [`Mintable`](https://github.com/lukso-network/lsp-smart-contracts/blob/develop/contracts/LSP8IdentifiableDigitalAsset/presets/LSP8Mintable.sol) de los activos digitales LSP8. Para llamar a la función `mint` importe el abi `LSP8Mintable` de la librería [lsp-smart-contracts](https://github.com/lukso-network/lsp-smart-contracts).
 
 :::
 
-### Parameters
+### Parámetros
 
-#### 1. `digitalAssetProperties` - Object
+#### 1. `digitalAssetProperties` - Objeto
 
-Specify properties to be set on the LSP8 Digital Asset during deployment.
+Especifica las propiedades que se establecerán en el Activo Digital LSP8 durante el despliegue.
 
-| Name                                                                                    | Type             | Description                                                                           |
+| Nombre                                                                              | Tipo             | Descripción                                                                           |
 | :-------------------------------------------------------------------------------------- | :--------------- | :------------------------------------------------------------------------------------ |
-| [`name`](../deployment/digital-asset#digital-asset-properties)                          | String           | The name of the token. Passed to the LSP8 smart contract as a constructor parameter   |
-| [`symbol`](../deployment/digital-asset#digital-asset-properties)                        | String           | The symbol of the token. Passed to the LSP8 smart contract as a constructor parameter |
-| [`controllerAddress`](../deployment/digital-asset#controller-address)                   | String           | The owner of the contract. Passed to the LSP8 smart contract constructor parameter    |
-| [`digitalAssetMetadata`](../deployment/digital-asset#digital-asset-metadata) (optional) | Object \| String | The [LSP4] metadata to be attached to the smart contract.                             |
-| [`creators`](../deployment/digital-asset#adding-lsp4-metadata) (optional)               | Array            | The [LSP4] metadata to be attached to the smart contract.                             |
+| [`name`](../deployment/digital-asset#digital-asset-properties)                          | Cadena           | El nombre del token. Pasado al contrato inteligente LSP8 como parámetro del constructor.   |
+| [`symbol`](../deployment/digital-asset#digital-asset-properties)                        | Cadena           | El símbolo del token. Pasado al contrato inteligente LSP8 como parámetro del constructor. |
+| [`controllerAddress`](../deployment/digital-asset#controller-address)                   | Cadena           | El propietario del contrato. Pasado al parámetro constructor del contrato inteligente LSP8.    |
+| [`digitalAssetMetadata`](../deployment/digital-asset#digital-asset-metadata) (opcional) | Objeto \| Cadena | Los metadatos [LSP4] que se adjuntarán al contrato inteligente.                             |
+| [`creators`](../deployment/digital-asset#adding-lsp4-metadata) (opcional)               | Conjunto         | Los metadatos [LSP4] que se adjuntarán al contrato inteligente.                             |
 
-#### 2. `options` - Object (optional)
+#### 2. `options` - Objeto (opcional)
 
-Object which specifies how the LSP8 Digital Asset will be deployed
+Objeto que especifica cómo se desplegará el Activo Digital LSP8
 
-| Name                                                                           | Type             | Description                                                                                                                                                                           |
+| Nombre                                                                         | Tipo             | Descripción                                                                                                                                                                           |
 | :----------------------------------------------------------------------------- | :--------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [`LSP8IdentifiableDigitalAsset`](../deployment/options.md) (optional)          | String           | Generic contract configuration object. Takes [`version`](../deployment/options.md#version) and [`deployProxy`](../deployment/options.md#version) parameters.                          |
-| [`onDeployEvents`](../deployment/digital-asset#reactive-deployment) (optional) | Object           | Pass `next`, `complete` and `error` callback handlers to be executed as deployment events are fired. See [`Reactive Deployment`](../deployment/digital-asset.md#reactive-deployment). |
-| [`ipfsGateway`](../deployment/digital-asset#ipfs-upload-options) (optional)    | String \| Object | An IPFS gateway URL or an object containing IPFS configuration options.                                                                                                               |
+| [`LSP8IdentifiableDigitalAsset`](../deployment/options.md) (opcional)          | Cadena           | Objeto genérico de configuración del contrato. Toma los parámetros [`version`](../deployment/options.md#version) y [`deployProxy`](../deployment/options.md#version).                          |
+| [`onDeployEvents`](../deployment/digital-asset#reactive-deployment) (optional) | Objeto           |Pasa los controladores de llamada de retorno `next`, `complete` y `error` para que se ejecuten cuando se disparen los eventos de despliegue. Consulta [`Despliegue Reactivo`](../deployment/digital-asset.md#reactive-deployment). |
+| [`ipfsGateway`](../deployment/digital-asset#ipfs-upload-options) (optional)    | Cadena \| Objeto | Una URL de pasarela IPFS o un objeto que contenga opciones de configuración IPFS.                                                                                                               |
 
 :::info
-You can read more about the `options` object specification on [its official page](../deployment/digital-asset.md#deployment-configuration)
+Puedes leer más sobre la especificación del objeto `options` en [su página oficial].(../deployment/digital-asset.md#deployment-configuration)
 :::
 
-### Returns
+### Respuesta
 
-| Type         | Description                                                                                  |
+| Tipo         | Descripción                                                                                  |
 | :----------- | :------------------------------------------------------------------------------------------- |
-| `Promise`    | Resolves to an object containing deployed contract details.                                  |
+| `Promise`    | Resuelve a un objeto que contiene detalles del contrato desplegado.                          |
 
-### Example
+### Ejemplo
 
-```javascript title="Deploying an LSP8 Identifiable Digital Asset"
+```javascript title="Despliegue de un Activo Digital Identificable LSP8"
 await lspFactory.LSP8IdentifiableDigitalAsset.deploy({
-  name: 'My token',
+  name: 'Mi token',
   symbol: 'TKN',
   controllerAddress: '0xb74a88C43BCf691bd7A851f6603cb1868f6fc147',
   digitalAssetMetadata: {
-      description: "Digital Asset",
+      description: "Activo Digital",
       assets: [asset],
       images: [image],
       icon: icon,
-      links: [{ title: "MyDigitalAsset", url: "my-asset.com" }],
+      links: [{ title: "MiActivoDigital", url: "mi-activo.com" }],
   };
 });
 /**
@@ -94,12 +94,12 @@ await lspFactory.LSP8IdentifiableDigitalAsset.deploy({
 */
 ```
 
-#### Reactive LSP8 Digital Asset deployment Example
+#### Ejemplo de despliegue de Activos Digitales Reactivos LSP8
 
-```javascript title="Deploying a Reactive LSP8 Identifiable Digital Asset"
+```javascript title="Despliegue de un Activo Digital Identificable Reactivo LSP8"
 await lspFactory.LSP8IdentifiableDigitalAsset.deploy(
   {
-    name: 'My token',
+    name: 'Mi token',
     symbol: 'TKN',
     controllerAddress: '0xb74a88C43BCf691bd7A851f6603cb1868f6fc147',
   },
@@ -112,7 +112,7 @@ await lspFactory.LSP8IdentifiableDigitalAsset.deploy(
         console.error(error);
       },
       complete: (contracts) => {
-        console.log('Deployment Complete');
+        console.log('Despliegue finalizado');
         console.log(contracts.LSP8IdentifiableDigitalAsset);
       },
     },
@@ -123,7 +123,7 @@ await lspFactory.LSP8IdentifiableDigitalAsset.deploy(
 {
   type: 'PROXY_DEPLOYMENT',
   contractName: 'LSP8IdentifiableDigitalAsset',
-  status: 'PENDING',
+  status: 'PENDIENTE',
   transaction: {
     ...
   }
@@ -131,51 +131,51 @@ await lspFactory.LSP8IdentifiableDigitalAsset.deploy(
 {
   type: 'PROXY_DEPLOYMENT',
   contractName: 'LSP8IdentifiableDigitalAsset',
-  status: 'COMPLETE',
+  status: 'COMPLETADO',
   contractAddress: '0x2cA038832c15E61b83d47414Eb53818a45e0E142',
   receipt: {
     ...
   }
 }
 {
-  type: 'TRANSACTION',
+  type: 'TRANSACCION',
   contractName: 'LSP8IdentifiableDigitalAsset',
   functionName: 'initialize(string,string,address)',
-  status: 'PENDING',
+  status: 'PENDIENTE',
   transaction: {
     ...
   }
 }
 {
-  type: 'TRANSACTION',
+  type: 'TRANSACCION',
   contractName: 'LSP8IdentifiableDigitalAsset',
   functionName: 'initialize(string,string,address)',
-  status: 'COMPLETE',
+  status: 'COMPLETADO',
   receipt: {
     ...
   }
 }
 {
-  type: 'TRANSACTION',
+  type: 'TRANSACCION',
   contractName: 'LSP8IdentifiableDigitalAsset',
   functionName: 'setData(bytes32[],bytes[])',
-  status: 'PENDING',
+  status: 'PENDIENTE',
   transaction: {
     ...
   }
 }
 {
-  type: 'TRANSACTION',
+  type: 'TRANSACCION',
   contractName: 'LSP8IdentifiableDigitalAsset',
   functionName: 'setData(bytes32[],bytes[])',
-  status: 'COMPLETE',
+  status: 'COMPLETADO',
   receipt: {
     ...
   }
 }
 {
-  type: 'TRANSACTION',
-  status: 'PENDING',
+  type: 'TRANSACCION',
+  status: 'PENDIENTE',
   contractName: 'LSP8IdentifiableDigitalAsset',
   functionName: 'transferOwnership(address)',
   transaction: {
@@ -183,15 +183,15 @@ await lspFactory.LSP8IdentifiableDigitalAsset.deploy(
   }
 }
 {
-  type: 'TRANSACTION',
+  type: 'TRANSACCION',
   contractName: 'LSP8IdentifiableDigitalAsset',
   functionName: 'transferOwnership(address)',
-  status: 'COMPLETE',
+  status: 'COMPLETADO',
   receipt: {
     ...
   }
 }
-Deployment Complete
+Despliegue finalizado
 {
   address: '0x2cA038832c15E61b83d47414Eb53818a45e0E142',
   receipt: {
@@ -201,11 +201,11 @@ Deployment Complete
 */
 ```
 
-[contract deployment options]: ../deployment/digital-asset/#deployment-configuration
-[constructor parameters]: ../../../../../standards/smart-contracts/lsp7-digital-asset#constructor
-[contract deployment options]: ../deployment/digital-asset.md
+[opciones de despliegue del contrato]: ../deployment/digital-asset/#deployment-configuration
+[parámetros del constructor]: ../../../../../standards/smart-contracts/lsp7-digital-asset#constructor
+[opciones de despliegue del contrato]: ../deployment/digital-asset.md
 [lsp4]: https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-4-DigitalAsset-Metadata.md
-[uploading lsp4 digital asset metadata]: ./lsp4-digital-asset-metadata#uploadMetadata
-[lsp-smart-contracts]: https://github.com/lukso-network/lsp-smart-contracts
+[carga de metadatos de activos digitales lsp4]: ./lsp4-digital-asset-metadata#uploadMetadata
+[contratos inteligentes lsp]: https://github.com/lukso-network/lsp-smart-contracts
 [eip1167]: https://eips.ethereum.org/EIPS/eip-1167
 [ipfs-http-client]: https://github.com/ipfs/js-ipfs/tree/master/packages/ipfs-http-client#createoptions

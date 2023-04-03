@@ -1,26 +1,26 @@
 ---
-sidebar_label: 'Sign-In with Ethereum'
+sidebar_label: 'Iniciar sesión con Ethereum'
 sidebar_position: 4
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Sign-In with Ethereum
+# Iniciar sesión con Ethereum
 
-The [LUKSO Browser Extension](./install-browser-extension.md) is compatible with [EIP-4361: Sign-In with Ethereum](https://eips.ethereum.org/EIPS/eip-4361).
-Therefore, if the message you want to sign complies with this standard, the LUKSO Browser Extension will show a custom login screen.
+La [Extensión de navegador LUKSO](./install-browser-extension.md) es compatible con [EIP-4361: Inicio de sesión con Ethereum](https://eips.ethereum.org/EIPS/eip-4361).
+Por lo tanto, si el mensaje que desea firmar cumple esta norma, la Extensión de navegador LUKSO mostrará una pantalla de inicio de sesión personalizada.
 
 <div style={{textAlign: 'center'}}>
 <img
     src="/img/extension/lukso-extension-siwe.webp"
-    alt="Example of Sign-In with Ethereum screen"
+    alt="Ejemplo de pantalla de acceso con Ethereum"
 />
 </div>
 
-## 1. Get the Universal Profile address
+## 1. Obtener la dirección del perfil universal
 
-The browser extension injects the Universal Profile smart contract address into the page. We need this address to generate the message to sign.
+La extensión del navegador inyecta la dirección del contrato del perfil universal en la página. Necesitamos esta dirección para generar el mensaje a firmar.
 
 <Tabs groupId="provider">
   <TabItem value="ethers" label="Ethers.js">
@@ -53,17 +53,17 @@ const upAddress = accounts[0];
   </TabItem>
 </Tabs>
 
-## 2. Prepare the message
+## 2. Preparar el mensaje
 
-To enable the Sign-In With Ethereum (SIWE) screen, you need to prepare a message with a specific format, as you can see on the [standard page](https://eips.ethereum.org/EIPS/eip-4361) or below.
+Para activar la pantalla de inicio de sesión con Ethereum (SIWE), deberás preparar un mensaje con un formato específico, como puedes ver en la [página estándar](https://eips.ethereum.org/EIPS/eip-4361) o a continuación.
 
 <details>
-<summary>SIWE Template</summary>
+<summary>Plantilla SIWE</summary>
 
 <!-- prettier-ignore-start -->
 
 ```
-${domain} wants you to sign in with your Ethereum account:
+${domain} quiere que inicies sesión con tu cuenta de Ethereum:
 ${address}
 
 ${statement}
@@ -87,10 +87,10 @@ Resources:
 
 </details>
 
-In JavaScript, you can use the [`siwe`](https://www.npmjs.com/package/siwe) library.
+En JavaScript, puedes utilizar la librería [`siwe`](https://www.npmjs.com/package/siwe).
 
 <Tabs>
-  <TabItem value="siwe" label="With siwe library">
+  <TabItem value="siwe" label="Con la librería siwe">
 
 ```js
 import { SiweMessage } from 'siwe';
@@ -100,10 +100,10 @@ import { SiweMessage } from 'siwe';
 const message = new SiweMessage({
   domain: window.location.host,
   address: upAddress,
-  statement: 'By logging in you agree to the terms and conditions.',
+  statement: 'Al iniciar sesión, está aceptando los términos y condiciones',
   uri: window.location.origin,
   version: '1',
-  chainId: '2828', // For LUKSO L16
+  chainId: '2828', // Para LUKSO L16
   resources: ['https://terms.website.com'],
 });
 
@@ -111,7 +111,7 @@ const siweMessage = message.prepareMessage();
 ```
 
   </TabItem>
-   <TabItem value="plain" label="Without siwe library">
+   <TabItem value="plain" label="Sin librería siwe">
 
 <!-- prettier-ignore-start -->
 
@@ -121,22 +121,22 @@ const siweMessage = message.prepareMessage();
 const domain = window.location.host;
 const origin = window.location.origin;
 const LUKSO_L16_CHAIN_ID = '2828';
-const nonce = 'm97bdsjo'; // a randomized token, at least 8 alphanumeric characters
+const nonce = 'm97bdsjo'; // un token aleatorio de al menos 8 caracteres alfanuméricos
 const date = new Date();
 const issuedAt = date.toISOString();
 
-const siweMessage = `${domain} wants you to sign in with your Ethereum account:
+const siweMessage = `${domain} quiere que inicies sesión con tu cuenta de Ethereum:
 
 ${upAddress}
 
-By logging in you agree to the terms and conditions.
+Al iniciar sesión, está aceptando los términos y condiciones.
 
 URI: ${origin}
-Version: 1
+Versión: 1
 Chain ID: ${LUKSO_L16_CHAIN_ID}
 Nonce: ${nonce}
-Issued At: ${issuedAt}
-Resources:
+Emitido en: ${issuedAt}
+Recursos:
 - https://terms.website.com`;
 ```
 <!-- prettier-ignore-end -->
@@ -144,18 +144,18 @@ Resources:
 </TabItem>
 </Tabs>
 
-## 3. Sign the message
+## 3. Firmar el mensaje
 
-Once you have access to the Universal Profile address, you can request a signature. The browser extension will sign the message with the controller key used by the extension (a smart contract can't sign).
+Una vez que dispongas de la dirección del perfil universal, podrás solicitar una firma. La extensión del navegador firmará el mensaje con la clave de controlador utilizada por la extensión (un contrato inteligente no puede firmar).
 
 <Tabs groupId="provider">
   <TabItem value="ethers" label="Ethers.js">
 
 :::caution
 
-When calling Ethers.js [`signer.signMessage( message )`](https://docs.ethers.io/v5/api/signer/#Signer-signMessage), it uses `personal_sign` RPC call under the hood. However, our extension only supports the latest version of [`eth_sign`](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_sign). Therefore, you need to use `provider.send("eth_sign", [upAddress, message])` instead.
+Cuando se llama a Ethers.js [`signer.signMessage( message )`](https://docs.ethers.io/v5/api/signer/#Signer-signMessage), utiliza la llamada RPC `personal_sign` bajo el capó. Sin embargo, nuestra extensión sólo soporta la última versión de [`eth_sign`](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_sign). Por lo tanto, es necesario utilizar `provider.send("eth_sign", [upAddress, message])` como sustituto..
 
-You can get more information [here](https://github.com/MetaMask/metamask-extension/issues/15857) and [here](https://github.com/ethers-io/ethers.js/issues/1544).
+Puedes obtener más información [aquí](https://github.com/MetaMask/metamask-extension/issues/15857) y [aquí](https://github.com/ethers-io/ethers.js/issues/1544).
 
 :::
 
@@ -179,13 +179,13 @@ const signature = await web3.eth.sign(siweMessage, upAddress);
 </TabItem>
 </Tabs>
 
-🎉 You received the signed message. Now, you need to verify it.
+🎉 Has recibido el mensaje firmado. Ahora, debes validarlo.
 
-## 4. Verify the signature
+## 4. Validar la firma
 
-Your Dapp has now received a message signed by the controller address of the Universal Profile. To finalise the login, you need to verify if the message was signed by an address which has the `SIGN` permission for this UP.
+La aplicación ha recibido un mensaje firmado por la dirección del controlador del perfil universal. Para finalizar el inicio de sesión, es necesario verificar si el mensaje fue firmado por una dirección que cuenta con la autorización `SIGN` para este UP.
 
-To do so, you can use the [`isValidSignature(...)`](../../standards/smart-contracts/lsp0-erc725-account#isvalidsignature) function to check if the signature was signed ([EIP-1271](https://eips.ethereum.org/EIPS/eip-1271)) by an EOA that has the [`SIGN` permission](../../standards/universal-profile/lsp6-key-manager#permissions) over the Universal Profile.
+Para ello, puedes utilizar la función [`isValidSignature(...)`](../../standards/smart-contracts/lsp0-erc725-account#isvalidsignature) para comprobar si la firma ha sido suscrita ([EIP-1271](https://eips.ethereum.org/EIPS/eip-1271)) por un EOA que tenga el permiso [`SIGN`](../../standards/universal-profile/lsp6-key-manager#permissions) sobre el perfil universal.
 
 <Tabs groupId="provider">
   <TabItem value="ethers" label="Ethers.js">
@@ -206,10 +206,10 @@ const isValidSignature = await myUniversalProfileContract.isValidSignature(hashe
 const MAGIC_VALUE = '0x1626ba7e'; // https://eips.ethereum.org/EIPS/eip-1271
 
 if (isValidSignature === MAGIC_VALUE) {
-  console.log('🎉 Sign-In successful!');
+  console.log('🎉 ¡Registro exitoso!');
 } else {
-  // The EOA which signed the message has no SIGN permission over this UP.
-  console.log('😭 Log In failed');
+  // La EOA que firmó el mensaje no cuenta con autorización SIGN sobre este UP.
+  console.log('😭 Falló el inicio de sesión');
 }
 ```
 
@@ -231,14 +231,14 @@ const hashedMessage = web3.eth.accounts.hashMessage(siweMessage);
 
 const MAGIC_VALUE = '0x1626ba7e'; // https://eips.ethereum.org/EIPS/eip-1271
 
-// if the signature is valid it should return the magic value 0x1626ba7e
+// si la firma es válida debería devolver el valor mágico 0x1626ba7e
 const isValidSignature = await myUniversalProfileContract.methods.isValidSignature(hashedMessage, signature).call();
 
 if (isValidSignature === MAGIC_VALUE) {
-  console.log('🎉 Log In successful!');
+  console.log('🎉 ¡Registro exitoso!');
 } else {
-  // The EOA which signed the message has no SIGN permission over this UP.
-  console.log('😭 Log In failed');
+  // La EOA que firmó el mensaje no cuenta con autorización SIGN sobre este UP.
+  console.log('😭 Falló el inico de sesión');
 }
 ```
 
@@ -247,4 +247,4 @@ if (isValidSignature === MAGIC_VALUE) {
   </TabItem>
 </Tabs>
 
-If `isValidSignature` returns the magic value: `0x1626ba7e`, then, the message was signed by an EOA which has a `SIGN` permission for this Universal Profile.
+Si `isValidSignature` devuelve el valor mágico: `0x1626ba7e`, entonces, el mensaje fue firmado por un EOA que cuenta con autorización `SIGN` para este Perfil Universal.

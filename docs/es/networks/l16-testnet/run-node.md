@@ -1,46 +1,46 @@
 ---
-title: Run a node
+title: Ejecutar un nodo
 sidebar_position: 2
 ---
 
-# Run a node
+# Ejecutar un nodo
 
-## System Requirements
+## Requisitos del sistema
 
-| Settings            | Value          |
-| ------------------- | -------------- |
-| Operating System    | Linux or MacOS |
-| Number of CPU cores | 2              |
-| RAM                 | 16 GB          |
-| SSD                 | 100 GB         |
+| Parámetro                 | Valor          |
+| ------------------------- | -------------- |
+| Sistema Operativo         | Linux o MacOS |
+| Número de núcleos de CPU  | 2              |
+| RAM                       | 16 GB          |
+| SSD                       | 100 GB         |
 
 :::info
-Apple's new M1 chips are not supported natively by our node client. However, you can follow [this guide](https://medium.com/@luki3k5/running-lukso-node-on-m1-mac-acf92d433a38) to run it by using Rosetta, Apple's built-in emulation software.
+Los nuevos chips M1 de Apple no están soportados de forma nativa por nuestro cliente de nodo. Sin embargo, puedes seguir [esta guía](https://medium.com/@luki3k5/running-lukso-node-on-m1-mac-acf92d433a38) para ejecutarlo utilizando Rosetta, el software de emulación integrado de Apple.
 :::
 
 ## Ports
 
-| Port  | Protocol | Client           | Description       |
-| ----- | -------- | ---------------- | ----------------- |
-| 30303 | TCP      | geth syncing     | port must be open |
-| 30303 | UDP      | geth discovery   | port must be open |
-| 13000 | TCP      | beacon syncing   | port must be open |
-| 12000 | UDP      | beacon discovery | port must be open |
+| Puerto  | Protocolo | Cliente                   | Descripción               |
+| ------- | --------- | ------------------------- | ------------------------- |
+| 30303   | TCP       | sincronización geth       | puerto debe estar abierto |
+| 30303   | UDP       | localización geth         | puerto debe estar abierto |
+| 13000   | TCP       | sincronización con baliza | puerto debe estar abierto |
+| 12000   | UDP       | localización de la baliza | puerto debe estar abierto |
 
-## Linux System Setup
+## Configuración del Entorno Linux
 
-_For instructions on setting up a Mac, proceed to the [MacOS System Setup](#macos-system-setup) section._
+Para obtener instrucciones sobre cómo configurar una Mac, consulta la sección [Configuración para MacOS](#macos-system-setup).
 
-### Configure Firewall
+### Configurar Firewall
 
-Deny all incoming traffic by default
+Denegar todo el tráfico entrante por defecto
 
 ```sh
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
 ```
 
-Allow traffic for the ports listed above.
+Permitir el tráfico para los puertos enumerados anteriormente.
 
 ```sh
 sudo ufw allow 30303/tcp
@@ -49,15 +49,15 @@ sudo ufw allow 13000/tcp
 sudo ufw allow 12000/udp
 ```
 
-You can forward extra ports, by using the following command:
+Puedes reenviar puertos adicionales, utilizando el siguiente comando:
 
 ```sh
 sudo ufw allow [replace_with_your_ssh_port]/tcp/udp
 ```
 
-This can be useful for setting up you ssh connection or monitoring.
+Esto puede ser útil para configurar tu conexión ssh o para monitorear.
 
-Enable firewall
+Activar cortafuegos
 
 ```sh
 sudo ufw enable
@@ -65,33 +65,33 @@ sudo ufw enable
 
 :::info
 
-NOTE: Make sure also to configure your router to forward these ports.
+NOTA: Asegúrate también de configurar tu router para que reenvíe estos puertos.
 
 :::
 
-You may follow this community-authored [Port Forwarding](https://github.com/KEEZ-RobG/node-guide/blob/main/PortForward.md) guide.
+Puedes seguir esta guía [Port Forwarding](https://github.com/KEEZ-RobG/node-guide/blob/main/PortForward.md) autorizada por la comunidad.
 
-### Install Dependencies
+### Instalar Dependencias
 
 1. [curl](https://curl.se/)
 2. [Docker](https://docs.docker.com/get-docker/)
 3. [Docker Compose](https://docs.docker.com/compose/)
 
-#### Install curl
+#### Instala curl
 
 ```sh
 sudo apt-get -y update
 sudo apt-get -y install curl
 ```
 
-#### Install Docker
+#### Instala Docker
 
 ```sh
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 ```
 
-#### Install Docker Compose
+#### Instala Docker Compose
 
 ```sh
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -100,109 +100,109 @@ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 docker-compose --version
 ```
 
-## MacOS System Setup
+## Ajustes para MacOS
 
-### Configure Firewall
+### Configurar Firewall
 
-This section is in the works
+Esta sección está en preparación
 
 :::info
 
-This section is in the works
+Esta sección está en preparación
 
 :::
 
-### Install Dependencies
+### Instala Dependencias
 
 1. [Homebrew package manager](https://brew.sh)
 2. [curl](https://macappstore.org/curl/)
 3. [Docker Desktop for Mac](https://docs.docker.com/desktop/mac/install/)
 
-#### Install Homebrew
+#### Instala Homebrew
 
 ```sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-#### Install Curl
+#### Instala Curl
 
 ```sh
 brew install curl
 ```
 
-#### Install Docker Desktop for Mac
+#### Instala Docker Desktop para Mac
 
-Go to https://docs.docker.com/desktop/mac/install/ and install the application.
-You do not have to install Docker Compose separately.
+Ve a https://docs.docker.com/desktop/mac/install/ e instala la aplicación.
+No es necesario instalar Docker Compose por separado.
 
 :::info
-Open the Docker Desktop application after installing from the applications folder on your Mac
+Abre la aplicación Docker Desktop tras la instalación desde la carpeta de aplicaciones de tu Mac
 :::
 
-## Install the LUKSO Command Line Interface (CLI)
+## Instala la interfaz de línea de comandos (CLI) de LUKSO
 
-Create a directory:
+Crea un directorio:
 
 ```sh
 mkdir lukso-l16-testnet
 ```
 
-and navigate to it in your terminal by using the `cd` command
+y navega hasta él en tu terminal utilizando el comando `cd`.
 
 ```sh
 cd lukso-l16-testnet
 ```
 
-Then, install the [LUKSO CLI](https://github.com/lukso-network/lukso-cli) using the install script:
+A continuación, instala [LUKSO CLI](https://github.com/lukso-network/lukso-cli) utilizando el script de instalación:
 
 ```sh
 sudo curl https://install.l16.lukso.network | sudo bash
 ```
 
-#### Check your LUKSO CLI version
+#### Comprueba la versión de LUKSO CLI
 
 ```sh
 lukso -v
 ```
 
-The output has to be v.0.4.3 or higher.
+El resultado tiene que ser v.0.4.3 o superior.
 
-## Initialize the network
+## Inicializar la red
 
 ```sh
 sudo lukso network init --chain l16
 ```
 
-The CLI will ask you to setup your node name.
+El CLI te pedirá que configures el nombre de tu nodo.
 
-## Start your node
+## Inicia tu nodo
 
-You can start your node with:
+Puedes iniciar tu nodo con:
 
 ```sh
 sudo lukso network start
 ```
 
-#### Check your node
+#### CComprueba tu nodo
 
-Wait 1 hour and check if your node has synced on this stats page:
+Espera 1 hora y comprueba si tu nodo se ha sincronizado en esta página de estadísticas:
 
 - [https://stats.execution.l16.lukso.network](https://stats.execution.l16.lukso.network)
 
-Immediately after starting your node you can check the syncing process in your [logs](./logs-stats-monitoring.md).
+Inmediatamente después de arrancar tu nodo puedes comprobar el proceso de sincronización en tus [registros](./logs-stats-monitoring.md).
 
-## Stop your node
+## Detén tu nodo
 
 ```sh
 sudo lukso network stop
 ```
 
-:::tip Want to run a validator node?
+:::tip ¿Quieres ejecutar un nodo validador?
 
-If you want, you are now ready to run validators on your node. Check the tutorial on the [validator](./become-validator.md) page.
+Si quieres, ya estás preparado para ejecutar validadores en tu nodo. Consulta el tutorial en la página [validador](./become-validator.md).
 
 :::
 
-## Need help?
+## ¿Necesitas ayuda?
 
-Ask your question in the validators channel on the [official LUKSO Discord server](https://discord.gg/u7cmyUyw8F).
+Haz tu pregunta en el canal de validadores en el [servidor oficial de Discord de LUKSO](https://discord.gg/u7cmyUyw8F).

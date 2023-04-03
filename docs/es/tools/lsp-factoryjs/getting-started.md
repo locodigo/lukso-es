@@ -2,20 +2,20 @@
 sidebar_position: 1.1
 ---
 
-# Getting Started
+# Primeros Pasos
 
-The `@lukso/lsp-factory.js` package allows simple deployments of [ERC725-UniversalProfiles](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-0-ERC725Account.md), [LSP7-DigitalAssets](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-7-DigitalAsset.md), and [LSP8-IdentifiableDigitalAssets](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-8-IdentifiableDigitalAsset.md).
+El paquete `@lukso/lsp-factory.js` permite implementaciones sencillas de [ERC725-UniversalProfiles](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-0-ERC725Account.md), [LSP7-DigitalAssets](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-7-DigitalAsset.md) y [LSP8-IdentifiableDigitalAssets](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-8-IdentifiableDigitalAsset.md).
 
-- [GitHub Repository](https://github.com/lukso-network/tools-lsp-factory)
-- [NPM Package](https://www.npmjs.com/package/@lukso/lsp-factory.js)
+- [Repositorio GitHub](https://github.com/lukso-network/tools-lsp-factory)
+- [Paquete NPM](https://www.npmjs.com/package/@lukso/lsp-factory.js)
 
-## Installation
+## Instalación
 
 ```bash
 npm install @lukso/lsp-factory.js
 ```
 
-## Instantiation
+## Instanciación
 
 ```javascript
 import { LSPFactory } from '@lukso/lsp-factory.js';
@@ -23,14 +23,14 @@ import { LSPFactory } from '@lukso/lsp-factory.js';
 const provider = 'https://rpc.l16.lukso.network';
 
 const lspFactory = new LSPFactory(provider, {
-  deployKey: '0x...', // Private key of the account which will deploy smart contracts
+  deployKey: '0x...', // Clave privada de la cuenta que desplegará los contratos inteligentes
   chainId: 2828,
 });
 ```
 
-## Using LSPFactory in a dApp
+## Uso de LSPFactory en una dApp
 
-If used in the browser on a dApp's page, pass the ethereum object as the provider parameter to connect to a browser extension like the UniversalProfile browser extension or MetaMask. The browser extension will prompt users to sign the transactions as the **LSPFactory** deploys the smart contracts.
+Si se utiliza en el navegador desde la página de una dApp, hay que pasar el objeto ethereum como parámetro de proveedor para conectar con una extensión del navegador como la extensión de navegador UniversalProfile o MetaMask. La extensión de navegador pedirá a los usuarios que firmen las transacciones a medida que **LSPFactory** despliega los contratos inteligentes.
 
 ```javascript
 await ethereum.request({ method: 'eth_requestAccounts', params: [] });
@@ -40,29 +40,29 @@ const lspFactory = new LSPFactory(ethereum, {
 });
 ```
 
-## Usage
+## Uso
 
-Deploying a Universal Profile is as simple as running:
+Desplegar un perfil universal es tan sencillo como ejecutarlo:
 
 ```javascript
 const myContracts = await lspFactory.UniversalProfile.deploy({
-  controllerAddresses: ['0x...'], // Account addresses which will control the UP
+  controllerAddresses: ['0x...'], // Direcciones de cuentas que controlarán el UP
   lsp3Profile: myLSP3MetaData,
 });
 ```
 
-The key `lsp3Profile` contains the [LSP3 Metadata](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#JSONURL) of your Universal Profile. This is the "face" of your Universal Profile and contains all the public information people will see when they view your UP like your name, description and profile image.
+La clave `lsp3Profile` contiene los [Metadatos LSP3](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#JSONURL) de tu Perfil Universal. Esta es la "cara" de tu Perfil Universal y contiene toda la información pública que la gente verá cuando vean tu UP, tales como tu nombre, descripción e imagen de perfil.
 
 ```javascript
 const myLSP3MetaData = {
-  name: 'My Universal Profile',
-  description: 'My cool Universal Profile',
+  name: 'Mi Perfil Universal',
+  description: 'My fantástico Perfil Universal',
   profileImage: [
     {
       width: 500,
       height: 500,
       hashFunction: 'keccak256(bytes)',
-      // bytes32 hex string of the image hash
+      // bytes32 cadena hexadecimal del hash de la imagen
       hash: '0xfdafad027ecfe57eb4ad047b938805d1dec209d6e9f960fc320d7b9b11cbed14',
       url: 'ipfs://QmPLqMFHxiUgYAom3Zg4SiwoxDaFcZpHXpCmiDzxrtjSGp',
     },
@@ -72,26 +72,26 @@ const myLSP3MetaData = {
       width: 500,
       height: 500,
       hashFunction: 'keccak256(bytes)',
-      // bytes32 hex string of the image hash
+      // bytes32 cadena hexadecimal del hash de la imagen
       hash: '0xfdafad027ecfe57eb4ad047b938805d1dec209d6e9f960fc320d7b9b11cbed14',
       url: 'ipfs://QmPLqMFHxiUgYAom3Zg4SiwoxDaFcZpHXpCmiDzxrtjSGp',
     },
   ],
-  tags: ['public profile', 'creator'],
+  tags: ['perfil público', 'creador'],
   links: [
     {
-      title: 'My Website',
-      url: 'www.my-website.com',
+      title: 'Mi Sitio web',
+      url: 'www.mi-sitioweb.com',
     },
   ],
   ...
 };
 ```
 
-When deploying your Universal Profile, your LSP3 data will be automatically uploaded to IPFS.
+Al desplegar tu Perfil Universal, tus datos LSP3 se cargarán automáticamente en IPFS.
 
 :::note
-If you already have LSP3 data uploaded, then you can pass an IPFS URL:
+Si ya tiene cargados datos LSP3, puede pasar una URL IPFS:
 
 ```javascript
 const myLSP3MetaData = 'ipfs://QmPzUfdKhY6vfcTNDnitwKnnpm5GqjYSmw9todNVmi4bqy';
@@ -99,23 +99,23 @@ const myLSP3MetaData = 'ipfs://QmPzUfdKhY6vfcTNDnitwKnnpm5GqjYSmw9todNVmi4bqy';
 
 :::
 
-To create a anonymous Universal Profile, omit the `lsp3Profile` value.
+Para crear un Perfil Universal anónimo, omite el valor `lsp3Profile`.
 
 :::info
-Anonymous profiles can also be useful if you wish to create the LSP3 metadata later.
+Los perfiles anónimos también pueden ser útiles si más tarde quieres crear los metadatos LSP3.
 :::
 
-You can now continue using your UP address within the dApp:
+Ahora puedes seguir utilizando tu dirección UP dentro de la dApp:
 
 ```javascript
 const myUPAddress = myContracts.LSP0ERC725Account.address;
 ```
 
-## Options
+## Opciones
 
-When instantiating LSPFactory options can be passed to specify parameters such as `chainId` and `ipfsGateway`.
+Al instanciar LSPFactory se pueden pasar opciones para especificar parámetros como `chainId` y `ipfsGateway`.
 
-```javascript title="Instantiating LSPFactory with custom options set"
+```javascript title="Instanciación de LSPFactory con opciones personalizadas"
 const lspFactory = new LSPFactory('https://rpc.l16.lukso.network', {
   deployKey: '0x...',
   chainId: 2828,
@@ -123,21 +123,21 @@ const lspFactory = new LSPFactory('https://rpc.l16.lukso.network', {
 });
 ```
 
-#### Deploy Key
+####Clave de Despliegue
 
-`deployKey` is the private key which should sign the transactions sent by LSPFactory. This account must have enough gas to carry out the transactions.
+`deployKey` es la clave privada que debe firmar las transacciones enviadas por LSPFactory. Esta cuenta debe tener suficiente gas para realizar las transacciones.
 
-If no value is set here, LSPFactory will attempt to sign transactions via a browser extension.
+Si no se establece ningún valor aquí, LSPFactory intentará firmar las transacciones a través de una extensión del navegador.
 
-#### Chain Id
+#### Id de cadena
 
-`chainId` is used to specify the network that LSPFactory is interacting with. The provided `chainId` will be used to determine which base contracts to use when using [proxy deployment](./deployment/options.md#deploy-proxy). Previously deployed base contract addresses are stored in the [versions file](https://github.com/lukso-network/tools-lsp-factory/blob/main/src/versions.json) and accessed using the provided chainId. Defaults to 22 (l14 testnet).
+`chainId` se utiliza para especificar la red con la que LSPFactory está interactuando. El `chainId` proporcionado se utilizará para determinar qué contratos base utilizar cuando se utilice [despliegue proxy](./deployment/options.md#deploy-proxy). Las direcciones de contratos base desplegados previamente se almacenan en el [archivo de versiones](https://github.com/lukso-network/tools-lsp-factory/blob/main/src/versions.json) y se accede a ellas usando el chainId proporcionado. El valor predeterminado es 22 (l14 testnet).
 
-#### IPFS Gateway
+#### Pasarela IPFS
 
-`ipfsGateway` is used to specify the IPFS node which should be interacted with for uploading and retrieving metadata. `ipfsGateway` can be either a URL string or an object as defined by the [IPFS-HTTP Client](https://github.com/ipfs/js-ipfs/tree/master/packages/ipfs-http-client#createoptions) library which is used internally to interact with the IPFS node.
+`ipfsGateway` se utiliza para especificar el nodo IPFS con el que se debe interactuar para cargar y recuperar metadatos. `ipfsGateway` puede ser una cadena URL o un objeto definido por la librería [IPFS-HTTP Client](https://github.com/ipfs/js-ipfs/tree/master/packages/ipfs-http-client#createoptions) que se utiliza internamente para interactuar con el nodo IPFS.
 
-```javascript title="Instantiating LSPFactory with custom ipfsGateway options set"
+```javascript title="Instanciación de LSPFactory con opciones ipfsGateway personalizadas establecidas"
 const lspFactory = new LSPFactory('https://rpc.l16.lukso.network', {
   deployKey: '0x...',
   chainId: 2828,

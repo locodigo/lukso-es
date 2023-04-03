@@ -2,9 +2,9 @@
 sidebar_position: 4
 ---
 
-# Constants
+# Constantes
 
-The [`constants.js`](https://github.com/lukso-network/lsp-smart-contracts/blob/develop/constants.js) file exposes many useful variables.
+El archivo [`constants.js`](https://github.com/lukso-network/lsp-smart-contracts/blob/develop/constants.js) expone muchas variables útiles.
 
 ```javascript
 import {
@@ -21,4 +21,4 @@ import {
 } from '@lukso/lsp-smart-contracts/constants.js';
 ```
 
-You can find the [interface IDs](../../standards/smart-contracts/interface-ids.md) of the smart contracts in or more information in the [`README.md`](https://github.com/lukso-network/lsp-smart-contracts/blob/develop/README.md).
+Puedes encontrar los [interface IDs](../../standards/smart-contracts/interface-ids.md) de los contratos inteligentes en o más información en el [`README.md`](https://github.com/lukso-network/lsp-smart-contracts/blob/develop/README.md).

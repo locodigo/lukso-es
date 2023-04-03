@@ -1,48 +1,48 @@
 ---
-title: Backup and recovery
+title: Copia de seguridad y recuperación
 sidebar_position: 4
 ---
 
-# Backup And Recover Your validator
+# Copia de seguridad y recuperación de su validador
 
-We made it simple and straight forward to recover a node with its validators when your old node doesn't work anymore or you want to transfer everything to a new machine.
+Hemos hecho que sea sencillo y directo recuperar un nodo con sus validadores cuando tu antiguo nodo ya no funciona o quieres transferirlo todo a una nueva máquina.
 
-## The keystore
+## Keystore
 
- the keystore is a derivative of these 4 values:
+ el keystore es un derivado de estos 4 valores:
 
-* **ValidatorMnemonic** - the seed for your validator keys
-* **WithdrawalMnemonic** - which is needed to withdraw your stakes
-* **KeystoreIndexFrom** and **KeyStoreIndexTo** - the key positions that you chose to create a keystore with x amount of validator keys.
+* **ValidatorMnemonic** - la semilla para tus claves validadoras
+* **WithdrawalMnemonic** - que se necesita para retirar sus apuestas
+* **KeystoreIndexFrom** y **KeyStoreIndexTo** - las posiciones clave que elegiste para crear un keystore con x cantidad de claves validadoras.
 
-If you backup those 4 values and store them safely you can always recover your validator setup.
+Si haces una copia de seguridad de estos 4 valores y los almacenas de forma segura, siempre podrás recuperar la configuración de tu validador.
 
-## Keystore backup
+## Copia de seguridad del almacén de claves
 
-First we explain how to backup and transfer the keystore files to another machine.
+Primero explicamos como hacer un respaldo y transferir los archivos del keystore a otra máquina.
 
-The LUKSO CLI offers 2 commands to make a backup and recover this backup on a new machine.
+El CLI de LUKSO ofrece 2 comandos para hacer un respaldo y recuperar este respaldo en una nueva máquina.
 
-First we explain the backup command:
+Primero explicaremos el comando backup:
 
 ```bash
 lukso network validator backup
 ```
-This will produce a recovery file **"node_recovery.json with"** exactly these four values.
+Esto producirá un archivo de recuperación **"node_recovery.json con "** exactamente estos cuatro valores.
 
-Use this backup command after you have succesfully setup your node and validators on your machine. Store this file somewhere safe and offline.
+Utiliza este comando de copia de seguridad después de haber configurado con éxito tu nodo y validadores en tu máquina. Guarda este archivo en algún lugar seguro y sin conexión.
 
-## Start up your new node
+## Arranca tu nuevo nodo
 
-You always start on your new machine with installing the LUKSO CLI after that you need to initialize the network before you can recover your old validators:
+Comienza siempre en tu nueva máquina con la instalación de LUKSO CLI, después necesitas inicializar la red antes de poder recuperar tus antiguos validadores:
 
 ```bash
 lukso network init --chain l16
 ```
 
-## Recover you validators with the backup file
+## Recupera tus validadores con el archivo de respaldo
 ```bash
-echo CONTENT_OF_RECOVERY_JSON_FILE > node_recovery.json
+echo CONTENIDO_DEL_ARCHIVO_JSON_DE_RESPALDO > node_recovery.json
 ```
 ```bash
 lukso network validator recover --path ./node_recovery.json
@@ -55,14 +55,14 @@ Example:
 ```
 lukso network validator recover --path /home/USER/lukso-node/node_recovery.json
 ```
-Change **USER** to the username of your account.
+Cambia **USER** por el nombre de usuario de tu cuenta.
 
-This will recreate your setup and recover your validator.
+Esto recreará tu configuración y recuperará tu validador.
 
 
 :::danger
-NOTE
+NOTA
 
-* The recovery command will only work if you did **not** used the `lukso network validator setup` command before. So it should happen immediatelly after you initialized the node with `lukso network init --chain l16`.
-* **NEVER** run the 2 nodes at the same time - you will get slashed. Make sure that you **stopped** your existing node before you install and recover your new node. Make also sure that your old Docker containers and images are deleted.
+* El comando de recuperación sólo funcionará si **no** has utilizado antes el comando `lukso network validator setup`. Así que debería ocurrir inmediatamente después de inicializar el nodo con `lukso network init --chain l16`.
+* **NUNCA** ejecutes los 2 nodos al mismo tiempo - serás penalizado. Asegúrate de que has **detenido** tu nodo existente antes de instalar y recuperar tu nuevo nodo. Asegúrate también de que tus viejos contenedores e imágenes Docker están borrados.
 :::

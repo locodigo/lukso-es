@@ -1,31 +1,31 @@
 ---
-sidebar_label: 'Sign arbitrary messages'
+sidebar_label: 'Firmar mensajes arbitrarios'
 sidebar_position: 5
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Sign arbitrary messages
+# Firmar mensajes arbitrarios
 
 :::tip
 
-If you want to authenticate a user, please refer to the [Sign-In with Ethereum](./sign-in-with-ethereum.md) page.
+Si quieres autenticar a un usuario, consulta la página [Iniciar sesión con Ethereum](./sign-in-with-ethereum.md).
 
 :::
 
-This article explains how to request a signature from the [LUKSO browser extension](../browser-extension/install-browser-extension.md).
+Este artículo explica cómo solicitar una firma a la [Extensión de navegador LUKSO](../browser-extension/install-browser-extension.md).
 
 <div style={{textAlign: 'center'}}>
 <img
     src="/img/extension/lukso-extension-sign.webp"
-    alt="Example of Sign-In with Ethereum screen"
+    alt="Ejemplo de pantalla de inicio de sesión con Ethereum"
 />
 </div>
 
-## 1. Initialize a blockchain provider
+## 1. Inicializar un proveedor blockchain
 
-The browser extension injects a global API into the website that is visited. This API is available under `window.ethereum`. You can use this object to initialise your [web3.js](https://web3js.readthedocs.io/en/v1.8.0/) or [Ethers.js](https://docs.ethers.io/v5/) library.
+La extensión del navegador inyecta una API global en el sitio web que se visita. Esta API está disponible en `window.ethereum`. Puede utilizar este objeto para inicializar su librería [web3.js](https://web3js.readthedocs.io/en/v1.8.0/) o [Ethers.js](https://docs.ethers.io/v5/).
 
 <Tabs groupId="provider">
   <TabItem value="ethers" label="Ethers.js">
@@ -48,9 +48,9 @@ const web3 = new Web3(window.ethereum);
   </TabItem>
 </Tabs>
 
-## 2. Get the Universal Profile address
+## 2. Obtener la dirección del perfil universal
 
-A call to `requestAccounts` will open the extension popup and prompt the user to select her or his Universal Profile to interact with your Dapp. The LUKSO browser extension will send the Universal Profile address back to your Dapp (which is the address of the [`LSP0 - ERC725 Account`](../../standards/universal-profile/lsp0-erc725account.md) smart contract).
+Una llamada a `requestAccounts` abrirá la ventana emergente de la extensión y pedirá al usuario que seleccione su perfil universal para interactuar con la aplicación. La extensión de LUKSO enviará la dirección del perfil universal a su aplicación (que es la dirección del contrato inteligente [`LSP0 - ERC725 Account`](../../standards/universal-profile/lsp0-erc725account.md)).
 
 <Tabs groupId="provider">
   <TabItem value="ethers" label="Ethers.js">
@@ -91,25 +91,25 @@ const upAddress = accounts[0];
   </TabItem>
 </Tabs>
 
-## 3. Sign the message
+## 3. Firmar el mensaje
 
-Once you have access to the Universal Profile address, you can request a signature. The browser extension will sign the message with the controller key used by the extension (a smart contract can't sign).
+Una vez que dispongas de la dirección del perfil universal, podrás solicitar una firma. La extensión del navegador firmará el mensaje con la clave de controlador utilizada por la extensión (un contrato inteligente no puede firmar).
 
 <Tabs groupId="provider">
   <TabItem value="ethers" label="Ethers.js">
 
 :::caution
 
-When calling Ethers.js [`signer.signMessage( message )`](https://docs.ethers.io/v5/api/signer/#Signer-signMessage), it uses `personal_sign` RPC call under the hood. However, our extension only supports the latest version of [`eth_sign`](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_sign). Therefore, you need to use `provider.send("eth_sign", [upAddress, message])` instead.
+Cuando se llama a Ethers.js [`signer.signMessage( message )`](https://docs.ethers.io/v5/api/signer/#Signer-signMessage), utiliza la llamada RPC `personal_sign` bajo el capó. Sin embargo, nuestra extensión sólo soporta la última versión de [`eth_sign`](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_sign). Por lo tanto, es necesario utilizar `provider.send("eth_sign", [upAddress, message])` como alternativa.
 
-You can get more information [here](https://github.com/MetaMask/metamask-extension/issues/15857) and [here](https://github.com/ethers-io/ethers.js/issues/1544).
+Puedes obtener más información [aquí](https://github.com/MetaMask/metamask-extension/issues/15857) y [aquí](https://github.com/ethers-io/ethers.js/issues/1544).
 
 :::
 
 <!-- prettier-ignore-start -->
 
 ```js
-const message = 'Please sign this message 😊';
+const message = 'Por favor, firme este mensaje 😊';
 const signature = await etherProvider.send('eth_sign', [upAddress, message]);
 // 0x38c53...
 ```
@@ -120,7 +120,7 @@ const signature = await etherProvider.send('eth_sign', [upAddress, message]);
   <TabItem value="web3" label="web3.js">
 
 ```js
-const message = 'Please sign this message 😊';
+const message = 'Por favor, firme este mensaje 😊';
 const signature = await web3.eth.sign(message, upAddress);
 // 0x38c53...
 ```
@@ -128,8 +128,8 @@ const signature = await web3.eth.sign(message, upAddress);
   </TabItem>
 </Tabs>
 
-## 4. Verify the signature
+## 4. Validar la firma
 
-Your Dapp has now received a message signed by the controller address of the Universal Profile. To finalise the login, you need to verify if the message was signed by an address which has the `SIGN` permission for this Universal Profile.
+La aplicación ha recibido un mensaje firmado por la dirección del controlador del perfil universal. Para finalizar el inicio de sesión, es necesario verificar si el mensaje fue firmado por una dirección que tiene la autorización `SIGN` para este perfil universal.
 
-The verification process is the same as for [Sign-In with Ethereum](./sign-in-with-ethereum.md#4-verify-the-signature), you can check how it is done there.
+El proceso de verificación es el mismo que para [Sign-In with Ethereum](./sign-in-with-ethereum.md#4-verify-the-signature), allí puedes consultar cómo se hace.

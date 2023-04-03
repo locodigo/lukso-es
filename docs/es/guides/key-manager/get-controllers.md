@@ -1,39 +1,39 @@
 ---
-sidebar_label: 'Get controller addresses'
+sidebar_label: 'Obtener direcciones del controlador'
 sidebar_position: 2
 ---
 
-# Get controller addresses
+# Obtener direcciones del controlador
 
-In this guide, you will learn how to:
+En esta guía aprenderás a:
 
-- retrieve all the addresses that have some permissions set on a Universal Profile,
-- retrieve the permission of each of these **controller addresses**.
+- recuperar todas las direcciones que tienen algún permiso establecido en un Perfil Universal,
+- recuperar el permiso de cada una de estas **direcciones de controlador**.
 
-![Get controller addresses](/img/standards/lsp6/lsp6-address-permissions-array.jpeg)
+![Obtener direcciones del controlador](/img/standards/lsp6/lsp6-address-permissions-array.jpeg)
 
-We will use the [_erc725.js_](../../tools/erc725js/getting-started.md) library to do this with just over 30 lines of code.
+Utilizaremos la librería [_erc725.js_](../../tools/erc725js/getting-started.md) para hacerlo con poco más de 30 líneas de código.
 
-## Setup
+## Configuración
 
 ```bash
 npm install @erc725/erc725.js
 ```
 
-## Step 1 - setup web3.js and erc725.js
+## Paso 1 - Configurar web3.js y erc725.js
 
-The first step is to set up both and _web3.js_ and _erc725.js_, and connect to the LUKSO L16 network. We will also need the address of the Universal Profile that we want to get the controller addresses from.
+El primer paso es configurar tanto _web3.js_ como _erc725.js_, y conectarnos a la red L16 de LUKSO. También necesitaremos la dirección del Perfil Universal del cual queremos obtener las direcciones de los controladores.
 
 ```js
 import { ERC725 } from '@erc725/erc725.js';
 import LSP6Schema from '@erc725/erc725.js/schemas/LSP6KeyManager.json';
 import Web3 from 'web3';
 
-// setup
+// ajustes
 const myUniversalProfileAddress = '0xC26508178c4D7d3Ad43Dcb9F9bb1fab9ceeD58B5';
 const RPC_ENDPOINT = 'https://rpc.l16.lukso.network';
 
-// step 1 - setup erc725.js
+// paso 1 - configura erc725.js
 const web3 = new Web3(RPC_ENDPOINT);
 const erc725 = new ERC725(
   LSP6Schema,
@@ -42,19 +42,19 @@ const erc725 = new ERC725(
 );
 ```
 
-## Step 2 - Get the list of controller addresses
+## Paso 2 - Obtener la lista de direcciones del controlador
 
-The next step is to retrieve the list of controller addresses. In other words, addresses with some permissions can interact with the Universal Profile.
+El siguiente paso es obtener la lista de direcciones de los controladores. En otras palabras, las direcciones con algunos permisos para interactuar con el Perfil Universal.
 
-All the controller addresses are listed under the data key `AddressPermissions[]`. We can retrieve them by:
+Todas las direcciones de los controladores aparecen en la clave de datos `AddressPermissions[]`. Podemos obtenerlas mediante:
 
-1. querying the `AddressPermissions[]` to get the array length and know **how many controller addresses** have some permissions on the UP.
-2. querying each index of the `AddressPermissions[index]` array to retrieve each address individually.
+1. consultar el `AddressPermissions[]` para obtener el tamaño de la matriz y saber **cuántas direcciones de controlador** cuentan con permisos en el UP.
+2. consulta cada índice de la matriz `AddressPermissions[index]` para recuperar cada dirección individualmente.
 
-Thanks to _erc725.js_, we can do that very easily. The library will do both steps for us and will returns the full list of controller addresses.
+Gracias a _erc725.js_, podemos hacerlo muy fácilmente. La librería hará ambos pasos por nosotros y nos devolverá la lista completa de direcciones de controladores.
 
 ```js
-// step 2 - get the list of addresses that have permissions on the Universal Profile
+// paso 2 - obtener la lista de direcciones que tienen permisos en el Perfil Universal
 const result = await erc725.getData('AddressPermissions[]');
 console.log(result);
 
@@ -68,18 +68,18 @@ console.log(result);
 // }
 ```
 
-## Step 3 - Get permissions of each controllers
+## Paso 3 - Obtener los permisos de cada controlador
 
-Getting the addresses of each controller is not enough. We need to retrieve the permissions of each of these controller address, so to know what they are allowed to do in our Universal Profile.
+Obtener las direcciones de cada controlador no es suficiente. Necesitamos recuperar los permisos de cada una de estas direcciones de controlador, para saber lo que tienen permitido hacer en nuestro Perfil Universal.
 
-We can do this easily again with the [`getData(...)`](../../tools/erc725js/classes/ERC725#getdata) and [`decodePermissions(...)`](../../tools/erc725js/classes/ERC725#decodepermissions) functions from _erc725.js_.
+Podemos hacerlo fácilmente con las funciones [`getData(...)`](../../tools/erc725js/classes/ERC725#getdata) y [`decodePermissions(...)`](../../tools/erc725js/classes/ERC725#decodepermissions) de _erc725.js_.
 
-### 3.1 - Retrieve controller's permissions
+### 3.1 - Recuperar los permisos del controlador
 
-Using `getData(...)` with the data key `AddressPermissions:Permissions:<address>`, we can pass the controller address as the dynamic part `<address>` in the data key.
+Utilizando `getData(...)` con la clave de datos `AddressPermissions:Permissions:<address>`, podemos pasar la dirección del controlador como la parte dinámica `<address>` en la clave de datos.
 
 ```js
-// step 3.1 - get the permissions of each address
+// paso 3.1 - obtener los permisos de cada dirección
 const addressPermission = await erc725.getData({
   keyName: 'AddressPermissions:Permissions:<address>',
   dynamicKeyParts: address,
@@ -93,62 +93,55 @@ console.log(addressPermission);
 // }
 ```
 
-### 3.2 - Decode controller's permissions
+### 3.2 - Descifrar los permisos del controlador
 
-As you can see in step 3.1, the permission that we obtain for a controller address is still encoded in `bytes32` as a [`BitArray`](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#BitArray).
+Como puedes ver en el paso 3.1, el permiso que obtenemos para una dirección de controlador sigue cifrado en `bytes32` como un [`BitArray`](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#BitArray).
 
-In order to read the controller permissions in a human readable format, we can use the convenience function [`decodePermissions(...)`](../../tools/erc725js/classes/ERC725#decodepermissions) from _erc725.js_.
+Para leer los permisos del controlador en un formato humanamente comprensible, podemos utilizar la función [`decodePermissions(...)`](../../tools/erc725js/classes/ERC725#decodepermissions) de _erc725.js_.
 
 ```js
-// step 3.2 - decode the permission of each address
+// paso 3.2 - decodifica la autorización de cada dirección
 const decodedPermission = erc725.decodePermissions(addressPermission.value);
 
-// we use JSON.stringify to display the permission in a readable format
+// utilizamos JSON.stringify para mostrar el permiso en un formato legible
 console.log(
   `decoded permission for ${address} = ` +
     JSON.stringify(decodedPermission, null, 2),
 );
 
 // decoded permission for 0x5F606b5b237623463a90F63230F9b929321dbCBa = {
-// "CHANGEOWNER": true,
-// "ADDCONTROLLER": true,
-// "CHANGEPERMISSIONS": true,
-// "ADDEXTENSIONS": true,
-// "CHANGEEXTENSIONS": true,
-// "ADDUNIVERSALRECEIVERDELEGATE": true,
-// "CHANGEUNIVERSALRECEIVERDELEGATE": true,
-// "REENTRANCY": false,
-// "SUPER_TRANSFERVALUE": true,
-// "TRANSFERVALUE": true,
-// "SUPER_CALL": true,
-// "CALL": true,
-// "SUPER_STATICCALL": true,
-// "STATICCALL": true,
-// "SUPER_DELEGATECALL": false,
-// "DELEGATECALL": false,
-// "DEPLOY": true,
-// "SUPER_SETDATA": true,
-// "SETDATA": true,
-// "ENCRYPT": true,
-// "DECRYPT": true,
-// "SIGN": true,
+//   "CHANGEOWNER": true,
+//   "CHANGEPERMISSIONS": true,
+//   "ADDPERMISSIONS": true,
+//   "SETDATA": true,
+//   "CALL": true,
+//   "STATICCALL": true,
+//   "DELEGATECALL": false,
+//   "DEPLOY": true,
+//   "TRANSFERVALUE": true,
+//   "SIGN": true,
+//   "SUPER_SETDATA": false,
+//   "SUPER_TRANSFERVALUE": true,
+//   "SUPER_CALL": true,
+//   "SUPER_STATICCALL": true,
+//   "SUPER_DELEGATECALL": false
 // }
 ```
 
-## Final Code
+## Código Final
 
 ```js
 import { ERC725 } from '@erc725/erc725.js';
 import LSP6Schema from '@erc725/erc725.js/schemas/LSP6KeyManager.json';
 import Web3 from 'web3';
 
-// setup
+// ajustes
 const myUniversalProfileAddress = '0xC26508178c4D7d3Ad43Dcb9F9bb1fab9ceeD58B5';
 const RPC_ENDPOINT = 'https://rpc.l16.lukso.network';
 
 const web3 = new Web3(RPC_ENDPOINT);
 
-// step 1 - setup erc725.js
+// paso 1 - configura erc725.js
 const erc725 = new ERC725(
   LSP6Schema,
   myUniversalProfileAddress,
@@ -156,22 +149,22 @@ const erc725 = new ERC725(
 );
 
 async function getPermissionedAddresses() {
-  // step 2 - get the list of addresses that have permissions on the Universal Profile
+  // paso 2 - consigue la lista de direcciones que tienen permisos en el Perfil Universal
   const result = await erc725.getData('AddressPermissions[]');
 
   for (let ii = 0; ii < result.value.length; ii++) {
     const address = result.value[ii];
 
-    // step 3.1 - get the permissions of each address
+    // paso 3.1 - obtener los permisos de cada dirección
     const addressPermission = await erc725.getData({
       keyName: 'AddressPermissions:Permissions:<address>',
       dynamicKeyParts: address,
     });
 
-    // step 3.2 - decode the permission of each address
+    // paso 3.2 - decodificar el permiso de cada dirección
     const decodedPermission = erc725.decodePermissions(addressPermission.value);
 
-    // we use JSON.stringify to display the permission in a readable format
+    // utilizamos JSON.stringify para mostrar el permiso en un formato legible
     console.log(
       `decoded permission for ${address} = ` +
         JSON.stringify(decodedPermission, null, 2),

@@ -21,7 +21,7 @@ export default function TOC({ className, ...props }) {
           target="_blank"
           rel="noreferrer"
         >
-          Question? Give us feedback →
+          ¿Preguntas? Danos tu opinión →
         </a>
       </div>
     </div>

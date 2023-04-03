@@ -1,77 +1,77 @@
 ---
-sidebar_label: 'Grant Permissions to 3rd parties'
+sidebar_label: 'Otorgar permisos a terceros'
 sidebar_position: 1
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Grant Permissions to 3rd party addresses
+# Otorgar permisos a direcciones de terceros
 
-:::info Requirements
+:::info Requisitos
 
-You will need a Universal Profile that you can control via its KeyManager to follow this guide. <br/>
-If you don't have a Universal Profile yet, follow our previous guide [**Create a Universal Profile**](../universal-profile/create-profile.md) or look at the [_lsp-factory.js_](../../tools/lsp-factoryjs/deployment/universal-profile.md) docs.
+Para seguir esta guía necesitarás un Perfil Universal que puedas controlar a través de su KeyManager. <br/>
+Si aún no cuentas con un perfil universal, sigue nuestra guía anterior [**Create a Universal Profile**](../universal-profile/create-profile.md) o consulta la documentación [_lsp-factory.js_](../../tools/lsp-factoryjs/deployment/universal-profile.md).
 
 :::
 
-In this guide, we will learn how to grant permissions to third-party addresses to enable them to interact with our Universal Profile. 
+En esta guía, aprenderemos a conceder permisos a direcciones de terceros para que puedan interactuar con nuestro Perfil Universal. 
 
-By the end of this guide, you will know:
+Al final de esta guía, sabrás:
 
-- How permissions in the LSP6 Key Manager work + how to create them using [_erc725.js_](../../../../../../tools/erc725js/getting-started).
-- How to set permissions for a third party `address` on your Universal Profile.
+- Cómo funcionan los permisos en el LSP6 Key Manager + cómo crearlos utilizando [_erc725.js_](../../../../tools/erc725js/getting-started).
+- Cómo establecer permisos para una `dirección` de terceros en su Perfil Universal.
 
-![Give permissions to 3rd parties overview](/img/guides/lsp6/grant-permissions-to-3rd-parties-overview.jpeg)
+![Otorgar permisos a terceros resumen](/img/guides/lsp6/grant-permissions-to-3rd-parties-overview.jpeg)
 
-## Introduction
+## Introducción
 
-The Key Manager (KM) enables us to give permissions to other 3rd party addresses to perform certain actions on our Universal Profile (UP), such as editing our profile details, or any other profile metadata.
+El Gestor de Claves o Key Manager (KM) nos permite dar permisos a otras direcciones de terceros para que realicen determinadas acciones en nuestro Perfil Universal (UP), como editar los detalles de nuestro perfil o algún otro metadato..
 
-When granting permissions to a new address, we need to update three data keys in the [ERC725Y](../../standards/lsp-background/erc725.md#erc725y) storage of our Universal Profile:
+Al conceder permisos a una nueva dirección, necesitamos actualizar tres datos clave en el almacenamiento [ERC725Y](../../standards/lsp-background/erc725.md#erc725y) de nuestro Perfil Universal:
 
-| :file_cabinet: ERC725Y data key | :page_with_curl: Description | :dart: **Objective** |
+| :file_cabinet: Clave de datos ERC725Y | :page_with_curl: Descripción | :dart: **Objetivo** |
 |---|---|---|
-| [`AddressPermissions[]`](../../standards/universal-profile/lsp6-key-manager.md#retrieving-addresses-with-permissions) | holds the number of addresses that have permissions on our UP. | We need to **increment it by +1**.  |
-| [`AddressPermissions[index]`](../../standards/universal-profile/lsp6-key-manager.md#retrieving-addresses-with-permissions) | holds a controller address at a specific index. | We need to **add the beneficiary address at the new index**.  |
-| [`AddressPermissions:Permissions:<beneficiary-address>`](../../standards/universal-profile/lsp6-key-manager.md#address-permissions)  | this data key holds the permissions of a controller address.  | We need to **add the permissions of the beneficiary address** under this data key.  |
+| [`AddressPermissions[]`](../../standards/universal-profile/lsp6-key-manager.md#retrieving-addresses-with-permissions) | contiene el número de direcciones que tienen permisos en nuestra UP. | Tenemos que **aumentarla en +1**.  |
+| [`AddressPermissions[index]`](../../standards/universal-profile/lsp6-key-manager.md#retrieving-addresses-with-permissions) | mantiene una dirección de controlador en un índice específico. | Tenemos que **añadir la dirección del beneficiario en el nuevo índice**.  |
+| [`AddressPermissions:Permissions:<beneficiary-address>`](../../standards/universal-profile/lsp6-key-manager.md#address-permissions)  | esta clave de datos contiene los permisos de una dirección de controlador.  | Necesitamos **añadir los permisos de la dirección del beneficiario** bajo esta clave de datos.  |
 
 
-## Setup
+## Configuración
 
 ```shell
 npm install @erc725/erc725.js @lukso/lsp-smart-contracts
 ```
 
-## Step 1 - Initialize erc725.js
+## Paso 1 - Inicializa erc725.js
 
-The first step is to initialize the erc725.js library with a JSON schema specific to the LSP6 Key Manager. This will enable the library to know how to create and encode the permissions.
+El primer paso es inicializar la librería erc725.js con un schema JSON específico para el LSP6 Key Manager. Esto permitirá a la biblioteca saber cómo crear y codificar los permisos.
 
 ```js
 import { ERC725 } from "@erc725/erc725.js";
 import LSP6Schema from "@erc725/erc725.js/schemas/LSP6KeyManager.json";
 
-// step 1 -initialize erc725.js with the ERC725Y permissions data keys from LSP6 Key Manager
+// paso 1 -inicializar erc725.js con las claves de datos de permisos ERC725Y de LSP6 Key Manager
 const erc725 = new ERC725(LSP6Schema, myUniversalProfileAddress, web3.currentProvider);
 ```
 
 
-## Step 2 - Encode the permissions
+## Paso 2 - Codificar los permisos
 
 :::info 
 
-More permissions are available in erc725.js. See the API docs for [`encodePermissions(...)`](../../tools/erc725js/classes/ERC725.md#encodepermissions) function for a complete list.
+Hay más permisos disponibles en erc725.js. Consulta la documentación de la API de la función [`encodePermissions(...)`](../../tools/erc725js/classes/ERC725.md#encodepermissions) para obtener una lista completa.
 
 :::
 
-We can now use erc725.js to create the permissions for a specific 3rd party `address`. The library provide convenience functions for us, such as [`encodePermissions`](../../../../../../../tools/erc725js/classes/ERC725#encodepermissions).
+Ahora podemos usar erc725.js para crear los permisos para una `dirección` específica de terceros. La biblioteca proporciona funciones muy útiles, como [`encodePermissions`](../../../../../tools/erc725js/classes/ERC725#encodepermissions).
 
-### 2.1 - Create the permission
+### 2.1 - Crear la autorización
 
 
-Let's consider in our example that we want to grant the permission `SETDATA` to a `beneficiaryAddress`, so that it can edit our Universal Profile details on our behalf.
+Consideremos en nuestro ejemplo que queremos otorgar el permiso `SETDATA` a un `beneficiaryAddress`, para que pueda editar los detalles de nuestro Perfil Universal por nosotros.
 
-We can do this very easily with erc725.js, using the `encodePermissions(...)` function.
+Podemos hacer esto muy fácilmente con erc725.js, usando la función `encodePermissions(...)`.
 
 ```js
 // step 2.1 - create the permissions of the beneficiary address
@@ -80,30 +80,30 @@ const beneficiaryPermissions = erc725.encodePermissions({
 });
 ```
 
-### 2.2 - Encode the permission for the 3rd party address
+### 2.2 - Codificar el permiso para la dirección de terceros
 
-Now that we have created the permission value `SETDATA`, we need to assign it to the `beneficiaryAddress`.
+Ahora que hemos creado el valor del permiso `SETDATA`, tenemos que asignarlo a la `beneficiaryAddress`.
 
-To do so, we need to assign the permission value created in step 2.1 to the `beneficiaryAddress`, using the `AddressPermissions:Permissions:<address>`, where `<address>` will be the address of the beneficiary.
+Para ello, necesitamos asignar el valor del permiso creado en el paso 2.1 a la `beneficiaryAddress`, utilizando el `AddressPermissions:Permissions:<address>`, donde `<address>` será la dirección del beneficiario.
 
-We also need to add the `beneficiaryAddress` inside the `AddressPermissions[]` Array, and increment the `AddressPermissions[]` array length (+1).
+También tenemos que añadir el `beneficiaryAddress` dentro de la matriz `AddressPermissions[]`, e incrementar la longitud de la matriz `AddressPermissions[]` (+1).
 
 ```js
-// step 2.2 - encode the data key-value pairs of the permissions to be set for the beneficiary address
-const beneficiaryAddress = "0xcafecafecafecafecafecafecafecafecafecafe"; // EOA address of an exemplary person
+// paso 2.2 - codificar los datos pares clave-valor de los permisos para configurar la dirección del beneficiario
+const beneficiaryAddress = "0xcafecafecafecafecafecafecafecafecafe"; // Dirección EOA de una persona de ejemplo
 
 const addressPermissionsArray = await erc725.getData("AddressPermissions[]");
 const controllers = addressPermissionsArray.value;
 
 const permissionData = erc725.encodeData([
-    // the permission of the beneficiary address
+    // la autorización de la dirección beneficiaria
     {
         keyName: "AddressPermissions:Permissions:<address>",
         dynamicKeyParts: beneficiaryAddress,
         value: beneficiaryPermissions,
     },
-    // the new list controllers addresses (= addresses with permissions set on the UP)
-    // + the incremented `AddressPermissions[]` array length
+    // la nueva lista de direcciones de los controladores (= direcciones con permisos establecidos en la UP)
+    // + la longitud incrementada de la matriz `AddressPermissions[]`.
     {
       keyName: "AddressPermissions[]",
       value: [...controllers, beneficiaryAddress],
@@ -112,37 +112,37 @@ const permissionData = erc725.encodeData([
 ```
 
 
-## Step 3 - Add the permissions on your UP
+## Paso 3 - Añade los permisos en tu UP
 
-We have now all the data needed to setup the permission for this 3rd party addres on our Universal Profile.
+Ahora tenemos todos los datos necesarios para configurar el permiso para esta dirección de terceros en nuestro Perfil Universal.
 
-### 3.1 - Load your controller address
+### 3.1 - Carga la dirección de tu controlador
 
-We will need to interact with the Key Manager from the main controller address (the externally owned account (EOA) that has all the permissions on the UP).
+Necesitaremos interactuar con el Key Manager desde la dirección del controlador principal (la cuenta de propiedad externa (EOA) que tiene todos los permisos sobre la UP).
 
-The first step is to load this main controller address as an EOA using its private key.
+El primer paso es cargar la dirección de dicho controlador principal como una EOA utilizando su clave privada.
 
-The private key can be obtained depending on how you created your Universal Profile:
+La clave privada puede obtenerse dependiendo de cómo haya creado su Perfil Universal:
 
-- UP created with our **Create a Universal Profile guide**: you should have provided the private key and known it.
-- UP created with the _lsp-factory.js_: this is the private key given in the `controllerAddresses` field in the method [`lspFactory.UniversalProfile.deploy(...)`](../../tools/lsp-factoryjs/classes/universal-profile#deploy)
-- UP created via the Browser extension: click on the _Settings_ icon (top right) > and _Export Private Key_
+- UP creado con nuestra guía **Crear un perfil universal**: deberías haber proporcionado la clave privada y conocerla.
+- UP creado con el _lsp-factory.js_: es la clave privada dada en el campo `controllerAddresses` del método [`lspFactory.UniversalProfile.deploy(...)`](../../tools/lsp-factoryjs/classes/universal-profile#deploy)
+- UP creado a través de la extensión del navegador: haz clic en el icono _Configuración_ (arriba a la derecha) > y _Exportar clave privada_.
 
 
 ```javascript title="Load account from a private key"
 import Web3 from 'web3';
 const web3 = new Web3('https://rpc.l16.lukso.network');
 
-const PRIVATE_KEY = '0x...'; // your EOA private key (previously created)
+const PRIVATE_KEY = '0x...'; // tu clave privada EOA (creada previamente)
 
 const myEOA = web3.eth.accounts.wallet.add(PRIVATE_KEY);
 ```
 
-### 3.2 - Create contract instance
+### 3.2 - Crear una instancia de contrato
 
-The next steps is to create the web3 instance of our smart contracts to interact with them. The contract ABIs are available in the @lukso/lsp-smart-contracts npm package.
+El siguiente paso es crear la instancia web3 de nuestros contratos inteligentes para interactuar con ellos. Las ABIs de los contratos están disponibles en el paquete npm @lukso/lsp-smart-contracts.
 
-You will need the address of your Universal Profile deployed on L16.
+Necesitarás la dirección de tu Perfil Universal desplegado en L16.
 
 ```js
 import UniversalProfile from "@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json";
@@ -153,12 +153,12 @@ const RPC_ENDPOINT = "https://rpc.l16.lukso.network";
 const web3 = new Web3(RPC_ENDPOINT);
 
 
-// step 1 - create instance of UniversalProfile and KeyManager contracts
+// paso 1 - crear una instancia de los contratos UniversalProfile y KeyManager
 const myUniversalProfileAddress = "0x4F81bFDD12c73c94222C7879C91c1B837b8adb62";
 const myUniversalProfile = new web3.eth.Contract(UniversalProfile.abi, myUniversalProfileAddress);
 ```
 
-Since the KeyManager is the owner of the Universal Profile, its address can be obtained easily by querying the `owner()` of the Universal Profile.
+Dado que el KeyManager es el propietario del Perfil Universal, su dirección puede obtenerse fácilmente consultando el `owner()` del Perfil Universal.
 
 ```js
 const keyManagerAddress = await myUniversalProfile.methods.owner().call();
@@ -166,26 +166,26 @@ const myKeyManager = new web3.eth.Contract(KeyManager.abi, keyManagerAddress);
 ```
 
 
-### 3.3 - Set the permission on the Universal Profile
+### 3.3 - Define el permiso en el Perfil Universal
 
-The last and final step is to setup the permissions the `beneficiaryAddress` on our Universal Profile.
+El último y definitivo paso es configurar los permisos del `beneficiaryAddress` en nuestro Perfil Universal.
 
-We can easily access the data key-value pair from the encoded data obtained by erc725.js in step 2.2.
+Podemos acceder fácilmente al par clave-valor de los datos codificados obtenidos por erc725.js en el paso 2.2.
 
-We will then encode this permission data keys in a `setData(...)` payload and interact via the Key Manager.
+A continuación, codificaremos esta claves de datos de permisos en una carga útil `setData(...)` e interactuaremos a través del Key Manager.
 
 ```js
-// step 3.3 - encode the payload to set permissions and send the transaction via the Key Manager
+// paso 3.3 - codifica la carga útil para establecer los permisos y envía la transacción a través del Key Manager
 const payload = myUniversalProfile.methods["setData(bytes32[],bytes[])"](data.keys, data.values).encodeABI();
 
-  // step 4 - send the transaction via the Key Manager contract
+  // paso 4 - enviar la transacción a través del contrato Key Manager
   await myKeyManager.methods.execute(payload).send({
     from: myEOA.address,
     gasLimit: 300_000,
   });
 ```
 
-## Final code
+## Código final
 
 ```js
 import { ERC725 } from "@erc725/erc725.js";
@@ -194,53 +194,53 @@ import UniversalProfile from "@lukso/lsp-smart-contracts/artifacts/UniversalProf
 import KeyManager from "@lukso/lsp-smart-contracts/artifacts/LSP6KeyManager.json";
 import Web3 from "web3";
 
-// setup
-const myUniversalProfileAddress = "0x..."; // the address of your Universal Profile on L16
+// ajustes
+const myUniversalProfileAddress = "0x..."; // la dirección de su Perfil Universal en la L16
 const RPC_ENDPOINT = "https://rpc.l16.lukso.network";
 
 const web3 = new Web3(RPC_ENDPOINT);
 const erc725 = new ERC725(LSP6Schema, myUniversalProfileAddress, web3.currentProvider);
 
-const PRIVATE_KEY = "0x..."; // private key of your main controller address
+const PRIVATE_KEY = "0x..."; // clave privada de la dirección de su controlador principal
 const myEOA = web3.eth.accounts.wallet.add(PRIVATE_KEY);
 
 async function grantPermissions() {
-  // step 1 - create instance of UniversalProfile and KeyManager contracts
+  // paso 1 - crear una instancia de los contratos UniversalProfile y KeyManager
   const myUniversalProfile = new web3.eth.Contract(UniversalProfile.abi, myUniversalProfileAddress);
 
   const keyManagerAddress = await myUniversalProfile.methods.owner().call();
   const myKeyManager = new web3.eth.Contract(KeyManager.abi, keyManagerAddress);
   console.log("keyManagerAddress", keyManagerAddress);
 
-  // step 2 - setup the permissions of the beneficiary address
-  const beneficiaryAddress = "0xcafecafecafecafecafecafecafecafecafecafe"; // EOA address of an exemplary person
+  // paso 2 - configura los permisos de la dirección beneficiaria
+  const beneficiaryAddress = "0xcafecafecafecafecafecafecafecafecafecafe"; // Dirección muestra de una EOA
   const beneficiaryPermissions = erc725.encodePermissions({
     SETDATA: true,
   });
 
-  // step 3.1 - encode the data key-value pairs of the permissions to be set
+  // paso 3.1 - cifra los pares de datos clave-valor de los permisos que deben establecerse
   const addressPermissionsArray = await erc725.getData("AddressPermissions[]");
   const controllers = addressPermissionsArray.value;
 
   const data = erc725.encodeData([
-    // the permission of the beneficiary address
+    // la autorización de la dirección del beneficiario
     {
         keyName: "AddressPermissions:Permissions:<address>",
         dynamicKeyParts: beneficiaryAddress,
         value: beneficiaryPermissions,
     },
-    // the new list controllers addresses (= addresses with permissions set on the UP)
-    // + the incremented `AddressPermissions[]` array length
+    // las nuevas direcciones de los controladores de listas (= direcciones con permisos establecidos en la UP)
+    // + el incremento de la matriz `AddressPermissions[]`.
     {
       keyName: "AddressPermissions[]",
       value: [...controllers, beneficiaryAddress],
     },
   ]);
 
-  //   step 3.2 - encode the payload to be sent to the Key Manager contract
+  //   paso 3.2 - cifre la carga útil que se enviará al contrato del Key Manager
   const payload = myUniversalProfile.methods["setData(bytes32[],bytes[])"](data.keys, data.values).encodeABI();
 
-  // step 4 - send the transaction via the Key Manager contract
+  // paso 4 - envíe la transacción a través del contrato Key Manager
   await myKeyManager.methods.execute(payload).send({
     from: myEOA.address,
     gasLimit: 300_000,
@@ -248,7 +248,7 @@ async function grantPermissions() {
 
   const result = await myUniversalProfile.methods["getData(bytes32)"](data.keys[0]).call();
   console.log(
-    `The beneficiary address ${beneficiaryAddress} has now the following permissions:`,
+    `La dirección beneficiaria ${beneficiaryAddress} tiene ahora los siguientes permisos:`,
     erc725.decodePermissions(result)
   );
 }
@@ -257,23 +257,22 @@ grantPermissions();
 ```
 
 
-## Testing the permissions
+## Comprobando los permisos
 
-We can now check that the permissions have been correctly set by querying the `AddressPermissions:Permissions:<beneficiaryAddress>` data key on the ERC725Y storage of the Universal Profile.
+Ahora podemos comprobar que los permisos se han establecido correctamente consultando la clave de datos `AddressPermissions:Permissions:<beneficiaryAddress>` en el almacenamiento ERC725Y del Perfil Universal.
 
-If everything went well, the code snippet below should return you back an object with the permission `SETDATA` set to `true`.
+Si todo ha ido bien, el siguiente fragmento de código debería devolverte un objeto con el permiso `SETDATA` establecido en `true`.
 
 ```js
 const result = await myUniversalProfile.methods["getData(bytes32)"](data.keys[0]).call();
   console.log(
-    `The beneficiary address ${beneficiaryAddress} has now the following permissions:`,
+    `La dirección beneficiaria ${beneficiaryAddress} tiene ahora los siguientes permisos:`,
     erc725.decodePermissions(result)
   );
 ```
 
-Finally, to test the actual permissions, you can do this guide using a `beneficiaryAddress` that you have control over (created manually via web3.js).
+Finalmente, para probar los permisos reales, puedes hacer esta guía usando una `beneficiaryAddress` sobre la que tengas control (creada manualmente vía web3.js).
 
-You can then try to do again the **Edit our Universal Profile** guide, using this new 3rd party address that you have control over to test if it can successfull edit the profile details. This will give you guarantee that this `beneficiaryAddress` has the `SETDATA` permission working.
-
+A continuación, puedes intentar hacer de nuevo la guía **Editar nuestro Perfil Universal**, utilizando esta nueva dirección de terceros sobre la que tienes control para comprobar si puede editar con éxito los detalles del perfil. Esto te garantizará que esta `beneficiaryAddress` tiene el permiso `SETDATA` funcionando.
 
 

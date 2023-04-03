@@ -2,22 +2,22 @@
 sidebar_position: 1
 ---
 
-# Mainnet
+# Red principal
 
 :::note
-The Mainnet of LUKSO has not started yet. Please follow the progress at [L16 Public Testnet](./l16-testnet/parameters).
+La Red Principal de LUKSO aún no ha comenzado. Por favor, mantente informado en [Red Pública de Pruebas L16](./l16-testnet/parameters).
 :::
 
-## Architecture
+## Arquitectura
 
-LUKSO's Blockchain Architecture consists of three clients:
+La Arquitectura Blockchain de LUKSO consta de tres clientes:
 
-- `Casper Consensus`: <https://github.com/lukso-network/prysm>
-- `Smart Contract Execution`: <https://github.com/lukso-network/go-ethereum>
-- `Validator`
+- `Consenso Casper`: <https://github.com/lukso-network/prysm>
+- `Ejecución Inteligente de Contratos`: <https://github.com/lukso-network/go-ethereum>
+- Validador
 
-## Further Information
+## Más información
 
-- [LUKSO’s Mainnet Architecture → Casper Beacon Chain with EVM Execution](https://medium.com/lukso/luksos-mainnet-architecture-casper-beacon-chain-with-evm-execution-f68f9ef7039a)
-- [LUKSO Mainnet Progress Update #2](https://medium.com/lukso/an-update-on-the-road-to-mainnet-48d39ce411d7)
-- [LUKSO Mainnet Progress Update #1](https://medium.com/lukso/lukso-mainnet-progress-update-1-5d678e47a3eb)
+- [Arquitectura de la Mainnet de LUKSO → Cadena de balizas Casper con ejecución EVM](https://medium.com/lukso/luksos-mainnet-architecture-casper-beacon-chain-with-evm-execution-f68f9ef7039a)
+- [Actualización del progreso de la Mainnet de LUKSO nº 2](https://medium.com/lukso/an-update-on-the-road-to-mainnet-48d39ce411d7)
+- [Actualización nº 1 del progreso de la Mainnet de LUKSO](https://medium.com/lukso/lukso-mainnet-progress-update-1-5d678e47a3eb)

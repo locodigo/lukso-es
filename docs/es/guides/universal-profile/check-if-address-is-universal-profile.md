@@ -1,33 +1,33 @@
 ---
-sidebar_label: 'Check if an address is a UP'
+sidebar_label: 'Comprobar si una dirección es un UP'
 sidebar_position: 6
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# How to check if an address is a Universal Profile?
+# ¿Cómo comprobar si una dirección es de un Perfil Universal?
 
 :::info
 
-You may want to read the [Standard Detection](../../standards/standard-detection.md) page first.
+Es posible que quieras leer primero la página [Detección estándar](../../standards/standard-detection.md).
 
 :::
 
-To check if an address is a [Universal Profile](../../standards/universal-profile/introduction.md) we need to perform 3 checks:
+Para comprobar si una dirección es un [Perfil Universal](../../standards/universal-profile/introduction.md) necesitamos realizar 3 verificaciones:
 
-## Setup
+## Configuración
 
-Make sure you have the following dependencies installed before beginning this tutorial:
+Asegúrate de tener instaladas las siguientes dependencias antes de empezar este tutorial:
 
-- Either [`web3.js`](https://github.com/web3/web3.js) or [`ethers.js`](https://github.com/ethers-io/ethers.js/)
+- O bien [`web3.js`](https://github.com/web3/web3.js) o bien [`ethers.js`](https://github.com/ethers-io/ethers.js/)
 - [`@lukso/lsp-smart-contracts`](https://github.com/lukso-network/lsp-smart-contracts/)
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```shell title="Install the dependencies"
+```shell title="Instala las dependencias"
 npm install web3 @lukso/lsp-smart-contracts
 ```
 
@@ -35,7 +35,7 @@ npm install web3 @lukso/lsp-smart-contracts
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```shell title="Install the dependencies"
+```shell title="Instala las dependencias"
 npm install ethers @lukso/lsp-smart-contracts
 ```
 
@@ -43,9 +43,9 @@ npm install ethers @lukso/lsp-smart-contracts
 
 </Tabs>
 
-## Step 1 - Check address format
+## Paso 1 - Comprobar el formato de la dirección
 
-This first basic test can be performed via regular expression or 3rd party library function. For example this is how we can achieve this using Web3.js [`isAddress`](https://web3js.readthedocs.io/en/v1.2.11/web3-utils.html#isaddress):
+Esta primera prueba básica se puede realizar mediante una expresión regular o una función de una librería de terceros. Por ejemplo, así es como podemos conseguirlo utilizando Web3.js [`isAddress`](https://web3js.readthedocs.io/en/v1.2.11/web3-utils.html#isaddress):
 
 <Tabs>
   
@@ -55,7 +55,7 @@ This first basic test can be performed via regular expression or 3rd party libra
 import { isAddress } from 'web3-utils';
 
 if (!isAddress(address)) {
-  throw new Error('Invalid address');
+  throw new Error('Dirección no válida');
 }
 ```
 
@@ -67,7 +67,7 @@ if (!isAddress(address)) {
 import { isAddress } from 'ethers';
 
 if (!isAddress(address)) {
-  throw new Error('Invalid address');
+  throw new Error('Dirección no válida');
 }
 ```
 
@@ -75,13 +75,13 @@ if (!isAddress(address)) {
 
 </Tabs>
 
-## Step 2 - Check if the contract supports the `LSP0ERC725Account` interface using ERC165
+## Paso 2 - Comprobar si el contrato soporta la interfaz `LSP0ERC725Account` usando ERC165
 
-This is next check that makes sure we deal with a smart contract that supports the `LSP0ERC725Account` interface ([EIP-165](https://eips.ethereum.org/EIPS/eip-165)). For this we need to create an `universalProfile` contract instance and call `supportsInterface(...)` method.
+Esta es la siguiente verificación que asegura que tratamos con un contrato inteligente que soporta la interfaz `LSP0ERC725Account` ([EIP-165](https://eips.ethereum.org/EIPS/eip-165)). Para ello tenemos que crear una instancia del contrato `universalProfile` y llamar al método `supportsInterface(...)`.
 
 :::info
 
-Universal Profiles inherit [ERC165](https://eips.ethereum.org/EIPS/eip-165), therefore by creating an instance of the Universal Profile contract you have access to the `supportsInterface(...)` method.
+Los Perfiles Universales heredan [ERC165](https://eips.ethereum.org/EIPS/eip-165), por lo que al crear una instancia del contrato de Perfil Universal se tiene acceso al método `supportsInterface(...)`.
 
 :::
 
@@ -98,13 +98,13 @@ import Web3 from 'web3';
 
 const web3 = new Web3('https://rpc.l16.lukso.network');
 
-const universalProfileAddress = '0x...'; // The address of the contract that you are verifying
+const universalProfileAddress = '0x...'; // La dirección del contrato que estás examinando
 const unviersalProfile = new web3.eth.Contract(UniversalProfile.abi, universalProfileAddress);
 
 const supportsLSP0Interface = await universalProfile.methods.supportsInterface(INTERFACE_IDS.LSP0ERC725Account).call();
-// true or false -> if false, this address is not a Universal Profile.
+// true o false -> si es false, esta dirección no es un Perfil Universal.
 if (!supportsLSP0Interface) {
-  throw new Error('Contract does not support LSP0ERC725Account interface');
+  throw new Error('El contrato no admite la interfaz LSP0ERC725Account');
 }
 ```
 
@@ -123,13 +123,13 @@ import { ethers } from 'ethers';
 
 const provider = new ethers.JsonRpcProvider('https://rpc.l14.lukso.network');
 
-const universalProfileAddress = '0x...'; // The address of the contract that you are verifying
+const universalProfileAddress = '0x...'; // La dirección del contrato que estás examinando
 const unviersalProfile = new ethers.Contract(universalProfileAddress, UniversalProfile.abi, provider);
 
 const supportsLSP0Interface = await universalProfile.supportsInterface(INTERFACE_IDS.LSP0ERC725Account);
-// true or false -> if false, this address is not a Universal Profile.
+// true o false -> si es false, esta dirección no es un Perfil Universal.
 if (!supportsLSP0Interface) {
-  throw new Error('Contract does not support LSP0ERC725Account interface');
+  throw new Error('El contrato no admite la interfaz LSP0ERC725Account');
 }
 ```
 
@@ -139,13 +139,13 @@ if (!supportsLSP0Interface) {
 
 </Tabs>
 
-## Step 3 - Check supported standard
+## Paso 3 - Comprobar el estándar soportado
 
-Last but not least we should perform a check over `LSP3UniversalProfile` standard. For this we need to call `getData` with the `SupportedStandards:LSP3UniversalProfile` key.
+Por último, pero no menos importante, debemos comprobar el estándar `LSP3UniversalProfile`. Para ello debemos llamar a `getData` con la clave `SupportedStandards:LSP3UniversalProfile`.
 
 :::info
 
-Universal Profiles inherit [ERC725Y](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-725.md#erc725y), therefore by creating an instance of the Universal Profile contract you have access to the `getData(..)` method.
+Los Perfiles Universales heredan [ERC725Y](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-725.md#erc725y), por lo que al crear una instancia del contrato de Perfil Universal se tiene acceso al método `getData(..)`.
 
 :::
 
@@ -162,13 +162,13 @@ import Web3 from 'web3';
 
 const web3 = new Web3('https://rpc.l16.lukso.network');
 
-const universalProfileAddress = "0x..."; // The address of the contract that you are verifying
+const universalProfileAddress = "0x..."; // La dirección del contrato que estás examinando
 const unviersalProfile = new web3.eth.Contract(UniversalProfile.abi, universalProfileAddress);
 
 const supportedStandard = await unviersalProfile.methods['getData(bytes32)'](SupportedStandards.LSP3UniversalProfile.key).call();
 
 if (supportedStandard !== SupportedStandards.LSP3UniversalProfile.value) {
-  throw new Error('Address does not support LSP3UniversalProfile standard');
+  throw new Error('La dirección no es compatible con el estándar LSP3UniversalProfile');
 }
 ```
 
@@ -187,13 +187,13 @@ import { ethers } from 'ethers';
 
 const provider = new ethers.JsonRpcProvider('https://rpc.l14.lukso.network');
 
-const universalProfileAddress = '0x...'; // The address of the contract that you are verifying
+const universalProfileAddress = '0x...'; // La dirección del contrato que estás examinando
 const unviersalProfile = new ethers.Contract(universalProfileAddress, UniversalProfile.abi, provider);
 
 const supportedStandard = await unviersalProfile['getData(bytes32)'](SupportedStandards.LSP3UniversalProfile.key);
 
 if (supportedStandard !== SupportedStandards.LSP3UniversalProfile.value) {
-  throw new Error('Address does not support LSP3UniversalProfile standard');
+  throw new Error('La dirección no es compatible con el estándar LSP3UniversalProfile');
 }
 ```
 
@@ -219,23 +219,23 @@ import Web3 from 'web3';
 const web3 = new Web3('https://rpc.l16.lukso.network');
 
 if (!web3.utils.isAddress(address)) {
-  throw new Error('Invalid address');
+  throw new Error('Dirección no válida');
 }
 
 // We assume that the contract is a Universal Profile
-const universalProfileAddress = '0x...'; // The address of the contract that you are verifying
+const universalProfileAddress = '0x...'; // La dirección del contrato que estás examinando
 const unviersalProfile = new web3.eth.Contract(UniversalProfile.abi, universalProfileAddress);
 
 const supportsLSP0Interface = await universalProfile.methods.supportsInterface(INTERFACE_IDS.LSP0ERC725Account).call();
-// true or false -> if false, this address is not a Universal Profile.
+// true o false -> si es false, esta dirección no es un Perfil Universal.
 if (!supportsLSP0Interface) {
-  throw new Error('Contract does not support LSP0ERC725Account interface');
+  throw new Error('El contrato no admite la interfaz LSP0ERC725Account');
 }
 
 const supportedStandard = await unviersalProfile.methods['getData(bytes32)'](SupportedStandards.LSP3UniversalProfile.key).call();
 
 if (supportedStandard !== SupportedStandards.LSP3UniversalProfile.value) {
-  throw new Error('Address does not support LSP3UniversalProfile standard');
+  throw new Error('La dirección no es compatible con el estándar LSP3UniversalProfile');
 }
 ```
 
@@ -255,23 +255,23 @@ import { isAddress, ethers } from 'ethers';
 const provider = new ethers.JsonRpcProvider('https://rpc.l14.lukso.network');
 
 if (!isAddress(address)) {
-  throw new Error('Invalid address');
+  throw new Error('Dirección no válida');
 }
 
 // We assume that the contract is a Universal Profile
-const universalProfileAddress = '0x...'; // The address of the contract that you are verifying
+const universalProfileAddress = '0x...'; // La dirección del contrato que estás examinando
 const unviersalProfile = new ethers.Contract(universalProfileAddress, UniversalProfile.abi, provider);
 
 const supportsLSP0Interface = await universalProfile.supportsInterface(INTERFACE_IDS.LSP0ERC725Account);
-// true or false -> if false, this address is not a Universal Profile.
+// true o false -> si es false, esta dirección no es un Perfil Universal.
 if (!supportsLSP0Interface) {
-  throw new Error('Contract does not support LSP0ERC725Account interface');
+  throw new Error('El contrato no admite la interfaz LSP0ERC725Account');
 }
 
 const supportedStandard = await unviersalProfile['getData(bytes32)'](SupportedStandards.LSP3UniversalProfile.key);
 
 if (supportedStandard !== SupportedStandards.LSP3UniversalProfile.value) {
-  throw new Error('Address does not support LSP3UniversalProfile standard');
+  throw new Error('La dirección no es compatible con el estándar LSP3UniversalProfile');
 }
 ```
 

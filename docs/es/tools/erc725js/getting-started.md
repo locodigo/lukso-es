@@ -2,18 +2,18 @@
 sidebar_position: 1
 ---
 
-# Getting Started
+# Primeros Pasos
 
 :::caution
-This package is currently in the early stages of development. Please use it for testing or experimentation purposes only.
+Este paquete se encuentra actualmente en las primeras fases de desarrollo. Utilízalo sólo con propósitos de prueba o experimentación.
 :::
 
-The `@erc725/erc725.js` package allows you to interact with the ERC-725 schemas easily.
+El paquete `@erc725/erc725.js` permite interactuar fácilmente con los esquemas ERC-725.
 
-- GitHub repo: https://github.com/ERC725Alliance/erc725.js
+- repositorio GitHub: https://github.com/ERC725Alliance/erc725.js
 - NPM: https://www.npmjs.com/package/@erc725/erc725.js
 
-## Installation
+## Instalación
 
 ```bash
 npm install @erc725/erc725.js
@@ -21,17 +21,17 @@ npm install @erc725/erc725.js
 
 :::info
 
-If you install it on the backend side, you may need to also install [`isomorphic-fetch`](https://www.npmjs.com/package/isomorphic-fetch).
+Si lo instalas en el backend, puede que necesites instalar también [`isomorphic-fetch`](https://www.npmjs.com/package/isomorphic-fetch).
 
 :::
 
-## Instantiation
+## Instanciación
 
 ```js
 import { ERC725 } from '@erc725/erc725.js';
 import Web3 from 'web3';
 
-// Part of LSP3-UniversalProfile Schema
+// Parte del esquema LSP3-UniversalProfile
 // https://github.com/lukso-network/LIPs/blob/master/LSPs/LSP-3-UniversalProfile.md
 const schemas = [
   {
@@ -66,7 +66,7 @@ const config = {
 const erc725 = new ERC725(schemas, address, RPC_URL, config);
 ```
 
-## Usage
+## Uso
 
 ```js
 await erc725.getOwner();
@@ -94,13 +94,13 @@ await erc725.getData([
 }
 */
 
-await erc725.fetchData('LSP3Profile'); // downloads and verifies the linked JSON
+await erc725.fetchData('LSP3Profile'); // descarga y verifica el JSON vinculado
 /**
 {
   LSP3Profile: {
     LSP3Profile: {
-        name: 'frozeman',
-        description: 'The inventor of ERC725 and ERC20...',
+        nombre: 'frozeman',
+        descripcion: 'El inventor del ERC725 y el ERC20...',
         links: [
             { title: 'Twitter', url: 'https://twitter.com/feindura' },
             { title: 'lukso.network', url: 'https://lukso.network' }
@@ -112,11 +112,11 @@ await erc725.fetchData('LSP3Profile'); // downloads and verifies the linked JSON
 */
 ```
 
-:::tip Try it out
-You can run the code snippit within your browser using the corresponding [StackBlitz example](https://stackblitz.com/edit/erc725js-instantiation?devtoolsheight=66&file=index.js).
+:::tip Pruébalo
+Puede ejecutar el fragmento de código en su navegador utilizando el [ejemplo StackBlitz](https://stackblitz.com/edit/erc725js-instantiation?devtoolsheight=66&file=index.js) correspondiente.
 
 :::note
-Whenever you can you should import `ERC725` via the named export. However currently we are also providing a default export.
+Siempre que puedas, deberías importar `ERC725` a través de la exportación con nombre. Sin embargo, actualmente también ofrecemos una exportación por defecto.
 
 ```javascript
 import ERC725 from 'erc725.js';
@@ -124,12 +124,12 @@ import ERC725 from 'erc725.js';
 
 :::
 
-After the instance has been created, it is still possible to change settings through the options property.
+Una vez creada la instancia, sigue siendo posible cambiar la configuración a través de la propiedad de opciones.
 
 ```javascript
-myERC725.options.schema = '<schema>' // change schema
-myERC725.options.address '<address>' // change address
-myERC725.options.ipfsGateway = '<url>' // used for fetchData(), default: 'https://cloudflare-ipfs.com/ipfs/'
+myERC725.options.schema = '<schema>' // modificar esquema
+myERC725.options.address '<address>' // cambiar dirección
+myERC725.options.ipfsGateway = '<url>' // utilizado para fetchData(), por defecto: 'https://cloudflare-ipfs.com/ipfs/'
 
-// NOTE: ERC725.provider can not be changed
+// NOTA: ERC725.provider no se puede cambiar
 ```

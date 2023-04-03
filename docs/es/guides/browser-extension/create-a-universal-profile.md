@@ -27,4 +27,4 @@ Puede tardar un poco hasta que se cree tu perfil. No es necesario que mantengas 
 
 #### Paso 4. ¡Ya has creado tu Perfil Universal!
 
-![Step 4 - Firefox: Exito extensión](/img/extension/04-create-profile.png)
+![Paso 4 - Firefox: Exito extensión](/img/extension/04-create-profile.png)

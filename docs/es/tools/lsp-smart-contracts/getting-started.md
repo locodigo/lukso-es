@@ -2,14 +2,14 @@
 sidebar_position: 1
 ---
 
-# Getting Started
+# Primeros Pasos
 
 - [GitHub: `lukso-network/lsp-smart-contracts`](https://github.com/lukso-network/lsp-smart-contracts)
 - [NPM: `@lukso/lsp-smart-contracts`](https://www.npmjs.com/package/@lukso/lsp-smart-contracts)
 
-This library gives you an easy access to all LUKSO smart contracts in Solidity, JSON ABIs, constants, etc.
+Esta librería te da un fácil acceso a todos los contratos inteligentes LUKSO en Solidity, JSON ABIs, constantes, etc.
 
-## Install
+## Instalación
 
 ```bash
 npm install @lukso/lsp-smart-contracts
@@ -17,6 +17,6 @@ npm install @lukso/lsp-smart-contracts
 
 :::tip
 
-You can find more information and examples on our [smart contract implementation page](../../standards/smart-contracts/introduction.md).
+Puedes encontrar más información y ejemplos en nuestra [página de implementación de contratos inteligentes](../../standards/smart-contracts/introduction.md).
 
 :::

@@ -1,40 +1,40 @@
 ---
-sidebar_label: 'Upgrade LSP6 Key Manager'
+sidebar_label: 'Actualizar Gestor de Claves LSP6'
 sidebar_position: 4
-describtion: 'This guide explains how to change or upgrade the LSP6 Key Manager of a Universal Profile.'
+describtion: 'Esta guía explica cómo cambiar o actualizar el Gestor de Claves LSP6 de un Perfil Universal.'
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Upgrade the LSP6 Key Manager
+# Actualizar Gestor de Claves LSP6
 
-:::info Requirements
+:::info Requisitos
 
-You will need a Universal Profile that you can control via its [KeyManager](../../standards/universal-profile/lsp6-key-manager.md) to follow this guide.
-If you don't have a Universal Profile yet, follow our previous guide [**Create a Universal Profile**](../universal-profile/create-profile.md) or look at the [_lsp-factory.js_](../../tools/lsp-factoryjs/deployment/universal-profile.md) docs.
+Necesitarás un Perfil Universal que puedas controlar a través de su [KeyManager](../../standards/universal-profile/lsp6-key-manager.md) para seguir esta guía.
+Si aún no cuentas con un Perfil Universal, sigue nuestra guía anterior [**Create a Universal Profile**](../universal-profile/create-profile.md) o consulta la documentación [_lsp-factory.js_](../../tools/lsp-factoryjs/deployment/universal-profile.md).
 
 :::
 
-In this guide, we will learn how to upgrade the LSP6 Key Manager of your Universal Profile to the latest version available.
+En esta guía, aprenderemos a actualizar el LSP6 Key Manager de su Perfil Universal a la última versión disponible.
 
-By the end of this guide, you will know how to:
+Al final de esta guía, sabrás cómo:
 
-- Deploy a new LSP6 Key Manager with the last updates.
-- Upgrade your Key Manager by changing the owner of your UP from your old to your new Key Manager.
+- Desplegar un nuevo LSP6 Key Manager con las últimas actualizaciones.
+- Actualizar su Key Manager cambiando el propietario de tu UP del anterior al nuevo Key Manager.
 
-## Setup
+## Configuración
 
-Make sure you have the following dependencies installed before beginning this tutorial:
+Asegúrate de tener instaladas las siguientes dependencias antes de empezar este tutorial:
 
-- Either [`web3.js`](https://github.com/web3/web3.js) or [`ethers.js`](https://github.com/ethers-io/ethers.js/)
+- O bien [`web3.js`](https://github.com/web3/web3.js) o bien [`ethers.js`](https://github.com/ethers-io/ethers.js/)
 - [`@lukso/lsp-smart-contracts`](https://github.com/lukso-network/lsp-smart-contracts/)
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```shell title="Install the dependencies"
+```shell title="Instala las dependencias"
 npm install web3 @lukso/lsp-smart-contracts
 ```
 
@@ -42,7 +42,7 @@ npm install web3 @lukso/lsp-smart-contracts
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```shell title="Install the dependencies"
+```shell title="Instala las dependencias"
 npm install ethers @lukso/lsp-smart-contracts
 ```
 
@@ -50,13 +50,13 @@ npm install ethers @lukso/lsp-smart-contracts
 
 </Tabs>
 
-## Step 1 - Set up the constants and imports
+## Paso 1 - Configurar las constantes y las importaciones
 
-Create a JavaScript file and add the following imports on the top of the file:
+Crea un archivo JavaScript y añade las siguientes importaciones en la parte superior:
 
-- `privateKey`: private key of a controller address, **MUST** have [**CHANGEOWNER**](../../standards/universal-profile/lsp6-key-manager.md#permissions) permission.
-- `keyManagerAddress`: address of the current LSP6 Key Manager.
-- `universalProfileAddress`: address of your Universal Profile.
+- `privateKey`: clave privada de una dirección de controlador, **DEBE** tener permiso [**CHANGEOWNER**](../../standards/universal-profile/lsp6-key-manager.md#permissions).
+- `keyManagerAddress`: dirección del gestor de claves LSP6 actual.
+- `universalProfileAddress`: dirección de su perfil universal.
 
 ```js
 import LSP6KeyManager from '@lukso/lsp-smart-contracts/artifacts/LSP6KeyManager.json';
@@ -73,7 +73,7 @@ const keyManagerAddress = '0x...';
   
   <TabItem value="web3js" label="web3.js">
 
-```js title="Imports & Constants"
+```js title="Importaciones y Constantes"
 import UniversalProfile from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json';
 import LSP6KeyManager from '@lukso/lsp-smart-contracts/artifacts/LSP6KeyManager.json';
 import Web3 from 'web3';
@@ -89,7 +89,7 @@ const keyManagerAddress = '0x...';
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```js title="Imports & Constants"
+```js title="Importaciones y Constantes"
 import UniversalProfile from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json';
 import LSP6KeyManager from '@lukso/lsp-smart-contracts/artifacts/LSP6KeyManager.json';
 import { ethers } from 'ethers';
@@ -105,15 +105,15 @@ const keyManagerAddress = '0x...';
 
 </Tabs>
 
-## Step 2 - Initialize the controller account
+## Paso 2 - Inicializar la cuenta del controlador
 
-In order to send any transaction on the blockchain you need an EOA. In our case that account MUST have [**`CHANGEOWNER`**](../../standards/universal-profile/lsp6-key-manager.md#permissions) permission on the Universal Profile that will have its LSP6 Key Manager upgraded.
+Para poder enviar cualquier transacción en la blockchain necesitas una EOA. En nuestro caso, esa cuenta DEBE tener permiso [**`CHANGEOWNER`**](../../standards/universal-profile/lsp6-key-manager.md#permissions) en el perfil universal en el que se actualizará el gestor de claves LSP6.
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```js title="Initialise EOA"
+```js title="Inicializar la EOA"
 const account = web3.eth.accounts.wallet.add(privateKey);
 ```
 
@@ -121,7 +121,7 @@ const account = web3.eth.accounts.wallet.add(privateKey);
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```js title="Initialise EOA"
+```js title="Inicializar la EOA"
 const account = new ethers.Wallet(privateKey).connect(provider);
 ```
 
@@ -129,9 +129,9 @@ const account = new ethers.Wallet(privateKey).connect(provider);
 
 </Tabs>
 
-## Step 3 - Initialize the old LSP6 Key Manager
+## Paso 3 - Inicializar el Gestor de Claves LSP6 anterior
 
-In order to transfer ownership of your Universal Profile, you need to initialize your current LSP6 Key Manager.
+Para transferir la propiedad de tu Perfil Universal, necesitas inicializar tu Gestor de Claves LSP6 actual.
 
 <!-- prettier-ignore-start -->
 
@@ -139,7 +139,7 @@ In order to transfer ownership of your Universal Profile, you need to initialize
   
   <TabItem value="web3js" label="web3.js">
 
-```js title="Create an instance of the old Key Manager"
+```js title="Crear una instancia del Gestor de Claves anterior"
 const oldKeyManager = new web3.eth.Contract(LSP6KeyManager.abi, keyManagerAddress);
 ```
 
@@ -147,7 +147,7 @@ const oldKeyManager = new web3.eth.Contract(LSP6KeyManager.abi, keyManagerAddres
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```js title="Create an instance of the old Key Manager"
+```js title="Crear una instancia del Gestor de Claves anterior"
 const oldKeyManager = new ethers.Contract(keyManagerAddress, LSP6KeyManager.abi);
 ```
 
@@ -157,15 +157,15 @@ const oldKeyManager = new ethers.Contract(keyManagerAddress, LSP6KeyManager.abi)
 
 <!-- prettier-ignore-end -->
 
-## Step 4 - Deploy the new LSP6 Key Manager
+## Paso 4 - Implementar el nuevo Gestor de claves LSP6
 
-Deploy a new LSP6 Key Manager with the latest updates.
+Implementa un nuevo Gestor de claves LSP6 con las últimas actualizaciones.
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```js title="Deploy a new Key Manager"
+```js title="Implementar un nuevo Gestor de Claves"
 const newKeyManager = new web3.eth.Contract(LSP6KeyManager.abi);
 await newKeyManager
   .deploy({
@@ -183,7 +183,7 @@ await newKeyManager
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```js title="Deploy a new Key Manager"
+```js title="Implementar un nuevo Gestor de Claves"
 const keyManagerFactory = new ethers.ContractFactory(
   LSP6KeyManager.abi,
   LSP6KeyManager.bytecode,
@@ -195,17 +195,17 @@ const newKeyManager = await keyManagerFactory.deploy(universalProfileAddress);
 
 </Tabs>
 
-## Step 5 - Upgrade your Key Manager
+## Paso 5 - Actualizar el Gestor de Claves
 
-### Step 5.1 - Transfer Ownership to your new Key Manager
+### Paso 5.1 - Transferir la Propiedad a tu nuevo Gestor de Claves
 
-Create a calldata for the [`transferOwnership(address)`](../../standards/smart-contracts/lsp14-ownable-2-step.md#transferownership) function and shift the ownership of your Universal Profile from your current LSP6 Key Manager.
+Crea un calldata para la función [`transferOwnership(address)`](../../standards/smart-contracts/lsp14-ownable-2-step.md#transferownership) y cambia la propiedad de tu Perfil Universal desde tu actual Gestor de Claves LSP6.
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```js title="Transfer ownership of the Universal Profile from the old Key Manager to the new one"
+```js title="Transferir la propiedad del Perfil Universal desde el Gestor de Claves previo hacia el nuevo."
 const transferOwnershipPayload = new web3.eth.Contract(
   UniversalProfile.abi,
 ).methods
@@ -223,7 +223,7 @@ await oldKeyManager.methods['execute(bytes)'](transferOwnershipPayload).send({
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```js title="Transfer ownership of the Universal Profile from the old Key Manager to the new one"
+```js title="Transferir la propiedad del Perfil Universal desde el Gestor de Claves previo hacia el nuevo."
 const transferOwnershipPayload = new ethers.Interface(
   UniversalProfile.abi,
 ).encodeFunctionData('transferOwnership(address)', [newKeyManager._address]);
@@ -237,9 +237,9 @@ await oldKeyManager
 
 </Tabs>
 
-### Step 5.2 - Accept Ownership from your new Key Manager
+### Paso 5.2 - Aceptar la Propiedad del nuevo Gestor de Claves
 
-Create a calldata for the [`claimOwnership()`](../../standards/smart-contracts/lsp14-ownable-2-step.md#acceptownership) function and take the ownership of your Universal Profile from your new LSP6 Key Manager.
+Crea un calldata para la función [`claimOwnership()`](../../standards/smart-contracts/lsp14-ownable-2-step.md#acceptownership) y acepta la propiedad de tu Perfil Universal desde tu nuevo Gestor de Claves LSP6.
 
 <!-- prettier-ignore-start -->
 
@@ -247,7 +247,7 @@ Create a calldata for the [`claimOwnership()`](../../standards/smart-contracts/l
   
   <TabItem value="web3js" label="web3.js">
 
-```js title="Accept ownership of the Universal Profile via the new Key Manager"
+```js title="Aceptar la propiedad del Perfil Universal mediante el nuevo Gestor de Claves"
 const acceptOwnershipCalldata = new web3.eth.Contract(UniversalProfile.abi).methods.acceptOwnership().encodeABI();
 
 await newKeyManager.methods['execute(bytes)'](acceptOwnershipCalldata).send({
@@ -261,7 +261,7 @@ await newKeyManager.methods['execute(bytes)'](acceptOwnershipCalldata).send({
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```js title="Accept ownership of the Universal Profile via the new Key Manager"
+```js title="Aceptar la propiedad del Perfil Universal mediante el nuevo Gestor de Claves"
 const acceptOwnershipCalldata = new ethers.Interface(UniversalProfile.abi).encodeFunctionData("acceptOwnership()");
 
 await newKeyManager.connect(account)['execute(bytes)'](acceptOwnershipCalldata);
@@ -275,11 +275,11 @@ await newKeyManager.connect(account)['execute(bytes)'](acceptOwnershipCalldata);
 
 :::success 🥳
 
-The upgrade has been completed successfully.
+La actualización ha finalizado correctamente.
 
 :::
 
-## Final code
+## Código final
 
 <Tabs>
   
@@ -298,13 +298,13 @@ const universalProfileAddress = '0x...';
 const keyManagerAddress = '0x...';
 
 const upgradeLSP6 = async () => {
-  // Initialize the controller account
+  // Inicializar la cuenta del controlador
   const account = web3.eth.accounts.wallet.add(privateKey);
 
-  // Initialize your current LSP6 Key Manager
+  // Inicializar el Gestor de Claves LSP6 actual
   const oldKeyManager = new web3.eth.Contract(LSP6KeyManager.abi, keyManagerAddress);
 
-  // Deploy a new LSP6 Key Manager
+  // Implementar un nuevo Gestor de Claves LSP6
   const newKeyManager = new web3.eth.Contract(LSP6KeyManager.abi);
   await newKeyManager.deploy({
     data: LSP6KeyManager.bytecode,
@@ -315,7 +315,7 @@ const upgradeLSP6 = async () => {
     gasPrice: '1000000000',
   });
 
-  // Transfer the ownership of your Universal Profile from the current LSP6 Key Manager to a new LSP6 Key Manager
+  // Transferir la propiedad de un Perfil Universal desde el Gestor de Claves LSP6 actual hacia el nuevo Gestor de Claves LSP6.
   const transferOwnershipPayload = new web3.eth.Contract(
     UniversalProfile.abi,
   ).methods
@@ -328,7 +328,7 @@ const upgradeLSP6 = async () => {
     gasPrice: '1000000000',
   });
 
-  // Accept the ownership of your Universal Profile from the new LSP6 Key Manager
+  // Aceptar la propiedad de un Perfil Universal desde el nuevo Gestor de Claves LSP6
   const acceptOwnershipCalldata = new web3.eth.Contract(UniversalProfile.abi).methods.acceptOwnership().encodeABI();
 
   await newKeyManager.methods['execute(bytes)'](acceptOwnershipCalldata).send({
@@ -361,20 +361,20 @@ const universalProfileAddress = '0x...';
 const keyManagerAddress = '0x...';
 
 const upgradeLSP6 = async () => {
-  // Initialize the controller account
+  // Inicializar la cuenta del controlador
   const account = new ethers.Wallet(privateKey).connect(provider);
 
-  // Initialize your current LSP6 Key Manager
+  // Inicializar el Gestor de Claves LSP6 actual
   const oldKeyManager = new ethers.Contract(keyManagerAddress, LSP6KeyManager.abi);
 
-  // Deploy a new LSP6 Key Manager
+  // Implementar un nuevo Gestor de Claves LSP6
   const keyManagerFactory = new ethers.ContractFactory(
     LSP6KeyManager.abi,
     LSP6KeyManager.bytecode,
   );
   const newKeyManager = await keyManagerFactory.deploy(universalProfileAddress);
 
-  // Transfer the ownership of your Universal Profile from the current LSP6 Key Manager to a new LSP6 Key Manager
+  // Transferir la propiedad de un Perfil Universal desde el Gestor de Claves LSP6 actual hacia el nuevo Gestor de Claves LSP6.
   const transferOwnershipPayload = new ethers.Interface(
     UniversalProfile.abi,
   ).encodeFunctionData('transferOwnership(address)', [newKeyManager._address]);
@@ -383,7 +383,7 @@ const upgradeLSP6 = async () => {
     .connect(account)
     ['execute(bytes)'](transferOwnershipPayload);
 
-  // Accept the ownership of your Universal Profile from the new LSP6 Key Manager
+  // Aceptar la propiedad de un Perfil Universal desde el nuevo Gestor de Claves LSP6
   const acceptOwnershipCalldata = new ethers.Interface(UniversalProfile.abi).encodeFunctionData("acceptOwnership()");
 
   await newKeyManager.connect(account)['execute(bytes)'](acceptOwnershipCalldata);
@@ -401,15 +401,15 @@ await upgradeLSP6();
 ## Test the new LSP6 Key Manager
 
 We can now check the owner of the Universal Profile. If everything went through, the owner should be the address of the new LSP6 Key Manager.
-Create the following file with the name `test-new-lsp6.js` and run:
+Create the following file with the name `prueba-nuevo-lsp6.js` and run:
 
 ```shell
-node test-new-lsp6.js
+node prueba-nuevo-lsp6.js
 ```
 
 <!-- prettier-ignore-start -->
 
-```javascript title="test-new-lsp6.js"
+```javascript title="prueba-nuevo-lsp6.js"
 import LSP0ERC725YAccount from '@lukso/lsp-smart-contracts/artifacts/LSP0ERC725YAccount.json';
 import LSP6KeyManager from '@lukso/lsp-smart-contracts/artifacts/LSP6KeyManager.json';
 import Web3 from 'web3';

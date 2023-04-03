@@ -1,34 +1,34 @@
 ---
-sidebar_label: 'Execute Relay Transactions'
+sidebar_label: 'Ejecutar Transacciones por Retransmisión'
 sidebar_position: 3
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Execute Relay Transactions
+# Ejecutar Transacciones por Retransmisión
 
-The [LSP6 KeyManager](../../standards/universal-profile/lsp6-key-manager.md) standard enables anybody to execute a transaction on behalf of a Universal Profile, given they have a valid transaction which has been signed by a key that controls the Universal Profile.
+El estándar [LSP6 KeyManager](../../standards/universal-profile/lsp6-key-manager.md) permite a cualquiera ejecutar una transacción en representación de un perfil universal, siempre que disponga de una transacción válida que haya sido firmada por una clave que controle el Perfil Universal.
 
-Relayed execution enables use cases such as Transaction Relayer Services to be possible where users can send their transaction details to a third party to be executed, moving the gas cost burden away from the user who owns the Universal Profile.
+La ejecución por retransmisión permite casos de uso como los Servicios de Retransmisión de Transacciones, en los que los usuarios pueden enviar los detalles de sus transacciones a un tercero para que las ejecute, lo que aleja la carga de los costes de gas del usuario propietario del Perfil Universal.
 
-For example, Alice can send an encoded transaction which updates the [LSP3Profile](../../standards/universal-profile/lsp3-universal-profile-metadata.md) picture on her Universal Profile to a second user, Bob, who executes the transaction and pays the gas cost of the transaction on behalf of Alice.
+Por ejemplo, Alice puede enviar una transacción cifrada que actualice la imagen [LSP3Profile](../../standards/universal-profile/lsp3-universal-profile-metadata.md) de su Perfil Universal a un segundo usuario, Bob, que ejecuta la transacción y paga el coste de gas de la transacción en representación de Alice.
 
-To execute the transaction, Bob needs to know:
+Para ejecutar la transacción, Bob necesita saber:
 
-- the encoded ABI of the transaction that will get executed,
-- the transaction signature,
-- the nonce of the key that signed the transaction.
+- la ABI cifrada de la transacción que se ejecutará,
+- la firma de la transacción,
+- el nonce de la clave que firmó la transacción.
 
-The transaction is then executed via the [LSP6KeyManager](../../standards/universal-profile/lsp6-key-manager.md) function `executeRelayCall`.
+A continuación, la transacción se ejecuta a través de la función `executeRelayCall` del [LSP6KeyManager](../../standards/universal-profile/lsp6-key-manager.md).
 
-## Generate the signed transaction payload
+## Generar la carga útil de la transacción firmada
 
-This example shows how to prepare a transaction to be executed by a third party. This logic can be implemented client-side and then sent to a third-party application or service such as a Transaction Relay service to be executed.
+Este ejemplo muestra cómo preparar una transacción para que la ejecute un tercero. Esta lógica puede ser implementada del lado del cliente y luego enviada a una aplicación o servicio de terceros, como un servicio de Transaction Relay, para ser ejecutada.
 
-Make sure you have the following dependencies installed before beginning this tutorial:
+Asegúrate de tener instaladas las siguientes dependencias antes de comenzar este tutorial:
 
-- Either [`web3.js`](https://github.com/web3/web3.js) or [`ethers.js`](https://github.com/ethers-io/ethers.js/)
+- O bien [`web3.js`](https://github.com/web3/web3.js) o bien [`ethers.js`](https://github.com/ethers-io/ethers.js/)
 - [`@lukso/lsp-smart-contracts`](https://github.com/lukso-network/lsp-smart-contracts/)
 - [`@lukso/eip191-signer.js`](https://github.com/lukso-network/tools-eip191-signer)
 
@@ -36,7 +36,7 @@ Make sure you have the following dependencies installed before beginning this tu
   
   <TabItem value="web3js" label="web3.js">
 
-```shell title="Install the dependencies"
+```shell title="Instala las dependencias"
 npm install web3 @lukso/lsp-smart-contracts @lukso/eip191-signer.js
 ```
 
@@ -44,7 +44,7 @@ npm install web3 @lukso/lsp-smart-contracts @lukso/eip191-signer.js
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```shell title="Install the dependencies"
+```shell title="Instala las dependencias"
 npm install ethers @lukso/lsp-smart-contracts @lukso/eip191-signer.js
 ```
 
@@ -52,15 +52,15 @@ npm install ethers @lukso/lsp-smart-contracts @lukso/eip191-signer.js
 
 </Tabs>
 
-### Step 1 - Setup imports and constants
+### Paso 1 - Configurar importaciones y constantes
 
-To encode a transaction, we need the address of the Universal Profile smart contract and the private key of a controller key with sufficient [LSP6 permissions](../../standards/universal-profile/lsp6-key-manager.md#permissions) to execute the transaction.
+Para cifrar una transacción, necesitamos la dirección del contrato inteligente de Perfil Universal y la clave privada de una de las claves del controlador con suficientes [permisos LSP6](../../standards/universal-profile/lsp6-key-manager.md#permissions) para ejecutar la transacción.
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Imports & Constants"
+```typescript title="Importaciones y Constantes"
 import UniversalProfileContract from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json';
 import KeyManagerContract from '@lukso/lsp-smart-contracts/artifacts/LSP6KeyManager.json';
 import { EIP191Signer } from '@lukso/eip191-signer.js';
@@ -69,9 +69,9 @@ import Web3 from 'web3';
 
 const web3 = new Web3('https://rpc.l16.lukso.network');
 const universalProfileAddress = '0x...';
-const msgValue = 0; // Amount of native tokens to be sent
+const msgValue = 0; // Cantidad de tokens nativos que se enviarán
 
-// setup the Universal Profile controller account
+// configurar la cuenta del controlador de perfil universal
 const controllerPrivateKey = '0x...';
 const controllerAccount = web3.eth.accounts.wallet.add(controllerPrivateKey);
 ```
@@ -80,7 +80,7 @@ const controllerAccount = web3.eth.accounts.wallet.add(controllerPrivateKey);
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Imports & Constants"
+```typescript title="Importaciones y Constantes"
 import UniversalProfileContract from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json';
 import KeyManagerContract from '@lukso/lsp-smart-contracts/artifacts/LSP6KeyManager.json';
 import { EIP191Signer } from '@lukso/eip191-signer.js';
@@ -89,9 +89,9 @@ import { ethers } from 'ethers';
 
 const provider = new ethers.JsonRpcProvider('https://rpc.l16.lukso.network');
 const universalProfileAddress = '0x...';
-const msgValue = 0; // Amount of native tokens to be sent
+const msgValue = 0; // Cantidad de tokens nativos que se enviarán
 
-// setup the Universal Profile controller account
+// configurar la cuenta del controlador de perfil universal
 const controllerPrivateKey = '0x...';
 const controllerAccount = new ethers.Wallet(controllerPrivateKey).connect(
   provider,
@@ -102,9 +102,9 @@ const controllerAccount = new ethers.Wallet(controllerPrivateKey).connect(
 
 </Tabs>
 
-### Step 2 - Prepare the contact instances
+### Paso 2 - Preparar las instancias de contacto
 
-We will get the contract instances for the [Universal Profile](../../standards/universal-profile/lsp0-erc725account.md) and [Key Manager](../../standards/universal-profile/lsp6-key-manager.md) for further use in the guide.
+Obtendremos las instancias de contrato para el [Perfil universal](../../standards/universal-profile/lsp0-erc725account.md) y el [Gestor de claves](../../standards/universal-profile/lsp6-key-manager.md) para utilizarlas posteriormente en esta guía.
 
 <Tabs>
   
@@ -112,7 +112,7 @@ We will get the contract instances for the [Universal Profile](../../standards/u
 
 <!-- prettier-ignore-start -->
 
-```typescript title="Contract instances"
+```typescript title="Instancias del contrato"
 const universalProfile = new web3.eth.Contract(UniversalProfileContract.abi, universalProfileAddress);
 
 const keyManagerAddress = await universalProfile.methods.owner().call();
@@ -127,7 +127,7 @@ const keyManager = new web3.eth.Contract(KeyManagerContract.abi, keyManagerAddre
 
 <!-- prettier-ignore-start -->
 
-```typescript title="Contract instances"
+```typescript title="Instancias del contrato"
 const universalProfile = new ethers.Contract(universalProfileAddress, UniversalProfileContract.abi);
 
 const keyManagerAddress = await universalProfile.owner();
@@ -140,11 +140,11 @@ const keyManager = new ethers.Contract(keyManagerAddress, KeyManagerContract.abi
 
 </Tabs>
 
-### Step 3 - Get nonce of the controller address
+### Paso 3 - Obtener nonce de la dirección del controlador
 
-Get the `nonce` of the controller key from the KeyManager by instantiating the KeyManager smart contract instance and calling the [`getNonce`](../../standards/smart-contracts/lsp6-key-manager.md#getnonce) function.
+Obtén el `nonce` de la clave del controlador desde el KeyManager instanciando la instancia del contrato inteligente KeyManager y llamando a la función [`getNonce`](../../standards/smart-contracts/lsp6-key-manager.md#getnonce).
 
-The `channelId` is used to prevent nonce conflicts when multiple apps send transactions to the same KeyManager at the same time. Read more about [out of order execution here](../../standards/universal-profile/lsp6-key-manager.md#out-of-order-execution).
+El `channelId` se utiliza para evitar conflictos de nonce cuando varias aplicaciones envían transacciones al mismo KeyManager al mismo tiempo. Más información sobre [ejecución fuera de orden aquí](../../standards/universal-profile/lsp6-key-manager.md#out-of-order-execution).
 
 <Tabs>
   
@@ -152,7 +152,7 @@ The `channelId` is used to prevent nonce conflicts when multiple apps send trans
 
 <!-- prettier-ignore-start -->
 
-```typescript title="Get the controller key nonce"
+```typescript title="Obtener el nonce de la clave del controlador"
 const channelId = 0;
 const nonce = await keyManager.methods.getNonce(controllerAccount.address, channelId).call();
 ```
@@ -163,7 +163,7 @@ const nonce = await keyManager.methods.getNonce(controllerAccount.address, chann
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Get the controller key nonce"
+```typescript title="Obtener el nonce de la clave del controlador"
 const channelId = 0;
 const nonce = await keyManager.getNonce(controllerAccount.address, channelId);
 ```
@@ -172,15 +172,15 @@ const nonce = await keyManager.getNonce(controllerAccount.address, channelId);
 
 </Tabs>
 
-### Step 4 - Encode a transaction ABI
+### Paso 4 - Cifrar el ABI de una transacción
 
-Encode the ABI of the transaction you want to be executed. In this case, a LYX transfer to a recipient address.
+Cifra el ABI de la transacción que quieres que se ejecute. En este caso, una transferencia LYX a una dirección de destinatario.
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Encode transaction ABI"
+```typescript title="Cifrar ABI de transacciones"
 const abiPayload = universalProfile.methods[
   'execute(uint256,address,uint256,bytes)'
 ](
@@ -195,7 +195,7 @@ const abiPayload = universalProfile.methods[
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Encode transaction ABI"
+```typescript title="Cifrar ABI de transacciones"
 const abiPayload = universalProfile.interface.encodeFunctionData(
   'execute(uint256,address,uint256,bytes)',
   [
@@ -213,19 +213,19 @@ const abiPayload = universalProfile.interface.encodeFunctionData(
 
 :::tip ERC725X execute
 
-You can find more information about the [ERC725X `execute` call here](../../standards/smart-contracts/erc725-contract#execute---erc725x).
+Puedes encontrar más información sobre la [llamada ERC725X `execute` aquí].(../../standards/smart-contracts/erc725-contract#execute---erc725x).
 
 :::
 
-### Step 5 - Sign the transaction
+###Paso 5 - Firmar la transacción
 
-Afterward, sign the transaction message from the controller key of the Universal Profile.
+A continuación, firma el mensaje de transacción a partir de la clave de controlador del Perfil Universal.
 
-The message is constructed by signing the `keyManagerAddress`, `keyManagerVersion`, `chainId`, signer `nonce`, `value` and `abiPayload`.
+El mensaje se construye firmando la `keyManagerAddress`, `keyManagerVersion`, `chainId`, `nonce` del firmante, `value` y `abiPayload`.
 
 :::tip ERC725X execute
 
-For more information check: [How to sign relay transactions?](../../standards/universal-profile/lsp6-key-manager.md#how-to-sign-relay-transactions)
+Para más información, consulta: [¿Cómo firmar transacciones de retransmisión?](../../standards/universal-profile/lsp6-key-manager.md#how-to-sign-relay-transactions)
 
 :::
 
@@ -233,7 +233,7 @@ For more information check: [How to sign relay transactions?](../../standards/un
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Sign the transaction"
+```typescript title="Firmar la transacción"
 const chainId = await web3.eth.getChainId(); // will be 2828 on L16
 
 let encodedMessage = web3.utils.encodePacked(
@@ -257,7 +257,7 @@ let { signature } = await eip191Signer.signDataWithIntendedValidator(
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Sign the transaction"
+```typescript title="Firmar la transacción"
 const { chainId } = await provider.getNetwork(); // will be 2828 on L16
 
 let encodedMessage = web3.utils.encodePacked(
@@ -281,24 +281,24 @@ let { signature } = await eip191Signer.signDataWithIntendedValidator(
 
 </Tabs>
 
-Now the `signature`, `abiPayload`, `nonce` and `keyManagerAddress` can be sent to a third party to execute the transaction using [`executeRelayCall`](../../standards/smart-contracts/lsp6-key-manager#executerelaycall).
+Ahora la `signature`, `abiPayload`, `nonce` y `keyManagerAddress` pueden ser enviados a un tercero para ejecutar la transacción usando [`executeRelayCall`](../../standards/smart-contracts/lsp6-key-manager#executerelaycall).
 
-## Execute via `executeRelayCall`
+## Ejecutar mediante `executeRelayCall`
 
 :::info
-This example shows how a third party can execute a transaction on behalf of another user.
+Este ejemplo muestra cómo un tercero puede ejecutar una transacción en nombre de otro usuario.
 :::
 
-To execute a signed transaction, ABI payload requires:
+Para ejecutar una transacción firmada, la carga útil ABI requiere:
 
-- the **KeyManager contract address**
-- the **transaction ABI payload**
-- the **signed transaction payload**
-- the **nonce** of the controller key which signed the transaction.
+- la **dirección del contrato KeyManager**
+- la **carga útil ABI de la transacción**
+- la **carga útil de la transacción firmada**
+- el **nonce** de la clave del controlador que firmó la transacción.
 
 :::note
 
-To get the KeyManager address from the UniversalProfile address, call the `owner` function on the Universal Profile contract.
+Para obtener la dirección de KeyManager a partir de la dirección de UniversalProfile, llama a la función `owner` del contrato de Perfil Universal.
 
 :::
 
@@ -306,7 +306,7 @@ To get the KeyManager address from the UniversalProfile address, call the `owner
 
   <TabItem value="web3js" label="web3.js">
 
-```javascript title="Send the transaction"
+```javascript title="Enviar la transacción"
 const executeRelayCallTransaction = await keyManager.methods[
   'executeRelayCall(bytes,uint256,bytes)'
 ](signature, nonce, abiPayload).send({
@@ -319,7 +319,7 @@ const executeRelayCallTransaction = await keyManager.methods[
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```javascript title="Send the transaction"
+```javascript title="Enviar la transacción"
 const executeRelayCallTransaction = await keyManager
   .connect(controllerAccount)
   ['executeRelayCall(bytes,uint256,bytes)'](signature, nonce, abiPayload);
@@ -331,11 +331,11 @@ const executeRelayCallTransaction = await keyManager
 
 :::tip LSP6KeyManager executeRelayCall
 
-You can find more information about the [LSP6KeyManager `executeRelayCall` here](../../standards/smart-contracts/lsp6-key-manager#executerelaycall).
+Puedes encontrar más información sobre el [LSP6KeyManager `executeRelayCall` aquí](../../standards/smart-contracts/lsp6-key-manager#executerelaycall).
 
 :::
 
-## Final code
+## Código final
 
 <Tabs>
 
@@ -350,9 +350,9 @@ import Web3 from 'web3';
 
 const web3 = new Web3('https://rpc.l16.lukso.network');
 const universalProfileAddress = '0x...';
-const msgValue = 0; // Amount of native tokens to be sent
+const msgValue = 0; // Cantidad de tokens nativos que se enviarán
 
-// setup the Universal Profile controller account
+// configurar la cuenta del controlador de perfil universal
 const controllerPrivateKey = '0x...';
 const controllerAccount = web3.eth.accounts.wallet.add(controllerPrivateKey);
 
@@ -375,13 +375,13 @@ const nonce = await keyManager.methods
 const abiPayload = universalProfile.methods[
   'execute(uint256,address,uint256,bytes)'
 ](
-  0, // Operation type: CALL
-  '0x...', // Recipient address
-  web3.utils.toWei('1'), // Value
-  '0x', // Data
+  0, // Tipo de operación: CALL
+  '0x...', // Dirección del destinatario
+  web3.utils.toWei('1'), // Valor
+  '0x', // Datos
 ).encodeABI();
 
-const chainId = await web3.eth.getChainId(); // will be 2828 on L16
+const chainId = await web3.eth.getChainId(); // será 2828 en la L16
 
 let encodedMessage = web3.utils.encodePacked(
   { value: LSP6_VERSION, type: 'uint256' },
@@ -420,9 +420,9 @@ import { ethers } from 'ethers';
 
 const provider = new ethers.JsonRpcProvider('https://rpc.l16.lukso.network');
 const universalProfileAddress = '0x...';
-const msgValue = 0; // Amount of native tokens to be sent
+const msgValue = 0; // Cantidad de tokens nativos que se enviarán
 
-// setup the Universal Profile controller account
+// configurar la cuenta del controlador de perfil universal
 const controllerPrivateKey = '0x...';
 const controllerAccount = new ethers.Wallet(controllerPrivateKey).connect(
   provider,
@@ -445,14 +445,14 @@ const nonce = await keyManager.getNonce(controllerAccount.address, channelId);
 const abiPayload = universalProfile.interface.encodeFunctionData(
   'execute(uint256,address,uint256,bytes)',
   [
-    0, // Operation type: CALL
-    '0x...', // Recipient address
-    web3.utils.toWei('1'), // Value
-    '0x', // Data
+    0, // Tipo de operación:: CALL
+    '0x...', // Dirección del destinatario
+    web3.utils.toWei('1'), // Valor
+    '0x', // Datos
   ],
 );
 
-const { chainId } = await provider.getNetwork(); // will be 2828 on L16
+const { chainId } = await provider.getNetwork(); // será 2828 en la L16
 
 let encodedMessage = web3.utils.encodePacked(
   { value: LSP6_VERSION, type: 'uint256' },

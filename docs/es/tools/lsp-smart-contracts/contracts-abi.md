@@ -2,9 +2,9 @@
 sidebar_position: 2
 ---
 
-# Contracts ABI
+# ABI de contratos
 
-You can import the [LUKSO smart contracts](../../standards/smart-contracts/introduction.md) ABIs from the `/artifacts` folder:
+Puedes importar la ABI [contratos inteligentes LUKSO](../../standards/smart-contracts/introduction.md) desde la carpeta `/artifacts`:
 
 <!-- prettier-ignore-start -->
 

@@ -10,20 +10,20 @@ sidebar_position: 1
 eip191Signer.hashEthereumSignedMessage(message);
 ```
 
-Hashes the given message. The message will be enveloped as follows: `'\x19' + '\x45' + 'thereum Signed Message:\n' + messageBytes.length + message` and hashed using keccak256.
+Realiza el hash del mensaje introducido. El mensaje será envuelto como sigue: `'\x19' + '\x45' + 'thereum Mensaje Firmado:\n' + messageBytes.length + message` y hasheado usando keccak256.
 
-### Parameters
+### Parámetros
 
-`message` - `String`: A message to hash.
+`message` - `Cadena`: Un mensaje a hashear.
 
-### Returns
+### Respuesta
 
-`String`: The hashed message constructed as `'\x19' + '\x45' + 'thereum Signed Message:\n' + messageBytes.length + message`
+`Cadena`: El mensaje con hash construido como `'\x19' + '\x45' + 'thereum Signed Message:\n' + messageBytes.length + message`.
 
-### Example
+### Ejemplo
 
 ```javascript
-eip191Signer.hashEthereumSignedMessage('Hello World');
+eip191Signer.hashEthereumSignedMessage('Hola Mundo');
 // '0xa1de988600a42c4b4ab089b619297c17d53cffae5d5120d82d8a92d0bb3b78f2';
 ```
 
@@ -33,24 +33,24 @@ eip191Signer.hashEthereumSignedMessage('Hello World');
 eip191Signer.hashDataWithIntendedValidator(validatorAddress, message);
 ```
 
-Hashes the given message. The message will be enveloped as follows: `'\x19' + '\x00' + validatorAddress + message` and hashed using keccak256.
+Realiza el hash del mensaje introducido. El mensaje será envuelto de la siguiente manera: `'\x19' + '\x00' + validatorAddress + message` y se hasheará utilizando keccak256.
 
-### Parameters
+### Parámetros
 
-`validatorAddress` - `String`: The address of the validator.
+`validatorAddress` - `Cadena`: La dirección del validador.
 
-`message` - `String`: A message to hash.
+message` - `Cadena`: Un mensaje para hash.
 
-### Returns
+### Respuesta
 
-`String`: The hashed message constructed as `'\x19' + '\x00' + validatorAddress + message`
+`Cadena`: El mensaje hash construido como `'\x19' + '\x00' + validatorAddress + message`.
 
-### Example
+### Ejemplo
 
 ```javascript
 eip191Signer.hashDataWithIntendedValidator(
   0xad278a6ead89f6b6c6fdf54a3e6e876660593b45,
-  'Hello World',
+  'Hola Mundo',
 );
 // '0xa63022286ecaa3317625e319a64b3bf01c41da558dfc1890e8cb196eb414ffd5';
 ```
@@ -61,34 +61,34 @@ eip191Signer.hashDataWithIntendedValidator(
 eip191Signer.signEthereumSignedMessage(message, signingKey);
 ```
 
-Signs a message. The message passed as parameter will be wrapped as follows: `'\x19' + '\x45' + 'thereum Signed Message:\n' + messageBytes.length + message`
+Firma un mensaje. El mensaje pasado como parámetro se envolverá de la siguiente manera: `'\x19' + '\x45' + 'thereum Mensaje Firmado:\n' + messageBytes.length + message`
 
-### Parameters
+### Parámetros
 
-1. `message` - `String`: The message to sign.
+1. `message` - `Cadena`: El mensaje a firmar.
 
-2. `signingKey` - `String`: The private key to sign with.
+2. `signingKey` - `Cadena`: La clave privada con la que firmar.
 
-### Returns
+### Respuesta
 
-`Object`: **The Message object**
+`Object`: **El objeto Mensaje**
 
-- `message` - `String`: The given message.
-- `messageHash` - `String`: The hash of the given message constructed as `'\x19' + '\x45' + 'thereum Signed Message:\n' + messageBytes.length + message`.
-- `r` - `String`: First 32 bytes of the signature.
-- `s` - `String`: Next 32 bytes of the signature.
-- `v` - `String`: Recovery value + 27.
-- `signature` - `String`: The raw RLP encoded signature.
+- `message` - `Cadena`: El mensaje dado.
+- `messageHash` - `Cadena`: El hash del mensaje dado construido como `'\x19' + '\x45' + 'thereum Signed Message:\n' + messageBytes.length + message`.
+- `r` - `Cadena`: Primeros 32 bytes de la firma.
+- `s` - `Cadena`: Los 32 bytes siguientes de la firma.
+- `v` - `Cadena`: Valor de recuperación + 27.
+- `signature` - `Cadena`: La firma codificada RLP en bruto.
 
-### Example
+### Ejemplo
 
 ```javascript
 eip191Signer.signEthereumSignedMessage(
-  'Hello World',
+  'Hola Mundo',
   'ffeb17b9a6059fec3bbab63d76b060b7380cac7a62ce6621a134531a46458968',
 );
 /**
-{     message: 'Hello World',
+{     message: 'Hola Mundo',
       messageHash: '0xa1de988600a42c4b4ab089b619297c17d53cffae5d5120d82d8a92d0bb3b78f2',
       v: '0x1c',
       r: '0x85c15865f2909897c1be6d66c1d9c86d6125978aec9e28d1a69d4d306bde694f',
@@ -108,38 +108,38 @@ eip191Signer.signDataWithIntendedValidator(
 );
 ```
 
-Signs a message. The message passed as parameter will be wrapped as follows: `'\x19' + '\x00' + validatorAddress + message`
+Firma un mensaje. El mensaje pasado como parámetro se envolverá de la siguiente manera: `'\x19' + '\x00' + validatorAddress + message`.
 
-### Parameters
+### Parámetros
 
-1. `validatorAddress` - `String`: The address of the validator.
+1. `validatorAddress` - `Cadena`: La dirección del validador.
 
-2. `message` - `String`: The message to sign.
+2. `message` - `Cadena`: El mensaje a firmar.
 
-3. `signingKey` - `String`: The private key to sign with.
+3. `signingKey` - `Cadena`: La clave privada con la que firmar.
 
-### Returns
+### Respuesta
 
-`Object`: **The Message object**
+`Object`: **El objeto Mensaje**
 
-- `message` - `String`: The given message.
-- `messageHash` - `String`: The hash of the given message constructed as `'\x19' + '\x00' + validatorAddress + message`.
-- `r` - `String`: First 32 bytes of the signature.
-- `s` - `String`: Next 32 bytes of the signature.
-- `v` - `String`: Recovery value + 27.
-- `signature` - `String`: The raw RLP encoded signature.
+- `message` - `Cadena`: El mensaje dado.
+- `messageHash` - `Cadena`: El hash del mensaje dado construido como `'\x19' + '\x00' + validatorAddress + message`.
+- r` - `Cadena`: Los primeros 32 bytes de la firma.
+- `s` - `Cadena`: Los 32 bytes siguientes de la firma.
+- `v` - `Cadena`: Valor de recuperación + 27.
+- `signature` - `Cadena`: La firma codificada RLP en bruto.
 
-### Example
+### Ejemplo
 
 ```javascript
 eip191Signer.signDataWithIntendedValidator(
   '0xad278a6ead89f6b6c6fdf54a3e6e876660593b45',
-  'Hello World',
+  'Hola Mundo',
   'ffeb17b9a6059fec3bbab63d76b060b7380cac7a62ce6621a134531a46458968',
 );
 /**
     {
-      message: 'Hello World',
+      message: 'Hola Mundo',
       messageHash: '0xa1de988600a42c4b4ab089b619297c17d53cffae5d5120d82d8a92d0bb3b78f2',
       v: '0x1c',
       r: '0x85c15865f2909897c1be6d66c1d9c86d6125978aec9e28d1a69d4d306bde694f',
@@ -156,30 +156,30 @@ eip191Signer.signDataWithIntendedValidator(
 eip191Signer.recover(message, signature);
 ```
 
-Recovers the address which was used to sign the given message.
+Recupera la dirección que se utilizó para firmar el mensaje dado.
 
-### Parameters
+### Parámetros
 
-1. `messageHash` - `String|Object`: **Either signed message already prefixed and hashed or Message object with the following values**:
+1. `messageHash` - "Cadena|Objeto": **O bien mensaje firmado ya prefijado y hasheado u objeto Mensaje con los siguientes valores**:
 
-   - `message` - `String`: The given message.
-   - `messageHash` - `String`: The hash of the given message.
-   - `r` - `String`: First 32 bytes of the signature.
-   - `s` - `String`: Next 32 bytes of the signature.
-   - `v` - `String`: Recovery value + 27.
-   - `signature` - `String`: The raw RLP encoded signature.
+   - `message` - 'Cadena': El mensaje dado.
+   - `messageHash` - `Cadena`: El hash del mensaje dado.
+   - `r` - `Cadena`: Los primeros 32 bytes de la firma.
+   - `s` - `Cadena`: Los siguientes 32 bytes de la firma.
+   - `v` - `Cadena`: Valor de recuperación + 27.
+   - `signature` - `Cadena`: La firma codificada RLP en bruto.
 
-2. `signature` - `String`: The raw RLP encoded signature.
+2. `signature` - `Cadena`: La firma cruda codificada en RLP.
 
-### Returns
+### Respuesta
 
-`String`: The address used to sign the given message.
+`Cadena`: La dirección utilizada para firmar el mensaje dado.
 
-### Example
+### Ejemplo
 
 ```javascript
 eip191Signer.recover(
-  'Hello World',
+  'Hola Mundo',
   '0x1eab2de0103b8e82650f9706b17cf2adce55a335e7041bad5a94ab49c56a9c12662e80a369ffa2a6a77fbeaad1f32653cbd74860c8fbc999b1fc47b8d1cb7d931c',
 );
 // 0x4C58e78663CB5D2Bd84Dc10beDe82A7C83442a8d;

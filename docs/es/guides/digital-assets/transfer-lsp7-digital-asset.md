@@ -1,29 +1,29 @@
 ---
-sidebar_label: 'Transfer an LSP7 Digital Asset (Token)'
+sidebar_label: 'Transferir un Activo Digital LSP7 (Token)'
 sidebar_position: 3
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Create an LSP7 Digital Asset (Token)
+# Crear un Activo Digital LSP7 (Token)
 
-This guide will teach you how to tranfer an existing [LSP7 Digital Asset](../../standards/nft-2.0/LSP7-Digital-Asset.md) from a [Universal Profile](../../standards/universal-profile/lsp0-erc725account.md) controlled by a [Key Manager](../../standards//universal-profile/lsp6-key-manager.md) to another Universal Profile.
+Esta guía te enseñará cómo transferir un [Activo Digital LSP7](../../standards/nft-2.0/LSP7-Digital-Asset.md) existente desde un [Perfil Universal](../../standards/universal-profile/lsp0-erc725account.md) controlado por un [Gestor de Claves](../../standards//universal-profile/lsp6-key-manager.md) hacia otro Perfil Universal.
 
-## Transfer tokens to an other Universal Profile
+## Transferir tokens a otro Perfil Universal
 
-The following code snippet shows how to transfer 15 tokens from your Universal Profile to another Universal Profile.
+El siguiente fragmento de código muestra cómo transferir 15 tokens desde tu Perfil Universal hacia otro Perfil Universal.
 
-Make sure you have the following dependencies installed:
+Asegúrate de tener instaladas las siguientes dependencias:
 
-- Either [`web3.js`](https://github.com/web3/web3.js) or [`ethers.js`](https://github.com/ethers-io/ethers.js/)
+- O bien [`web3.js`](https://github.com/web3/web3.js) o bien [`ethers.js`](https://github.com/ethers-io/ethers.js/)
 - [`@lukso/lsp-smart-contracts`](https://github.com/lukso-network/lsp-smart-contracts/)
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```shell title="Install the dependencies"
+```shell title="Instala las dependencias"
 npm install web3 @lukso/lsp-smart-contracts
 ```
 
@@ -31,7 +31,7 @@ npm install web3 @lukso/lsp-smart-contracts
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```shell title="Install the dependencies"
+```shell title="Instala las dependencias"
 npm install ethers @lukso/lsp-smart-contracts
 ```
 
@@ -39,10 +39,10 @@ npm install ethers @lukso/lsp-smart-contracts
 
 </Tabs>
 
-### Step 1 - Setup imports and constants
+### Paso 1 - Configurar importaciones y constantes
 
-At this point you will need a private key in order to transfer some tokens as well as the `LSP7Mintable` _token contract address_ and the _address of the Universal Profile_ that has some tokens.
-We will import `LSP7Mintable`, `UniversalProfile`, `KeyManager` in order to get the _ABIs_ of the contracts that we will interact with.
+En este punto necesitarás una clave privada para poder transferir algunos tokens, así como la _dirección del contrato de token_ de `LSP7Mintable` y la _dirección del Perfil Universal_ que tiene algunos tokens.
+Importaremos `LSP7Mintable`, `UniversalProfile`, `KeyManager` para obtener los _ABIs_ de los contratos con los que interactuaremos.
 
 <Tabs>
   
@@ -59,7 +59,7 @@ const privateKey = '0x...';
 const myUniversalProfileAddress = '0x...';
 const myTokenAddress = '0x...';
 
-// setup your EOA
+// configura tu EOA
 const account = web3.eth.accounts.wallet.add(privateKey);
 ```
 
@@ -78,7 +78,7 @@ const privateKey = '0x...';
 const myUniversalProfileAddress = '0x...';
 const myTokenAddress = '0x...';
 
-// setup your EOA
+// configura tu EOA
 const myEOA = new ethers.Wallet(privateKey).connect(provider);
 ```
 
@@ -86,9 +86,9 @@ const myEOA = new ethers.Wallet(privateKey).connect(provider);
 
 </Tabs>
 
-### Step 2 - Instantiate contracts
+### Paso 2 - Instanciar contratos
 
-At this point, the `LSP7Mintable`, `UniversalProfile`, `KeyManager` contracts are being prepared for the following interactions. Construct an instance of a contract, using _contract ABI_ and _contract address_.
+En este punto, los contratos `LSP7Mintable`, `UniversalProfile`, `KeyManager` están siendo preparados para las siguientes interacciones. Construye una instancia de un contrato, utilizando _contract ABI_ y _contract address_.
 
 <Tabs>
   
@@ -128,9 +128,9 @@ const myToken = new ethers.Contract(myTokenAddress, LSP7Mintable.abi);
 
 </Tabs>
 
-### Step 3 - Setup the calldatas
+### Paso 3 - Preparar los calldatas
 
-Now we need to prepare the calldatas that we will use in order to transfer tokens from a Universal Profile to another. First calldata is a token transfer. Second calldata is an interaction of the Universal Profile with the Token contract.
+Ahora necesitamos preparar los calldatas que utilizaremos para transferir tokens de un Perfil Universal a otro. El primer calldata es una transferencia de tokens. El segundo calldata es una interacción del Perfil Universal con el contrato de tokens.
 
 <Tabs>
   
@@ -139,16 +139,16 @@ Now we need to prepare the calldatas that we will use in order to transfer token
 <!-- prettier-ignore-start -->
 
 ```javascript
-// 1. generate the calldata to transfer tokens
+// 1. generar los calldata para transferir los tokens
 const tokenCalldata = myToken.methods
   .transfer(myUniversalProfileAddress, '<receiver-up-address>', 15, false, '0x')
   .encodeABI();
 
-// 2. generate calldata for Universal Profile to execute the token transfer on the token contract
+// 2. generar calldata para que Universal Profile ejecute la transferencia de tokens en el contrato de tokens
 const upCalldata = myUniversalProfile.methods['execute(uint256,address,uint256,bytes)'](
   0, // operation 0 CALL
   myToken._address,
-  0, // 0  LYX sent
+  0, // 0  LYX enviados
   tokenCalldata,
 ).encodeABI();
 ```
@@ -160,7 +160,7 @@ const upCalldata = myUniversalProfile.methods['execute(uint256,address,uint256,b
   <TabItem value="ethersjs" label="ethers.js">
 
 ```javascript
-// 1. generate the calldata to transfer tokens
+// 1. generar los calldata para transferir los tokens
 const tokenCalldata = myToken.interface.encodeFunctionData('transfer', [
   myUniversalProfileAddress,
   '<receiver-up-address>',
@@ -169,11 +169,11 @@ const tokenCalldata = myToken.interface.encodeFunctionData('transfer', [
   '0x',
 ]);
 
-// 2. generate calldata for Universal Profile to execute the token transfer on the token contract
+// 2. generar calldata para que Universal Profile ejecute la transferencia de tokens en el contrato de tokens
 const upCalldata = myUniversalProfile.interface.encodeFunctionData('execute', [
   0, // operation 0 CALL
   myToken._address,
-  0, // 0  LYX sent
+  0, // 0  LYX enviados
   tokenCalldata,
 ]);
 ```
@@ -182,16 +182,16 @@ const upCalldata = myUniversalProfile.interface.encodeFunctionData('execute', [
 
 </Tabs>
 
-### Step 4 - Send transaction
+### Paso 4 - Enviar transacción
 
-Finally we send the transaction and transfer the tokens from a Universal Profile to another.
+Por último, enviamos la transacción y transferimos los tokens de un Perfil Universal a otro.
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
 ```javascript
-// 3. execute via the KeyManager
+// 3. ejecutar a través del KeyManager
 await myKeyManager.methods['execute(bytes)'](upCalldata).send({
   from: myEOA,
   gas: 5_000_000,
@@ -204,7 +204,7 @@ await myKeyManager.methods['execute(bytes)'](upCalldata).send({
   <TabItem value="ethersjs" label="ethers.js">
 
 ```javascript
-// 3. execute via the KeyManager
+// 3. ejecutar a través del KeyManager
 await myKeyManager.connect(myEOA)['execute(bytes)'](upCalldata);
 ```
 
@@ -212,7 +212,7 @@ await myKeyManager.connect(myEOA)['execute(bytes)'](upCalldata);
 
 </Tabs>
 
-### Final code
+### Código final
 
 <Tabs>
   
@@ -229,7 +229,7 @@ const privateKey = '0x...';
 const myUniversalProfileAddress = '0x...';
 const myTokenAddress = '0x...';
 
-// setup your EOA
+// configura tu EOA
 const account = web3.eth.accounts.wallet.add(privateKey);
 
 const myUniversalProfile = new web3.eth.Contract(
@@ -242,22 +242,22 @@ const myKeyManager = new web3.eth.Contract(KeyManager.abi, owner);
 
 const myToken = new web3.eth.Contract(LSP7Mintable.abi, myTokenAddress);
 
-// 1. generate the calldata to transfer tokens
+// 1. generar los calldata para transferir los tokens
 const tokenCalldata = myToken.methods
   .transfer(myUniversalProfileAddress, '<receiver-up-address>', 15, false, '0x')
   .encodeABI();
 
-// 2. generate calldata for Universal Profile to execute the token transfer on the token contract
+// 2. generar calldata para que Universal Profile ejecute la transferencia de tokens en el contrato de tokens
 const upCalldata = myUniversalProfile.methods[
   'execute(uint256,address,uint256,bytes)'
 ](
   0, // operation 0 CALL
   myToken._address,
-  0, // 0  LYX sent
+  0, // 0  LYX enviados
   tokenCalldata,
 ).encodeABI();
 
-// 3. execute via the KeyManager
+// 3. ejecutar a través del KeyManager
 await myKeyManager.methods['execute(bytes)'](upCalldata).send({
   from: myEOA,
   gas: 5_000_000,
@@ -280,7 +280,7 @@ const privateKey = '0x...';
 const myUniversalProfileAddress = '0x...';
 const myTokenAddress = '0x...';
 
-// setup your EOA
+// configura tu EOA
 const myEOA = new ethers.Wallet(privateKey).connect(provider);
 
 const myUniversalProfile = new ethers.Contract(
@@ -293,7 +293,7 @@ const myKeyManager = new ethers.Contract(owner, KeyManager.abi);
 
 const myToken = new ethers.Contract(myTokenAddress, LSP7Mintable.abi);
 
-// 1. generate the calldata to transfer tokens
+// 1. generar los calldata para transferir los tokens
 const tokenCalldata = myToken.interface.encodeFunctionData('transfer', [
   myUniversalProfileAddress,
   '<receiver-up-address>',
@@ -302,15 +302,15 @@ const tokenCalldata = myToken.interface.encodeFunctionData('transfer', [
   '0x',
 ]);
 
-// 2. generate calldata for Universal Profile to execute the token transfer on the token contract
+// 2. generar calldata para que Universal Profile ejecute la transferencia de tokens en el contrato de tokens
 const upCalldata = myUniversalProfile.interface.encodeFunctionData('execute', [
   0, // operation 0 CALL
   myToken._address,
-  0, // 0  LYX sent
+  0, // 0  LYX enviados
   tokenCalldata,
 ]);
 
-// 3. execute via the KeyManager
+// 3. ejecutar a través del KeyManager
 await myKeyManager.connect(myEOA)['execute(bytes)'](upCalldata);
 ```
 

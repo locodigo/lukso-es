@@ -1,37 +1,37 @@
 ---
 sidebar_position: 3
-title: Options
+title: Opciones
 ---
 
-# Contract Options Object
+# Objeto de Opciones de Contrato
 
-When deploying a Universal Profile or Digital Asset, each smart contract can be individually configured by passing a contract configuration object to the options parameter of the `deploy` function.
+Al desplegar un Perfil Universal o un Activo Digital, cada contrato inteligente puede configurarse individualmente pasando un objeto de configuración de contrato al parámetro options de la función `deploy`.
 
-## Parameters
+## Parámetros
 
-| Name                                                  | Type    | Description                                                                                                                                                                                                                                                                                                                                                                                    |
-| :---------------------------------------------------- | :------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`version`](./options.md#version) (optional)          | String  | Sets which version of the smart contract should be deployed. Can be a [version number](./options.md#contract-versions), [base contract address](./options.md#custom-base-contract-address), or [custom bytecode](#deploying-custom-bytecode). Defaults to the latest version available in the [versions file](https://github.com/lukso-network/tools-lsp-factory/blob/main/src/versions.json). |
-| [`deployProxy`](./options.md#deploy-proxy) (optional) | Boolean | Determines whether the contract will be deployed as a **minimal proxy contract** based on [EIP1167](https://eips.ethereum.org/EIPS/eip-1167) or an entire contract with a constructor.                                                                                                                                                                                                         |
+| Nombre                                                | Tipo     | Descripción                                                                                                                                                                                                                                                                                                                                                                                    |
+| :---------------------------------------------------- | :------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`version`](./options.md#version) (opcional)          | Cadena   | Establece qué versión del contrato inteligente debe desplegarse. Puede ser un [número de versión](./options.md#contract-versions), [dirección del contrato base](./options.md#custom-base-contract-address), o [custom bytecode](#deploying-custom-bytecode). Por defecto es la última versión disponible en el [archivo de versiones](https://github.com/lukso-network/tools-lsp-factory/blob/main/src/versions.json). |
+| [`deployProxy`](./options.md#deploy-proxy) (opcional) | Booleano | Determina si el contrato se desplegará como un **contrato proxy mínimo** basado en [EIP1167](https://eips.ethereum.org/EIPS/eip-1167) o como un contrato completo con un constructor.                                                                                                                                                                                                         |
 
-### Version
+### Versión
 
-Under the `version` parameter developers can specify a [version number](./options#contract-versions), [custom bytecode](./options.md#deploying-custom-bytecode) or a [base contract address](./options.md#custom-base-contract-address) to be used for the deployment of the smart contract.
+Bajo el parámetro `version` los desarrolladores pueden especificar un [número de versión](./options#contract-versions), [custom bytecode](./options.md#deploying-custom-bytecode) o una [dirección de contrato base](./options.md#custom-base-contract-address) que se utilizará para el despliegue del contrato inteligente.
 
-#### Custom Base Contract Address
+#### Dirección de contrato base personalizada
 
-When using [proxy deployment](./options.md#deploy-proxy) developers can pass an address to the `version` parameter to specify the base contract address which the proxy contract will inherit its logic from. The base contract can contain some custom logic according to a specific use case.
+Cuando se utiliza [despliegue proxy](./options.md#deploy-proxy) los desarrolladores pueden pasar una dirección al parámetro `version` para especificar la dirección del contrato tipo del que heredará su lógica el contrato proxy. El contrato tipo puede contener lógica personalizada en función de un caso de uso específico.
 
-LSPFactory will then deploy a proxy contract which inherits its logic from the specified base contract address.
+LSPFactory desplegará entonces un contrato proxy que hereda su lógica a partir de la dirección del contrato tipo especificada.
 
 :::info
-Any base contract address that developers pass here must adhere to the relevant LSP contract standard it is being used for.
+Cualquier dirección de contrato tipo que los desarrolladores pasen aquí debe adherirse al estándar de contrato LSP relevante para el que se está utilizando.
 
 :::
 
-Read more about proxy deployment [here](./options#deploy-proxy).
+Más información sobre el despliegue de proxy [aquí](./options#deploy-proxy).
 
-```javascript title="Deploying an LSP7 Digital Asset using a specific base contract address"
+```javascript title="Despliegue de un Activo Digital LSP7 utilizando una dirección de contrato tipo específica"
 await lspFactory.LSP7DigitalAsset.deploy({...}, {
     LSP7DigitalAsset: {
         version: '0x00b1d454Eb5d917253FD6cb4D5560dEC30b0960c',
@@ -40,9 +40,9 @@ await lspFactory.LSP7DigitalAsset.deploy({...}, {
 });
 ```
 
-#### Contract Versions
+#### Versiones de Contrato
 
-LSPFactory stores the addresses of different base contract versions [internally](https://github.com/lukso-network/tools-lsp-factory/blob/main/src/versions.json). By specifying a `version` number, developers can specify which base contract version should be used during deployment. The version number reflects the package version of the [lsp-smart-contracts library](https://github.com/lukso-network/tools-lsp-factory/releases) used to deploy the base contract.
+LSPFactory almacena las direcciones de las diferentes versiones del contrato base [internamente](https://github.com/lukso-network/tools-lsp-factory/blob/main/src/versions.json). Especificando un número de `versión`, los desarrolladores pueden especificar qué versión de contrato tipo debe utilizarse durante el despliegue. El número de versión refleja la versión del paquete de la librería [lsp-smart-contracts](https://github.com/lukso-network/tools-lsp-factory/releases) utilizada para desplegar el contrato tipo.
 
 ```javascript
 await lspFactory.LSP8IdentifiableDigitalAsset.deploy({...}, {
@@ -53,17 +53,17 @@ await lspFactory.LSP8IdentifiableDigitalAsset.deploy({...}, {
 });
 ```
 
-#### Deploying Custom Bytecode
+#### Despliegue de Bytecode Personalizado
 
-Developers can deploy a custom contract implementation by passing some compiled creation bytecode to the `version` parameter.
+Los desarrolladores pueden desplegar una implementación de contrato personalizada pasando algún bytecode de creación compilado al parámetro `version`.
 
-This can be the instantiation bytecode of a custom LSP standard implementation written according to a custom use case. The implementation must meet the relevant LSP standard requirements.
+Puede tratarse del bytecode de instanciación de una implementación estándar LSP personalizada escrita de acuerdo con un caso de uso personalizado. La implementación debe cumplir los requisitos necesarios del estándar LSP.
 
 :::note
-Contracts deployed from custom bytecode will not use any proxy contract deployment.
+Los contratos desplegados desde bytecode personalizado no utilizarán ningún proxy de despliegue de contratos.
 :::
 
-```javascript title="Deploying an LSP8 digital Asset from custom bytecode"
+```javascript title="Despliegue de un Activo digital LSP8 a partir de bytecode personalizado"
 lspFactory.UniversalProfile.deploy({...}, {
   LSP6KeyManager: {
     version: '0x...',
@@ -71,27 +71,27 @@ lspFactory.UniversalProfile.deploy({...}, {
 })
 ```
 
-### Deploy Proxy
+### Despliegue Proxy
 
-LSPFactory uses proxy deployment of smart contracts to maximise gas efficiency. This can be configured by passing the `deployProxy` parameter to determine whether a contract should be deployed as a **minimal proxy contract** based on [EIP1167](https://eips.ethereum.org/EIPS/eip-1167) or an entire contract with a constructor.
+LSPFactory utiliza el despliegue proxy de contratos inteligentes para maximizar la eficiencia del gas. Esto puede configurarse pasando el parámetro `deployProxy` para determinar si un contrato debe desplegarse como un **contrato proxy mínimo** basado en [EIP1167](https://eips.ethereum.org/EIPS/eip-1167) o un contrato completo con un constructor.
 
-A proxy contract is a lightweight contract that inherits its logic by referencing the address of a base contract already deployed on the blockchain. Inheriting allows cheaper deployment because the smart contract logic has already been deployed in the base contract.
-
-:::info
-LSPFactory stores base contract addresses for different versions [internally](https://github.com/lukso-network/tools-lsp-factory/blob/main/src/versions.json) and will use the latest available base contract version if no version is specified.
-:::
-
-When using proxy deployment, LSPFactory will check that there is some bytecode deployed at the base contract address before deploying. If none is found, a new base contract will be deployed and referenced in the proxy contract. This process is helpful when using LSPFactory on a local development network like Hardhat, where there will be no pre-deployed base contracts.
-
-When using proxy deployment developers can specify the base contract address by passing the [`version`](./options.md#version) parameter. This allows deploying a specific contract implementation by deploying a proxy contract which inherits its logic from a previously deployed custom base contract.
-
-`deployProxy` defaults to `true` for all contracts except `LSP1UniversalReceiverDelegate` when deploying a Universal Profile ([read more](../deployment/universal-profile.md#universal-receiver-delegate-proxy-deployment)).
+Un contrato proxy es un contrato ligero que hereda su lógica haciendo referencia a la dirección de un contrato tipo ya desplegado en la blockchain. La herencia permite un despliegue más barato porque la lógica del contrato inteligente ya ha sido desplegada en el contrato tipo.
 
 :::info
-If `deployProxy` is set to `false`, the smart contract will be deployed from the current version of the [lsp-smart-contracts library](https://github.com/lukso-network/lsp-smart-contracts).
+LSPFactory almacena direcciones de contratos tipo para diferentes versiones [internamente](https://github.com/lukso-network/tools-lsp-factory/blob/main/src/versions.json) y utilizará la última versión de contrato tipo disponible si no se especifica ninguna versión.
 :::
 
-```javascript title="Deploying a Universal Profile using a full ERC725Account contract with constructor"
+Cuando se utiliza el despliegue proxy, LSPFactory comprobará que hay algún bytecode desplegado en la dirección del contrato tipo antes de realizar el despliegue. Si no se encuentra ninguno, se desplegará un nuevo contrato tipo al que se hará referencia en el contrato proxy. Este proceso es útil cuando se utiliza LSPFactory en una red de desarrollo local como Hardhat, donde no habrá contratos tipo desplegados previamente.
+
+Cuando se utiliza el despliegue proxy, los desarrolladores pueden especificar la dirección del contrato tipo pasando el parámetro [`version`](./options.md#version). Esto permite desplegar una implementación de contrato específica desplegando un contrato proxy que hereda su lógica de un contrato tipo personalizado previamente desplegado.
+
+El valor predeterminado de `deployProxy` es `true` para todos los contratos excepto `LSP1UniversalReceiverDelegate` cuando se despliega un Perfil Universal ([leer más](../deployment/universal-profile.md#universal-receiver-delegate-proxy-deployment)).
+
+:::info
+Si `deployProxy` se establece en `false`, el contrato inteligente se desplegará desde la versión actual de la librería [lsp-smart-contracts](https://github.com/lukso-network/lsp-smart-contracts).
+:::
+
+```javascript title="Despliegue de un Perfil Universal utilizando un contrato ERC725Account completo con constructor"
 lspFactory.UniversalProfile.deploy({...}, {
   ERC725Account: {
     deployProxy: false,
@@ -99,38 +99,38 @@ lspFactory.UniversalProfile.deploy({...}, {
 })
 ```
 
-## Examples
+## Ejemplos
 
-```js title="Passing Universal Profile contract options"
+```js title="Pasar las opciones de contrato del Perfil Universal"
 await lspFactory.UniversalProfile.deploy({...}, {
     ERC725Account: {
         version: '0.5.0',
         deployProxy: true
     },
     LSP6Keymanager: {
-        version: '0x...', // Custom bytecode
+        version: '0x...', // Código byte personalizado
         deployProxy: false
     },
     LSP1UniversalReceiverDelegate: {
-        version: '0x87cd003F9Ac7d6eBcd811f7b427c7dBF6f6ba132', // Custom base contract address
+        version: '0x87cd003F9Ac7d6eBcd811f7b427c7dBF6f6ba132', // Dirección personalizada del contrato tipo
         deployProxy: true
     },
 })
 ```
 
-```js title="Passing LSP7DigitalAsset contract options"
+```js title="Pasar opciones de contrato LSP7DigitalAsset"
 await lspFactory.LSP7DigitalAsset.deploy({...}, {
     LSP7DigitalAsset: {
-        version: '0x...', // Custom bytecode
+        version: '0x...', // Código byte personalizado
         deployProxy: false
     },
 })
 ```
 
-```js title="Passing LSP8IdentifiableDigitalAsset contract options"
+```js title="Pasar opciones de contrato LSP8IdentifiableDigitalAsset"
 await lspFactory.LSP8IdentifiableDigitalAsset.deploy({...}, {
     LSP8IdentifiableDigitalAsset: {
-        version: '0x87cd003F9Ac7d6eBcd811f7b427c7dBF6f6ba132', // Custom base contract address
+        version: '0x87cd003F9Ac7d6eBcd811f7b427c7dBF6f6ba132', // Dirección personalizada del contrato tipo
         deployProxy: true
     },
 })

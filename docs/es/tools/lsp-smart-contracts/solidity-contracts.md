@@ -2,9 +2,9 @@
 sidebar_position: 3
 ---
 
-# Solidity Contracts
+# Contratos Solidity
 
-The solidity sources of the [LUKSO smart contracts](../../standards/smart-contracts/introduction.md) are available in the `/contracts` folder.
+Los archivos base solidity de los [contratos inteligentes LUKSO](../../standards/smart-contracts/introduction.md) están disponibles en la carpeta `/contracts`.
 
 ```solidity
 import "@lukso/lsp-smart-contracts/contracts/LSP0ERC725Account/LSP0ERC725Account.sol";

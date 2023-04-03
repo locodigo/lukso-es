@@ -5,31 +5,31 @@ sidebar_position: 3
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# L15 Public Testnet
+# L15 Red Pública de Pruebas
 
-:::danger L15-TESTNET HAS ENDED.
-The L15 testnet was superseeded by [L16 Public Testnet](./l16-testnet/parameters), please check these L16 docs.
+:::danger LA RED DE PRUEBA L15 HA FINALIZADO.
+La red de pruebas L15 ha sido sustituida por la red de pruebas pública [L16] (./l16-testnet/parameters), consulta la documentación sobre la red L16.
 :::
 
-This network is ephemeral, meaning it is not meant to be fully stable and usable yet for more persistent test smart contracts. Assume the network could be reset at any time. The [L16 Public Testnet](./l16-testnet/parameters) is meant as a more stable persistent testnet before the mainnet (not yet running).
+Esta red es efímera, lo que significa que no está destinada a ser completamente estable y utilizable todavía para contratos inteligentes de prueba más persistentes. Asume que la red puede ser reiniciada en cualquier momento. La [Red Pública de Pruebas L16](./l16-testnet/parameters) está pensada como una red de pruebas persistente más estable antes de la red principal (aún no en funcionamiento).
 
 # MetaMask
 
-To add the L15 Network to MetaMask, these are the settings:
+Para añadir la Red L15 a MetaMask, estos son los ajustes:
 
-| Setting            | Value                                      |
-| ------------------ | ------------------------------------------ |
-| Network Name       | L15                                        |
-| New RPC URL        | https://rpc.l15.lukso.network              |
-| Chain ID           | 23 (0x17)                                  |
-| Currency Symbol    | LYXt                                       |
-| Block Explorer URL | https://explorer.pandora.l15.lukso.network |
+| Parámetro                      | Valor                                      |
+| ------------------------------ | ------------------------------------------ |
+| Nombre de red                  | L15                                        |
+| Nueva URL                      | RPC https://rpc.l15.lukso.network          |
+| ID de cadena                   | 23 (0x17)                                  |
+| Símbolo de moneda              |  LYXt                                      |
+| URL del Explorador de Bloques: | https://explorer.pandora.l15.lukso.network | 
 
-And if you need it, [here is a tutorial on how to do it](https://metamask.zendesk.com/hc/en-us/articles/360043227612-How-to-add-a-custom-network-RPC).
+Y si lo necesitas, [aquí tienes un tutorial sobre cómo hacerlo](https://metamask.zendesk.com/hc/en-us/articles/360043227612-How-to-add-a-custom-network-RPC).
 
-## Running a Node
+## Activar un Nodo
 
-<!-- Since we are resetting the network, please make sure to run `$ lukso reset all` and re-install the `lukso` binary:
+<!-- Dado que estamos restableciendo la red, asegúrate de ejecutar `$ lukso reset all` y reinstalar el binario `lukso:
 
 <Tabs groupId="operating-systems">
 <TabItem value="linux" label="Linux">
@@ -38,7 +38,7 @@ And if you need it, [here is a tutorial on how to do it](https://metamask.zendes
 $ lukso stop
 $ lukso reset all
 $ curl https://install.l15.lukso.network | bash
-$ lukso start --node-name "REPLACE-WITH-NODE-NAME"
+$ lukso start --node-name "SUSTITUIR-CON-NOMBRE-DE-NODO"
 ```
 
 </TabItem>
@@ -48,22 +48,22 @@ $ lukso start --node-name "REPLACE-WITH-NODE-NAME"
 $ sudo lukso stop
 $ lukso reset all
 $ sudo curl https://install.l15.lukso.network | bash
-$ sudo lukso start --node-name "REPLACE-WITH-NODE-NAME"
+$ sudo lukso start --node-name "SUSTITUIR-CON-NOMBRE-DE-NODO"
 ```
 
 </TabItem>
 </Tabs>
 
-This is a one-time operation and it's nescessary to be able to join the fun. -->
+Se trata de una operación única y es necesario para poder unirse a la diversión. -->
 
-### Start an Archive Node
+### Iniciar un Nodo de Archivo
 
 <Tabs groupId="operating-systems">
 <TabItem value="linux" label="Linux">
 
 ```bash
 $ curl https://install.l15.lukso.network | bash
-$ lukso start --node-name "REPLACE-WITH-NODE-NAME"
+$ lukso start --node-name "SUSTITUIR-CON-NOMBRE-DE-NODO"
 ```
 
 </TabItem>
@@ -71,58 +71,58 @@ $ lukso start --node-name "REPLACE-WITH-NODE-NAME"
 
 ```bash
 $ sudo curl https://install.l15.lukso.network | bash
-$ sudo lukso start --node-name "REPLACE-WITH-NODE-NAME"
+$ sudo lukso start --node-name "SUSTITUIR-CON-NOMBRE-DE-NODO"
 ```
 
 </TabItem>
 </Tabs>
 
-The command starts your node as an archive node.
+El comando inicia tu nodo como nodo de archivo.
 
 <!-- :::info
 
-Please note that currently we do not attach your node to the [pandora](https://stats.pandora.l15.lukso.network) and [vanguard](https://stats.vanguard.l15.lukso.network) stats pages. This is because these pages are not able to monitor 100+ nodes and start freezing the browser. Right now we are working on a local status page for Pandora and Vanguard.
+Por favor, ten en cuenta que actualmente no adjuntamos tu nodo a las páginas de estadísticas de [pandora](https://stats.pandora.l15.lukso.network) y [vanguard](https://stats.vanguard.l15.lukso.network). Esto se debe a que estas páginas no son capaces de monitorizar más de 100 nodos y el navegador empieza a congelarse. Ahora mismo estamos trabajando en una página de estado local para Pandora y Vanguard.
 
 ::: -->
 
 <div style={{textAlign: 'center'}}>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/G2DSFqYwteI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/G2DSFqYwteI" title="Reproductor de vídeos de YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 
-### Become a Validator
+### Conviértete en Validador
 
 :::caution
 
-If you are currently running a node, please run `lukso stop` (`sudo lukso stop` for MacOS) before continuing.
+Si actualmente estás operando un nodo, por favor ejecuta `lukso stop` (`sudo lukso stop` para MacOS) antes de continuar.
 
 :::
 
-1. Go to the [LUKSO Launchpad](https://launchpad.l15.lukso.network) and follow the steps to become a validator.
-2. You can check your validator status in the [Vanguard Block Explorer](https://explorer.vanguard.l15.lukso.network). You can find your validator via its public key.
+1. Ve a la [Plataforma de Lanzamiento LUKSO](https://launchpad.l15.lukso.network) y sigue los pasos para convertirte en validador.
+2. Puedes comprobar el estado de tu validador en [Vanguard Block Explorer](https://explorer.vanguard.l15.lukso.network). Puedes encontrar tu validador a través de su clave pública.
 
-## Links
+## Enlaces
 
-- https://faucet.l15.lukso.network To get some LYXt (test LYX)
-- https://launchpad.l15.lukso.network The Launchpad to participate as a validator
-
----
-
-- https://stats.vanguard.l15.lukso.network Statistic page for the Vanguard consensus blockchain
-- https://explorer.vanguard.l15.lukso.network Block Explorer page for the Vanguard consensus blockchain
+- https://faucet.l15.lukso.network Para conseguir algunos LYXt (LYX de prueba)
+- https://launchpad.l15.lukso.network El Launchpad para participar como validador
 
 ---
 
-- https://stats.pandora.l15.lukso.network Statistic page for the Pandora shard blockchain
-- https://explorer.pandora.l15.lukso.network Block Explorer page for the Pandora shard blockchain
-- https://rpc.l15.lukso.network Public RPC endpoint for the Pandora shard blockchain
+- https://stats.vanguard.l15.lukso.network Página de estadísticas de la cadena de bloques de consenso Vanguard
+- https://explorer.vanguard.l15.lukso.network Página del Explorador de Bloques para la cadena de bloques de consenso Vanguard
 
-## Repositories
+---
 
-The network configuration files:
+- https://stats.pandora.l15.lukso.network Página de estadísticas de la cadena de bloques Pandora
+- https://explorer.pandora.l15.lukso.network Página del explorador de bloques de la cadena de bloques de Pandora
+- https://rpc.l15.lukso.network Punto final RPC público para el shard blockchain de Pandora
+
+## Repositorios
+
+Los archivos de configuración de la red:
 
 - <https://github.com/lukso-network/network-configs>
 
-Clients:
+Clientes:
 
 - `Vanguard`: <https://github.com/lukso-network/vanguard-consensus-engine>
 - `Pandora`: <https://github.com/lukso-network/pandora-execution-engine>

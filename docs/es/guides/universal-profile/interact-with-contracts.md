@@ -1,63 +1,63 @@
 ---
-sidebar_label: 'Interact with Contracts'
+sidebar_label: 'Interactuar con Contratos'
 sidebar_position: 5
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Interact with other contracts
+# Interactuar con otros contratos
 
-In this guide, we will learn how to use our Universal Profile to interact with any other smart contract (like if we were using a regular Externally Owned Account).
+En esta guía aprenderemos a utilizar nuestro Perfil Universal para interactuar con cualquier otro contrato inteligente (como si utilizáramos una Cuenta de Propiedad Externa normal).
 
-**Interaction flow**:
+**Flujo de interacción**:
 
-![Guide - Interact with other contracts using a Universal Profile](/img/guides/lsp0/interact-with-contracts-using-universal-profile-flow.jpg)
+![Guía - Interactuar con otros contratos usando un Perfil Universal](/img/guides/lsp0/interact-with-contracts-using-universal-profile-flow.jpg)
 
-## Introduction
+## Introducción
 
-We have seen in the previous example how to send LYX from our UP via the [`execute(...)`](../../standards/smart-contracts/lsp0-erc725-account.md#execute) function.
+Hemos visto en el ejemplo anterior como enviar LYX desde nuestro UP a través de la función [`execute(...)`](../../standards/smart-contracts/lsp0-erc725-account.md#execute).
 
-This function offers a fourth parameter: `_data`, that provides a lot of flexibility when interacting from our UP. The `_data` parameter is handy when the `_to` recipient is a smart contract.
+Esta función ofrece un cuarto parámetro: `_data`, que proporciona mucha flexibilidad a la hora de interactuar desde nuestro UP. El parámetro `_data` es útil cuando el destinatario `_to` es un contrato inteligente.
 
-If you want to call a specific smart contract that was deployed on the network by the Universal Profile, the parameters of the `execute(...)` function will be as follow:
+Si quieres llamar a un contrato inteligente específico que fue desplegado en la red por el Perfil Universal, los parámetros de la función `execute(...)` serán los siguientes:
 
-- `_operation`: `0` (for `CALL`).
-- `_to`: the `address` of the smart contract we want to interact with.
-- `_value_`: empty (0).
-- `_data`: the ABI-encoded function name and arguments, to be run at the `_to` contract address.
+- `_operation`: `0` (para `CALL`).
+- `_to`: la `dirección` del contrato inteligente con el que queremos interactuar.
+- `_value_`: vacío (0).
+- `_data`: el nombre de la función cifrada ABI y los argumentos, que se ejecutarán en la dirección del contrato `_to`.
 
-Suppose a smart contract `targetContract` was deployed on the network and we want our UP to call the function `myCoolFunction` on this contract. We will have to:
+Supongamos que un contrato inteligente `targetContract` fue desplegado en la red y queremos que nuestra UP llame a la función `myCoolFunction` en este contrato. Tendremos que
 
-1. [ABI-encode](https://web3js.readthedocs.io/en/v1.2.11/web3-eth-contract.html#methods-mymethod-encodeabi) the function call with the parameters we want to pass.
-2. Pass the encoded calldata as argument `_data` of the `execute(...)` function.
+1. [cifrar-ABI](https://web3js.readthedocs.io/en/v1.2.11/web3-eth-contract.html#methods-mymethod-encodeabi) la llamada a la función con los parámetros que queramos pasar.
+2. 2. Pasar el calldata codificado como argumento `_data` de la función `execute(...)`.
 
-## Setup
+## Configuración
 
-To complete this guide, we will need:
+Para completar esta guía, necesitaremos
 
-- an EOA with some LYX for gas fees and the required [permissions](../../standards/universal-profile/lsp6-key-manager.md#permissions) for the interaction.
-- the `UniversalProfile` and `KeyManager` contracts ABIs from the [`@lukso/lsp-smart-contracts`](../../tools/lsp-smart-contracts/getting-started.md) npm package.
-- the address of our Universal Profile.
-- the `targetContract` ABI.
-- the address of the Target Contract.
+- una EOA con algunos LYX para las cuotas de gas y los [permisos] necesarios(../../standards/universal-profile/lsp6-key-manager.md#permissions) para la interacción.
+- los contratos ABI `UniversalProfile` y `KeyManager` del paquete npm [`@lukso/lsp-smart-contracts`](../../tools/lsp-smart-contracts/getting-started.md).
+- la dirección de nuestro Perfil Universal.
+- la ABI `targetContract`.
+- la dirección del Contrato Destino.
 
 :::info
 
-The chosen EOA needs to have [**CALL Permission**](../../standards/universal-profile/lsp6-key-manager.md#permissions) together with [**Allowed Calls**](../../standards/universal-profile/lsp6-key-manager.md#allowed-calls) or [**SUPER_CALL Permission**](../../standards/universal-profile/lsp6-key-manager.md#super-permissions)
+La EOA elegida necesita tener [**CALL Permission**](../../standards/universal-profile/lsp6-key-manager.md#permissions) junto con [**Allowed Calls**](../../standards/universal-profile/lsp6-key-manager.md#allowed-calls) o [**SUPER_CALL Permission**](../../standards/universal-profile/lsp6-key-manager.md#super-permissions)
 
 :::
 
-Make sure you have the following dependencies installed before beginning this tutorial:
+Asegúrate de tener instaladas las siguientes dependencias antes de empezar este tutorial:
 
-- Either [`web3.js`](https://github.com/web3/web3.js) or [`ethers.js`](https://github.com/ethers-io/ethers.js/)
+- O bien [`web3.js`](https://github.com/web3/web3.js) o bien [`ethers.js`](https://github.com/ethers-io/ethers.js/)
 - [`@lukso/lsp-smart-contracts`](https://github.com/lukso-network/lsp-smart-contracts/)
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```shell title="Install the dependencies"
+```shell title="Instala las dependencias"
 npm install web3 @lukso/lsp-smart-contracts
 ```
 
@@ -65,7 +65,7 @@ npm install web3 @lukso/lsp-smart-contracts
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```shell title="Install the dependencies"
+```shell title="Instala las dependencias"
 npm install ethers @lukso/lsp-smart-contracts
 ```
 
@@ -73,19 +73,19 @@ npm install ethers @lukso/lsp-smart-contracts
 
 </Tabs>
 
-## Step 1 - Create the contracts instances
+## Paso 1 - Crear las instancias de los contratos
 
-The first step is to create instances of our Universal Profile, Key Manager contracts and the Target Contract.
+El primer paso es crear instancias de nuestros contratos de Perfil Universal, Gestor de Claves y el Contrato de Destino.
 
-- Create an Universal Profile contract instance from `universalProfileAddress`.
-- Get the `owner()` of the Universal Profile.
-- Create a Key Manager contract instance from the owner of the Universal Profile.
-- Create a Target Contract instance from the `targetContractAddress`.
+- Crea una instancia de contrato de Perfil Universal a partir de `universalProfileAddress`.
+- Obtén el `owner()` del Perfil Universal.
+- Crea una instancia de contrato Gestor de Claves a partir del propietario del Perfil Universal.
+- Crea una instancia de contrato de destino a partir de "targetContractAddress".
 
 :::caution
 
-Save the Target Contract ABI in a separate JSON and import it in the main file.  
-You can quickly compile and get a contract's ABI in [Remix IDE](https://remix.ethereum.org/).
+Guarda el ABI del Contrato de Destino en un JSON separado e impórtalo en el archivo principal.  
+Puedes compilar rápidamente y obtener el ABI de un contrato en [Remix IDE](https://remix.ethereum.org/).
 
 :::
 
@@ -93,7 +93,7 @@ You can quickly compile and get a contract's ABI in [Remix IDE](https://remix.et
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Imports & Constants"
+```typescript title="Importaciones y Constantes"
 import UniversalProfile from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json';
 import KeyManager from '@lukso/lsp-smart-contracts/artifacts/LSP6KeyManager.json';
 import Web3 from 'web3';
@@ -108,8 +108,8 @@ const universalProfile = new web3.eth.Contract(
   universalProfileAddress,
 );
 
-// the KeyManager is the owner of the Universal Profile
-// so we can call the owner() function to obtain the KeyManager's address
+// el Gestor de Claves es el propietario del Perfil Universal
+// por lo que podemos llamar a la función owner() para obtener la dirección del Gestor de Claves
 const owner = await universalProfile.methods.owner().call();
 const keyManager = new web3.eth.Contract(KeyManager.abi, owner);
 
@@ -124,7 +124,7 @@ const targetContract = new web3.eth.Contract(
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Imports & Constants"
+```typescript title="Importaciones y Constantes"
 import UniversalProfile from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json';
 import KeyManager from '@lukso/lsp-smart-contracts/artifacts/LSP6KeyManager.json';
 import { ethers } from 'ethers';
@@ -140,8 +140,8 @@ const universalProfile = new ethers.Contract(
   provider,
 );
 
-// the KeyManager is the owner of the Universal Profile
-// so we can call the owner() function to obtain the KeyManager's address
+// el Gestor de Claves es el propietario del Perfil Universal
+// por lo que podemos llamar a la función owner() para obtener la dirección del Gestor de Claves
 const owner = await universalProfile.owner();
 const keyManager = new ethers.Contract(owner, KeyManager.abi, provider);
 
@@ -157,24 +157,24 @@ const targetContract = new ethers.Contract(
 
 </Tabs>
 
-## Step 2 - Encode the calldatas
+## Paso 2 - Cifrar los calldata
 
-This is the easy part, we need to create 2 calldatas:
+Esta es la parte fácil, necesitamos crear 2 calldata:
 
-- The _first calldata_ will be executed on the Target Contract.
-- The _second calldata_ will be executed on the Universal Profile and will trigger the _first calldata_.
+- El _primer calldata_ se ejecutará en el Contrato de destino.
+- El _segundo calldata_ se ejecutará en el Perfil Universal y activará el _primer calldata_.
 
-### Encode Target Contract calldata
+### Cifrar calldata del Contrato Destino
 
-Encoding the calldata that will be be executed on the Target Contract.
+Cifrar los calldata que se ejecutarán en el Contrato Destino.
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Target calldata"
-// 1. encode the calldata to be run at the targetContract
-// assuming targetContract is a Contract instance
+```typescript title="calldata de Destino"
+// 1. cifrar los calldata a ejecutar en el targetContract
+// asumiendo que targetContract es una instancia de Contract
 const targetCalldata = targetContract.methods
   .myCoolfunction('dummyParameter')
   .encodeABI();
@@ -184,9 +184,9 @@ const targetCalldata = targetContract.methods
   
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Target calldata"
-// 1. encode the calldata to be run at the targetContract
-// assuming targetContract is a Contract instance
+```typescript title="calldata de Destino"
+// 1. cifrar los calldata a ejecutar en el targetContract
+// asumiendo que targetContract es una instancia de Contract
 const targetCalldata = targetContract.interface.encodeFunctionData(
   'myCoolfunction',
   ['dummyParameter'],
@@ -197,19 +197,19 @@ const targetCalldata = targetContract.interface.encodeFunctionData(
 
 </Tabs>
 
-### Encode Universal Profile calldata
+### Cifrar calldata de Perfil Universal
 
-Encoding the calldata that will be be executed on the Universal Profile. This calldata will also trigger the calldata that will be executed on the Target Contract.
+Cifrar el calldata que se ejecutará en el Perfil Universal. Estos calldata también activarán los calldata que se ejecutarán en el Contrato Destino.
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Universal Profile calldata"
+```typescript title="calldata del Perfil Universal"
 const OPERATION_CALL = 0;
 
-// 2. encode the calldata to be run on the UP,
-// passing the calldata to be run at the targetContract as 4th parameter
+// 2. cifrar los calldata a ejecutar en el UP,
+// pasando los calldata a ejecutar en el targetContract como 4º parámetro
 const abiCalldata = await universalProfile.methods[
   'execute(uint256,address,uint256,bytes)'
 ](OPERATION_CALL, targetContract.address, 0, targetCalldata).encodeABI();
@@ -219,11 +219,11 @@ const abiCalldata = await universalProfile.methods[
   
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Universal Profile calldata"
+```typescript title="calldata del Perfil Universal"
 const OPERATION_CALL = 0;
 
-// 2. encode the calldata to be run on the UP,
-// passing the calldata to be run at the targetContract as 4th parameter
+// 2. cifrar los calldata a ejecutar en el UP,
+// pasando los calldata a ejecutar en el targetContract como 4º parámetro
 const abiCalldata = universalProfile.interface.encodeFunctionData('execute', [
   OPERATION_CALL,
   targetContract.address,
@@ -236,18 +236,18 @@ const abiCalldata = universalProfile.interface.encodeFunctionData('execute', [
 
 </Tabs>
 
-## Step 3 - Execute via the Key Manager
+## Paso 3 - Ejecutar a través del Gestor de Claves
 
-### Load the EOA
+### Cargar la EOA
 
-Like in other guides, an important step is to load our EOA that is a controller for our Universal Profile. In this case the controller address must have either [**CALL Permission**](../../standards/universal-profile/lsp6-key-manager.md#permissions) together with [**Allowed Calls**](../../standards/universal-profile/lsp6-key-manager.md#allowed-calls) or [**SUPER_CALL Permission**](../../standards/universal-profile/lsp6-key-manager.md#super-permissions) in order for the transaction to be successful.
+Como en otras guías, un paso importante es cargar nuestra EOA que es un controlador para nuestro Perfil Universal. En este caso la dirección del controlador debe tener [**CALL Permission**](../../standards/universal-profile/lsp6-key-manager.md#permissions) junto con [**Allowed Calls**](../.. /standards/universal-profile/lsp6-key-manager.md#allowed-calls) o [**SUPER_CALL Permission**](../../standards/universal-profile/lsp6-key-manager.md#super-permissions) para que la transacción se realice correctamente.
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Setup EOA"
-const PRIVATE_KEY = '0x...'; // your EOA private key (controller address)
+```typescript title="Configura la EOA"
+const PRIVATE_KEY = '0x...'; // tu clave privada EOA (dirección del controlador)
 const EOA = web3.eth.accounts.wallet.add(PRIVATE_KEY);
 ```
 
@@ -255,8 +255,8 @@ const EOA = web3.eth.accounts.wallet.add(PRIVATE_KEY);
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Setup EOA"
-const PRIVATE_KEY = '0x...'; // your EOA private key (controller address)
+```typescript title="Configura la EOA"
+const PRIVATE_KEY = '0x...'; // tu clave privada EOA (dirección del controlador)
 const EOA = new ethers.Wallet(PRIVATE_KEY).connect(provider);
 ```
 
@@ -264,16 +264,16 @@ const EOA = new ethers.Wallet(PRIVATE_KEY).connect(provider);
 
 </Tabs>
 
-### Send the execute calldata
+### Enviar la ejecución de calldata
 
-The final step is to pass the encoded calldata to the Key Manager. Since we are calling from a UP's controller address (with proper [**permissions**](../../standards/universal-profile/lsp6-key-manager.md#permissions)), the Key Manager will authorize and execute the transaction.
+El paso final es pasar los calldata cifrados al Gestor de Claves. Como estamos llamando desde la dirección de un controlador de UP (con los [**permisos**] adecuados(../../standards/universal-profile/lsp6-key-manager.md#permissions)), el Gestor de Claves autorizará y ejecutará la transacción.
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Send transaction"
-// 3. execute via the KeyManager, passing the UP calldata
+```typescript title="Enviar transacción"
+// 3. ejecutar a través del KeyManager, pasando el calldata del UP
 await keyManager.methods['execute(bytes)'](abiCalldata).send({
   from: EOA.address,
   gasLimit: 300_000,
@@ -284,8 +284,8 @@ await keyManager.methods['execute(bytes)'](abiCalldata).send({
   
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Send transaction"
-// 3. execute via the KeyManager, passing the UP calldata
+```typescript title="Enviar transacción"
+// 3. ejecutar a través del KeyManager, pasando el calldata del UP
 await keyManager.connect(EOA)['execute(bytes)'](abiCalldata);
 ```
 
@@ -293,13 +293,13 @@ await keyManager.connect(EOA)['execute(bytes)'](abiCalldata);
 
 </Tabs>
 
-## Final Code
+## Código final
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Final code"
+```typescript title="Código final"
 import UniversalProfile from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json';
 import KeyManager from '@lukso/lsp-smart-contracts/artifacts/LSP6KeyManager.json';
 import TargetContractABI from './TargetContractABI.json';
@@ -313,8 +313,8 @@ const universalProfile = new web3.eth.Contract(
   universalProfileAddress,
 );
 
-// the KeyManager is the owner of the Universal Profile
-// so we can call the owner() function to obtain the KeyManager's address
+// el Gestor de Claves es el propietario del Perfil Universal
+// por lo que podemos llamar a la función owner() para obtener la dirección del Gestor de Claves
 const owner = await universalProfile.methods.owner().call();
 const keyManager = new web3.eth.Contract(KeyManager.abi, owner);
 
@@ -324,24 +324,24 @@ const targetContract = new web3.eth.Contract(
   targetContractAddress,
 );
 
-// 1. encode the calldata to be run at the targetContract
-// assuming targetContract is a Contract instance
+// 1. cifrar los calldata a ejecutar en el targetContract
+// asumiendo que targetContract es una instancia de Contract
 const targetCalldata = targetContract.methods
   .myCoolfunction('dummyParameter')
   .encodeABI();
 
 const OPERATION_CALL = 0;
 
-// 2. encode the calldata to be run on the UP,
-// passing the calldata to be run at the targetContract as 4th parameter
+//2. cifrar los calldata a ejecutar en el UP,
+// pasando los calldata a ejecutar en el targetContract como 4º parámetro
 let abiCalldata = await universalProfile.methods[
   'execute(uint256,address,uint256,bytes)'
 ](OPERATION_CALL, targetContract.address, 0, targetCalldata).encodeABI();
 
-const PRIVATE_KEY = '0x...'; // your EOA private key (controller address)
+const PRIVATE_KEY = '0x...'; // tu clave privada EOA (dirección del controlador)
 const EOA = web3.eth.accounts.wallet.add(PRIVATE_KEY);
 
-// 3. execute via the KeyManager, passing the UP calldata
+// 3. ejecutar a través del KeyManager, pasando el calldata del UP
 await keyManager.methods['execute(bytes)'](abiCalldata).send({
   from: EOA.address,
   gasLimit: 300_000,
@@ -352,7 +352,7 @@ await keyManager.methods['execute(bytes)'](abiCalldata).send({
   
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Final code"
+```typescript title="Código final"
 import UniversalProfile from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json';
 import KeyManager from '@lukso/lsp-smart-contracts/artifacts/LSP6KeyManager.json';
 import TargetContractABI from './TargetContractABI.json';
@@ -367,8 +367,8 @@ const universalProfile = new ethers.Contract(
   provider,
 );
 
-// the KeyManager is the owner of the Universal Profile
-// so we can call the owner() function to obtain the KeyManager's address
+// el Gestor de Claves es el propietario del Perfil Universal
+// por lo que podemos llamar a la función owner() para obtener la dirección del Gestor de Claves
 const owner = await universalProfile.owner();
 const keyManager = new ethers.Contract(owner, KeyManager.abi, provider);
 
@@ -379,8 +379,8 @@ const targetContract = new ethers.Contract(
   provider,
 );
 
-// 1. encode the calldata to be run at the targetContract
-// assuming targetContract is a Contract instance
+// 1. cifrar los calldata a ejecutar en el targetContract
+// asumiendo que targetContract es una instancia de Contract
 const targetCalldata = targetContract.interface.encodeFunctionData(
   'myCoolfunction',
   ['dummyParameter'],
@@ -388,8 +388,8 @@ const targetCalldata = targetContract.interface.encodeFunctionData(
 
 const OPERATION_CALL = 0;
 
-// 2. encode the calldata to be run on the UP,
-// passing the calldata to be run at the targetContract as 4th parameter
+// 2. cifrar los calldata a ejecutar en el UP,
+// pasando los calldata a ejecutar en el targetContract como 4º parámetro
 let abiCalldata = universalProfile.interface.encodeFunctionData('execute', [
   OPERATION_CALL,
   targetContract.address,
@@ -397,10 +397,10 @@ let abiCalldata = universalProfile.interface.encodeFunctionData('execute', [
   targetCalldata,
 ]);
 
-const PRIVATE_KEY = '0x...'; // your EOA private key (controller address)
+const PRIVATE_KEY = '0x...'; // tu clave privada EOA (dirección del controlador)
 const EOA = new ethers.Wallet(PRIVATE_KEY).connect(provider);
 
-// 3. execute via the KeyManager, passing the UP calldata
+// 3. ejecutar a través del KeyManager, pasando el calldata del UP
 await keyManager.connect(EOA)['execute(bytes)'](abiCalldata);
 ```
 

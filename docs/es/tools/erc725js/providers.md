@@ -2,15 +2,15 @@
 sidebar_position: 3
 ---
 
-# Providers
+# Proveedores
 
-The provider by which `@erc725/erc725.js` will request blockchain data is set on the instantiation of the class through the configuration object.
+El proveedor mediante el cual `@erc725/erc725.js` solicitará los datos de la blockchain se establece en la instanciación de la clase a través del objeto de configuración.
 
-The following provider types are supported:
+Se soportan los siguientes tipos de proveedores:
 
-## RPC URL
+## URL RPC
 
-An RPC URL can be passed when instantiating the `ERC725` class.
+Se puede pasar una URL RPC al instanciar la clase `ERC725`.
 
 ```javascript
 import ERC725 from '@erc725/erc725.js';
@@ -20,7 +20,7 @@ const RPC_URL = 'https://rpc.l16.lukso.network';
 const erc725 = new ERC725([], '0x...', RPC_URL);
 ```
 
-## Ethereum (injected provider from extension)
+## Ethereum (proveedor inyectado desde la extensión)
 
 ```javascript
 import ERC725 from '@erc725/erc725.js';
@@ -32,15 +32,15 @@ const erc725 = new ERC725([], '0x...', ethereumProvider);
 
 ## Web3
 
-The following code snippet will use the web3 provider available at web3.providers from the corresponding `web3` library.
+El siguiente fragmento de código utilizará el proveedor web3 disponible en web3.providers de la librería `web3` correspondiente.
 
-:::caution Warning
+:::caution Advertencia
 
-Web3.js providers are being deprecated. Please provide an RPC URL or injected Ethereum provider instead.
+Los proveedores Web3.js están obsoletos. Por favor, proporciona una URL RPC o un proveedor Ethereum inyectado en su lugar.
 
 :::
 
-The following code snippet will use the web3 provider available at web3.providers from the corresponding `web3` library.
+El siguiente fragmento de código utilizará el proveedor web3 disponible en web3.providers de la librería `web3` correspondiente.
 
 ```javascript
 import Web3 from 'web3';

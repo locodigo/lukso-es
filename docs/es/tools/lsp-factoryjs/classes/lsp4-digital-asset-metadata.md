@@ -20,53 +20,53 @@ If `options` are not specified in the function call, and the function is used on
 
 #### 1. `metaData` - Object (optional)
 
-| Name                | Type          | Description                                                                                                                                          |
-| :------------------ | :------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `description`       | String        | A description of the digital asset.                                                                                                                  |
-| `links` (optional)  | Array         | An Array of Objects containing title and url parameters.                                                                                             |
-| `icon` (optional)   | File \| Array | The icon of the digital asset passed as a JavaScript File object or an Array of image metadata objects for different sizes of the same image.        |
-| `images` (optional) | Array         | An Array of images where each image element is a JavaScript File object or an Array of image metadata Objects for different sizes of the same image. |
-| `assets` (optional) | Array         | An Array of assets where each asset is a JavaScript File object or an asset metadata Object.                                                         |
+| Nombre              | Tipo                | Descripción                                                                                                                                          |
+| :------------------ | :------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `description`       | Cadena              | Una descripción del conjunto digital.                                                                                                                  |
+| `links` (opcional)  | Conjunto            | Un conjunto de objetos que contienen título y url parameters.                                                                                             |
+| `icon` (opcional)   | Archivo \| Conjunto | El icono del activo digital pasado como un objeto Archivo JavaScript o un Conjunto de objetos de metadatos de imagen para diferentes tamaños de la misma imagen.        |
+| `images` (opcional) | Conjunto            | Un conjunto de imágenes donde cada elemento de la imagen es un objeto de archivo JavaScript o un conjunto de objetos de metadatos de imagen para diferentes tamaños de la misma imagen. |
+| `assets` (opcional) | Conjunto            | Un conjunto de activos donde cada activo es un objeto de archivo JavaScript o un objeto de metadatos de activos.                                                         |
 
-OR
+O
 
-| Name           | Type   | Description                                                                             |
-| :------------- | :----- | :-------------------------------------------------------------------------------------- |
-| `LSP4Metadata` | Object | Object containing `description`, `links`, `icon`, `images`, `assets` as described above |
+| Nombre         | Tipo   | Descripción                                                                                               |
+| :------------- | :----- | :-------------------------------------------------------------------------------------------------------- |
+| `LSP4Metadata` | Objeto | Objeto que contiene `description`, `links`, `icon`, `images`, `assets` como se ha descrito anteriormente. |
 
-#### 2. `options` - Object (optional)
+#### 2. `options` - Objeto (opcional)
 
-| Name                                                                        | Type             | Description                                                                                                 |
+| Nombre                                                                      | Tipo             | Descripción                                                                                                 |
 | :-------------------------------------------------------------------------- | :--------------- | :---------------------------------------------------------------------------------------------------------- |
-| [`ipfsGateway`](../deployment/digital-asset#ipfs-upload-options) (optional) | String \| Object | ipfsGateway URL string or IPFS Client Options as defined by the [ipfs-http-client library] used internally. |
+| [`ipfsGateway`](../deployment/digital-asset#ipfs-upload-options) (opcional) | Cadena \| Objeto | ipfsGateway Cadena URL u opciones de cliente IPFS definidas por la [librería ipfs-http-client] utilizada internamente. |
 
-#### Returns
+#### Respuesta
 
-| Type      | Description                               |
-| :-------- | :---------------------------------------- |
-| `Promise` | The processed [LSP4] data and upload URL. |
+| Tipo      | Descripción                                    |
+| :-------- | :--------------------------------------------- |
+| `Promise` | Los datos [LSP4] procesados y la URL de carga. |
 
-### Examples
+### Ejemplos
 
-```javascript title="Uploading LSP4Metadata"
+```javascript title="Cargar LSP4Metadata"
 const image = new File();
 const icon = new File();
 const asset = new File();
 
 await LSP4DigitalAssetMetadata.uploadMetadata(
   {
-      description: "Digital Asset",
+      description: "Activo Digital",
       assets: [asset],
       images: [image],
       icon: icon,
-      links: [{ title: "LUKSO Docs", url: "https://docs.lukso.tech"}],
+      links: [{ title: "Documentación de LUKSO", url: "https://docs.lukso.tech"}],
   };
 );
 /**
 {
   json: {
     LSP4Metadata: {
-      description: 'Digital Asset',
+      description: 'Activo Digital',
       assets: [
         {
           "hashFunction": "keccak256(bytes)",
@@ -132,7 +132,7 @@ await LSP4DigitalAssetMetadata.uploadMetadata(
       ],
       links: [
         {
-          "title": "LUKSO Docs",
+          "title": "Documentación de LUKSO",
           "url": "https://docs.lukso.tech"
         }
       ]
@@ -143,7 +143,7 @@ await LSP4DigitalAssetMetadata.uploadMetadata(
 */
 ```
 
-```javascript title="Uploading LSP4Metadata with LSP4Metadata key"
+```javascript title="Carga de LSP4Metadata con la clave LSP4Metadata"
 const image = new File();
 const icon = new File();
 const asset = new File();
@@ -151,11 +151,11 @@ const asset = new File();
 await LSP4DigitalAssetMetadata.uploadMetadata(
     {
       LSP4Metadata: {
-        description: "Digital Asset",
+        description: "Activo Digital",
         assets: [asset],
         images: [image],
         icon: icon,
-        links: [{ title: "LUKSO Docs", url: "https://docs.lukso.tech"}],
+        links: [{ title: "Documentación de LUKSO", url: "https://docs.lukso.tech"}],
       }
     };
 );
@@ -163,7 +163,7 @@ await LSP4DigitalAssetMetadata.uploadMetadata(
 {
   json: {
     LSP4Metadata: {
-      description: 'Digital Asset',
+      description: 'Activo Digital',
       assets: [
         {
           "hashFunction": "keccak256(bytes)",
@@ -229,7 +229,7 @@ await LSP4DigitalAssetMetadata.uploadMetadata(
       ],
       links: [
         {
-          "title": "LUKSO Docs",
+          "title": "Documentación de LUKSO",
           "url": "https://docs.lukso.tech"
         }
       ]
@@ -240,16 +240,16 @@ await LSP4DigitalAssetMetadata.uploadMetadata(
 */
 ```
 
-#### Upload Custom LSP4 Metadata Example
+#### Ejemplo de carga de Metadatos Personalizados LSP4
 
-```javascript title="Uploading LSP4Metadata using custom upload options"
+```javascript title="Carga de LSP4Metadata mediante opciones de carga personalizadas"
 await LSP4DigitalAssetMetadata.uploadMetadata(
   {
-    description: 'Digital Asset',
+    description: 'Activo Digital',
     assets: [asset],
     images: [image],
     icon: icon,
-    links: [{ title: 'LUKSO Docs', url: 'https://docs.lukso.tech' }],
+    links: [{ title: 'Documentación de LUKSO', url: 'https://docs.lukso.tech' }],
   },
   {
     ipfsGateway: {
@@ -263,7 +263,7 @@ await LSP4DigitalAssetMetadata.uploadMetadata(
 {
   json: {
     LSP4Metadata: {
-      description: 'Digital Asset',
+      description: 'Activo Digital',
       assets: [
         {
           "hashFunction": "keccak256(bytes)",
@@ -329,7 +329,7 @@ await LSP4DigitalAssetMetadata.uploadMetadata(
       ],
       links: [
         {
-          "title": "LUKSO Docs",
+          "title": "Documentación de LUKSO",
           "url": "https://docs.lukso.tech"
         }
       ]
@@ -340,7 +340,7 @@ await LSP4DigitalAssetMetadata.uploadMetadata(
 */
 ```
 
-```javascript title="Uploading LSP4Metadata using upload options passed when instantiating LSPFactory"
+```javascript title="Carga de LSP4Metadata utilizando las opciones de carga pasadas al instanciar LSPFactory"
 const lspFactory = new LSPFactory(provider, {
   deployKey: myDeployKey,
   chainId: myChainId,
@@ -352,17 +352,17 @@ const lspFactory = new LSPFactory(provider, {
 });
 
 await lspFactory.LSP4DigitalAssetMetadata.uploadMetadata({
-  description: 'Digital Asset',
+  description: 'Activo Digital',
   assets: [asset],
   images: [image],
   icon: icon,
-  links: [{ title: 'LUKSO Docs', url: 'https://docs.lukso.tech' }],
+  links: [{ title: 'Documentación de LUKSO', url: 'https://docs.lukso.tech' }],
 });
 /**
 {
   json: {
     LSP4Metadata: {
-      description: 'Digital Asset',
+      description: 'Activo Digital',
       assets: [
         {
           "hashFunction": "keccak256(bytes)",
@@ -428,7 +428,7 @@ await lspFactory.LSP4DigitalAssetMetadata.uploadMetadata({
       ],
       links: [
         {
-          "title": "LUKSO Docs",
+          "title": "Documentación de LUKSO",
           "url": "https://docs.lukso.tech"
         }
       ]
@@ -439,5 +439,5 @@ await lspFactory.LSP4DigitalAssetMetadata.uploadMetadata({
 */
 ```
 
-[ipfs-http-client library]: https://github.com/ipfs/js-ipfs/tree/master/packages/ipfs-http-client#createoptions
+[librería ipfs-http-client]: https://github.com/ipfs/js-ipfs/tree/master/packages/ipfs-http-client#createoptions
 [lsp4]: https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-4-DigitalAsset-Metadata.md

@@ -2,38 +2,38 @@
 sidebar_position: 1
 ---
 
-# Getting Started
+# Primeros Pasos
 
-- [GitHub Repository](https://github.com/lukso-network/tools-eip191-signer)
-- [NPM Package](https://www.npmjs.com/package/@lukso/eip191-signer.js)
+- [Repositorio GitHub](https://github.com/lukso-network/tools-eip191-signer)
+- [Paquete NPM](https://www.npmjs.com/package/@lukso/eip191-signer.js)
 
-The `@lukso/eip191-signer.js` package is used to sign any EIP191 data.
+El paquete `@lukso/eip191-signer.js` se utiliza para firmar cualquier dato EIP191.
 
-The following format is used to sign data :
+Se utiliza el siguiente formato para firmar datos:
 
 ```bash
-0x19 <1 byte version> <version specific data> <data to sign>
+0x19 <versión de 1 byte> <datos específicos de la versión> <datos a firmar>
 ```
 
-In the case of an Ethereum Signed Message:
+En el caso de un mensaje firmado con Ethereum:
 
-- 1 byte version = `0x45`
-- version specific data = `thereum Signed Message:\n + len(message)`
+- versión de 1 byte = `0x45`
+- datos específicos de la versión = `thereum Signed Message:\n + len(message)`
 
-In the case of data with intended validator:
+En el caso de datos con validador previsto:
 
-- 1 byte version = `0x00`
-- version specific data = validatorAddress
+- versión de 1 byte = `0x00`
+- datos específicos de la versión = validatorAddress
 
-  This prefix is used so that a transaction cannot be inadvertently signed when signing an Ethereum signed message.
+  Este prefijo se utiliza para que una transacción no pueda ser firmada inadvertidamente al firmar un mensaje firmado Ethereum.
 
-# Install
+# Instalar
 
 ```bash
 npm install @lukso/eip191-signer.js
 ```
 
-# Setup
+# Configuración
 
 ```javascript
 import { EIP191Signer } from '@lukso/eip191-signer.js';

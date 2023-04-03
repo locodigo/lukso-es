@@ -1,29 +1,29 @@
 ---
-sidebar_label: 'Create an LSP7 Digital Asset (Token)'
+sidebar_label: 'Crear un Activo Digital LSP7 (Token)'
 sidebar_position: 1
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Create an LSP7 Digital Asset (Token)
+# Crear un Activo Digital LSP7 (Token)
 
-This guide will teach you how to create an [LSP7 Digital Asset contract](../../standards/nft-2.0/LSP7-Digital-Asset.md).
+Esta guía te enseñará a crear un [Contrato de Activos Digitales LSP7].(../../standards/nft-2.0/LSP7-Digital-Asset.md).
 
-## Deploy an LSP7 Digital Asset contract
+## Desplegar un contrato de Activos Digitales LSP7
 
-We will use a specific implementation of LSP7, called `LSP7Mintable`. It allows the contract deployer to mint new tokens.
+Utilizaremos una implementación específica de LSP7, denominada `LSP7Mintable`. Permite al implementador del contrato acuñar nuevos tokens.
 
-Make sure you have the following dependencies installed:
+Asegúrate de tener instaladas las siguientes dependencias:
 
-- Either [`web3.js`](https://github.com/web3/web3.js) or [`ethers.js`](https://github.com/ethers-io/ethers.js/)
+- O bien [`web3.js`](https://github.com/web3/web3.js) o bien [`ethers.js`](https://github.com/ethers-io/ethers.js/)
 - [`@lukso/lsp-smart-contracts`](https://github.com/lukso-network/lsp-smart-contracts/)
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```shell title="Install the dependencies"
+```shell title="Instala las dependencias"
 npm install web3 @lukso/lsp-smart-contracts
 ```
 
@@ -31,7 +31,7 @@ npm install web3 @lukso/lsp-smart-contracts
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```shell title="Install the dependencies"
+```shell title="Instala las dependencias"
 npm install ethers @lukso/lsp-smart-contracts
 ```
 
@@ -39,10 +39,10 @@ npm install ethers @lukso/lsp-smart-contracts
 
 </Tabs>
 
-### Step 1 - Setup imports and constants
+### Paso 1 - Configuración de importaciones y constantes
 
-At this point you will need a private key in order to deploy an `LSP7Mintable` contract.
-We will import `LSP7Mintable` in order to get the _ABI_ and _bytecode_ of the contract that will be deployed.
+En este punto necesitarás una clave privada para poder desplegar un contrato `LSP7Mintable`.
+Importaremos `LSP7Mintable` para obtener el _ABI_ y el _bytecode_ del contrato que será desplegado.
 
 <Tabs>
   
@@ -54,7 +54,7 @@ import Web3 from 'web3';
 
 const web3 = new Web3('https://rpc.l16.lukso.network');
 
-// initialize your EOA
+// inicializa tu EOA
 const privateKey = '0x...';
 const account = web3.eth.accounts.wallet.add(privateKey);
 ```
@@ -69,7 +69,7 @@ import { ethers } from 'ethers';
 
 const provider = new ethers.JsonRpcProvider('https://rpc.l16.lukso.network');
 
-// setup your EOA
+// configura tu EOA
 const privateKey = '0x...';
 const myEOA = new ethers.Wallet(privateKey).connect(provider);
 ```
@@ -78,9 +78,9 @@ const myEOA = new ethers.Wallet(privateKey).connect(provider);
 
 </Tabs>
 
-### Step 2 - Instantiate contracts
+### Paso 2 - Instanciar contratos
 
-At this point, the `LPS7Mintable` contract is being prepared for deployment.
+En este punto, el contrato `LPS7Mintable` se está preparando para su implementación.
 
 <Tabs>
   
@@ -108,9 +108,9 @@ const lsp7Factory = new ethers.ContractFactory(
 
 </Tabs>
 
-### Step 3 - Send transaction
+### Paso 3 - Enviar la transacción
 
-Finally, deploy the contract.
+Por último, despliega el contrato.
 
 <Tabs>
   
@@ -118,14 +118,14 @@ Finally, deploy the contract.
 
 <!-- prettier-ignore-start -->
 
-```javascript title="Deploy the LSP7 Digital Asset contract"
+```javascript title="Implementación del contrato de Activos Digitales LSP7"
 await myToken.deploy({
     data: LSP7Mintable.bytecode,
     arguments: [
-      'My LSP7 Token', // token name
-      'LSP7', // token symbol
-      account.address, // new owner, who will mint later
-      false, // isNonDivisible = TRUE, means NOT divisible, decimals = 0)
+      'My LSP7 Token', // nombre del token
+      'LSP7', // símblo del token
+      account.address, // nuevo propietario, que acuñará posteriormente
+      false, // isNonDivisible = TRUE, significa NO divisible, decimales = 0)
     ],
   })
   .send({ from: account.address });
@@ -136,12 +136,12 @@ await myToken.deploy({
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```javascript title="Deploy the LSP7 Digital Asset contract"
+```javascript title="Implementación del contrato de Activos Digitales LSP7"
 const myToken = await lsp7Factory.connect(myEOA).deploy(
-  'My LSP7 Token', // token name
-  'LSP7', // token symbol
-  myEOA.address, // new owner, who will mint later
-  false, // isNonDivisible = TRUE, means NOT divisible, decimals = 0)
+  'My LSP7 Token', // nombre del token
+  'LSP7', // símbolo del token
+  myEOA.address, // nuevo propietario, que acuñará posteriormente
+  false, // isNonDivisible = TRUE, significa NO divisible, decimales = 0)
 );
 ```
 
@@ -149,7 +149,7 @@ const myToken = await lsp7Factory.connect(myEOA).deploy(
 
 </Tabs>
 
-### Final code
+### Código final
 
 <!-- prettier-ignore-start -->
 
@@ -163,7 +163,7 @@ import Web3 from 'web3';
 
 const web3 = new Web3('https://rpc.l16.lukso.network');
 
-// initialize your EOA
+// inicializa tu EOA
 const privateKey = '0x...';
 const account = web3.eth.accounts.wallet.add(privateKey);
 
@@ -173,14 +173,14 @@ const myToken = new web3.eth.Contract(LSP7Mintable.abi, {
   gasPrice: '1000000000',
 });
 
-// deploy the token contract
+// desplegar el contrato de token
 await myToken.deploy({
     data: LSP7Mintable.bytecode,
     arguments: [
-      'My LSP7 Token', // token name
-      'LSP7', // token symbol
-      account.address, // new owner, who will mint later
-      false, // isNonDivisible = TRUE, means NOT divisible, decimals = 0)
+      'My LSP7 Token', // nombre del token
+      'LSP7', // símbolo del token
+      account.address, // nuevo propietario, que acuñará posteriormente
+      false, // isNonDivisible = TRUE, significa NO divisible, decimales = 0)
     ],
   })
   .send({ from: account.address });
@@ -196,7 +196,7 @@ import { ethers } from 'ethers';
 
 const provider = new ethers.JsonRpcProvider('https://rpc.l16.lukso.network');
 
-// set up your EOA
+// configura tu EOA
 const privateKey = '0x...';
 const myEOA = new ethers.Wallet(privateKey).connect(provider);
 
@@ -206,12 +206,12 @@ const lsp7Factory = new ethers.ContractFactory(
   LSP7Mintable.bytecode,
 );
 
-// deploy the token contract
+// desplegar el contrato de token
 const myToken = await lsp7Factory.connect(myEOA).deploy(
-  'My LSP7 Token', // token name
-  'LSP7', // token symbol
-  myEOA.address, // new owner, who will mint later
-  false, // isNonDivisible = TRUE, means NOT divisible, decimals = 0)
+  'My LSP7 Token', // nombre del token
+  'LSP7', // símbolo del token
+  myEOA.address, // nuevo propietario, que acuñará posteriormente
+  false, // isNonDivisible = TRUE, significa NO divisible, decimales = 0)
 );
 ```
 

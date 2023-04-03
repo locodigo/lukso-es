@@ -1,32 +1,30 @@
 ---
-sidebar_label: 'Interact with a dApp'
+sidebar_label: 'Interactuar con una dApp'
 sidebar_position: 3
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Interact with a dApp
+# Interactuar con una dApp
 
 :::danger
-
-The UP Browser Extenstion is currently in the **development alpha** version. DO NOT use this in production!
-
+La Extensión del Navegador UP está actualmente en la versión **alfa de desarrollo**. ¡NO la utilices en producción!
 :::
 
 :::note
-
-If you have **MetaMask** installed, _right click on both_ MetaMask and UP Extension and select "This Can Read and Change Site Data > When you Click the Extension". This was you can select per tab, which extension can read your site. By closing the tab you can reset this.
+Si tienes **MetaMask** instalado, *haz click derecho en ambos* MetaMask y Extensión UP y selecciona "Esto puede leer y cambiar datos del sitio > cuando haces click en la extensión". De esta manera puedes seleccionar por pestaña, que extensión puede leer tu sitio. Puedes restablecerlo cerrando la pestaña.
 
 <img width="400" src="https://user-images.githubusercontent.com/232662/192822200-392b19f1-321b-4a59-928a-f71876bec6f3.png" />
-
 :::
 
-## Setup
 
-The extension injects an `ethereum` object into a web page as `window.ethereum` to interact with the extension.
 
-### 1. Initialize a blockchain provider.
+## Configuración
+
+La extensión inyecta un objeto `ethereum` en una página web como `window.ethereum` para interactuar con la extensión.
+
+### 1. Inicializar un proveedor de blockchain.
 
 <Tabs>
   <TabItem value="web3" label="web3">
@@ -47,16 +45,16 @@ const etherProvider = new ethers.providers.Web3Provider(window.ethereum);
   </TabItem>
 </Tabs>
 
-### 2. Get access to the UP address in use.
+### 2. Obtener acceso a la dirección UP en uso.
 
-A call to `requestAccounts` will open an extension popup to authorize an account.
+Una llamada a `requestAccounts` abrirá una ventana emergente con la extensión para autorizar una cuenta..
 
 <Tabs>
   <TabItem value="web3" label="web3">
 
 ```js
 const accountsRequest: string[] = await web3.eth.requestAccounts();
-const accounts: string[] = await web3.eth.getAccounts(); //should also yield the same address
+const accounts: string[] = await web3.eth.getAccounts(); //también debería arrojar la misma dirección
 ```
 
   </TabItem>
@@ -68,7 +66,7 @@ const accountsRequest: string[] = await etherProvider.send(
   [],
 );
 const signer = etherProvider.getSigner();
-await signer.getAddress(); //should also yield the same address
+await signer.getAddress(); //también debería arrojar la misma dirección
 ```
 
   </TabItem>
@@ -82,23 +80,23 @@ const accountsRequest: string[] = await window.ethereum.request({
 const accounts: string[] = await window.ethereum.request({
   method: 'eth_accounts',
   params: [],
-}); //should also yield the same address
+}); //también debería arrojar la misma dirección
 ```
 
   </TabItem>
 </Tabs>
 
-## Operations
+## Operaciones
 
-Each operation will open an extension popup window for a user to confirm the transaction or sign the message.
+Cada operación abrirá una ventana emergente con la extensión para que el usuario confirme la transacción o firme el mensaje..
 
 :::note
-If you don't have funds on your EOA, the application will use the relayer service by default to pay the gas fees (thus ignoring gas properties).
+Si no dispones de fondos en tu EOA, la aplicación utilizará de forma predeterminada el servicio de retransmisión para pagar las cuotas de gas (ignorando así las propiedades de gas).
 :::
 
-### Send a transaction
+### Enviar una transacción
 
-You can send any transaction (a value transfer or a smart contract interaction with or without a value).
+Puedes enviar cualquier transacción (una transferencia de valor o una interacción de contrato inteligente con o sin valor).
 
 <Tabs>
   <TabItem value="web3" label="web3">
@@ -148,9 +146,9 @@ await window.ethereum.request({
   </TabItem>
 </Tabs>
 
-You can also add a `chainId` parameter, i.e., `chaidId: '0x16'`, to ensure the transaction will run on the specified network.
+También puedes añadir un parámetro `chainId`, por ejemplo, `chaidId: '0x16'`, para garantizar que la transacción se ejecute en la red especificada..
 
-### Sign a message
+### Firmar un mensaje
 
 <Tabs>
   <TabItem value="web3" label="web3">
@@ -179,7 +177,7 @@ await window.ethereum.request({
   </TabItem>
 </Tabs>
 
-## Interact with your universal profile
+## Interactuar con tu perfil universal
 
 ```shell
   npm install @lukso/lsp-smart-contracts
@@ -195,7 +193,7 @@ const contract = new web3.eth.Contract(
   })
 ```
 
-**Example**: Using the `setData` functionality:
+**Ejemlpo**: Utilizando la función `setData`:
 
 ```js
 await contract.methods
@@ -212,18 +210,24 @@ await contract.methods
 );
 ```
 
-## Events
+## Eventos
 
-**Example**: Listening for accounts changed event:
+**Ejemplo**: Escucha de eventos de modificación de cuentas:
+
+<Tabs>
+  <TabItem value="web3" label="web3">
 
 ```js
 window.ethereum.on('accountsChanged', (addresses: string[]) => {
   const newAddress = addresses[0];
-  // ...
+  ...
 }
 ```
 
-## Sample dApp
+  </TabItem>
+</Tabs>
 
-- Check the [LUKSO Test dApp](https://up-test-dapp.lukso.tech/) for more examples in the browser.
-- Check the [Repository](https://github.com/lukso-network/universalprofile-sample-web-app) for code snippets.
+## dApp Muestra
+
+- Consulta el [Ejemplo de dApp](https://up-sample-web-app.staging.lukso.dev/) para ver más ejemplos en el navegador..
+- Consulta el [Repositorio](https://github.com/lukso-network/universalprofile-sample-web-app) para obtener fragmentos de código.

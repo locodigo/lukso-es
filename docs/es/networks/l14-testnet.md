@@ -2,63 +2,62 @@
 sidebar_position: 4
 ---
 
-# L14 Public Testnet
+# L14 Red pública de pruebas
 
-:::success L14-Testnet is running.
-This testnet is the lastest stable network.
+:::success L14-Testnet está en funcionamiento.
+Esta red de pruebas es la última red estable.
 :::
-
-The [L14 Public Testnet](http://explorer.l14.lukso.network/) is the soon deprecated POA test network, currently used for all UniversalProfiles and issued (Pre) NFTs. L14 is up-to-date with the latest Ethereum forks until Constantinople.
+La [Red Pública de Pruebas L14](http://explorer.l14.lukso.network/) es la red de pruebas POA pronto obsoleta, actualmente utilizada para todos los UniversalProfiles y NFTs emitidos (Pre). La red L14 está actualizada con las últimas bifurcaciones de Ethereum hasta Constantinopla.
 
 ## MetaMask
 
-To add the L14 Network to MetaMask, these are the settings:
+Para añadir la red L14 a MetaMask, estos son los parámetros:
 
-| Setting            | Value                            |
-| ------------------ | -------------------------------- |
-| Network Name       | L14                              |
-| New RPC URL        | https://rpc.l14.lukso.network    |
-| Chain ID           | 22 (0x16)                        |
-| Currency Symbol    | LYXt                             |
-| Block Explorer URL | https://blockscout.com/lukso/l14 |
+| Parámetro                     | Valor                            |
+| ----------------------------- | -------------------------------- |
+| Nombre de la red              | L14                              |
+| Nueva URL de RPC              | https://rpc.l14.lukso.network    |
+| ID de cadena                  | 22 (0x16)                        |
+| Símbolo de la moneda          | LYXt                             |
+| URL del Explorador de Bloques | https://blockscout.com/lukso/l14 |
 
-And if you need it, [here is a tutorial on how to do it](https://metamask.zendesk.com/hc/en-us/articles/360043227612-How-to-add-a-custom-network-RPC).
+Y si lo necesitas, [aquí tienes un tutorial sobre cómo hacerlo](https://metamask.zendesk.com/hc/en-us/articles/360043227612-How-to-add-a-custom-network-RPC).
 
-## Running a Node
+## Ejecutar un Nodo
 
-### Install the Node
+### Instalar el Nodo
 
-Install a parity node `> 2.2.7-stable` as [described here](https://openethereum.github.io/Setup.html).
+Instala un nodo de paridad `> 2.2.7-stable` como [se describe aquí](https://openethereum.github.io/Setup.html).
 
-The LUKSO L14 test network requires most of [Constantinople transitions](https://blog.ethereum.org/2019/02/22/ethereum-constantinople-st-petersburg-upgrade-announcement/). This means you need to at least run parity > 2.2.7-stable.
+La red de prueba LUKSO L14 requiere la mayoría de las [transiciones de Constantinopla](https://blog.ethereum.org/2019/02/22/ethereum-constantinople-st-petersburg-upgrade-announcement/). Esto significa que necesita al menos ejecutar paridad > 2.2.7-stable.
 
-### Start the Node
+### Iniciar el Nodo
 
-Run your parity node and connect to the LUKSO L14 test network using:
+Ejecuta tu nodo de paridad y conéctate a la red de prueba LUKSO L14 usando:
 
 ```bash
 $ parity --chain spec.json --bootnodes enode://6a6b0b286e3f96dee993d995f3fd435a065388664e211f02533e28c9ddc31089eb90f71d1386c3c74ee60f79df86cacdb10992c38e2f9cccac4881cb84526415@35.195.116.26:30303
 ```
 
-The [spec.json](https://github.com/lukso-network/lukso-chain-spec/blob/l14/spec.json) is in [l14](https://github.com/lukso-network/lukso-chain-spec/tree/l14) branch of the `lukso-chain-spec` repository.
+El [spec.json](https://github.com/lukso-network/lukso-chain-spec/blob/l14/spec.json) está en la rama [l14](https://github.com/lukso-network/lukso-chain-spec/tree/l14) del repositorio `lukso-chain-spec`.
 
-In case the boot node from above does not work, you can find the current specifications [here](https://github.com/lukso-network/lukso-chain-spec/blob/l14/bootnodes.txt).
+En caso de que el nodo de arranque de arriba no funcione, puedes encontrar las especificaciones actuales [aquí](https://github.com/lukso-network/lukso-chain-spec/blob/l14/bootnodes.txt).
 
-## Links
+## Enlaces
 
-- RPC Endpoint: <https://rpc.l14.lukso.network>
-- Explorer: <https://blockscout.com/lukso/l14>
-- Faucet: <http://faucet.l14.lukso.network>
+- Punto final RPC: <https://rpc.l14.lukso.network>
+- Explorador: <https://blockscout.com/lukso/l14>
+- Grifo: <http://faucet.l14.lukso.network>
 
-## Repositories
+## Repositorios
 
 - <https://github.com/lukso-network/l14-deploy-node-gcloud>
 - <https://github.com/lukso-network/l14-chain-spec>
 - <https://github.com/lukso-network/l14-dapps-validators>
 
-## Features
+## Características
 
-Enabled EiPs are:
+Los EiPs habilitados son:
 
 - [eip140](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-140.md)
 - [eip145](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-145.md)
@@ -69,11 +68,11 @@ Enabled EiPs are:
 - [eip1052](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1052.md)
 - [eip1283](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1283.md)
 
-Not included compared to Ethereum mainnet:
+No incluido en comparación con la mainnet de Ethereum:
 
-- [eip1234](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1234.md) (Difficulty bomb adjustment)
+- [eip1234](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1234.md) (Ajuste de la bomba de dificultad)
 
-## Resources
+## Recursos
 
 - https://medium.com/lukso/announcing-the-l14-test-network-38d7c622c6cb
 - https://github.com/lukso-network/l14-deploy-node-gcloud

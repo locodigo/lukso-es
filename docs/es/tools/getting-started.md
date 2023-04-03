@@ -1,16 +1,16 @@
 ---
 id: getting-started
-title: Getting Started
+title: Primeros Pasos
 sidebar_position: 1
 ---
 
-# Getting Started
+# Primeros Pasos
 
 <table>
   <tr>
-    <th>Tool</th>
+    <th>Herramienta</th>
     <th>npm</th>
-    <th>Repository</th>
+    <th>Repositorio</th>
   </tr>
   <tr>
     <td><a href="./lsp-smart-contracts/getting-started">lsp-smart-contracts</a></td>

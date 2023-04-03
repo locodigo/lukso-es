@@ -1,60 +1,60 @@
 ---
-title: Troubleshooting
+title: Solución de problemas
 sidebar_position: 6
 ---
 
-# Troubleshooting L16 Testnet
+# Solución de problemas con la Red de Pruebas L16
 
-## Permission denied
+## Permiso denegado
 
-If you get an error that the permission is denied use `sudo` in front of your command.
+Si recibes un error indicando que el permiso está denegado utiliza `sudo` antes de tu comando.
 
-## Sync issues
+## Problemas de sincronización
 
-When your node is not syncing use the following steps. All steps have to be executed in your node directory so first ```cd``` to the right directory.
+Cuando tu nodo no se sincroniza usa los siguientes pasos. Todos los pasos tienen que ser ejecutados en el directorio de tu nodo así que primero ```cd``` al directorio correcto.
 
-Update the LUKSO CLI
+Actualiza el CLI de LUKSO
 ```
 sudo curl https://install.l16.lukso.network | sudo bash
 ```
-Update your node files
+Actualiza los archivos de tu nodo
 ```
 sudo lukso network update
 ```
-Restart you node
+Reinicia tu nodo
 ```
 sudo lukso network restart
 ```
-Start your validator
+Pon en marcha tu validador
 ```
 sudo lukso network validator start
 ```
 
-It will take some time before you are fully synced and showing up on the stats pages. You can see the syncing progress in your [logs](./logs-stats-monitoring.md).
+Pasará algún tiempo antes de que estés completamente sincronizado y aparezcas en las páginas de estadísticas. Puedes ver el progreso de la sincronización en tus [registros](./logs-stats-monitoring.md).
 
 ## Bootnodes
 
-You can update Bootnodes with
+Puedes actualizar Bootnodes con
 
 ```
 lukso network update
 ```
 
-You need to restart your node to make the changes effective
+Es necesario reiniciar el nodo para que los cambios surtan efecto.
 
 ```
 lukso network restart
 ```
 
-#### Change your node name
+#### Cambiar el nombre del nodo
 
-If you want to change your node name you can do this in the file `node_config.yaml`
+Si quieres cambiar el nombre de tu nodo puedes hacerlo en el archivo `node_config.yaml`.
 
 ```sh
 sudo nano node_config.yaml
 ```
 
-Change your node name close it with `ctrl+X` and save it.
+Cambia el nombre del nodo, ciérralo con `ctrl+X` y guárdalo.
 
 
-## More fixes will be added if necessary.
+## Se añadirán más soluciones si es necesario.

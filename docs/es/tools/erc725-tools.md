@@ -1,8 +1,8 @@
 ---
-title: ERC725 Tools
+title: Herramientas ERC725
 sidebar_position: 7
 ---
 
-# ERC725 Tools
+# Herramientas ERC725
 
-- [ERC725 Inspect 📝🔍](https://erc725-inspect.lukso.tech/) ([GitHub](https://github.com/lukso-network/tools-erc725-inspect)) is a web app that allows you to inspect the key/values of an [ERC725Y](https://github.com/ERC725Alliance/ERC725/blob/main/docs/ERC-725.md#erc725x) compatible smart contract.
+- [ERC725 Inspect 📝🔍](https://erc725-inspect.lukso.tech/) ([GitHub](https://github.com/lukso-network/tools-erc725-inspect)) es una aplicación web que permite inspeccionar la clave/valores de un contrato inteligente compatible con [ERC725Y](https://github.com/ERC725Alliance/ERC725/blob/main/docs/ERC-725.md#erc725x).

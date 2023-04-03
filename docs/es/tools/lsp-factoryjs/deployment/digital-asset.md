@@ -1,69 +1,69 @@
 ---
 sidebar_position: 2
-title: Digital Asset
+title: Activo Digital
 ---
 
-# Deploying a Digital Asset
+# Despliegue de un Activo Digital
 
-LSPFactory enables developers to easily deploy [LSP7] and [LSP8] Digital Asset smart contracts for their [fungible token](./digital-asset.md#fungible-token) or [NFT 2.0](./digital-asset.md#deploying-nft-20) use cases.
+LSPFactory permite a los desarrolladores implementar fácilmente contratos inteligentes de Activos Digitales [LSP7] y [LSP8] para sus casos de uso de [token fungible](./digital-asset.md#fungible-token) o [NFT 2.0](./digital-asset.md#deploying-nft-20).
 
-To deploy a mintable [LSP7] Digital Asset:
+Para desplegar un Activo Digital Acuñable [LSP7]:
 
 ```javascript
 await lspFactory.LSP7DigitalAsset.deploy(digitalAssetProperties [, options]);
 ```
 
-To deploy a mintable LSP8 Identifiable Digital Asset:
+Para desplegar un Activo Digital Identificable Acuñable LSP8:
 
 ```javascript
 await lspFactory.LSP8IdentifiableDigitalAsset.deploy(digitalAssetProperties [, options]);
 ```
 
 :::info
-By default LSPFactory deploys the [`Mintable`](https://github.com/lukso-network/lsp-smart-contracts/blob/develop/contracts/LSP7DigitalAsset/presets/LSP7Mintable.sol) implementation of LSP7 and LSP8 digital assets. To call the `mint` function import the `LSP7Mintable` or `LSP8Mintable` abi from the [lsp-smart-contracts library](https://github.com/lukso-network/lsp-smart-contracts).
+Por defecto, LSPFactory despliega la implementación [`Acuñable`](https://github.com/lukso-network/lsp-smart-contracts/blob/develop/contracts/LSP7DigitalAsset/presets/LSP7Mintable.sol) de los activos digitales LSP7 y LSP8. Para llamar a la función `mint` importe el abi `LSP7Mintable` o `LSP8Mintable` de la librería [lsp-smart-contracts](https://github.com/lukso-network/lsp-smart-contracts).
 
 :::
 
-## Deploying an NFT 2.0
+## Despliegue de un NFT 2.0
 
-The [LSP7](./digital-asset.md#lsp7-nft-20) and [LSP8](./digital-asset.md#lsp8-nft-20) Digital Assets standards can both be used for NFT 2.0 contracts.
+Los estándares de Activos Digitales [LSP7](./digital-asset.md#lsp7-nft-20) y [LSP8](./digital-asset.md#lsp8-nft-20) pueden utilizarse ambos para contratos NFT 2.0.
 
 #### LSP7 NFT 2.0
 
-The [LSP7] standard can be useful for NFT collections where you want all tokens to have the same [metadata](./digital-asset.md#adding-lsp4-metadata). For example a collection of digital clothing items.
+El estándar [LSP7] puede ser útil para colecciones NFT en las que se pretende que todos los tokens tengan los mismos [metadatos](./digital-asset.md#adding-lsp4-metadata). Por ejemplo, una colección de prendas de vestir digitales.
 
-[LSP7] is based on the [ERC20] token standard and can be used as an NFT 2.0 contract by setting the `isNFT` constructor value to `true` when deploying. This will set the contract [decimals](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-7-DigitalAsset.md#decimals) value to 0 so that all tokens are indivisible.
+[LSP7] se basa en el estándar de tokens [ERC20] y puede utilizarse como contrato NFT 2.0 estableciendo el valor `isNFT` del constructor en `true` al desplegar. Esto establecerá el valor [decimales](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-7-DigitalAsset.md#decimals) del contrato en 0 para que todos los tokens sean indivisibles.
 
 ```javascript
 await lspFactory.LSP7DigitalAsset.deploy({
     isNFT: true,
     controllerAddress: '0x56fE4E7dc2bc0b6397E4609B07b4293482E3F72B',
-    name: 'MYTOKEN'
+    name: 'MITOKEN'
     symbol: 'DEMO',
 });
 ```
 
 :::info
-To deploy an [LSP7] NFT 2.0 smart contract, the `isNFT` parameter must be set to `true` when deploying. If `isNFT` is set to false the token decimals value will be set to 18 meaning they can be fractionalized.
+Para desplegar un contrato inteligente NFT 2.0 [LSP7], el parámetro `isNFT` debe establecerse en `true` al hacer el despliegue. Si `isNFT` se establece en false, el valor de los decimales de los tokens se establecerá en 18, lo que significa que pueden fraccionarse.
 :::
 
 #### LSP8 NFT 2.0
 
-[LSP8] can be useful for cases where all NFTs in a collection are unique and have their own [metadata](./digital-asset.md#adding-lsp4-metadata). For example an avatar collection where all tokens have a different appearance.
+[LSP8] puede ser útil para casos en los que todos los NFT de una colección son únicos y tienen sus propios [metadatos](./digital-asset.md#adding-lsp4-metadata). Por ejemplo, una colección de avatares en la que todos los tokens tienen una apariencia diferente.
 
-[LSP8] is based on the [ERC721](https://eips.ethereum.org/EIPS/eip-721) token standard used for NFT contracts. Each [LSP8] token has its own unique `tokenId` and metadata that describes its uniqueness.
+[LSP8] se basa en el estándar de tokens [ERC721](https://eips.ethereum.org/EIPS/eip-721) utilizado para los contratos NFT. Cada token [LSP8] tiene su propio `tokenId` único y metadatos que describen su unicidad.
 
 ```javascript
 await lspFactory.LSP8IdentifiableDigitalAsset.deploy({
     controllerAddress: '0x56fE4E7dc2bc0b6397E4609B07b4293482E3F72B',
-    name: 'MYTOKEN'
+    name: 'MITOKEN'
     symbol: 'DEMO',
 });
 ```
 
-## Deploying a Fungible Token
+## Despliegue de un Token Fungible
 
-To deploy a fungible token contract use the [LSP7] standard. [LSP7] is based on the [ERC20] token standard, though is improved by allowing token contracts to have their own metadata via its [ERC725Y] key value store and [LSP4 Digital Asset Metadata](./digital-asset.md#adding-lsp4-metadata).
+Para desplegar un contrato de token fungible utiliza el estándar [LSP7]. [LSP7] se basa en el estándar de tokens [ERC20], aunque está mejorado al permitir que los contratos de tokens tengan sus propios metadatos a través de su almacén de valores clave [ERC725Y] y [Metadatos de Activos Digitales LSP4](./digital-asset.md#adding-lsp4-metadata).
 
 ```javascript
 await lspFactory.LSP7DigitalAsset.deploy(digitalAssetProperties [, options]);
@@ -73,24 +73,24 @@ await lspFactory.LSP7DigitalAsset.deploy(digitalAssetProperties [, options]);
 await lspFactory.LSP7DigitalAsset.deploy({
   isNFT: false,
   controllerAddress: '0x56fE4E7dc2bc0b6397E4609B07b4293482E3F72B',
-  name: 'MYTOKEN',
+  name: 'MITOKEN',
   symbol: 'DEMO',
 });
 ```
 
-When deploying, set the `isNFT` value to `false`. This will set the [decimals](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-7-DigitalAsset.md#decimals) value on the token contract to 18, allowing tokens to be fractionalized.
+Al desplegar, establece el valor `isNFT` en `false`. Esto establecerá el valor [decimales](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-7-DigitalAsset.md#decimals) en el contrato de tokens a 18, permitiendo fraccionar los tokens.
 
-## Digital Asset Properties
+## Propiedades de los Activos Digitales
 
-Inside the `digitalAssetProperties` object, you can set digital assset configuration options such as the [controller address](./digital-asset.md#controller-address) and [LSP4 metadata](./digital-asset.md#adding-lsp4-metadata).
+Dentro del objeto `digitalAssetProperties`, puedes establecer opciones de configuración de activos digitales como la [dirección del controlador](./digital-asset.md#controller-address) y los [metadatos LSP4](./digital-asset.md#adding-lsp4-metadata).
 
-[LSP7] and [LSP8] share the same constructor parameters, however LSP7 has an additional parameter `isNFT` used to set the decimals value on the contract to 0 or 18.
+[LSP7] y [LSP8] comparten los mismos parámetros de construcción, sin embargo LSP7 tiene un parámetro adicional `isNFT` utilizado para establecer el valor de los decimales en el contrato a 0 o 18.
 
 ```javascript
 await lspFactory.LSP7DigitalAsset.deploy({
     isNFT: false,
     controllerAddress: '0x56fE4E7dc2bc0b6397E4609B07b4293482E3F72B',
-    name: 'MYTOKEN'
+    name: 'MITOKEN'
     symbol: 'DEMO',
 });
 ```
@@ -98,65 +98,65 @@ await lspFactory.LSP7DigitalAsset.deploy({
 ```javascript
 await lspFactory.LSP8IdentifiableDigitalAsset.deploy({
     controllerAddress: '0x56fE4E7dc2bc0b6397E4609B07b4293482E3F72B',
-    name: 'MYTOKEN'
+    name: 'MITOKEN'
     symbol: 'DEMO',
 });
 ```
 
 :::info
-use the `isNFT` parameter on [LSP7] to deploy an [NFT 2.0](./digital-asset.md#deploying-an-nft-20) or [token contract](./digital-asset.md#deploying-a-fungible-token).
+utiliza el parámetro `isNFT` en [LSP7] para desplegar un [NFT 2.0](./digital-asset.md#deploying-an-nft-20) o un [contrato token](./digital-asset.md#deploying-a-fungible-token).
 :::
 
-### Controller Address
+### Dirección del controlador
 
-Set the address which should own your digital asset contract by passing the `controllerAddress` parameter. LSPFactory will transfer the token contract to the address specified here after setting the [LSP4 metadata](./digital-asset.md#adding-lsp4-metadata) on the smart contract.
+Establece la dirección que debe poseer tu contrato de activo digital pasando el parámetro `controllerAddress`. LSPFactory transferirá el contrato token a la dirección especificada aquí después de establecer los [metadatos LSP4](./digital-asset.md#adding-lsp4-metadata) en el contrato inteligente.
 
-### Adding LSP4 Metadata
+### Añadir metadatos LSP4
 
-[LSP7] and [LSP8] both adhere to the [LSP4 Digital Asset Metadata standard](../../../standards/nft-2.0/LSP4-Digital-Asset-Metadata.md). Developers can specify the LSP4Metadata by setting the `name`, `symbol`, `digitalAssetMetadata` and `creators` keys when deploying with LSPFactory.
+Tanto [LSP7] como [LSP8] se adhieren al [estándar de Metadatos de Activos Digitales LSP4](../../../standards/nft-2.0/LSP4-Digital-Asset-Metadata.md). Los desarrolladores pueden especificar los LSP4Metadata estableciendo las claves `name`, `symbol`, `digitalAssetMetadata` y `creators` al desplegar con LSPFactory.
 
 ```javascript
 await lspFactory.LSP8IdentifiableDigitalAsset.deploy({
     controllerAddress: '0x56fE4E7dc2bc0b6397E4609B07b4293482E3F72B',
-    name: 'MYTOKEN'
+    name: 'MITOKEN'
     symbol: 'DEMO',
     creators: ['0x7Ab53a0C861fb955050A8DA109eEeA5E61fd8Aa4', '0x6c1F3Ed2F99054C88897e2f32187ef15c62dC560'],
     digitalAssetMetadata: {
-      description: 'My NFT 2.0'
+      description: 'Mi NFT 2.0'
       ...
     }
 });
 ```
 
-The `name` and `symbol` keys are passed as deployment constructor parameters. These values will set the [`LSP4TokenName`](../../../standards/nft-2.0/LSP4-Digital-Asset-Metadata.md#lsp4tokenname) and [`LSP4TokenSymbol`](../../../standards/nft-2.0/LSP4-Digital-Asset-Metadata.md#lsp4tokensymbol) [ERC725Y] keys directly on the contract during deployment.
+Las claves `name` y `symbol` se pasan como parámetros del constructor de despliegue. Estos valores establecerán las claves [`LSP4TokenName`](../../../standards/nft-2.0/LSP4-Digital-Asset-Metadata.md#lsp4tokenname) y [`LSP4TokenSymbol`](../../../standards/nft-2.0/LSP4-Digital-Asset-Metadata.md#lsp4tokensymbol) [ERC725Y] directamente en el contrato durante el despliegue.
 
-Addresses passed inside the `creators` array will be set under the [LSP4Creators[]](../../../standards/nft-2.0/LSP4-Digital-Asset-Metadata#lsp4creators) [ERC725Y] key.
+Las direcciones pasadas dentro de la matriz `creators` se establecerán bajo la clave [LSP4Creators[]](../../../standards/nft-2.0/LSP4-Digital-Asset-Metadata#lsp4creators) [ERC725Y].
 
 :::warning
-LSPFactory does not set the [LSP3IssuedAssets key](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-3-UniversalProfile-Metadata.md#lsp3issuedassets) on any Universal Profile when deploying a digital asset. This key will have to be updated seperately.
+LSPFactory no establece la [clave LSP3IssuedAssets](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-3-UniversalProfile-Metadata.md#lsp3issuedassets) en ningún Perfil universal al desplegar un activo digital. Esta clave deberá actualizarse por separado.
 
 :::
 
-#### Digital Asset Metadata
+#### Metadatos de Activos Digitales
 
-Further Digital Asset metadata can be added by passing the `digitalAssetMetadata` parameter. This is metadata stored as JSON on a server and referenced from the contract by the [`LSP4Metadata`](../../../standards/nft-2.0/LSP4-Digital-Asset-Metadata.md#lsp4metadata) [ERC725Y] key.
+Se pueden añadir más Metadatos de Activos Digitales pasando el parámetro `digitalAssetMetadata`. Se trata de metadatos almacenados como JSON en un servidor y referenciados desde el contrato mediante la clave [`LSP4Metadata`](../../../standards/nft-2.0/LSP4-Digital-Asset-Metadata.md#lsp4metadata) [ERC725Y].
 
 :::info Info
-Digital Asset Metadata can be passed as either a JSON object containing the [LSP4Metadata](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-4-DigitalAsset-Metadata.md) you want to upload or a URL of your previously uploaded metadata.
+Los Metadatos de Activos Digitales pueden pasarse como un objeto JSON que contenga los [LSP4Metadata](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-4-DigitalAsset-Metadata.md) que quieres subir o como una URL de tus metadatos previamente subidos.
 :::
 
-If LSP4Metadata is passed as an object, LSPFactory will process and upload your metadata to IPFS.
+Si LSP4Metadata se pasa como un objeto, LSPFactory procesará y cargará los metadatos en IPFS.
 
 :::info
-See [Upload Options](././universal-profile#ipfs-upload-options) for details on how to specify a custom IPFS gateway.
+Consulta [Opciones de carga](././universal-profile#ipfs-upload-options) para obtener más información sobre cómo especificar una pasarela IPFS personalizada.
 :::
 
-```javascript title="Deploying an LSP8 Digital Asset with description and links set in the LSP4Metadata JSON"
+```javascript title="Despliegue de un Activo Digital LSP8 con descripción y enlaces establecidos en el JSON de LSP4Metadata"
 await lspFactory.LSP8IdentifiableDigitalAsset.deploy({
   digitalAssetMetadata: {
-    description: "My Digital Asset",
+    description: "Mi Activo Digital",
     links: [{
-      title: "LUKSO Docs",
+      title: "Documentación LUKSO",
       url: "https://docs.lukso.tech"
     }],
   },
@@ -164,15 +164,15 @@ await lspFactory.LSP8IdentifiableDigitalAsset.deploy({
 });
 ```
 
-LSP4 Metadata can also be passed with the `LSP4Metadata` key:
+Los metadatos LSP4 también se pueden pasar con la clave `LSP4Metadata`:
 
-```javascript title="Passing LSP4Metadata key"
+```javascript title="Pasando la clave LSP4Metadata"
 await lspFactory.LSP8IdentifiableDigitalAsset.deploy({
   digitalAssetMetadata: {
     LSP4Metadata: {
-      description: "My Digital Asset",
-      links: [{
-        title: "LUKSO Docs",
+      description: "Mi Activo Digital",
+    links: [{
+      title: "Documentación LUKSO",
         url: "https://docs.lukso.tech"
       }],
     },
@@ -181,25 +181,25 @@ await lspFactory.LSP8IdentifiableDigitalAsset.deploy({
 });
 ```
 
-Alternatively `digitalAssetMetadata` can be passed as a URL where the LSP4Metadata JSON file is stored. LSPFactory will download the JSON file before hashing it and generate the [JSONURL](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#JSONURL) value to be stored on the token contract's `LSP4Metadata` [ERC725Y] key.
+Alternativamente, `digitalAssetMetadata` puede pasarse como una URL en la que se almacena el archivo JSON de LSP4Metadata. LSPFactory descargará el archivo JSON antes de realizar el hash y generará el valor [JSONURL](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#JSONURL) que se almacenará en la clave [ERC725Y] `LSP4Metadata` del contrato del token.
 
-```javascript title='Providing a previously uploaded LSP4 metadata IPFS URL'
+```javascript title='Proporcionar una URL IPFS de metadatos LSP4 cargada previamente'
 await lspFactory.LSP8IdentifiableDigitalAsset.deploy({
   digitalAssetMetadata: 'ipfs://QmQ7Wq4y2gWiuzB4a4Wd6UiidKNpzCJRpgzFqQwzyq6SsV',
   ...
 });
 ```
 
-```javascript title='Providing a previously uploaded LSP4 metadata URL'
+```javascript title='Proporcionar una URL de metadatos LSP4 cargada previamente'
 await lspFactory.LSP8IdentifiableDigitalAsset.deploy({
   digitalAssetMetadata: 'https://mycoolserver.com/myProfile.json',
   ...
 });
 ```
 
-You can also provide the JSON file yourself to generate the hash value:
+También puedes proporcionar tú mismo el archivo JSON para generar el valor hash:
 
-```javascript title='Providing a previously uploaded LSP4 metadata URL and JSON file itself'
+```javascript title='Proporcionar una URL de metadatos LSP4 previamente cargada y el archivo JSON mismo'
 await lspFactory.LSP8IdentifiableDigitalAsset.deploy({
   digitalAssetMetadata: {
     json: lsp3ProfileJson,
@@ -209,9 +209,9 @@ await lspFactory.LSP8IdentifiableDigitalAsset.deploy({
 });
 ```
 
-Or you can provide the hash value and then uploaded file URL:
+O puedes proporcionar el valor hash y luego la URL del archivo subido:
 
-```javascript title='Providing a previously uploaded LSP4 metadata URL and hash values'
+```javascript title='Proporcionar una URL de metadatos LSP4 previamente cargada y valores hash'
 await lspFactory.LSP8IdentifiableDigitalAsset.deploy({
   digitalAssetMetadata: {
     hash: '0xfdafad027ecfe57eb4ad047b938805d1dec209d6e9f960fc320d7b9b11cbed14',
@@ -222,18 +222,18 @@ await lspFactory.LSP8IdentifiableDigitalAsset.deploy({
 });
 ```
 
-### Adding Images and Assets
+### Añadir Imágenes y Activos
 
-Images and assets can be included in the LSP4 Metadata file by passing them to the `images` and `assets` parameters of the `digitalAssetMetadata` object.
+Las imágenes y los activos pueden incluirse en el archivo de metadatos LSP4 pasándolos a los parámetros `images` y `assets` del objeto `digitalAssetMetadata`.
 
-#### Pre-uploaded Images
+#### Imágenes precargadas
 
-If you already have images and assets uploaded to IPFS, you can pass the metadata directly inside the `digitalAssetMetadata` object. This metadata will then be set in the LSP4DigitalAsset metadata JSON file and uploaded to IPFS.
+Si ya tienes imágenes y activos cargados en IPFS, puedes pasar los metadatos directamente al objeto `digitalAssetMetadata`. Estos metadatos se establecerán en el archivo JSON de metadatos de LSP4DigitalAsset y se cargarán en IPFS.
 
-Images can be passed inside the `images` parameter. This should contain an array of images related to the Digital Asset in multiple sizes. Image 0 should be the main image.
+Las imágenes pueden introducirse en el parámetro `images`. Éste debe contener un conjunto de imágenes relacionadas con el activo digital en varios tamaños. La imagen 0 debe ser la imagen principal.
 
 :::info
-Each element in the `images` array should itself be an array where each element is the metadata of different image size.
+Cada elemento del conjunto `images` debe ser a su vez un conjunto en el que cada elemento son los metadatos de diferentes tamaños de imagen.
 :::
 
 ```javascript
@@ -248,16 +248,16 @@ await lspFactory.LSP8IdentifiableDigitalAsset.deploy({
           hash: '0xfdafad027ecfe57eb4ad044b938805d1dec209d6e9f960fc320d7b9b11cced14',
           url: 'ipfs://QmPLqMFDxiUgYAom3Zg4SiwoxDaFcZpHXpCmiDzxrajSGp',
         }
-        ... // Multiple sizes of the image should be included
+        ... // Deben incluirse varios tamaños de la imagen
       ],
-      ... // Multiple images may be included
+      ... // Pueden incluirse varias imágenes
     ]
   },
   ...
 });
 ```
 
-An icon can also be passed for the Digital Asset. This should be multiple image sizes of the same icon image.
+También se puede pasar un icono para el Activo Digital. Debe tratarse de varios tamaños de la misma imagen de icono.
 
 ```javascript
 await lspFactory.LSP8IdentifiableDigitalAsset.deploy({
@@ -270,16 +270,16 @@ await lspFactory.LSP8IdentifiableDigitalAsset.deploy({
         hash: '0xfdafad027ecfe57eb4ad044b938805d1dec209d6e9f960fc320d7b9b11cced14',
         url: 'ipfs://QmPLqMFDxiUgYAom3Zg4SiwoxDaFcZpHXpCmiDzxrajSGp',
       }
-      ... // Multiple sizes of the icon image should be included
+      ... // Deben incluirse varios tamaños de la imagen del icono
     ]
   },
   ...
 });
 ```
 
-#### Pre-uploaded Assets
+#### Activos precargados
 
-Previously uploaded assets can be included by passing an array of asset metadata in the `assets` parameter.
+Los activos cargados previamente pueden incluirse pasando un conjunto de metadatos de activos en el parámetro `assets`.
 
 ```javascript
 await lspFactory.LSP8IdentifiableDigitalAsset.deploy({
@@ -298,12 +298,12 @@ await lspFactory.LSP8IdentifiableDigitalAsset.deploy({
 });
 ```
 
-#### Passing JavaScript File Object
+#### Pasar un objeto JavaScript File
 
-JavaScript offers a `File` object for easy handling of files inside a browser. Developers can pass this to the `images`, `assets` and `icon` fields to allow easy drag and drop of images from a user interface.
+JavaScript ofrece un objeto `File` para facilitar el manejo de archivos dentro de un navegador. Los desarrolladores pueden pasarlo a los campos `images`, `assets` y `icon` para permitir arrastrar y soltar imágenes fácilmente desde una interfaz de usuario.
 
 :::caution
-JavaScript's `File` object is only available when using JavaScript in the browser. If using LSPFactory in a Node.js environment, image metadata should be passed.
+El objeto `File` de JavaScript sólo está disponible cuando se utiliza JavaScript en el navegador. Si se utiliza LSPFactory en un entorno Node.js, se deben pasar los metadatos de la imagen.
 :::
 
 ```javascript
@@ -333,64 +333,64 @@ JavaScript's `File` object is only available when using JavaScript in the browse
 <script/>
 ```
 
-LSPFactory will create five resized versions of any passed images, with max sizes of `1800x1800`, `1024x1024`, `640x640`, `320x320`, `180x180`, or `256x256` and `32x32` if passed as an `icon`. These resized images will be set inside the LSP4 JSON metadata uploaded to IPFS and attached to the token contract.
+LSPFactory creará cinco versiones redimensionadas de cualquier imagen pasada, con tamaños máximos de `1800x1800`, `1024x1024`, `640x640`, `320x320`, `180x180`, o `256x256` y `32x32` si se pasa como un `icon`. Estas imágenes redimensionadas se establecerán dentro de los metadatos JSON de LSP4 cargados en IPFS y adjuntos al contrato de token.
 
-## Deployment Configuration
+## Configuración del Despliegue
 
-Developers can select a unique deployment configuration for their Digital Asset contract using the `options` parameter. This allows easy deployment of a specific version or implementation of a Digital Asset smart contract by passing the [`version`](./options.md#version) parameter.
+Los desarrolladores pueden seleccionar una configuración de despliegue única para su contrato de Activos Digitales utilizando el parámetro `options`. Esto permite un fácil despliegue de una versión o implementación específica de un contrato inteligente de Activos Digitales pasando el parámetro [`version`](./options.md#version).
 
-Under the [version](./options.md#version) parameter developers can pass a [version number](./options.md#version), [custom bytecode](./options.md#deploying-custom-bytecode) or a [base contract address](./options.md#custom-base-contract-address) to be used during deployment. By setting the [`deployProxy`](./options.md#deploy-proxy) parameter developers can specify whether the contract should be deployed using proxy deployment.
+Bajo el parámetro [version](./options.md#version) los desarrolladores pueden pasar un [número de versión](./options.md#version), [custom bytecode](./options.md#deploying-custom-bytecode) o una [base contract address](./options.md#custom-base-contract-address) para ser utilizada durante el despliegue. Estableciendo el parámetro [`deployProxy`](./options.md#deploy-proxy) los desarrolladores pueden especificar si el contrato debe desplegarse utilizando el despliegue proxy.
 
 :::info
-Read more about configuring proxy deployment and contract versioning [here](../deployment/options.md).
+Más información sobre la configuración del despliegue de proxy y el versionado de contratos [aquí](../deployment/options.md).
 
 :::
 
-```js title="Passing LSP7DigitalAsset contract options"
+```js title="Pasar opciones de contrato LSP7DigitalAsset"
 await lspFactory.LSP7DigitalAsset.deploy({...}, {
     LSP7DigitalAsset: {
-        version: '0x...', // Custom bytecode
+        version: '0x...', // Código byte personalizado
         deployProxy: false
     },
 })
 ```
 
-```js title="Passing LSP8IdentifiableDigitalAsset contract options"
+```js title="Pasar opciones de contrato LSP8IdentifiableDigitalAsset"
 await lspFactory.LSP8IdentifiableDigitalAsset.deploy({...}, {
     LSP8IdentifiableDigitalAsset: {
-        version: '0x87cd003F9Ac7d6eBcd811f7b427c7dBF6f6ba132', // Custom base contract address
+        version: '0x87cd003F9Ac7d6eBcd811f7b427c7dBF6f6ba132', // Dirección del contrato tipo personalizado
         deployProxy: true
     },
 })
 ```
 
-### Proxy Deployment
+### Despliegue Proxy
 
-By passing the [`deployProxy`](./options.md#deploy-proxy) parameter developers can determine whether their digital asset smart contract should be deployed as a **minimal proxy contract** based on [EIP1167](https://eips.ethereum.org/EIPS/eip-1167) or an entire contract with a constructor.
+Pasando el parámetro [`deployProxy`](./options.md#deploy-proxy) los desarrolladores pueden determinar si su contrato inteligente de activos digitales debe desplegarse como un **contrato proxy mínimo** basado en [EIP1167](https://eips.ethereum.org/EIPS/eip-1167) o como un contrato completo con un constructor.
 
 :::info
-`deployProxy` defaults to `true` for both LSP7 and LSP8. If `deployProxy` is set to false, a full contract with a constructor will be deployed at the latest version.
+El valor predeterminado de `deployProxy` es `true` tanto para LSP7 como para LSP8. Si `deployProxy` se establece en false, se desplegará un contrato completo con un constructor en la última versión.
 :::
 
-### IPFS Upload Options
+### Opciones de carga IPFS
 
-You can specify how you want your profile metadata to be uploaded by passing the `ipfsGateway` inside the `options` object. Here you can set the IPFS gateway where you want the metadata to be uploaded.
+Puedes especificar cómo quieres que se carguen los metadatos de tu perfil pasando el `ipfsGateway` dentro del objeto `options`. Aquí puedes establecer la pasarela IPFS donde quieres que se carguen los metadatos.
 
 :::note
-The procedure takes a URL string or an object as defined by the [IPFS-HTTP Client](https://github.com/ipfs/js-ipfs/tree/master/packages/ipfs-http-client#createoptions) library which is used internally to interact with the specified IPFS node.
+El procedimiento toma una cadena URL o un objeto definido por la librería [IPFS-HTTP Client](https://github.com/ipfs/js-ipfs/tree/master/packages/ipfs-http-client#createoptions) que se utiliza internamente para interactuar con el nodo IPFS especificado.
 :::
 
-If a URL is passed and no port is specified, the standard 5001 port will be used.
+Si se pasa una URL y no se especifica ningún puerto, se utilizará el puerto estándar 5001.
 
-```javascript title="Passing ipfsGateway URL"
+```javascript title="Pasar la URL de ipfsGateway"
 lspFactory.LSP7DigitalAsset.deploy({...}, {
   ipfsGateway: 'https://ipfs.infura.io:5001'
 })
 ```
 
-```javascript title="Passing ipfsGateway URL string with port set"
+```javascript title="Pasar cadena URL ipfsGateway con puerto establecido"
 lspFactory.LSP7DigitalAsset.deploy({...}, {
-  ipfsGateway: 'https://ipfs.infura.io' // No port set. Port 5001 will be used
+  ipfsGateway: 'https://ipfs.infura.io' // No se ha configurado ningún puerto. Se utilizará el puerto 5001
 })
 ```
 
@@ -404,28 +404,28 @@ await lspFactory.LSP7DigitalAsset.deploy({...}, {
 });
 ```
 
-If the `ipfsGateway` parameter is provided, it will override the `ipfsGateway` object passed during the instantiation of the LSPFactory for this function call only.
+Si se proporciona el parámetro `ipfsGateway`, se sobrescribirá el objeto `ipfsGateway` pasado durante la instanciación del LSPFactory sólo para esta llamada a la función.
 
-### Reactive Deployment
+### Despliegue Reactivo
 
-LSPFactory emits events for each step of the deployment process. These events can be hooked into by passing the `onDeployEvents` object inside of the `options` object.
+LSPFactory emite eventos para cada paso del proceso de despliegue. Estos eventos pueden ser enganchados pasando el objeto `onDeployEvents` dentro del objeto `options`.
 
-The `onDeployEvents` object takes three callback handler parameters:
+El objeto `onDeployEvents` recibe tres parámetros de llamada de retorno:
 
-- `next` will be called once for every deployment event that is fired.
-- `complete` will be called once after deployment is finished with the completed contract deployment details.
-- `error` will be called once if an error is thrown during deployment.
+- `next` será llamado una vez por cada evento de despliegue que se dispare.
+- `complete` será llamado una vez que el despliegue haya finalizado con los detalles de despliegue del contrato completado.
+- `error` se llamará una vez si se produce un error durante el despliegue.
 
-This enables LSPFactory to be used for certain reactive behaviors. For example, to give better feedback to users during deployment from a user interface such as a loading bar, or display live updates with the details and addresses of contracts as they are deployed.
+Esto permite utilizar LSPFactory para ciertos comportamientos reactivos. Por ejemplo, para dar una mejor retroalimentación a los usuarios durante el despliegue desde una interfaz de usuario como una barra de carga, o mostrar actualizaciones en vivo con los detalles y direcciones de los contratos a medida que se despliegan.
 
 :::info
-The `complete` callback will be called with the same contracts object which is returned when the `deploy` function is resolved.
+El callback `complete` será llamado con el mismo objeto contract que es devuelto cuando se resuelve la función `deploy`.
 
 :::
 
-#### LSP7 Deployment Events
+#### Eventos de despliegue de LSP7
 
-```javascript title="Reactive deployment of an LSP7 Digital Asset"
+```javascript title="Despliegue reactivo de un Activo Digital LSP7"
 const contracts = lspFactory.LSP7DigitalAsset.deploy({...}, {
   onDeployEvents: {
     next: (deploymentEvent) => {
@@ -435,7 +435,7 @@ const contracts = lspFactory.LSP7DigitalAsset.deploy({...}, {
       console.error(error);
     },
     complete: (contracts) => {
-      console.log('Digital Asset deployment completed');
+      console.log('Despliegue de Activos Digitales completado');
       console.log(contracts.LSP7DigitalAsset);
     },
   }
@@ -513,7 +513,7 @@ const contracts = lspFactory.LSP7DigitalAsset.deploy({...}, {
     ...
   }
 }
-Digital Asset deployment completed
+Despliegue de Activos Digitales completado
 {
   address: '0x97053C386eaa49d6eAD7477220ca04EFcD857dde',
   receipt: {
@@ -523,9 +523,9 @@ Digital Asset deployment completed
 */
 ```
 
-#### LSP8 Deployment Events
+#### Eventos de Despliegue de LSP8
 
-```typescript title="Reactive deployment of an LSP8 Identifiable Digital Asset"
+```typescript title="Despliegue reactivo de un Activo Digital Identificable LSP8"
 const contracts = lspFactory.LSP8IdentifiableDigitalAsset.deploy({...}, {
   onDeployEvents: {
     next: (deploymentEvent) => {
@@ -535,7 +535,7 @@ const contracts = lspFactory.LSP8IdentifiableDigitalAsset.deploy({...}, {
       console.error(error);
     },
     complete: (contracts) => {
-      console.log('Digital Asset deployment completed');
+      console.log('Despliegue de Activos Digitales completado');
       console.log(contracts.LSP8IdentifiableDigitalAsset);
     },
   }
@@ -613,7 +613,7 @@ const contracts = lspFactory.LSP8IdentifiableDigitalAsset.deploy({...}, {
     ...
   }
 }
-Digital Asset deployment completed
+Despliegue de Activos Digitales completado
 {
   address: '0x2cA038832c15E61b83d47414Eb53818a45e0E142',
   receipt: {

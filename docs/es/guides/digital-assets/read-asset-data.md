@@ -1,20 +1,20 @@
 ---
-sidebar_label: 'Read Asset Data'
+sidebar_label: 'Leer Datos de Activos'
 sidebar_position: 4
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Read Asset Data
+# Leer Datos de Activos
 
-In this guide, we will learn how to:
+En esta guía, aprenderemos cómo:
 
-- Get all assets owned by a Universal Profile.
-- Fetch the metadata of all owned assets.
+- Obtener todos los activos propiedad de un Perfil Universal.
+- Obtener los metadatos de todos los activos en cartera.
 
 :::tip
-A complete _"ready to use"_ JS file is available at the end in the [**Final Code**](#final-code) section. If you want to run the code as standalone JavaScript files within the terminal or the browser, you can open the [`lukso-playground`](https://github.com/lukso-network/lukso-playground) repository or use the correlated [StackBlitz](https://stackblitz.com/github/lukso-network/lukso-playground) page.
+Un archivo JS completo _"listo para usar"_ está disponible al final en la sección [**Código Final**](#final-code). Si deseas ejecutar el código como archivos JavaScript independientes dentro de la terminal o el navegador, puedes abrir el repositorio [`lukso-playground`](https://github.com/lukso-network/lukso-playground) o utilizar la página correlacionada [StackBlitz](https://stackblitz.com/github/lukso-network/lukso-playground).
 :::
 
 <div style={{textAlign: 'center', color: 'grey'}}>
@@ -23,56 +23,56 @@ A complete _"ready to use"_ JS file is available at the end in the [**Final Code
     alt="Asset example on universalprofile.cloud"
   />
 <br/>
-<i>The <a href="https://universalprofile.cloud/asset/0xbD14F48DDDe851b812D95431906E629fb9514Db4">Lambada Dyed Red White Blue</a> asset as seen on UniversalProfile.cloud</i>
+<i>El activo <a href="https://universalprofile.cloud/asset/0xbD14F48DDDe851b812D95431906E629fb9514Db4">Lambada Dyed Red White Blue</a> como se muestra en UniversalProfile.cloud</i>
 </div>
 
-We will use:
+Utilizaremos:
 
-- [web3.js](https://web3js.readthedocs.io/en/v1.7.0/) for utility as well as connecting to the LUKSO L14 or L16 network.
-- [erc725.js](../../tools/erc725js/getting-started/) library to fetch the asset metadata.
-- [lsp-smart-contracts](https://github.com/lukso-network/lsp-smart-contracts) to integrate the ABIs for the LUKSO Standards.
+- [web3.js](https://web3js.readthedocs.io/en/v1.7.0/) para la utilidad así como la conexión a la red LUKSO L14 o L16.
+- librería [erc725.js](../../tools/erc725js/getting-started/) para obtener los metadatos de los activos.
+- lsp-smart-contracts](https://github.com/lukso-network/lsp-smart-contracts) para integrar las ABI de los estándares LUKSO.
 
-## Setup
+## Configuración
 
-Open a terminal in the project's folder of your choice and install all required libraries.
+Abre una terminal en la carpeta del proyecto que elijas e instala todas las librerías necesarias.
 
 ```shell
 npm install web3 @erc725/erc725.js @lukso/lsp-smart-contracts
 ```
 
-## Step 1 - Get all owned assets
+## Paso 1 - Obtener todos los bienes en propiedad
 
 <Tabs>
   <TabItem value="Current Standard" label="Current Standard">
 
-In the [**Read Profile Data** guide](../universal-profile/read-profile-data), we learned how to read the Universal Profile properties and use the data key names with the `fetchData()` function of the [erc725.js](../../tools/erc725js/getting-started/) library. In the same way, we can now fetch all the assets owned by the Universal Profile by calling `fetchData` and passing the `LSP5ReceivedAssets[]` key.
+En la guía [**Leer datos del perfil**](../universal-profile/read-profile-data), aprendimos a leer las propiedades del Perfil Universal y a utilizar los nombres de las claves de datos con la función `fetchData()` de la librería [erc725.js](../../tools/erc725js/getting-started/). Del mismo modo, ahora podemos obtener todos los activos que posee el Perfil Universal llamando a `fetchData` y pasando la clave `LSP5ReceivedAssets[]`.
 
 :::info
-This same method can also be used to fetch all assets a Universal Profile has ever issued by using the `LSP12IssuedAssets[]` key.
+Este mismo método también se puede utilizar para obtener todos los activos que ha emitido un Perfil Universal mediante la clave `LSP12IssuedAssets[]`.
 
 :::
 
 :::caution
-If using erc725.js in a NodeJS environment you may need to install and import [`isomorphic-fetch`](https://www.npmjs.com/package/isomorphic-fetch) to use the `fetchData()` method.
+Si utilizas erc725.js en un entorno NodeJS puede que necesites instalar e importar [`isomorphic-fetch`](https://www.npmjs.com/package/isomorphic-fetch) para utilizar el método `fetchData()`.
 
 :::
 
 ```javascript title="read_assets.js"
-// Import and network setup
+// Importación y Configuración de red
 import { ERC725 } from '@erc725/erc725.js';
 import UniversalProfileSchema from '@erc725/erc725.js/schemas/LSP3UniversalProfileMetadata.json';
 import Web3 from 'web3';
 
-// Static variables
+// Variables estáticas
 const SAMPLE_PROFILE_ADDRESS = '0xa907c1904c22DFd37FF56c1f3c3d795682539196';
 const RPC_ENDPOINT = 'https://rpc.l16.lukso.network';
 const IPFS_GATEWAY = 'https://2eff.lukso.dev/ipfs/';
 
-// Parameters for the ERC725 instance
+// Parámetros para la instancia ERC725
 const provider = new Web3.providers.HttpProvider(RPC_ENDPOINT);
 const config = { ipfsGateway: IPFS_GATEWAY };
 
-// Fetch the LSP5 data of the Universal Profile to get its owned assets
+// Consultar los datos LSP5 del Perfil Universal para obtener los activos que posee.
 const profile = new ERC725(
   UniversalProfileSchema,
   SAMPLE_PROFILE_ADDRESS,
@@ -90,29 +90,29 @@ console.log(ownedAssets);
 
   <TabItem value="Legacy Standard" label="Legacy Standard">
 
-In the [previous guide](../universal-profile/read-profile-data), we learned how to read the Universal Profile properties and use the data key names with the `fetchData()` function of the [erc725.js](../../tools/erc725js/getting-started/) library. In the same way, we can now fetch the address of the [Universal Receiver](../../standards/generic-standards/lsp1-universal-receiver/) by using `fetchData("LSP1UniversalReceiverDelegate")`.
+En la [guía anterior](../universal-profile/read-profile-data), aprendimos a leer las propiedades del perfil universal y a utilizar los nombres de las claves de datos con la función `fetchData()` de la librería [erc725.js](../../tools/erc725js/getting-started/). Del mismo modo, ahora podemos obtener la dirección del [Receptor Universal](../../standards/generic-standards/lsp1-universal-receiver/) utilizando `fetchData("LSP1UniversalReceiverDelegate")`.
 
 :::caution
-If using erc725.js in a NodeJS environment you may need to install and import [`isomorphic-fetch`](https://www.npmjs.com/package/isomorphic-fetch) to use the `fetchData()` method.
+Si utilizas erc725.js en un entorno NodeJS puede que necesites instalar e importar [`isomorphic-fetch`](https://www.npmjs.com/package/isomorphic-fetch) para utilizar el método `fetchData()`.
 
 :::
 
 ```javascript title="read_assets.js"
-// Import and network setup
+// Importación y Configuración de red
 import { ERC725 } from '@erc725/erc725.js';
 import UniversalProfileSchema from '@erc725/erc725.js/schemas/LSP3UniversalProfileMetadata.json';
 import Web3 from 'web3';
 
-// Static variables
+// Variables estáticas
 const SAMPLE_PROFILE_ADDRESS = '0x0C03fBa782b07bCf810DEb3b7f0595024A444F4e';
 const RPC_ENDPOINT = 'https://rpc.l14.lukso.network';
 const IPFS_GATEWAY = 'https://2eff.lukso.dev/ipfs/';
 
-// Parameters for the ERC725 instance
+// Parámetros para la instancia ERC725
 const provider = new Web3.providers.HttpProvider(RPC_ENDPOINT);
 const config = { ipfsGateway: IPFS_GATEWAY };
 
-// Fetch the LSP1 data of the Universal Profile to get its Universal Receiver
+// Consultar los datos LSP5 del Perfil Universal para obtener los activos que posee.
 const profile = new ERC725(
   UniversalProfileSchema,
   SAMPLE_PROFILE_ADDRESS,
@@ -124,10 +124,10 @@ const result = await profile.fetchData('LSP1UniversalReceiverDelegate');
 const universalReceiverAddress = result.value;
 ```
 
-Using the Universal Receiver address, we can now call the `getAllRawValues()` function on this contract to retrieve an array of received assets.
+Usando la dirección del Receptor Delegado Universal, ahora podemos llamar a la función `getAllRawValues()` en este contrato para recuperar un conjunto de activos recibidos.
 
 <details>
-    <summary>LSP1 Legacy ABI</summary>
+    <summary>LSP1 ABI Legacy</summary>
 
 ```json title="lsp1_legacy_minimal_abi.json"
 [
@@ -150,24 +150,24 @@ Using the Universal Receiver address, we can now call the `getAllRawValues()` fu
 </details>
 
 ```javascript title="read_assets.js"
-// ABI for the Universal Receiver
+// ABI para el Receptor Delegado Universal
 import LSP1MinimalABI from './lsp1_legacy_minimal_abi.json';
 
 // ...
 
 const web3 = new Web3('https://rpc.l14.lukso.network');
 
-// Get all received assets from the Universal Receiver of the Universal Profile.
+// Obtener todos los activos recibidos desde el Receptor Delegado Universal del Perfil Universal.
 const universalReceiver = new web3.eth.Contract(
   LSP1MinimalABI,
   receiverAddress,
 );
 
 
-// Fetch all raw values
+// Consultar todos los valores brutos
 const rawValues = await universalReceiver.methods.getAllRawValues().call();
 
-// Convert raw values to addresses
+// Convertir valores brutos en direcciones
 const receivedAssets = rawValues.map((returnedRawValue) => {
   return web3.utils.toChecksumAddress(returnedRawValue.substr(26));
 });
@@ -179,16 +179,16 @@ console.log(receivedAssets),
   </TabItem>
 </Tabs>
 
-## Step 2 - Fetch the asset metadata
+## Paso 2 - Obtener los metadatos del activo
 
-Now we can retrieve the metadata for the asset address. The [LSP4](../../standards/nft-2.0/LSP4-Digital-Asset-Metadata) metadata is saved under the ERC725Y key-value store of the digital asset. We need to input the correct data key to fetch the associated value. There are multiple [LSP4 keys](../../standards/nft-2.0/LSP4-Digital-Asset-Metadata) for different properties.
+Ahora podemos recuperar los metadatos de la dirección del activo. Los metadatos [LSP4](../../standards/nft-2.0/LSP4-Digital-Asset-Metadata) se guardan en el almacén de valores clave ERC725Y del activo digital. Debemos introducir la clave de datos correcta para obtener el valor asociado. Existen varias [claves LSP4](../../standards/nft-2.0/LSP4-Digital-Asset-Metadata) para distintas propiedades.
 
 - `LSP4TokenName`
 - `LSP4TokenSymbol`
 - `LSP4Metadata`
 - `LSP4Creators[]`
 
-In this guide, we will use the `LSP4Metadata` key to read the asset metadata.
+En esta guía, utilizaremos la clave `LSP4Metadata` para leer los metadatos de los activos.
 
 ```javascript title="read_assets.js"
 // ABIs
@@ -196,14 +196,14 @@ import LSP4schema from '@erc725/erc725.js/schemas/LSP4DigitalAsset.json';
 
 // ...
 
-// Instantiate the asset
+// Instanciar el activo
 const digitalAsset = new ERC725(LSP4Schema, ownedAssets[0], provider, config);
 
-// Get the encoded data
+// Obtener los datos cifrados
 const decodedAssetMetadata = await digitalAsset.fetchData('LSP4Metadata');
 ```
 
-To get the metadata of all owned assets we can iterate through the `ownedAssets` array.
+Para obtener los metadatos de todos los activos en propiedad, podemos iterar a través del conjunto `ownedAssets`.
 
 ```javascript
 const ownedAssetsMetadata = await ownedAssets.map(async (ownedAsset) => {
@@ -213,31 +213,31 @@ const ownedAssetsMetadata = await ownedAssets.map(async (ownedAsset) => {
 });
 ```
 
-## Final Code
+## Código final
 
-Below is the complete code snippet of this guide, with all the steps compiled together.
+A continuación se muestra el fragmento de código completo de esta guía, con todos los pasos compilados juntos.
 
 <Tabs>
   
   <TabItem value="Current Standards" label="Current Standards">
 
 ```javascript title="read_assets.js"
-// Import and network setup
+// Importación y Configuración de red
 import { ERC725 } from '@erc725/erc725.js';
 import UniversalProfileSchema from '@erc725/erc725.js/schemas/LSP3UniversalProfileMetadata.json';
 import LSP4Schema from '@erc725/erc725.js/schemas/LSP4DigitalAsset.json';
 import Web3 from 'web3';
 
-// Static variables
+// Variables estáticas
 const SAMPLE_PROFILE_ADDRESS = '0xa907c1904c22DFd37FF56c1f3c3d795682539196';
 const RPC_ENDPOINT = 'https://rpc.l16.lukso.network';
 const IPFS_GATEWAY = 'https://2eff.lukso.dev/ipfs/';
 
-// Parameters for the ERC725 instance
+// Parámetros para la instancia ERC725
 const provider = new Web3.providers.HttpProvider(RPC_ENDPOINT);
 const config = { ipfsGateway: IPFS_GATEWAY };
 
-// Fetch the LSP5 data of the Universal Profile to get its owned assets
+// Consultar los datos LSP5 del Perfil Universal para obtener los activos que posee.
 const profile = new ERC725(
   UniversalProfileSchema,
   SAMPLE_PROFILE_ADDRESS,
@@ -249,10 +249,10 @@ const result = await profile.fetchData('LSP5ReceivedAssets[]');
 const ownedAssets = result.value;
 
 const ownedAssetsMetadata = await ownedAssets.map(async (ownedAsset) => {
-  // Instantiate the asset
+  // Instanciar el activo
   const digitalAsset = new ERC725(LSP4Schema, ownedAsset, provider, config);
 
-  // Get the encoded data
+  // Obtener los datos cifrados
   return await digitalAsset.fetchData('LSP4Metadata');
 });
 
@@ -264,7 +264,7 @@ console.log(ownedAssetsMetadata);
   <TabItem value="Legacy Standards" label="Legacy Standards">
 
 <details>
-    <summary>LSP1 Legacy ABI</summary>
+    <summary>LSP1 ABI Legacy</summary>
 
 ```json title="lsp1_legacy_minimal_abi.json"
 [
@@ -287,23 +287,23 @@ console.log(ownedAssetsMetadata);
 </details>
 
 ```javascript title="read_assets.js"
-// Import and network setup
+// Importación y Configuración de red
 import { ERC725 } from '@erc725/erc725.js';
 import UniversalProfileSchema from '@erc725/erc725.js/schemas/LSP3UniversalProfileMetadata.json';
 import LSP4Schema from '@erc725/erc725.js/schemas/LSP4DigitalAsset.json';
 import Web3 from 'web3';
 import LSP1MinimalABI from './lsp1_legacy_minimal_abi.json';
 
-// Static variables
+// Variables estáticas
 const SAMPLE_PROFILE_ADDRESS = '0x0C03fBa782b07bCf810DEb3b7f0595024A444F4e';
 const RPC_ENDPOINT = 'https://rpc.l14.lukso.network';
 const IPFS_GATEWAY = 'https://2eff.lukso.dev/ipfs/';
 
-// Parameters for the ERC725 instance
+// Parámetros para la instancia ERC725
 const provider = new Web3.providers.HttpProvider(RPC_ENDPOINT);
 const config = { ipfsGateway: IPFS_GATEWAY };
 
-// Fetch the LSP1 data of the Universal Profile to get its Universal Receiver
+// Consultar los datos LSP5 del Perfil Universal para obtener los activos que posee.
 const profile = new ERC725(
   UniversalProfileSchema,
   SAMPLE_PROFILE_ADDRESS,
@@ -316,25 +316,25 @@ const universalReceiverAddress = result.value;
 
 const web3 = new Web3(RPC_ENDPOINT);
 
-// Get all received assets from the Universal Receiver of the Universal Profile.
+// Obtener todos los activos recibidos desde el Receptor Delegado Universal del Perfil Universal.
 const universalReceiver = new web3.eth.Contract(
   LSP1MinimalABI,
   receiverAddress,
 );
 
-// Fetch all raw values
+// Consultar todos los valores brutos
 const rawValues = await universalReceiver.methods.getAllRawValues().call();
 
-// Convert raw values to addresses
+// Convertir valores brutos en direcciones
 const ownedAssets = rawValues.map((returnedRawValue) => {
   return web3.utils.toChecksumAddress(returnedRawValue.substr(26));
 });
 
 const ownedAssetsMetadata = await ownedAssets.map(async (ownedAsset) => {
-  // Instantiate the asset
+  // Instanciar el activo
   const digitalAsset = new ERC725(LSP4Schema, ownedAsset, provider, config);
 
-  // Get the encoded data
+  // Obtener los datos cifrados
   return await digitalAsset.fetchData('LSP4Metadata');
 });
 

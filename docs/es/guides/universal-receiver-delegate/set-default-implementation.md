@@ -1,35 +1,35 @@
 ---
-sidebar_label: 'Set the default implementation'
+sidebar_label: 'Establecer la implementación por defecto'
 sidebar_position: 1
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Set the default implementation
+# Establecer la implementación por defecto
 
 :::note
 
-Users deploying their Universal Profiles using the guides that utilize **[lsp-factory](../universal-profile/create-profile.md)** or the **[Browser Extension](../browser-extension/create-a-universal-profile.md)** can skip this guide, as this contract is already deployed and set for their profiles.
+Los usuarios que desplieguen sus Perfiles Universales siguiendo las guías que utilizan **[lsp-factory](../universal-profile/create-profile.md)** o la **[Extensión del navegador](../browser-extension/create-a-universal-profile.md)** pueden saltarse esta guía, ya que este contrato ya está desplegado y configurado para sus perfiles.
 
 :::
 
-This guide will teach you how to deploy and set the default implementation of the **[Universal Receiver Delegate](../../standards/smart-contracts/lsp1-universal-receiver-delegate-up.md)** (URD) used by the Universal Profile. This contract will register the addresses of the **[received assets](../../standards/universal-profile/lsp5-received-assets.md)** and **[vaults](../../standards/universal-profile/lsp10-received-vaults.md)** and will remove them on a balance equal to 0. This contract requires the [**`SUPER_SETDATA` Permission**](../../standards/universal-profile/lsp6-key-manager.md#super-permissions) to interact with the profile through the KeyManager.
+Esta guía te enseñará cómo implementar y establecer la implementación predeterminada del **[Receptor Delegado Universal](../../standards/smart-contracts/lsp1-universal-receiver-delegate-up.md)** (URD) utilizado por el Perfil Universal. Este contrato registrará las direcciones de los **[activos recibidos](../../standards/universal-profile/lsp5-received-assets.md)** y **[bóvedas](../../standards/universal-profile/lsp10-received-vaults. md)** y los eliminará cuando el saldo sea igual a 0. Este contrato requiere el permiso [**`SUPER_SETDATA` Permission**](../../standards/universal-profile/lsp6-key-manager.md#super-permissions) para interactuar con el perfil a través del Gestor de Claves.
 
-![UniversalReceiverDelegate setting data keys on profile](/img/standards/lsp1delegate/token-transfer-4.jpg)
+![UniversalReceiverDelegate estableciendo claves de datos en el perfil](/img/standards/lsp1delegate/token-transfer-4.jpg)
 
-## Setup
+## Configuración
 
-Make sure you have the following dependencies installed before beginning this tutorial:
+Asegúrate de tener instaladas las siguientes dependencias antes de empezar este tutorial:
 
-- Either [`web3.js`](https://github.com/web3/web3.js) or [`ethers.js`](https://github.com/ethers-io/ethers.js/)
+- O bien [`web3.js`](https://github.com/web3/web3.js) o bien [`ethers.js`](https://github.com/ethers-io/ethers.js/)
 - [`@lukso/lsp-smart-contracts`](https://github.com/lukso-network/lsp-smart-contracts/)
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```shell title="Install the dependencies"
+```shell title="Instalar las dependencias"
 npm install web3 @lukso/lsp-smart-contracts
 ```
 
@@ -37,7 +37,7 @@ npm install web3 @lukso/lsp-smart-contracts
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```shell title="Install the dependencies"
+```shell title="Instalar las dependencias"
 npm install ethers @lukso/lsp-smart-contracts
 ```
 
@@ -45,17 +45,17 @@ npm install ethers @lukso/lsp-smart-contracts
 
 </Tabs>
 
-## Step 1 - Imports, constants and EOA
+## Paso 1 - Importaciones, Constantes y EOA
 
-For beginners we need to get the _ABIs_ of the contracts that we will use and the _bytecode_ of the `LSP1UniversalReceiverDelegateUP`.  
-After that we need to store the address of our Universal Profile.  
-Then we will initialize the EOA that we will further use.
+Para empezar necesitamos obtener los _ABIs_ de los contratos que vamos a utilizar y el _bytecode_ del `LSP1UniversalReceiverDelegateUP`.  
+A continuación almacenaremos la dirección de nuestro perfil universal.  
+Luego inicializaremos el EOA que utilizaremos más adelante.
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Imports, Constants & EOA"
+```typescript title="Importaciones, Constantes y EOA"
 import LSP1UniversalReceiverDelegateUP from '@lukso/lsp-smart-contracts/artifacts/LSP1UniversalReceiverDelegateUP.json';
 import UniversalProfile from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json';
 import LSP6KeyManager from '@lukso/lsp-smart-contracts/artifacts/LSP6KeyManager.json';
@@ -65,12 +65,12 @@ import {
 } from '@lukso/lsp-smart-contracts/constants.js';
 import Web3 from 'web3';
 
-// constants
+// constantes
 const web3 = new Web3('https://rpc.l16.lukso.network');
 const URD_DATA_KEY = ERC725YDataKeys.LSP1.LSP1UniversalReceiverDelegate;
 const universalProfileAddress = '0x...';
 
-// setup your EOA
+// configura tu EOA
 const privateKey = '0x...';
 const EOA = web3.eth.accounts.wallet.add(privateKey);
 ```
@@ -79,7 +79,7 @@ const EOA = web3.eth.accounts.wallet.add(privateKey);
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Imports, Constants & EOA"
+```typescript title="Importaciones, Constantes y EOA"
 import LSP1UniversalReceiverDelegateUP from '@lukso/lsp-smart-contracts/artifacts/LSP1UniversalReceiverDelegateUP.json';
 import UniversalProfile from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json';
 import LSP6KeyManager from '@lukso/lsp-smart-contracts/artifacts/LSP6KeyManager.json';
@@ -89,13 +89,13 @@ import {
 } from '@lukso/lsp-smart-contracts/constants.js';
 import { ethers } from 'ethers';
 
-// constants
+// constantes
 const provider = new ethers.JsonRpcProvider('https://rpc.l16.lukso.network');
 const URD_DATA_KEY = ERC725YDataKeys.LSP1.LSP1UniversalReceiverDelegate;
 const universalProfileAddress = '0x...';
 
-// setup your EOA
-const privateKey = '0x...'; // your EOA private key (controller address)
+// configura tu  EOA
+const privateKey = '0x...'; // tu clave privada EOA (dirección del controlador)
 const EOA = new ethers.Wallet(privateKey).connect(provider);
 ```
 
@@ -107,19 +107,19 @@ const EOA = new ethers.Wallet(privateKey).connect(provider);
 
 :::info
 
-The **Universal Profile** and the **Vault** don't use the same implementation of the Universal Receiver Delegate.
+El **Perfil Universal** y la **Bóveda** no utilizan la misma implementación del Receptor Delegado Universal.
 :::
 
-### Create a contract instance
+### Crear una instancia de contrato
 
-At this step we will create an instance of the Universal profile URD that we will further be used to deploy one.
+En este paso crearemos una instancia del URD del Perfil Universal que posteriormente utilizaremos para desplegar uno.
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Contract instance of the Universal Profile URD"
-// create an instance of the LSP1UniversalReceiverDelegateUP
+```typescript title="Instancia de contrato del URD del Perfil Universal"
+// crear una instancia del LSP1UniversalReceiverDelegateUP
 let universalProfileURD = new web3.eth.Contract(
   LSP1UniversalReceiverDelegateUP.abi,
 );
@@ -129,8 +129,8 @@ let universalProfileURD = new web3.eth.Contract(
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Contract instance of the Universal Profile URD"
-// create a LSP1UniversalReceiverDelegateUP Contract Factory
+```typescript title="Instancia de contrato del URD del Perfil Universal"
+// crear una Fábrica de Contratos LSP1UniversalReceiverDelegateUP
 let universalProfileURDFactory = new ethers.ContractFactory(
   LSP1UniversalReceiverDelegateUP.abi,
   LSP1UniversalReceiverDelegateUP.bytecode,
@@ -141,16 +141,16 @@ let universalProfileURDFactory = new ethers.ContractFactory(
 
 </Tabs>
 
-### Send the contract deployment transaction
+### Enviar la transacción de despliegue del contrato
 
-Send the deployment transaction to get a newly deployed URD.
+Envía la transacción de despliegue para obtener un URD recién desplegado.
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Send the transaction for deploying a new Universal Profile URD"
-// deploy the Universal Receiver Delegate UP contract
+```typescript title="Enviar la transacción para desplegar un nuevo URD del Perfil Universal"
+// desplegar el contrato del Receptor Delegado Universal UP
 await universalProfileURD
   .deploy({
     data: LSP1UniversalReceiverDelegateUP.bytecode,
@@ -166,8 +166,8 @@ await universalProfileURD
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Send the transaction for deploying a new Universal Profile URD"
-// deploy the Universal Receiver Delegate UP contract
+```typescript title="Enviar la transacción para desplegar un nuevo URD del Perfil Universal"
+// desplegar el contrato del Receptor Delegado Universal UP
 const universalProfileURD = await universalProfileURDFactory
   .connect(EOA)
   .deploy();
@@ -177,20 +177,20 @@ const universalProfileURD = await universalProfileURDFactory
 
 </Tabs>
 
-### Final code
+### Código final
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Deploy a Universal Receiver Delegate for the Universal Profile"
+```typescript title="Desplegar un Receptor Delegado Universal para el Perfil Universal"
 const deployUniversalProfileURD = async () => {
-  // create an instance of the LSP1UniversalReceiverDelegateUP
+  // crear una instancia del LSP1UniversalReceiverDelegateUP
   let universalProfileURD = new web3.eth.Contract(
     LSP1UniversalReceiverDelegateUP.abi,
   );
 
-  // deploy the Universal Receiver Delegate UP contract
+  // desplegar el contrato del Receptor Delegado Universal UP
   const universalProfileURDAddress = await universalProfileURD
     .deploy({
       data: LSP1UniversalReceiverDelegateUP.bytecode,
@@ -207,7 +207,7 @@ const deployUniversalProfileURD = async () => {
   return universalProfileURDAddress;
 };
 
-// deploy a new Universal Profile URD and retrieve its address
+// desplegar un nuevo URD del Perfil Universal y recuperar su dirección
 const universalProfileURDAddress = await deployUniversalProfileURD();
 ```
 
@@ -215,15 +215,15 @@ const universalProfileURDAddress = await deployUniversalProfileURD();
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Deploy a Universal Receiver Delegate for the Universal Profile"
+```typescript title="Desplegar un Receptor Delegado Universal para el Perfil Universal"
 const deployUniversalProfileURD = async () => {
-  // create a LSP1UniversalReceiverDelegateUP Contract Factory
+  // crear una Fábrica de Contratos LSP1UniversalReceiverDelegateUP
   let universalProfileURDFactory = new ethers.ContractFactory(
     LSP1UniversalReceiverDelegateUP.abi,
     LSP1UniversalReceiverDelegateUP.bytecode,
   );
 
-  // deploy the Universal Receiver Delegate UP contract
+  // desplegar el contrato del Receptor Delegado Universal UP
   const universalProfileURD = await universalProfileURDFactory
     .connect(EOA)
     .deploy();
@@ -231,7 +231,7 @@ const deployUniversalProfileURD = async () => {
   return universalProfileURD.target;
 };
 
-// deploy a new Universal Profile URD and retrieve its address
+// desplegar un nuevo URD del Perfil Universal y recuperar su dirección
 const universalProfileURDAddress = await deployUniversalProfileURD();
 ```
 
@@ -243,27 +243,27 @@ const universalProfileURDAddress = await deployUniversalProfileURD();
 
 After deploying the contract, we need to set its address under the **[LSP1-UniversalReceiverDelegate Data Key](../../standards/generic-standards/lsp1-universal-receiver.md#extension)** and grant it the **[SUPER_SETDATA](../../standards/universal-profile/lsp6-key-manager.md#super-permissions)** permission.
 
-### Create the contract instances
+### Crear las instancias de los contratos
 
-Firstly we need to create instances for the following contracts:
+En primer lugar necesitamos crear instancias para los siguientes contratos:
 
-- [**Universal Profile**](../../standards/universal-profile/lsp0-erc725account.md)
-- [**Key Manager**](../../standards/universal-profile/lsp6-key-manager.md)
+- [**Perfil universal**](../../standards/universal-profile/lsp0-erc725account.md)
+- [**Gestor de Claves**](../../standards/universal-profile/lsp6-key-manager.md)
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Contract instances for the Universal Profile & Key Manager"
-// create an instance of the Universal Profile
+```typescript title="Instancias de Contratos para el Perfil Universal y Gestor de Claves"
+// crear una instancia del Perfil Universal
 const universalProfile = new web3.eth.Contract(
   UniversalProfile.abi,
   universalProfileAddress,
 );
-// get the owner of the Universal Profile
-// in our case it should be the address of the Key Manager
+// obtener el propietario del Perfil Universal
+// en nuestro caso debería ser la dirección del Gestor de Claves
 const keyManagerAddress = await universalProfile.methods.owner().call();
-// create an instance of the Key Manager
+// crear una instancia del Gestor de Claves
 const keyManager = new web3.eth.Contract(LSP6KeyManager.abi, keyManagerAddress);
 ```
 
@@ -271,16 +271,16 @@ const keyManager = new web3.eth.Contract(LSP6KeyManager.abi, keyManagerAddress);
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Contract instances for the Universal Profile & Key Manager"
-// create an instance of the Universal Profile
+```typescript title="Instancias de Contratos para el Perfil Universal y Gestor de Claves"
+// crear una instancia del Perfil Universal
 const universalProfile = new ethers.Contract(
   universalProfileAddress,
   UniversalProfile.abi,
 );
-// get the owner of the Universal Profile
-// in our case it should be the address of the Key Manager
+// obtener el propietario del Perfil Universal
+// en nuestro caso debería ser la dirección del Gestor de Claves
 const keyManagerAddress = await universalProfile.methods.owner().call();
-// create an instance of the Key Manager
+// crear una instancia del Gestor de Claves
 const keyManager = new ethers.Contract(keyManagerAddress, LSP6KeyManager.abi);
 ```
 
@@ -288,15 +288,15 @@ const keyManager = new ethers.Contract(keyManagerAddress, LSP6KeyManager.abi);
 
 </Tabs>
 
-### Register URD on the UP + set the URD permissions
+### Registrar el URD en el UP + establecer los permisos del URD
 
-Generate _Data Keys & Values_ for [**adding a URD**](../../standards/generic-standards/lsp1-universal-receiver-delegate.md/#how-delegation-works) to the Universal Profile and for granting [**SUPER_SETDATA**](../../standards/universal-profile/lsp6-key-manager.md#super-permissions) permission to the **URD**.
+Generar _Claves y Valores de Datos_ para [**añadir un URD**](../../standards/generic-standards/lsp1-universal-receiver-delegate.md/#how-delegation-works) al Perfil Universal y para conceder [**SUPER_SETDATA**](../../standards/universal-profile/lsp6-key-manager.md#super-permissions) permiso al **URD**.
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Encode Data Keys & Values for updating the URD and its permissions"
+```typescript title="Cifrar Claves y Valores de Datos para actualizar el URD y sus permisos"
 const addressPermissionsOldArrayLengthHex = await myUP.methods[
   'getData(bytes32)'
 ](ERC725YDataKeys.LSP6['AddressPermissions[]'].length).call();
@@ -309,7 +309,7 @@ const addressPermissionsNewArrayLengthHex = web3.utils.padLeft(
   64,
 );
 
-// bytes16 index `addressPermissionsOldArrayLengthHex` will serve as index
+// el índice bytes16 `addressPermissionsOldArrayLengthHex` servirá como índice
 const newElementIndexInArrayHex = addressPermissionsOldArrayLengthHex.substring(
   34,
   66,
@@ -335,7 +335,7 @@ const dataValues = [
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Encode Data Keys & Values for updating the URD and its permissions"
+```typescript title="Cifrar Claves y Valores de Datos para actualizar el URD y sus permisos"
 const addressPermissionsOldArrayLengthHex = await myUP['getData(bytes32)'](
   ERC725YDataKeys.LSP6['AddressPermissions[]'].length,
 );
@@ -346,7 +346,7 @@ const addressPermissionsNewArrayLength =
 const addressPermissionsNewArrayLengthHex =
   '0x' + addressPermissionsNewArrayLength2.toString(16).padStart(64, '0');
 
-// bytes16 index `addressPermissionsOldArrayLengthHex` will serve as index
+// el índice bytes16 `addressPermissionsOldArrayLengthHex` servirá como índice
 const newElementIndexInArrayHex = addressPermissionsOldArrayLengthHex.substring(
   34,
   66,
@@ -372,16 +372,16 @@ const dataValues = [
 
 </Tabs>
 
-### Encode `setData(..)` calldata
+### Cifrar datos de llamada `setData(..)`.
 
-Encode a calldata for `setData(bytes32[],bytes[])` using the _dataKeys_ & _dataValues_ generated in the [**step before**](#step-32---encode-new-permissions-data-keys--values).
+Cifra un calldata para `setData(bytes32[],bytes[])` usando las _dataKeys_ & _dataValues_ generadas en el [**paso anterior**](#paso-32---encode-new-permissions-data-keys--values).
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Encode a calldata that will updated the URD and its permissions"
-// encode setData Calldata on the Universal Profile
+```typescript title="Cifrar un calldata que actualizará el URD y sus permisos"
+// cifrar setData Calldata en el Perfil Universal
 const setDataCalldata = await universalProfile.methods[
   'setData(bytes32[],bytes[])'
 ](dataKeys, dataValues).encodeABI();
@@ -391,8 +391,8 @@ const setDataCalldata = await universalProfile.methods[
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Encode a calldata that will updated the URD and its permissions"
-// encode setData Calldata on the Universal Profile
+```typescript title="Cifrar un calldata que actualizará el URD y sus permisos"
+// cifrar setData Calldata en el Perfil Universal
 const setDataCalldata = await universalProfile.interface.encodeFunctionData(
   'setData(bytes32[],bytes[])',
   [dataKeys, dataValues],
@@ -403,16 +403,16 @@ const setDataCalldata = await universalProfile.interface.encodeFunctionData(
 
 </Tabs>
 
-### Send transaction via Key Manager
+### Enviar transacción a través del Gestor de Claves
 
-Lastly, we need to send the transaction that will update the URD and its permissions on the Universal Profile via the Key Manager.
+Por último, debemos enviar la transacción que actualizará el URD y sus permisos en el Perfil Universal a través del Gestor de Claves.
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Execute the calldata on the Universal Profile via the Key Manager"
-// execute the `setDataCalldata` on the Key Manager
+```typescript title="Ejecutar el calldata en el Perfil Universal a través del Gestor de Claves"
+// ejecutar el `setDataCalldata` en el Gestor de Claves
 await keyManager.methods['execute(bytes)'](setDataCalldata).send({
   from: EOA.address,
   gasLimit: 600_000,
@@ -423,8 +423,8 @@ await keyManager.methods['execute(bytes)'](setDataCalldata).send({
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Execute the calldata on the Universal Profile via the Key Manager"
-// execute the `setDataCalldata` on the Key Manager
+```typescript title="Ejecutar el calldata en el Perfil Universal a través del Gestor de Claves"
+// ejecutar el `setDataCalldata` en el Gestor de Claves
 await keyManager.connect(EOA)['execute(bytes)'](setDataCalldata);
 ```
 
@@ -432,23 +432,23 @@ await keyManager.connect(EOA)['execute(bytes)'](setDataCalldata);
 
 </Tabs>
 
-### Final code
+### Código final
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Update the URD of the Universal Profile and its permissions"
+```typescript title="Actualizar el URD del Perfil Universal y sus permisos"
 const updateUniversalProfileURD = async (vaultURDAddress) => {
-  // create an instance of the Universal Profile
+  // crear una instancia del Perfil Universal
   const universalProfile = new web3.eth.Contract(
     UniversalProfile.abi,
     universalProfileAddress,
   );
-  // get the owner of the Universal Profile
-  // in our case it should be the address of the Key Manager
+  // obtener el propietario del Perfil Universal
+  // en nuestro caso debería ser la dirección del Gestor de Claves
   const keyManagerAddress = await universalProfile.methods.owner().call();
-  // create an instance of the Key Manager
+  // crear una instancia del Gestor de Claves
   const keyManager = new web3.eth.Contract(
     LSP6KeyManager.abi,
     keyManagerAddress,
@@ -466,7 +466,7 @@ const updateUniversalProfileURD = async (vaultURDAddress) => {
     64,
   );
 
-  // bytes16 index `addressPermissionsOldArrayLengthHex` will serve as index
+  // el índice bytes16 `addressPermissionsOldArrayLengthHex` servirá como índice
   const newElementIndexInArrayHex =
     addressPermissionsOldArrayLengthHex.substring(34, 66);
 
@@ -485,19 +485,19 @@ const updateUniversalProfileURD = async (vaultURDAddress) => {
     PERMISSIONS.SUPER_SETDATA,
   ];
 
-  // encode setData Calldata on the Universal Profile
+  // cifrar setData Calldata en el Perfil Universal
   const setDataCalldata = await universalProfile.methods[
     'setData(bytes32[],bytes[])'
   ](dataKeys, dataValues).encodeABI();
 
-  // execute the `setDataCalldata` on the Key Manager
+  // ejecutar el `setDataCalldata` en el Gestor de Claves
   await keyManager.methods['execute(bytes)'](setDataCalldata).send({
     from: EOA.address,
     gasLimit: 600_000,
   });
 };
 
-// update the URD of the Universal profile
+// actualizar el URD del Perfil Universal
 await updateUniversalProfileURD(vaultURDAddress);
 ```
 
@@ -505,17 +505,17 @@ await updateUniversalProfileURD(vaultURDAddress);
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Update the URD of the Universal Profile and its permissions"
+```typescript title="Actualizar el URD del Perfil Universal y sus permisos"
 const updateUniversalProfileURD = async (vaultURDAddress) => {
-  // create an instance of the Universal Profile
+  // crear una instancia del Perfil Universal
   const universalProfile = new ethers.Contract(
     universalProfileAddress,
     UniversalProfile.abi,
   );
-  // get the owner of the Universal Profile
-  // in our case it should be the address of the Key Manager
+  // obtener el propietario del Perfil Universal
+  // en nuestro caso debería ser la dirección del Gestor de Claves
   const keyManagerAddress = await universalProfile.methods.owner().call();
-  // create an instance of the Key Manager
+  // crear una instancia del Gestor de Claves
   const keyManager = new ethers.Contract(keyManagerAddress, LSP6KeyManager.abi);
 
   const addressPermissionsOldArrayLengthHex = await myUP['getData(bytes32)'](
@@ -528,7 +528,7 @@ const updateUniversalProfileURD = async (vaultURDAddress) => {
   const addressPermissionsNewArrayLengthHex =
     '0x' + addressPermissionsNewArrayLength2.toString(16).padStart(64, '0');
 
-  // bytes16 index `addressPermissionsOldArrayLengthHex` will serve as index
+  // el índice bytes16 `addressPermissionsOldArrayLengthHex` servirá como índice
   const newElementIndexInArrayHex =
     addressPermissionsOldArrayLengthHex.substring(34, 66);
 
@@ -547,17 +547,17 @@ const updateUniversalProfileURD = async (vaultURDAddress) => {
     PERMISSIONS.SUPER_SETDATA,
   ];
 
-  // encode setData Calldata on the Universal Profile
+  // cifrar setData Calldata en el Perfil Universal
   const setDataCalldata = await universalProfile.interface.encodeFunctionData(
     'setData(bytes32[],bytes[])',
     [dataKeys, dataValues],
   );
 
-  // execute the `setDataCalldata` on the Key Manager
+  // ejecutar el `setDataCalldata` en el Gestor de Claves
   await keyManager.connect(EOA)['execute(bytes)'](setDataCalldata);
 };
 
-// update the URD of the Universal profile
+// actualizar el URD del Perfil Universal
 await updateUniversalProfileURD(vaultURDAddress);
 ```
 
@@ -571,7 +571,7 @@ await updateUniversalProfileURD(vaultURDAddress);
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Deploy a Universal Profile URD, update its permissions and add it to the Universal Profile"
+```typescript title="Desplegar un URD de Perfil Universal, actualizar sus permisos y añadirlo al Perfil Universal."
 import LSP1UniversalReceiverDelegateUP from '@lukso/lsp-smart-contracts/artifacts/LSP1UniversalReceiverDelegateUP.json';
 import UniversalProfile from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json';
 import LSP6KeyManager from '@lukso/lsp-smart-contracts/artifacts/LSP6KeyManager.json';
@@ -581,22 +581,22 @@ import {
 } from '@lukso/lsp-smart-contracts/constants.js';
 import Web3 from 'web3';
 
-// constants
+// constantes
 const web3 = new Web3('https://rpc.l16.lukso.network');
 const URD_DATA_KEY = ERC725YDataKeys.LSP1.LSP1UniversalReceiverDelegate;
 const universalProfileAddress = '0x...';
 
-// setup your EOA
+// configura tu EOA
 const privateKey = '0x...';
 const EOA = web3.eth.accounts.wallet.add(privateKey);
 
 const deployUniversalProfileURD = async () => {
-  // create an instance of the LSP1UniversalReceiverDelegateUP
+  // crear una instancia del LSP1UniversalReceiverDelegateUP
   let universalProfileURD = new web3.eth.Contract(
     LSP1UniversalReceiverDelegateUP.abi,
   );
 
-  // deploy the Universal Receiver Delegate UP contract
+  // desplegar el contrato del Receptor Delegado Universal UP
   const universalProfileURDAddress = await universalProfileURD
     .deploy({
       data: LSP1UniversalReceiverDelegateUP.bytecode,
@@ -614,15 +614,15 @@ const deployUniversalProfileURD = async () => {
 };
 
 const updateUniversalProfileURD = async (vaultURDAddress) => {
-  // create an instance of the Universal Profile
+  // crear una instancia del Perfil Universal
   const universalProfile = new web3.eth.Contract(
     UniversalProfile.abi,
     universalProfileAddress,
   );
-  // get the owner of the Universal Profile
-  // in our case it should be the address of the Key Manager
+  // obtener el propietario del Perfil Universal
+  // en nuestro caso debería ser la dirección del Gestor de Claves
   const keyManagerAddress = await universalProfile.methods.owner().call();
-  // create an instance of the Key Manager
+  // crear una instancia del Gestor de Claves
   const keyManager = new web3.eth.Contract(
     LSP6KeyManager.abi,
     keyManagerAddress,
@@ -640,7 +640,7 @@ const updateUniversalProfileURD = async (vaultURDAddress) => {
     64,
   );
 
-  // bytes16 index `addressPermissionsOldArrayLengthHex` will serve as index
+  // el índice bytes16 `addressPermissionsOldArrayLengthHex` servirá como índice
   const newElementIndexInArrayHex =
     addressPermissionsOldArrayLengthHex.substring(34, 66);
 
@@ -659,22 +659,22 @@ const updateUniversalProfileURD = async (vaultURDAddress) => {
     PERMISSIONS.SUPER_SETDATA,
   ];
 
-  // encode setData Calldata on the Universal Profile
+  // cifrar setData Calldata en el Perfil Universal
   const setDataCalldata = await universalProfile.methods[
     'setData(bytes32[],bytes[])'
   ](dataKeys, dataValues).encodeABI();
 
-  // execute the `setDataCalldata` on the Key Manager
+  // ejecutar el `setDataCalldata` en el Gestor de Claves
   await keyManager.methods['execute(bytes)'](setDataCalldata).send({
     from: EOA.address,
     gasLimit: 600_000,
   });
 };
 
-// deploy a new Universal Profile URD and retrieve its address
+// desplegar un nuevo URD del Perfil Universal y recuperar su dirección
 const universalProfileURDAddress = await deployUniversalProfileURD();
 
-// update the URD of the Universal profile
+// actualizar el URD del Perfil Universal
 await updateUniversalProfileURD(vaultURDAddress);
 ```
 
@@ -682,7 +682,7 @@ await updateUniversalProfileURD(vaultURDAddress);
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Deploy a Universal Profile URD, update its permissions and add it to the Universal Profile"
+```typescript title="Desplegar un URD de Perfil Universal, actualizar sus permisos y añadirlo al Perfil Universal."
 import LSP1UniversalReceiverDelegateUP from '@lukso/lsp-smart-contracts/artifacts/LSP1UniversalReceiverDelegateUP.json';
 import UniversalProfile from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json';
 import LSP6KeyManager from '@lukso/lsp-smart-contracts/artifacts/LSP6KeyManager.json';
@@ -692,23 +692,23 @@ import {
 } from '@lukso/lsp-smart-contracts/constants.js';
 import { ethers } from 'ethers';
 
-// constants
+// constantes
 const provider = new ethers.JsonRpcProvider('https://rpc.l16.lukso.network');
 const URD_DATA_KEY = ERC725YDataKeys.LSP1.LSP1UniversalReceiverDelegate;
 const universalProfileAddress = '0x...';
 
-// setup your EOA
-const privateKey = '0x...'; // your EOA private key (controller address)
+// configura tu  EOA
+const privateKey = '0x...'; // tu clave privada EOA (dirección del controlador)
 const EOA = new ethers.Wallet(privateKey).connect(provider);
 
 const deployUniversalProfileURD = async () => {
-  // create a LSP1UniversalReceiverDelegateUP Contract Factory
+  // crear una Fábrica de Contratos LSP1UniversalReceiverDelegateUP
   let universalProfileURDFactory = new ethers.ContractFactory(
     LSP1UniversalReceiverDelegateUP.abi,
     LSP1UniversalReceiverDelegateUP.bytecode,
   );
 
-  // deploy the Universal Receiver Delegate UP contract
+  // desplegar el contrato del Receptor Delegado Universal UP
   const universalProfileURD = await universalProfileURDFactory
     .connect(EOA)
     .deploy();
@@ -717,15 +717,15 @@ const deployUniversalProfileURD = async () => {
 };
 
 const updateUniversalProfileURD = async (vaultURDAddress) => {
-  // create an instance of the Universal Profile
+  // crear una instancia del Perfil Universal
   const universalProfile = new ethers.Contract(
     universalProfileAddress,
     UniversalProfile.abi,
   );
-  // get the owner of the Universal Profile
-  // in our case it should be the address of the Key Manager
+  // obtener el propietario del Perfil Universal
+  // en nuestro caso debería ser la dirección del Gestor de Claves
   const keyManagerAddress = await universalProfile.methods.owner().call();
-  // create an instance of the Key Manager
+  // crear una instancia del Gestor de Claves
   const keyManager = new ethers.Contract(keyManagerAddress, LSP6KeyManager.abi);
 
   const addressPermissionsOldArrayLengthHex = await myUP['getData(bytes32)'](
@@ -738,7 +738,7 @@ const updateUniversalProfileURD = async (vaultURDAddress) => {
   const addressPermissionsNewArrayLengthHex =
     '0x' + addressPermissionsNewArrayLength2.toString(16).padStart(64, '0');
 
-  // bytes16 index `addressPermissionsOldArrayLengthHex` will serve as index
+  // el índice bytes16 `addressPermissionsOldArrayLengthHex` servirá como índice
   const newElementIndexInArrayHex =
     addressPermissionsOldArrayLengthHex.substring(34, 66);
 
@@ -757,20 +757,20 @@ const updateUniversalProfileURD = async (vaultURDAddress) => {
     PERMISSIONS.SUPER_SETDATA,
   ];
 
-  // encode setData Calldata on the Universal Profile
+  // cifrar setData Calldata en el Perfil Universal
   const setDataCalldata = await universalProfile.interface.encodeFunctionData(
     'setData(bytes32[],bytes[])',
     [dataKeys, dataValues],
   );
 
-  // execute the `setDataCalldata` on the Key Manager
+  // ejecutar el `setDataCalldata` en el Gestor de Claves
   await keyManager.connect(EOA)['execute(bytes)'](setDataCalldata);
 };
 
-// deploy a new Universal Profile URD and retrieve its address
+// desplegar un nuevo URD del Perfil Universal y recuperar su dirección
 const universalProfileURDAddress = await deployUniversalProfileURD();
 
-// update the URD of the Universal profile
+// actualizar el URD del Perfil Universal
 await updateUniversalProfileURD(vaultURDAddress);
 ```
 

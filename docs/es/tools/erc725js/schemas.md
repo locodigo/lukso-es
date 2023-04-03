@@ -2,27 +2,27 @@
 sidebar_position: 2
 ---
 
-# Schemas
+# Esquemas
 
-The `@erc725/erc725.js` library contains a range of standard [LSP ERC725 JSON schemas](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md).
+La librería `@erc725/erc725.js` contiene una serie de esquemas estándar [LSP ERC725 JSON schemas](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md).
 
-Schemas allow erc725.js to know how to decode and encode data written in an [ERC725Y](https://eips.ethereum.org/EIPS/eip-725) smart contract.
+Los esquemas permiten a erc725.js saber cómo decodificar y codificar los datos escritos en un contrato inteligente [ERC725Y](https://eips.ethereum.org/EIPS/eip-725).
 
-_A quick reference for keys used in schema definitions can be seen below_
+_A continuación se puede ver una referencia rápida de las claves utilizadas en las definiciones de esquemas._
 
-[Official Documentation](https://github.com/lukso-network/LIPs/blob/master/LSPs/LSP-2-ERC725YJSONSchema.md).
+[Documentación oficial](https://github.com/lukso-network/LIPs/blob/master/LSPs/LSP-2-ERC725YJSONSchema.md).
 
-- `name`: An arbitrary name
-- `key`: The sha3 hash of the name
-- `keyType`: One of the supported erc725 keyTypes
-- `valueType`: The type of the content data in store for decoding
-- `valueContent`: The described content type for parsing
+- `name`: Un nombre arbitrario
+- `key`: El hash sha3 del nombre
+- `keyType`: Uno de los keyType soportados por erc725
+- `valueType`: El tipo de los datos de contenido almacenados para su descodificación
+- `valueContent`: El tipo de contenido descrito para el análisis sintáctico
 
-## Standard LSP Schemas
+## Esquemas estándar LSP
 
-The most common schemas of [LUKSO Standard Proposals](https://github.com/lukso-network/LIPs/tree/main/LSPs) are available under the [`schemas/`](https://github.com/ERC725Alliance/erc725.js/tree/develop/schemas) folder.
+Los esquemas más comunes de las [Propuestas de Estándares LUKSO](https://github.com/lukso-network/LIPs/tree/main/LSPs) están disponibles en la carpeta [`schemas/`](https://github.com/ERC725Alliance/erc725.js/tree/develop/schemas).
 
-Current provided LSPs are:
+Los LSP que se proporcionan actualmente son:
 
 ```
 LSP1UniversalReceiverDelegate.json
@@ -36,13 +36,13 @@ LSP10ReceivedVaults.json
 LSP12IssuedAssets.json
 ```
 
-You can import them from:
+Puedes importarlos desde:
 
 ```js
 import LSP3 from '@erc725/erc725.js/schemas/LSP3UniversalProfileMetadata.json';
 import LSP5 from '@erc725/erc725.js/schemas/LSP5ReceivedAssets.json';
 // ...
 
-// Later use them on instantiation
+// Utilízalos posteriormente en la instanciación
 const myErc725Contract = new ERC725js(LSP3, address, web3.currentProvider);
 ```

@@ -1,22 +1,22 @@
 ---
-sidebar_label: 'Mint an LSP7 Digital Asset (Token)'
+sidebar_label: 'Acuñar un Activo Digital LSP7 (Token)'
 sidebar_position: 2
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Create an LSP7 Digital Asset (Token)
+# Crear un Adtivo Digital LSP7 (Token)
 
-This guide will teach you how to mint some [LSP7 Digital Asset](../../standards/nft-2.0/LSP7-Digital-Asset.md) tokens to your [Universal Profile](../../standards/universal-profile/lsp0-erc725account.md).
+Esta guía te enseñará cómo acuñar algunos tokens [Activo Digital LSP7](../../standards/nft-2.0/LSP7-Digital-Asset.md) a tu [Pefil Universal](../../standards/universal-profile/lsp0-erc725account.md).
 
-## Mint tokens for your Universal Profile
+## Acuñar tokens para tu Perfil Universal
 
-The code snippet below shows how to mint 100 tokens with your Universal Profile as a beneficiary.
+El siguiente fragmento de código ilustra cómo acuñar 100 tokens con tu Perfil Universal como beneficiario.
 
-Make sure you have the following dependencies installed before beginning this tutorial:
+Asegúrate de tener instaladas las siguientes dependencias antes de empezar este tutorial:
 
-- Either [`web3.js`](https://github.com/web3/web3.js) or [`ethers.js`](https://github.com/ethers-io/ethers.js/)
+- O bien [`web3.js`](https://github.com/web3/web3.js) o bien [`ethers.js`](https://github.com/ethers-io/ethers.js/)
 - [`@lukso/lsp-smart-contracts`](https://github.com/lukso-network/lsp-smart-contracts/)
 
 <Tabs>
@@ -31,7 +31,7 @@ npm install web3 @lukso/lsp-smart-contracts
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```shell title="Install the dependencies"
+```shell title="Instala la dependencias"
 npm install ethers @lukso/lsp-smart-contracts
 ```
 
@@ -39,10 +39,10 @@ npm install ethers @lukso/lsp-smart-contracts
 
 </Tabs>
 
-### Step 1 - Setup imports and constants
+### Paso 1 - Configurar importaciones y constantes
 
-At this point you will need a private key in order to mint some tokens as well as the `LSP7Mintable` _token contract address_.
-We will import `LSP7Mintable` in order to get the _ABI_ of the contract that we will interact with.
+En este punto necesitarás una clave privada para poder acuñar algunos tokens así como la _dirección del contrato del token_ `LSP7Mintable`.
+Importaremos `LSP7Mintable` para obtener el _ABI_ del contrato con el que interactuaremos.
 
 <Tabs>
   
@@ -56,7 +56,7 @@ const web3 = new Web3('https://rpc.l16.lukso.network');
 const privateKey = '0x...';
 const myTokenAddress = '0x...';
 
-// setup your EOA
+// configura tu EOA
 const account = web3.eth.accounts.wallet.add(privateKey);
 ```
 
@@ -72,7 +72,7 @@ const provider = new ethers.JsonRpcProvider('https://rpc.l16.lukso.network');
 const privateKey = '0x...';
 const myTokenAddress = '0x...';
 
-// setup your EOA
+// configura tu EOA
 const myEOA = new ethers.Wallet(privateKey).connect(provider);
 ```
 
@@ -80,9 +80,9 @@ const myEOA = new ethers.Wallet(privateKey).connect(provider);
 
 </Tabs>
 
-### Step 2 - Instantiate contracts
+### Paso 2 - Instanciar contratos
 
-At this point, the `LPS7Mintable` contract is being prepared for the following intercation. We construct an instance of a contract, using _contract ABI_ and _contract address_.
+En este punto, el contrato `LPS7Mintable` está siendo preparado para la siguiente intercación. Construimos una instancia de un contrato, utilizando _contract ABI_ y _contract address_.
 
 <Tabs>
   
@@ -104,13 +104,13 @@ const myToken = new ethers.Contract(myTokenAddress, LSP7Mintable.abi);
 
 </Tabs>
 
-### Step 3 - Send transaction
+### Paso 3 - Enviar transacción
 
-Finally, we send the transaction and mint some tokens to the Universal Profile of your choosing.
+Por último, enviamos la transacción y acuñamos algunos tokens al Perfil Universal de tu elección.
 
 :::warning
 
-The contract that we are using as a example in this guied allows minting Digital Assets **only to the owner** of the contract. There might be contracts that don't have this _requirement_.
+El contrato que estamos utilizando como ejemplo en esta guía permite acuñar Activos Digitales **sólo al propietario** del contrato. Pueden existir contratos que no tengan este _requisito_.
 
 :::
 
@@ -138,7 +138,7 @@ await myToken.connect(myEOA).mint('<up-address>', 100, false, '0x');
 
 </Tabs>
 
-### Final code
+### Código final
 
 <Tabs>
   
@@ -154,7 +154,7 @@ const web3 = new Web3('https://rpc.l16.lukso.network');
 const privateKey = '0x...';
 const myTokenAddress = '0x...';
 
-// setup your EOA
+// configura tu EOA
 const account = web3.eth.accounts.wallet.add(privateKey);
 
 const myToken = new web3.eth.Contract(LSP7Mintable.abi, myTokenAddress);
@@ -176,7 +176,7 @@ const provider = new ethers.JsonRpcProvider('https://rpc.l16.lukso.network');
 const privateKey = '0x...';
 const myTokenAddress = '0x...';
 
-// setup your EOA
+// configura tu EOA
 const myEOA = new ethers.Wallet(privateKey).connect(provider);
 
 const myToken = new ethers.Contract(myTokenAddress, LSP7Mintable.abi);

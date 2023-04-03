@@ -6,6 +6,8 @@ sidebar_position: 4
 
 # Ayuda
 
-## Mi pregunta no está aquí. ¿Dónde puedo preguntarla?
+## Lo que busco no está aquí. ¿Dónde puedo preguntarlo?
 
-Si no encuentras respuesta a tu pregunta, puedes dirigirte a nuestro servidor [Discord](https://discord.gg/lukso). Tenemos canales relacionados con el desarrollo en los que puedes hacer preguntas técnicas. Incorporaremos las preguntas más frecuentes a esta lista.
+Si no encuentras respuesta a tu pregunta, puedes dirigirte a nuestro servidor [Discord](https://discord.gg/lukso). 
+Tenemos canales para los desarrolladores en los que puedes hacer preguntas técnicas. 
+Incorporaremos las preguntas más frecuentes a esta lista.

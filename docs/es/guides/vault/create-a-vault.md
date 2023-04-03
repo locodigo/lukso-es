@@ -1,34 +1,34 @@
 ---
-sidebar_label: 'Create a Vault'
+sidebar_label: 'Crear una Bóveda'
 sidebar_position: 1
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Create a Vault
+# Crear una Bóveda
 
-This guide will teach you how to deploy an **[LSP9Vault](../../standards/smart-contracts/lsp9-vault.md)** contract. This contract can be used to **hold assets** such as tokens and NFTs. Also can be used with a [UniversalProfile](../../standards/universal-profile/introduction.md) and a [KeyManager](../../standards/universal-profile/lsp6-key-manager.md) to **restrict some addresses** (protocols, friends, etc..) to execute and setData on it, instead of setting or executing directly on the profile.
+Esta guía te enseñará a desplegar un contrato **[Bóveda LSP9](../../standards/smart-contracts/lsp9-vault.md)**. Este contrato se puede utilizar para **guardar activos** como tokens y NFTs. También se puede utilizar con un [UniversalProfile](../../standards/universal-profile/introduction.md) y un [Gestor de Claves](../../standards/universal-profile/lsp6-key-manager.md) para **restringir algunas direcciones** (protocolos, amigos, etc..) para ejecutar y setData en él, en lugar de establecer o ejecutar directamente en el perfil.
 
-![Guide - How to create an LSP9Vault](/img/guides/lsp9/LSP9VaultGuide.jpeg)
+![Guía - Cómo crear una LSP9Vault](/img/guides/lsp9/LSP9VaultGuide.jpeg)
 
-## Deploy an LSP9Vault contract
+## Despliegue de un contrato LSP9Vault
 
-To start with this guide you will need the following things:
+Para empezar con esta guía necesitarás lo siguiente:
 
-- The _private key_ of your account, in order to send the transaction.
-- The address of a [**Universal Profile**](../../standards/universal-profile/lsp0-erc725account.md)
+- La _clave privada_ de tu cuenta, para poder enviar la transacción.
+- La dirección de un [**Perfil Universal**](../../standards/universal-profile/lsp0-erc725account.md)
 
-Make sure you have the following dependencies installed before beginning this tutorial:
+Asegúrate de tener instaladas las siguientes dependencias antes de comenzar este tutorial:
 
-- Either [`web3.js`](https://github.com/web3/web3.js) or [`ethers.js`](https://github.com/ethers-io/ethers.js/)
+- O bien [`web3.js`](https://github.com/web3/web3.js) o bien [`ethers.js`](https://github.com/ethers-io/ethers.js/)
 - [`@lukso/lsp-smart-contracts`](https://github.com/lukso-network/lsp-smart-contracts/)
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```shell title="Install the dependencies"
+```shell title="Instala las dependencias"
 npm install web3 @lukso/lsp-smart-contracts
 ```
 
@@ -36,7 +36,7 @@ npm install web3 @lukso/lsp-smart-contracts
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```shell title="Install the dependencies"
+```shell title="Instala las dependencias"
 npm install ethers @lukso/lsp-smart-contracts
 ```
 
@@ -44,23 +44,23 @@ npm install ethers @lukso/lsp-smart-contracts
 
 </Tabs>
 
-## Step 1 - Setup imports and constants​
+## Paso 1 - Configuración de importaciones y constantes
 
-For the imports, we will need the `LSP9vault` contract **ABI** and **bytecode** in order to deploy a LSP9 Vault.  
-For the contants we will need the _private key_ and _the address of the vault receiver_.
+Para las importaciones, necesitaremos el **ABI**  del contrato `LSP9vault` y el **bytecode** para poder desplegar una Bóveda LSP9.  
+Para las constantes necesitaremos la _clave privada_ y _la dirección del receptor de la bóveda_.
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Imports & Constants"
+```typescript title="Importaciones y Constantes"
 import LSP9Vault from '@lukso/lsp-smart-contracts/artifacts/LSP9Vault.json';
 import Web3 from 'web3';
 
 const web3 = new Web3('https://rpc.l16.lukso.network');
-const vaultOwner = '0x...'; // The address that will be the vault owner
+const vaultOwner = '0x...'; // La dirección que será el propietario de la bóveda
 
-// initialize your EOA
+// inicializa tu EOA
 const privateKey = '0x...';
 const myEOA = web3.eth.accounts.wallet.add(privateKey);
 ```
@@ -69,14 +69,14 @@ const myEOA = web3.eth.accounts.wallet.add(privateKey);
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Imports & Constants"
+```typescript title="Importaciones y Constantes"
 import LSP9Vault from '@lukso/lsp-smart-contracts/artifacts/LSP9Vault.json';
 import { ethers } from 'ethers';
 
 const provider = new ethers.JsonRpcProvider('https://rpc.l16.lukso.network');
-const vaultOwner = '0x...'; // The address that will be the vault owner
+const vaultOwner = '0x...'; // La dirección que será el propietario de la bóveda
 
-// setup your EOA
+// inicializa tu EOA
 const privateKey = '0x...';
 const myEOA = new ethers.Wallet(privateKey).connect(provider);
 ```
@@ -85,16 +85,16 @@ const myEOA = new ethers.Wallet(privateKey).connect(provider);
 
 </Tabs>
 
-## Step 2 - Instantiate contracts
+## Paso 2 - Instanciar contratos
 
-Create instance for `LSP9Vault`, that is needed in order to deploy the contract.
+Crea una instancia para `LSP9Vault`, necesaria para desplegar el contrato.
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Contract instance"
-// create an instance of the LSP9Vault contract
+```typescript title="Instancia del contrato"
+// crea una instancia del contrato LSP9Vault
 let myVault = new web3.eth.Contract(LSP9Vault.abi);
 ```
 
@@ -102,8 +102,8 @@ let myVault = new web3.eth.Contract(LSP9Vault.abi);
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Contract instance"
-// create an factory for the LSP9Vault contract
+```typescript title="Instancia del contrato"
+// crea una instancia del contrato LSP9Vault
 let vaultFactory = new ethers.ContractFactory(
   LSP9Vault.abi,
   LSP9Vault.bytecode,
@@ -114,16 +114,16 @@ let vaultFactory = new ethers.ContractFactory(
 
 </Tabs>
 
-## Step 3 - Send transaction
+## Paso 3 - Enviar transacción
 
-Finally send the **contract deployment** transaction.
+Por último, envía la transacción de **despliegue del contrato**.
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Sending contract deployment transaction"
-// deploy the vault contract
+```typescript title="Enviar transacción de despliegue de contrato"
+// desplegar el contrato de la bóveda
 await myVault
   .deploy({
     data: LSP9Vault.bytecode,
@@ -140,8 +140,8 @@ await myVault
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Sending contract deployment transaction"
-// deploy the vault contract
+```typescript title="Enviar transacción de despliegue de contrato"
+// desplegar el contrato de la bóveda
 const myVault = await vaultFactory.connect(myEOA).deploy(vaultOwner);
 ```
 
@@ -149,11 +149,11 @@ const myVault = await vaultFactory.connect(myEOA).deploy(vaultOwner);
 
 </Tabs>
 
-## Final Code
+## Código final
 
 :::caution
 
-You need to have LYXt in your EOA in order to pay for the transaction fees. Visit the :arrow_right: **[LUKSO L16 Faucet Website](https://faucet.l16.lukso.network/)** to get some LYXt.
+Necesitas tener LYXt en tu EOA para poder pagar las cuotas de transacción. Visita :arrow_right: **[LUKSO L16 Página web del Grifo](https://faucet.l16.lukso.network/)** para conseguir algo de LYXt.
 
 :::
 
@@ -161,21 +161,21 @@ You need to have LYXt in your EOA in order to pay for the transaction fees. Visi
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Deploying the vault"
+```typescript title="Desplegar la bóveda"
 import LSP9Vault from '@lukso/lsp-smart-contracts/artifacts/LSP9Vault.json';
 import Web3 from 'web3';
 
 const web3 = new Web3('https://rpc.l16.lukso.network');
-const vaultOwner = '0x...'; // The address that will be the vault owner
+const vaultOwner = '0x...'; // La dirección que será el propietario de la bóveda
 
-// initialize your EOA
+// inicializa tu EOA
 const privateKey = '0x...';
 const myEOA = web3.eth.accounts.wallet.add(privateKey);
 
-// create an instance of the LSP9Vault contract
+// crea una instancia del contrato LSP9Vault
 let myVault = new web3.eth.Contract(LSP9Vault.abi);
 
-// deploy the vault contract
+// desplegar el contrato de la bóveda
 await myVault
   .deploy({
     data: LSP9Vault.bytecode,
@@ -192,24 +192,24 @@ await myVault
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Deploying the vault"
+```typescript title="Desplegar la bóveda"
 import LSP9Vault from '@lukso/lsp-smart-contracts/artifacts/LSP9Vault.json';
 import { ethers } from 'ethers';
 
 const provider = new ethers.JsonRpcProvider('https://rpc.l16.lukso.network');
-const vaultOwner = '0x...'; // The address that will be the vault owner
+const vaultOwner = '0x...'; // La dirección que será el propietario de la bóveda
 
-// setup your EOA
+// inicializa tu EOA
 const privateKey = '0x...';
 const myEOA = new ethers.Wallet(privateKey).connect(provider);
 
-// create an factory for the LSP9Vault contract
+// crea una instancia del contrato LSP9Vault
 let vaultFactory = new ethers.ContractFactory(
   LSP9Vault.abi,
   LSP9Vault.bytecode,
 );
 
-// deploy the vault contract
+// desplegar el contrato de la bóveda
 const myVault = await vaultFactory.connect(myEOA).deploy(vaultOwner);
 ```
 

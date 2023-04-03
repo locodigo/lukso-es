@@ -1,25 +1,25 @@
 ---
-title: 'Introduction'
+title: 'Introducción'
 sidebar_position: 1
 ---
 
-# The LUKSO Standard Proposals (LSPs)
+# Los Estándares Propuestos por LUKSO (LSP)
 
 <div class="video-container">
 <iframe src="https://www.youtube.com/embed/skA4Y-vvt5s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 
-:::success Implementation
+:::success Implementación
 
-See the [Contracts Implementation](./smart-contracts/introduction.md) section for the Solidity implementation of these standards.
+Consulta la sección [Implementación de contratos](./smart-contracts/introduction.md) para ver la implementación de Solidity de estos estándares.
 
 :::
 
-The **LUKSO Standards Proposals (LSPs)** represent the **main building blocks** of the LUKSO ecosystem. People, groups, and organizations can use them to build blockchain-based applications that aim to maximize the user experience, allow more flexibility and interaction, and open doors to hundreds of ideas.
+Los **Estándares Propuestos por LUKSO (LSP)** representan los **principales bloques de construcción** del ecosistema LUKSO. Personas, grupos y organizaciones pueden utilizarlos para construir aplicaciones basadas en blockchain cuyo objetivo sea maximizar la experiencia del usuario, permitir más flexibilidad e interacción y abrir las puertas a cientos de ideas.
 
-The **[default implementation](./smart-contracts/introduction.md)** of these standards in Solidity is available as Open Source Software under the [LUKSO GitHub repository](https://github.com/lukso-network). They can be used as a base by developers to build their applications.
+La **[implementación por defecto](./smart-contracts/introduction.md)** de estos estándares en Solidity está disponible como Software de Código Abierto bajo el [repositorio LUKSO GitHub](https://github.com/lukso-network). Pueden ser utilizados como base por los desarrolladores para construir sus aplicaciones.
 
-:::info Questions? Want to learn more?
+:::info ¿Preguntas? ¿Quieres saber más?
 
 <div class="discord-logo">
 
@@ -27,41 +27,41 @@ The **[default implementation](./smart-contracts/introduction.md)** of these sta
 
 </div>
 
-Feel free to join the [LUKSO **Discord server**](https://discord.com/channels/359064931246538762/620552532602912769), and ask your questions in the [#standards](https://discord.com/channels/359064931246538762/620552532602912769) channel.
+No dudes en unirte al [**Servidor de Discord** LUKSO](https://discord.com/channels/359064931246538762/620552532602912769), y hacer tus preguntas en el canal [#standards](https://discord.com/channels/359064931246538762/620552532602912769).
 
-Our team and community members look forward to helping you understand the standards.
+Nuestro equipo y los miembros de la comunidad estamos encantados de ayudarte a entender estos estándares.
 
 :::
 
-## Introduction
+## Introducción
 
-The current **blockchain experience** comes with many limitations, not necessarily because of the complexity but because of the broken infrastructure represented by the old underlying tools and standards used to operate on the network.
+La actual **experiencia de blockchain** presenta muchas limitaciones, no necesariamente debido a la complejidad, sino a la infraestructura rota representada por las antiguas herramientas y estándares subyacentes utilizados para operar en la red.
 
-Change should start from the bottom to create a better user experience on the blockchain, starting from the fundamental pieces to propagating to the top. Topics related to **identity**, **assets representation**, **relay execution** and **smart contract interaction** require standardization. Such standards should be flexible enough to support and allow more potential use-cases in the future.
+El cambio debe empezar desde abajo para crear una mejor experiencia de usuario en la blockchain, empezando por las piezas fundamentales para propagarse hacia arriba. Los temas relacionados con la **identidad**, la **representación de activos**, la **ejecución de enlaces** y la **interacción de contratos inteligentes** requieren estandarización. Dichas normas deben ser lo suficientemente flexibles como para soportar y permitir más casos de uso potenciales en el futuro.
 
-The following documentation describes the fundamentals of the standards and technical aspects of the LUKSO ecosystem.
+La siguiente documentación describe los fundamentos de las normas y los aspectos técnicos del ecosistema LUKSO.
 
-## LSPs Foundation
+## Fundamentos de los LSP
 
-This section lists and describes the first ten Standards representing the foundation of **LUKSO's ecosystem**.
+Esta sección enumera y describe los diez primeros estándares que representan la base del ecosistema de **LUKSO**.
 
-They introduce new concepts like **blockchain-based accounts** (also known as **Universal Profiles**), **Digital Assets, and NFT 2.0**.
+Introducen nuevos conceptos como **cuentas basadas en blockchain** (también conocidas como **perfiles universales**), **activos digitales y NFT 2.0**.
 
 :::note
-The standards are **order-independent** and could be related to a **backward or forward** order.
+Las normas son **independientes de un orden** y podrían estar asociadas a un **orden anterior o posterior**.
 :::
 
-![lsp-roadmap](/img/standards/introduction/lsp-roadmap.jpg)
+![hoja-de-ruta-lsp](/img/standards/introduction/lsp-roadmap.jpg)
 
-## Further Information
+## Más información
 
-- [The New Standard for Blockchain Accounts and NFT 2.0 (YouTube)](https://www.youtube.com/watch?v=7u0WGAS1k_Q)
+- [El nuevo estándar para cuentas Blockchain y NFT 2.0 (YouTube)](https://www.youtube.com/watch?v=7u0WGAS1k_Q)
 - [Tech Time with Fabian Ep.1 - LUKSO NFT's 2.0 Explained (YouTube)](https://www.youtube.com/watch?v=Nx5D9QWNIhI)
-- [Fabian Vogelsteller talks at BLOCKCHANCE 2021 about LUKSO (YouTube)](https://www.youtube.com/watch?v=aoZE_0Ey1SQ)
+- [Fabian Vogelsteller habla en BLOCKCHANCE 2021 sobre LUKSO (YouTube)](https://www.youtube.com/watch?v=aoZE_0Ey1SQ)
 - [Developer DAO - Dev & Tell | Yamen - LUKSO Network (YouTube)](https://www.youtube.com/watch?v=1OeBpJIstSQ)
 - [Lukso Build 🆙 #1 Hackathon (YouTube)](https://www.youtube.com/watch?v=veHqhpgGDr4)
 
-## References
+## Referencias
 
-- [LUKSO Improvement Proposals - LIPs (GitHub)](https://github.com/lukso-network/LIPs)
-- [ERC-725 Alliance website](https://erc725alliance.org/)
+- [Propuestas de Mejora LUKSO - LIPs (GitHub)](https://github.com/lukso-network/LIPs)
+- [Sitio web de la Alianza ERC-725](https://erc725alliance.org/)

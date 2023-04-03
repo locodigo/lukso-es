@@ -2,34 +2,34 @@
 sidebar_position: 5
 ---
 
-# Logs, Stats and Monitoring
+# Registros, Estadísticas y Monitorización
 
-## Execution logs
+## Registros de ejecución
 
 ```sh
 sudo lukso network log execution -f
 ```
 
-You can close the logs by pressing `ctrl+c`
+Puedes cerrar los registros pulsando `ctrl+c`.
 
-## Consensus logs
+## Registros de consenso
 
 ```
 sudo lukso network log consensus -f
 ```
 
-You can close the logs by pressing `ctrl+c`
+Puedes cerrar los registros pulsando `ctrl+c`.
 
-## Stats
+## Estadísticas
 
-- [Execution stats](https://stats.execution.l16.lukso.network)
-- [Consensus stats](https://stats.consensus.l16.lukso.network)
+- Estadísticas de ejecución](https://stats.execution.l16.lukso.network)
+- Estadísticas de consenso](https://stats.consensus.l16.lukso.network)
 
-## Explorers
+## Exploradores
 
-- [Execution explorer](https://explorer.execution.l16.lukso.network)
-- [Consensus explorer](https://explorer.consensus.l16.lukso.network)
+- Explorador de ejecución](https://explorer.execution.l16.lukso.network)
+- Explorador de consenso](https://explorer.consensus.l16.lukso.network)
 
-## Monitoring
+## Monitoreo
 
-You can find a community guide about how to setup your Grafana dashboard on Linux [here](https://docs.luksoverse.io/docs/the-guide/monitoring).
+Puedes encontrar una guía de la comunidad sobre cómo configurar tu panel de control Grafana en Linux [aquí](https://docs.luksoverse.io/docs/the-guide/monitoring).

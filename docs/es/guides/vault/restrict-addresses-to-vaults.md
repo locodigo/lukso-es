@@ -1,46 +1,46 @@
 ---
-sidebar_label: 'Restrict Addresses to Vaults'
+sidebar_label: 'Restringir las Direcciones a las Bóvedas'
 sidebar_position: 4
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Restrict Addresses to Vaults
+# Restringir las Direcciones a las Bóvedas
 
-As mentioned in the [first Vault guide](./create-a-vault.md), the **Vault** can be used to restrict different addresses (protocols, other devices, etc..) to execute and set data on it instead of doing it directly on the Universal Profile.
+Como se menciona en la [primera guía sobre el Vault](./create-a-vault.md), el **Vault** se puede utilizar para restringir diferentes direcciones (protocolos, otros dispositivos, etc..) a que ejecuten y establezcan datos en él en lugar de hacerlo directamente en el Perfil Universal. 
 
-This way, when **granting a third party permissions** to execute through your profile, this third party will only be able to interact with the Vault, and all the other assets will be safe.
+De esta forma, al **otorgar permisos a un tercero** de ejecución a través de tu perfil, este tercero sólo podrá interactuar con la Bóveda, y todos los demás activos estarán a salvo.
 
-![Guide - Restrict addresses to an LSP9Vault](/img/guides/lsp9/restrict-protocol-to-vault.jpeg)
+![Guía - Restringir direcciones a un LSP9Vault](/img/guides/lsp9/restrict-protocol-to-vault.jpeg)
 
-## Granting Permission to 3rd Parties
+## Conceder Permisos a Terceros
 
 :::note
 
-Make sure not to grant the 3rd party address the **SUPER Permissions**. Otherwise, the **AllowedCalls restriction** will not work.
+Asegúrate de no conceder a la dirección de terceros los **SUPER Permissions**. De lo contrario, **la restricción AllowedAddresses** no funcionará.
 
 :::
 
-Check the guide of **[granting permissions to 3rd Parties](../key-manager/give-permissions.md)**, and make sure to grant the 3rd party address the **CALL Permission**.
+Consulta la guía de **[concesión de permisos a terceros](../key-manager/give-permissions.md)**, y asegúrate de conceder a la dirección del tercero el **Permiso de LLAMADA (Call Permission)**.
 
-## Use AllowedCalls permission for the 3rd Parties
+## Utilizar el permiso AllowedAddresses para Terceras Partes
 
-In this guide, after granting the 3rd party the permission **CALL**, we will need to **allow the address of the 3rd party** to interact with the **Vault address**. We will be using the [AllowedCalls permission](../../standards/universal-profile/lsp6-key-manager.md#allowed-calls) from the Key Manager.
+En este paso, después de conceder a la 3ª parte el permiso **LLAMAR**, necesitaremos **restringir la dirección de la 3ª parte** para que sólo interactúe con la **dirección de la Bóveda**. Utilizaremos el permiso [AllowedCalls permission](../../standards/universal-profile/lsp6-key-manager.md#allowed-calls) del Key Manager.
 
-## Setup
+## Configuración
 
-Make sure you have the following dependencies installed before beginning this tutorial.
+Asegúrate de tener instaladas las siguientes dependencias antes de empezar este tutorial.
 
-- You can use either [`web3.js`](https://github.com/web3/web3.js) or [`ethers.js`](https://github.com/ethers-io/ethers.js/)
-- You MUST install [`@lukso/lsp-smart-contracts`](https://github.com/lukso-network/lsp-smart-contracts/)
-- You SHOULD install [`@erc725/erc725.js`](https://github.com/ERC725Alliance/erc725.js)
+- Puedes usar [`web3.js`](https://github.com/web3/web3.js) o [`ethers.js`](https://github.com/ethers-io/ethers.js/)
+- DEBES instalar [`@lukso/lsp-smart-contracts`](https://github.com/lukso-network/lsp-smart-contracts/)
+- DEBERÍAS instalar [`@erc725/erc725.js`](https://github.com/ERC725Alliance/erc725.js)
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```shell title="Install the dependencies"
+```shell title="Instala las dependencias"
 npm install web3 @lukso/lsp-smart-contracts @erc725/erc725.js
 ```
 
@@ -48,7 +48,7 @@ npm install web3 @lukso/lsp-smart-contracts @erc725/erc725.js
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```shell title="Install the dependencies"
+```shell title="Instala las dependencias"
 npm install ethers @lukso/lsp-smart-contracts @erc725/erc725.js
 ```
 
@@ -56,30 +56,30 @@ npm install ethers @lukso/lsp-smart-contracts @erc725/erc725.js
 
 </Tabs>
 
-## Step 1 - Imports, Constants & EOA
+## Paso 1 - Importaciones, Constantes y EOA
 
-For this guide we will firstly need and import the _ABIs_ for the Universal Profile & Key Manager contracts. Also we will import the `ERC725YDataKeys` to retrieve the data key for [AllowedCalls permission](../../standards/universal-profile/lsp6-key-manager.md#allowed-calls).  
-As constants we will need to store the addresses for the Universal Profile, Vault & the restricted third party.  
-Finally, we will need a private key with the proper _permissions_, in our case [**ADDCONTROLLER permission**](../../standards/universal-profile/lsp6-key-manager.md#permissions).
+Para esta guía primero necesitaremos e importaremos los _ABIs_ para los contratos de Perfil Universal y Gestor de Claves. También importaremos el `ERC725YDataKeys` para recuperar la clave de datos para el [permiso AllowedCalls](../../standards/universal-profile/lsp6-key-manager.md#allowed-calls).  
+Como constantes necesitaremos almacenar las direcciones para el Perfil Universal, la Bóveda y el tercero restringido.  
+Por último, necesitaremos una clave privada con los _permisos_ adecuados, en nuestro caso [**ADDCONTROLLER permission**](../../standards/universal-profile/lsp6-key-manager.md#permissions).
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Imports, Constants & EOA initialization"
+```typescript title="Importaciones, Constantes y EOA"
 import UniversalProfile from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json';
 import LSP6KeyManager from '@lukso/lsp-smart-contracts/artifacts/LSP6KeyManager.json';
 import { ERC725YDataKeys } from '@lukso/lsp-smart-contracts/constants.js';
 import { encodeKey } from '@erc725/erc725.js/build/main/src/lib/utils.js';
 import Web3 from 'web3';
 
-// constants
+// constantes
 const web3 = new Web3('https://rpc.l16.lukso.network');
-const universalProfileAddress = '0x..'; // address of the UP
-const vaultAddress = '0x..'; // address of the Vault
-const thirdPartyAddress = '0x..'; // address of the third party you want to restrict
+const universalProfileAddress = '0x..'; // dirección del UP
+const vaultAddress = '0x..'; // dirección de la Bóveda
+const thirdPartyAddress = '0x..'; // dirección del tercero al que desea restringir
 
-// setup your EOA
+// configura tu EOA
 const privateKey = '0x...';
 const myEOA = web3.eth.accounts.wallet.add(privateKey);
 ```
@@ -88,21 +88,21 @@ const myEOA = web3.eth.accounts.wallet.add(privateKey);
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Imports, Constants & EOA initialization"
+```typescript title="Importaciones, Constantes y EOA"
 import UniversalProfile from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json';
 import LSP6KeyManager from '@lukso/lsp-smart-contracts/artifacts/LSP6KeyManager.json';
 import { ERC725YDataKeys } from '@lukso/lsp-smart-contracts/constants.js';
 import { encodeKey } from '@erc725/erc725.js/build/main/src/lib/utils.js';
 import { ethers } from 'ethers';
 
-// constants
+// constantes
 const provider = new ethers.JsonRpcProvider('https://rpc.l16.lukso.network');
-const universalProfileAddress = '0x..'; // address of the UP
-const vaultAddress = '0x..'; // address of the Vault
-const thirdPartyAddress = '0x..'; // address of the third party you want to restrict
+const universalProfileAddress = '0x..'; // dirección del UP
+const vaultAddress = '0x..'; // dirección de la Bóveda
+const thirdPartyAddress = '0x..'; // dirección del tercero al que desea restringir
 
-// setup your EOA
-const privateKey = '0x...'; // your EOA private key (controller address)
+// configura tu EOA
+const privateKey = '0x...'; // tu clave privada EOA (dirección del controlador)
 const myEOA = new ethers.Wallet(privateKey).connect(provider);
 ```
 
@@ -110,27 +110,27 @@ const myEOA = new ethers.Wallet(privateKey).connect(provider);
 
 </Tabs>
 
-## Step 2 - Create contract instances
+## Paso 2 - Crear instancias de contrato
 
-At this point we will create instances for the following contracts:
+En este punto crearemos instancias para los siguientes contratos:
 
-- [**Universal Profile**](../../standards/universal-profile/lsp0-erc725account.md)
-- [**Key Manager**](../../standards/universal-profile/lsp6-key-manager.md)
+- [**Perfil Universal**](../../standards/universal-profile/lsp0-erc725account.md)
+- [**Gestor de Claves**](../../standards/universal-profile/lsp6-key-manager.md)
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Universal Profile & Key Manager contract instances"
-// create an instance of the UP
+```typescript title="Instancias de contrato de Perfil Universal y Gestor de Claves"
+// crear una instancia del UP
 const universalProfile = new web3.eth.Contract(
   UniversalProfile.abi,
   universalProfileAddress,
 );
 
-// getting the Key Manager address from UP
+// obtener la dirección del Gestor de Claves del UP
 const keyManagerAddress = await universalProfile.methods.owner().call();
-// create an instance of the KeyManager
+// crear una instancia del Gestor de Claves
 const keyManager = new web3.eth.Contract(LSP6KeyManager.abi, keyManagerAddress);
 ```
 
@@ -138,16 +138,16 @@ const keyManager = new web3.eth.Contract(LSP6KeyManager.abi, keyManagerAddress);
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Universal Profile & Key Manager contract instances"
-// create an instance of the UP
+```typescript title="Instancias de contrato de Perfil Universal y Gestor de Claves"
+// crear una instancia del UP
 const universalProfile = new ethers.Contract(
   universalProfileAddress,
   UniversalProfile.abi,
 );
 
-// getting the Key Manager address from UP
+// obtener la dirección del Gestor de Claves del UP
 const keyManagerAddress = await universalProfile.owner();
-// create an instance of the KeyManager
+// crear una instancia del Gestor de Claves
 const keyManager = new ethers.Contract(keyManagerAddress, LSP6KeyManager.abi);
 ```
 
@@ -155,18 +155,18 @@ const keyManager = new ethers.Contract(keyManagerAddress, LSP6KeyManager.abi);
 
 </Tabs>
 
-## Step 3 - Encode the calldata for encoding [`AllowedCalls`](../../standards/universal-profile/lsp6-key-manager.md#allowed-calls)
+## Paso 3 - Cifrar los calldata para cifrar [`AllowedCalls`](../../standards/universal-profile/lsp6-key-manager.md#allowed-calls)
 
-Now we need to encode the **Allowed Calls** that we want for the _Third Party address_. After we do that, we will encode a calldata that will update the _Allowed Calls data key_ with the encoded **Allowed Calls**
+Ahora tenemos que cifrar las **Llamadas Permitidas** que queremos para la _Dirección de Terceros_. Una vez hecho esto, cifraremos un calldata que actualizará la clave de datos _Allowed Calls_ con las **Allowed Calls** cifradas.
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Calldata that will update the Allowed Calls of a Controller address"
-const allowedCallsDataKey = // constructing the data key of allowed addresses
+```typescript title="Calldata que actualizará las Llamadas Permitidas de una dirección de Controlador"
+const allowedCallsDataKey = // construcción de la clave de datos de las direcciones permitidas
   ERC725YDataKeys.LSP6['AddressPermissions:AllowedCalls'] +
-  thirdPartyAddress.substring(2); // of the 3rd party
+  thirdPartyAddress.substring(2); // de la tercera parte
 
 const allowedCallsSchema = {
   name: 'AddressPermissions:AllowedCalls:<address>',
@@ -182,7 +182,7 @@ const allowedCallsDataValue = encodeKey(allowedCallsSchema, [
   '0xffffffff',
 ]);
 
-// encode setData calldata on the UP
+// cifrar setData calldata en el UP
 const setDataCalldata = await universalProfile.methods[
   'setData(bytes32,bytes)'
 ](allowedCallsDataKey, allowedCallsDataValue).encodeABI();
@@ -192,10 +192,10 @@ const setDataCalldata = await universalProfile.methods[
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Calldata that will update the Allowed Calls of a Controller address"
-const allowedCallsDataKey = // constructing the data key of allowed addresses
+```typescript title="Calldata que actualizará las Llamadas Permitidas de una dirección de Controlador"
+const allowedCallsDataKey = // construcción de la clave de datos de las direcciones permitidas
   ERC725YDataKeys.LSP6['AddressPermissions:AllowedCalls'] +
-  thirdPartyAddress.substring(2); // of the 3rd party
+  thirdPartyAddress.substring(2); // de la tercera parte
 
 const allowedCallsSchema = {
   name: 'AddressPermissions:AllowedCalls:<address>',
@@ -211,7 +211,7 @@ const allowedCallsDataValue = encodeKey(allowedCallsSchema, [
   '0xffffffff',
 ]);
 
-// encode setData calldata on the UP
+// cifrar setData calldata en el UP
 const setDataCalldata = universalProfile.interface.encodeFunctionData(
   'setData(bytes32,bytes)',
   [allowedCallsDataKey, allowedCallsDataValue],
@@ -222,16 +222,16 @@ const setDataCalldata = universalProfile.interface.encodeFunctionData(
 
 </Tabs>
 
-## Step 4 - Execute via the Key Manager
+## Paso 4 - Ejecutar a través del Gestor de Claves
 
-Finally we will send a transaction that will execute the `setData(...)` calldata on the Universal Profile via the Key Manager.
+Finalmente enviaremos una transacción que ejecutará el calldata `setData(...)` en el Perfil Universal a través del Gestor de Claves.
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Send transaction to be executed in the Universal profile contract via the Key Manager"
-// execute the setDataCalldata on the Key Manager
+```typescript title="Enviar transacción a ser ejecutada en el contrato del Perfil Universal a través del Gestor de Claves"
+// ejecutar el setDataCalldata en el Gestor de Claves
 await keyManager.methods['execute(bytes)'](setDataCalldata).send({
   from: myEOA.address,
   gasLimit: 600_000,
@@ -242,8 +242,8 @@ await keyManager.methods['execute(bytes)'](setDataCalldata).send({
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Send transaction to be executed in the Universal Profile contract via the Key Manager"
-// execute the setDataCalldata on the Key Manager
+```typescript title="Enviar transacción a ser ejecutada en el contrato del Perfil Universal a través del Gestor de Claves"
+// ejecutar el setDataCalldata en el Gestor de Claves
 await myKM.connect(myEOA)['execute(bytes)'](setDataCalldata);
 ```
 
@@ -251,43 +251,43 @@ await myKM.connect(myEOA)['execute(bytes)'](setDataCalldata);
 
 </Tabs>
 
-## Final code
+## Código final
 
 <Tabs>
   
   <TabItem value="web3js" label="web3.js">
 
-```typescript title="Setting Allowed Addresses for the 3rd party address"
+```typescript title="Establecer las Direcciones Permitidas en la dirección de terceros"
 import UniversalProfile from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json';
 import LSP6KeyManager from '@lukso/lsp-smart-contracts/artifacts/LSP6KeyManager.json';
 import { ERC725YDataKeys } from '@lukso/lsp-smart-contracts/constants.js';
 import { encodeKey } from '@erc725/erc725.js/build/main/src/lib/utils.js';
 import Web3 from 'web3';
 
-// constants
+// constantes
 const web3 = new Web3('https://rpc.l16.lukso.network');
-const universalProfileAddress = '0x..'; // address of the UP
-const vaultAddress = '0x..'; // address of the Vault
-const thirdPartyAddress = '0x..'; // address of the third party you want to restrict
+const universalProfileAddress = '0x..'; // dirección del UP
+const vaultAddress = '0x..'; // dirección de la Bóveda
+const thirdPartyAddress = '0x..'; // dirección del tercero al que desea restringir
 
-// setup your EOA
+// configura tu EOA
 const privateKey = '0x...';
 const myEOA = web3.eth.accounts.wallet.add(privateKey);
 
-// create an instance of the UP
+// crear una instancia del UP
 const universalProfile = new web3.eth.Contract(
   UniversalProfile.abi,
   universalProfileAddress,
 );
 
-// getting the Key Manager address from UP
+// obtener la dirección del Gestor de Claves del UP
 const keyManagerAddress = await universalProfile.methods.owner().call();
-// create an instance of the KeyManager
+// crear una instancia del Gestor de Claves
 const keyManager = new web3.eth.Contract(LSP6KeyManager.abi, keyManagerAddress);
 
-const allowedCallsDataKey = // constructing the data key of allowed addresses
+const allowedCallsDataKey = // construcción de la clave de datos de las direcciones permitidas
   ERC725YDataKeys.LSP6['AddressPermissions:AllowedCalls'] +
-  thirdPartyAddress.substring(2); // of the 3rd party
+  thirdPartyAddress.substring(2); // de la tercera parte
 
 const allowedCallsSchema = {
   name: 'AddressPermissions:AllowedCalls:<address>',
@@ -303,12 +303,12 @@ const allowedCallsDataValue = encodeKey(allowedCallsSchema, [
   '0xffffffff',
 ]);
 
-// encode setData calldata on the UP
+// cifrar setData calldata en el UP
 const setDataCalldata = await universalProfile.methods[
   'setData(bytes32,bytes)'
 ](allowedCallsDataKey, allowedCallsDataValue).encodeABI();
 
-// execute the setDataCalldata on the Key Manager
+// ejecutar el setDataCalldata en el Gestor de Claves
 await keyManager.methods['execute(bytes)'](setDataCalldata).send({
   from: myEOA.address,
   gasLimit: 600_000,
@@ -319,37 +319,37 @@ await keyManager.methods['execute(bytes)'](setDataCalldata).send({
 
   <TabItem value="ethersjs" label="ethers.js">
 
-```typescript title="Setting Allowed Addresses for the 3rd party address"
+```typescript title="Establecer las Direcciones Permitidas en la dirección de terceros"
 import UniversalProfile from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json';
 import LSP6KeyManager from '@lukso/lsp-smart-contracts/artifacts/LSP6KeyManager.json';
 import { ERC725YDataKeys } from '@lukso/lsp-smart-contracts/constants.js';
 import { encodeKey } from '@erc725/erc725.js/build/main/src/lib/utils.js';
 import { ethers } from 'ethers';
 
-// constants
+// constantes
 const provider = new ethers.JsonRpcProvider('https://rpc.l16.lukso.network');
-const universalProfileAddress = '0x..'; // address of the UP
-const vaultAddress = '0x..'; // address of the Vault
-const thirdPartyAddress = '0x..'; // address of the third party you want to restrict
+const universalProfileAddress = '0x..'; // dirección del UP
+const vaultAddress = '0x..'; // dirección de la Bóveda
+const thirdPartyAddress = '0x..'; // dirección del tercero al que desea restringir
 
-// setup your EOA
-const privateKey = '0x...'; // your EOA private key (controller address)
+// configura tu EOA
+const privateKey = '0x...'; // tu clave privada EOA (dirección del controlador)
 const myEOA = new ethers.Wallet(privateKey).connect(provider);
 
-// create an instance of the UP
+// crear una instancia del UP
 const universalProfile = new ethers.Contract(
   universalProfileAddress,
   UniversalProfile.abi,
 );
 
-// getting the Key Manager address from UP
+// obtener la dirección del Gestor de Claves del UP
 const keyManagerAddress = await universalProfile.owner();
-// create an instance of the KeyManager
+// crear una instancia del Gestor de Claves
 const keyManager = new ethers.Contract(keyManagerAddress, LSP6KeyManager.abi);
 
-const allowedCallsDataKey = // constructing the data key of allowed addresses
+const allowedCallsDataKey = // construcción de la clave de datos de las direcciones permitidas
   ERC725YDataKeys.LSP6['AddressPermissions:AllowedCalls'] +
-  thirdPartyAddress.substring(2); // of the 3rd party
+  thirdPartyAddress.substring(2); // de la tercera parte
 
 const allowedCallsSchema = {
   name: 'AddressPermissions:AllowedCalls:<address>',
@@ -365,13 +365,13 @@ const allowedCallsDataValue = encodeKey(allowedCallsSchema, [
   '0xffffffff',
 ]);
 
-// encode setData calldata on the UP
+// cifrar setData calldata en el UP
 const setDataCalldata = universalProfile.interface.encodeFunctionData(
   'setData(bytes32,bytes)',
   [allowedCallsDataKey, allowedCallsDataValue],
 );
 
-// execute the setDataCalldata on the Key Manager
+// ejecutar el setDataCalldata en el Gestor de Claves
 await myKM.connect(myEOA)['execute(bytes)'](setDataCalldata);
 ```
 

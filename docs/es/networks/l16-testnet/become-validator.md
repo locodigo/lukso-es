@@ -2,92 +2,92 @@
 sidebar_position: 3
 ---
 
-# Become a validator
+# Conviértete en validador
 
 :::info
-Before running validators on your node, make sure your node is running and working correctly. For more information, check the [Run a node](./run-node) page.
+Antes de ejecutar validadores en tu nodo, asegúrate de que tu nodo se está ejecutando y funciona correctamente. Para más información, consulta la página [Ejecutar un nodo](./run-node).
 :::
 
-## Setup Validator
+## Configurar Validador
 
 ```sh
 cd lukso-l16-testnet
 sudo lukso network validator setup
 ```
-This will create a key store and a transaction wallet. The purpose of the transaction wallet is to call and pay for the deposit transaction.
+Esto creará un almacén de claves y una cartera de transacciones. El propósito de la cartera de transacciones es llamar y pagar la transacción de depósito.
 
 :::info
-Fill in a password and save it somewhere.
+Introduce una contraseña y guárdala en algún sitio.
 :::
 
 :::danger
-Never delete the following files if you have deposited your validators: keystore, transaction_wallet and deposit_data.json.
+No elimines nunca los siguientes archivos si has depositado tus validadores: keystore, transaction_wallet y deposit_data.json.
 :::
 
-## Amount of validators
+## Cantidad de validadores
 
-Make a choice how many validators you want to run, for every validator you need to have 220 LYXt
+Elige cuantos validadores quieres ejecutar, por cada validador necesitas tener 220 LYXt
 
-## Mnemonic
+## Mnemónico
 
-If this is the first time you set up your validators, choose to not use an existing Mnemonic.
+Si es la primera vez que configuras tus validadores, elige no utilizar un Mnemónico existente.
 
-Choose to create a separate withdraw Mnemonic.
+Elige crear una Mnemónica separada para retirar.
 
-The Mnemonics will appear in your `node_config.yaml` file.
+La Mnemónica aparecerá en su archivo `node_config.yaml`.
 
-Open your `node_config.yaml`
+Abre tu `node_config.yaml`.
 ```
 nano node_config.yaml
 ```
 
-Copy your Mnemonics and store them somewhere safe and offline.
+Copia tus Mnemónicos y guárdalos en algún lugar seguro y sin conexión.
 
-## Check your balance
-Check if the wallet has enough funds:
+## Comprueba tu saldo
+Comprueba si el monedero tiene fondos suficientes:
 
 ```sh
 lukso network validator describe
 ```
 
-Visit the [Faucet](https://faucet.l16.lukso.network) and paste the transaction wallet public address into the field and choose the amount of LYXt you want to receive.
+Visita el [Grifo](https://faucet.l16.lukso.network) y pega la dirección pública de la cartera de transacciones en el campo y elige la cantidad de LYXt que quieres recibir.
 
 :::info
-Transfer **enough** (#validators x staking_amount **+ extra LYXt to pay deposit fees**) funds to the transaction wallet public's address.
+Transfiere **suficientes** (#validadores x staking_amount **+ LYXt extra para pagar las comisiones de depósito**) fondos a la dirección pública del monedero de la transacción.
 :::
 
 
-## Submit the transaction
+## Enviar la transacción
 
-### Make a dry run first
+### Realizar un simulacro primero
 
 ```
 lukso network validator deposit --dry
 ```
 
-This will give you the possibility to peek in what is going to happen without executing a transaction.
+Esto le dará la posibilidad de comprobar lo que va a ocurrir sin ejecutar una transacción.
 
-### Deposit your validators
+### Depositar tus validadores
 
 :::danger
-If you are 100% sure that everything is correct you can deposit your LYXt, you will lose all your LYXt if you made a mistake
+Si estás 100% seguro de que todo es correcto puedes depositar tus LYXt, perderás todos tus LYXt si te equivocas.
 :::
 
 ```
 lukso network validator deposit
 ```
 
-It can take up to eight hours before your validator becomes active, but you can already start your validator in the meantime.
+Pueden pasar hasta ocho horas antes de que tu validador se active, pero mientras tanto ya puedes iniciarlo.
 
-Once you deposited LYXt make sure to create a backup.
+Una vez depositado LYXt asegúrate de crear una copia de seguridad.
 
 ```
 lukso network validator backup
 ```
 
-Store the file **node_recovery.json** somewhere safe and offline.
+Guarda el archivo **node_recovery.json** en algún lugar seguro y sin conexión.
 
-## Start your validator node
+## Iniciar el nodo validador
 
 ```
 sudo lukso network start
@@ -97,118 +97,118 @@ sudo lukso network start
 sudo lukso network validator start
 ```
 
-Check the status of your validator, it can take up to 8 hours before your validators become active
+Comprueba el estado de tu validador, puede tardar hasta 8 horas en activarse.
 
 ```
 lukso network validator describe
 ```
 
-Make sure everything is working correctly by checking the stats pages:
+Asegúrate de que todo funciona correctamente comprobando las páginas de estadísticas:
 
-- [Execution stats](https://stats.execution.l16.lukso.network)
-- [Consensus stats](https://stats.consensus.l16.lukso.network)
+- [Estadísticas de ejecución](https://stats.execution.l16.lukso.network)
+- [Estadísticas de consenso](https://stats.consensus.l16.lukso.network)
 
-You can also check your [logs](./logs-stats-monitoring.md).
+También puedes comprobar tus [registros](./logs-stats-monitoring.md).
 
-## Terminology
+## Terminología
 
-### Validator Node
+### Nodo Validador
 
-**Validator Node** is a combination of services and an underlying keystore that if run together are
-syncing, validating and proposing blocks. In most cases it can be described as a directory that contains  
-all necessary information to _run_ this node. At LUKSO the directory has the following structure:
+**Nodo Validador** es una combinación de servicios y un almacén de claves subyacente que si se ejecutan juntos están
+sincronizando, validando y proponiendo bloques. En la mayoría de los casos puede describirse como un directorio que contiene  
+toda la información necesaria para _ejecutar_ este nodo. En LUKSO el directorio tiene la siguiente estructura:
 
 - **configs**
-  - **configs.yaml** // configuration of consensus service
-  - **genesis.json** // configuration of execution service
-- data
-  - **execution_data** // db of execution service
-  - **consensus_data** // db of consensus service
-  - **validator_data** // db of validator service
+  - **configs.yaml** // configuración del servicio de consenso
+  - **genesis.json** // configuración del servicio de ejecución
+- datos
+  - **datos_ejecución** // db del servicio de ejecución
+  - **datos_consenso** // db del servicio de consenso
+  - **validator_data** // db del servicio de validación
 - **keystore**
-  - **prysm/direct/account/all-accounts.keystore.json** // keystore of valdiator keys
+  - **prysm/direct/account/all-accounts.keystore.json** // almacén de claves del validador
   - ...
-  - **password.txt** // password of keystore
-- **docker-compose.yaml** // describes how to run the docker images
-- **node_config.yaml** // adjustable values on how to run the nodes
-- **.env** // auto genrated file derived from **node_config.yaml**
+  - **password.txt** // contraseña del almacén de claves
+- **docker-compose.yaml** // describe cómo ejecutar las imágenes docker
+- **node_config.yaml** // valores ajustables sobre cómo ejecutar los nodos
+- **.env** // archivo autogenerado derivado de **node_config.yaml**
 
 ### Validator Keystore
 
-The **Validator Keystore** is a directory with private key in formats for the respective validator service
-version (Teku, Lighthouse, Prysm,...). The keystore has a fixed number of keys. If you need to change
-the number of keys you **must** create a new keystore. There is always **one** **Validator Keystore** for
-one **Validator Node**
+El **Validator Keystore** es un directorio con claves privadas en formatos para el respectivo servicio de validador
+(Teku, Lighthouse, Prysm,...). El keystore tiene un número fijo de claves. Si necesitas cambiar
+el número de claves **debes** crear un nuevo keystore. Siempre hay **un** **Validator Keystore** para
+un **Nodo Validador**.
 
 ### Validator Key
 
-The **Validator Key** is a private key that can have an active balance and is used to sign attestations
-and proposed blocks. The key can have an arbitrary amount of staked LYX but it **won't** change the reward.
-It is possible to deposit LYX multiple time to this validator key and that is important for the case the **Validator Key** missed duties and lost balance.
+La **Validator Key** es una clave privada que puede tener un saldo activo y se utiliza para firmar atestados
+y bloques propuestos. La clave puede tener una cantidad arbitraria de LYX depositados pero **no** cambiará la recompensa.
+Es posible depositar LYX varias veces en esta validator key y eso es importante para el caso de que la **Validator Key** falte a sus obligaciones y pierda saldo.
 
 ### Validator Key State
 
-The **Validator Key State** is the state of one particular key. A **Validator Keystore** can have many
-keys being in many states. When firstly created all the **Validator Keys** are in the state
-NOT_DEPOSITED. (NOTE: If the keystore was recreated the state my differ for some keys)
+El **Validator Key State** es el estado de una clave en particular. Un **Validator Keystore** puede tener muchas
+claves en varios estados. Cuando se crean por primera vez, todas las **Validator Keys** están en el estado
+NOT_DEPOSITED. (NOTA: Si el almacén de claves fue recreado el estado puede diferir para algunas claves)
 
-| State         | Acitvated By                                      | Comment                                                                               |
-| ------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| NOT_DEPOSITED | ...                                               | The keystore was created for the first time                                           |
-| PENDING       | A deposit with _min staking amount_ was made      | There is a proven stake deposited in the Deposit Contract                             |
-| ACTIVE        | The deposit was observed by the consensus network | The validator is eligible to be selected to propose and attest in the upcoming epochs |
+| Estado        | Acitvado por                                                  | Comentarios                                                                           |
+| ------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| NOT_DEPOSITED | ...                                                           | El keystore se ha creado por primera vez                                              |
+| PENDING       | Se realizó un depósito con _importe mínimo de participación_. | Existe una participación probada depositada en el Contrato de Depósito                |
+| ACTIVE        | La red de consenso observó el depósito                        | El validador podrá ser elegido para proponer y atestiguar en las próximas épocas      |
 
-## How Validator Keys are created
+## Cómo se crean las Validator Keys
 
-A **Validator Key** is always part of a **Validator Keystore** - as a single key or a combination of many. The keys
-are being derived by a [Mnemonic](https://wolovim.medium.com/ethereum-201-mnemonics-bb01a9108c38).
-A Mnemonic can potentially create an infinite amount of keys. It is important to understand that
-these keys are indexed. There is a possibility to (theoretically) create a certain range.
+Una **Validator Keys** siempre forma parte de un **Validator Keystore** - como una única clave o como una combinación de muchas. Las claves
+son derivadas por un [Mnemonic](https://wolovim.medium.com/ethereum-201-mnemonics-bb01a9108c38).
+Un Mnemonic puede crear potencialmente una cantidad infinita de claves. Es importante entender que
+estas claves están indexadas. Existe la posibilidad de crear (teóricamente) un cierto rango.
 
-Once a mnemonic is known the creation of **Validator Keystores** is **not** random but **deterministic**.
+Una vez que se conoce una mnemónica la creación de **Validator Keystores** es **no** aleatoria sino **determinista**.
 
-### An Example
+### Un ejemplo
 
-Given a mnemonic _m_. We create a keystore from position 0 to 2. This could result into:
+Dado un mnemónico _m_. Creamos un keystore de la posición 0 a la 2. Esto podría resultar en:
 
 - **Keystore A**
   - Key0: 0x8154..12
   - Key1: 0x7361..45
   - Key2: 0x7481..fe
 
-Now let's assume we deleted this keystore, and we create a new one from position 1 to 3. This results into:
+Ahora supongamos que borramos este keystore, y creamos uno nuevo de la posición 1 a la 3. Esto resulta en:
 
 - **Keystore B**
   - Key1: 0x7361..45
   - Key2: 0x7481..fe
   - Key3: 0x78ca..89
 
-As you can see the Key1 and Key2 are the same in **Keystore A** and **Keystore B**. This mechanism
-allows for great power to rearrange your node setup.
+Como puedes ver la Clave1 y la Clave2 son las mismas en **Keystore A** y **Keystore B**. Este mecanismo
+proporciona un gran poder para reorganizar la configuración de los nodos.
 
-### Node Setup Example
+### Ejemplo de configuración de nodos
 
-Let's assume - given a mnemonic _m_ - we want to create 2 nodes with 30 keys in
-**Node A** and 16 keys in the other **Node B**. Given our mnemonic _m_ we would
-e.g. have the following setup:
+Supongamos - dado un mnemónico _m_ - que queremos crear 2 nodos con 30 claves en
+**Nodo A** y 16 claves en el otro **Nodo B**. Dado nuestro mnemónico _m_ tendríamos
+por ejemplo, la siguiente configuración:
 
-**Node A** has a keystore with keys from position _0_ to position _29_
-**Node B** has a keystore with keys from position _30_ to position _45_
+**Nodo A** tiene un almacén de claves con claves desde la posición _0_ hasta la posición _29_.
+**Nodo B** tiene un almacén de claves con claves desde la posición _30_ hasta la posición _45_.
 
-Now let's assume we want to rearrange the **Validator Keys**'s by having an equal amount of keys on both nodes.
+Ahora supongamos que queremos reordenar los **Validator Keys** teniendo la misma cantidad de claves en ambos nodos.
 
-We should:
+Deberíamos
 
-1. Stop the validator nodes
-2. Delete the keystores
-3. Recreate the keystores with the same mnemonic **m**
-4. Start the nodes again
+1. Detener los nodos validadores
+2. Borrar los keystores
+3. Vuelve a crear los keystores con el mismo mnemónico **m**
+4. Arrancar de nuevo los nodos
 
-The setup could be
+La configuración podría ser
 
-**Node A** has a keystore with keys from position _0_ to position _22_
-**Node B** has a keystore with keys from position _23_ to position _45_
+**El nodo A** tiene un keystore con claves desde la posición _0_ hasta la posición _22_.
+**El nodo B** tiene un keystore con claves desde la posición _23_ hasta la posición _45_
 
-## Need help?
+## ¿Necesitas ayuda?
 
-Ask your question in the validators channel on the [official LUKSO Discord server](https://discord.gg/u7cmyUyw8F).
+Haz tu pregunta en el canal de validadores del [servidor oficial de Discord de LUKSO](https://discord.gg/u7cmyUyw8F).
