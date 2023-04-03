@@ -17,13 +17,13 @@ Para entender bien los LSPs, deberían estudiarse en el siguiente orden:
 
 - **[LSP2 - Esquema ERC725YJSONS](./generic-standards/lsp2-json-schema.md)**
 
-- **[LSP0 - Cuenta ERC725](./perfil-universal/lsp0-erc725account.md)**
+- **[LSP0 - Cuenta ERC725](./universal-profile/lsp0-erc725account.md)**
 
 - **[LSP1 - ReceptorUniversal](./generic-standards/lsp1-universal-receiver.md)**
 
-- **[LSP6 - Gestor de Claves](./perfil-universal/lsp6-key-manager.md)**
+- **[LSP6 - Gestor de Claves](./universal-profile/lsp6-key-manager.md)**
 
-- **[LSP3 - Metadatosdeperfiluniversal](./perfiluniversal/lsp3-universal-profile-metadata.md)**
+- **[LSP3 - Metadatosdeperfiluniversal](./universal-profile/lsp3-universal-profile-metadata.md)**
 
 - **[LSP7 - Activo Digital](./nft-2.0/LSP7-Digital-Asset.md)**
 
@@ -35,9 +35,9 @@ Para entender bien los LSPs, deberían estudiarse en el siguiente orden:
 
 - **[LSP12 - Activos emitidos](./universal-profile/lsp12-issued-assets.md)**
 
-- **[LSP9 - Bóveda](./perfiluniversal/lsp9-vault.md)**
+- **[LSP9 - Bóveda](./universal-profilel/lsp9-vault.md)**
 
-- **[LSP10 - Bóvedas recibidas](./perfiluniversal/lsp10-bóvedas-recibidas.md)**
+- **[LSP10 - Bóvedas recibidas](./universal-profile/lsp10-bóvedas-recibidas.md)**
 
 ## Más información
 
