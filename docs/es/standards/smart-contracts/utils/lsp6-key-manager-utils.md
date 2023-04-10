@@ -11,9 +11,9 @@ sidebar_position: 3
 
 :::
 
-Library that contains helper functions to query ERC725Y data keys related to LSP6. They can be used to retrieve permissions, Allowed Calls or ERC725Y Data Keys related to controller addresses.
+Librería que contiene funciones de ayuda para consultar claves de datos ERC725Y relacionadas con LSP6. Pueden utilizarse para recuperar permisos, llamadas permitidas o claves de datos ERC725Y relacionadas con direcciones de controladores.
 
-## Functions
+## Funciones
 
 ### getPermissionsFor
 
@@ -24,18 +24,18 @@ function getPermissionsFor(
 ) internal view returns (bytes32);
 ```
 
-Read the permissions of a `caller` on an ERC725Y `target` contract.
+Leer los permisos de un `caller` en un contrato ERC725Y `target`.
 
-#### Parameters:
+#### Parámetros:
 
-| Name   | Type     | Description                                           |
-| :----- | :------- | :---------------------------------------------------- |
-| target | IERC725Y | An `IERC725Y` contract where to read the permissions. |
-| caller | address  | The controller address to read the permissions from.  |
+| Nombre | Tipo     | Descripción                                                           |
+| :----- | :------- | :-------------------------------------------------------------------- |
+| target | IERC725Y | Un contrato `IERC725Y` donde leer los permisos.                       |
+| caller | address  | La dirección del controlador desde donde se van a leer los permisos.  |
 
-#### Return Value
+#### Valores Devueltos
 
-Returns a `bytes32` BitArray containing the permissions of a controller address.
+Devuelve un `bytes32` BitArray que contiene los permisos de una dirección de controlador.
 
 ### getAllowedCallsFor
 
@@ -46,18 +46,18 @@ function getAllowedCallsFor(
 ) internal view returns (bytes memory);
 ```
 
-Read the allowed calls of a `caller` on an ERC725Y `target` contract.
+Leer las llamadas permitidas de un `caller` en un contrato ERC725Y `target`.
 
-#### Parameters:
+#### Parámetros:
 
-| Name   | Type     | Description                                           |
-| :----- | :------- | :---------------------------------------------------- |
-| target | IERC725Y | An `IERC725Y` contract where to read the permissions. |
-| caller | address  | The controller address to read the permissions from.  |
+| Nombre | Tipo     | Descripción                                                           |
+| :----- | :------- | :-------------------------------------------------------------------- |
+| target | IERC725Y | Un contrato `IERC725Y` donde leer los permisos.                       |
+| caller | address  | La dirección del controlador desde donde se van a leer los permisos.  |
 
-#### Return Value
+#### Valores Devueltos
 
-Returns a CompactBytesArray containing the calls that a controller is allowed to make.
+Devuelve un CompactBytesArray que contiene las llamadas que un controlador puede realizar.
 
 ### getAllowedERC725YDataKeysFor
 
@@ -68,18 +68,18 @@ function getAllowedERC725YDataKeysFor(
 ) internal view returns (bytes memory);
 ```
 
-Read the allowed ERC725Y data keys of a `caller` on an ERC725Y `target` contract.
+Leer las claves de datos ERC725Y permitidas de un `caller` en un contrato ERC725Y `target`.
 
-#### Parameters:
+#### Parámetros:
 
-| Name   | Type     | Description                                           |
-| :----- | :------- | :---------------------------------------------------- |
-| target | IERC725Y | An `IERC725Y` contract where to read the permissions. |
-| caller | address  | The controller address to read the permissions from.  |
+| Nombre | Tipo     | Descripción                                                           |
+| :----- | :------- | :-------------------------------------------------------------------- |
+| target | IERC725Y | Un contrato `IERC725Y` donde leer los permisos.                       |
+| caller | address  | La dirección del controlador desde donde se van a leer los permisos.  |
 
-#### Return Value
+#### Valores Devueltos
 
-Returns a CompactBytesArray containing the allowed ERC725 data keys that the controller address is allowed to interact with.
+Devuelve un CompactBytesArray que contiene las claves de datos ERC725 permitidas con las que la dirección del controlador puede interactuar.
 
 ### hasPermission
 
@@ -90,18 +90,18 @@ function hasPermission(
 ) internal pure returns (bool);
 ```
 
-Compare the permissions `addressPermissions` of an address to check if they includes the permissions `permissionToCheck`.
+Compara los permisos `addressPermissions` de una dirección para comprobar si incluyen los permisos `permissionToCheck`.
 
-#### Parameters:
+#### Parámetros:
 
-| Name              | Type    | Description                                                |
-| :---------------- | :------ | :--------------------------------------------------------- |
-| addressPermission | bytes32 | The permissions of an address stored on an ERC725 account. |
-| permissionToCheck | bytes32 | The permissions to check.                                  |
+| Nombre            | Tipo    | Descripción                                                    |
+| :---------------- | :------ | :------------------------------------------------------------- |
+| addressPermission | bytes32 | Los permisos de una dirección almacenada en una cuenta ERC725. |
+| permissionToCheck | bytes32 | Los permisos a verificar.                                      |
 
-#### Return Value
+#### Valores Devueltos
 
-Returns `true` if `addressPermission` is containing the `permissionToCheck`.
+Devuelve `true` si `addressPermission` contiene el `permissionToCheck`.
 
 ### setDataViaKeyManager
 
@@ -113,19 +113,19 @@ function setDataViaKeyManager(
 ) internal returns (bytes memory result);
 ```
 
-Use the `setData(bytes32[],bytes[])` via the KeyManager of the target.
+Utiliza `setData(bytes32[],bytes[])` a través del GestordeClaves del destino.
 
-#### Parameters:
+#### Parámetros:
 
-| Name              | Type      | Description                    |
-| :---------------- | :-------- | :----------------------------- |
-| keyManagerAddress | address   | The address of the KeyManager. |
-| keys              | bytes32[] | The array of data keys.        |
-| values            | bytes[]   | The array of data values.      |
+| Nombre            | Tipo      | Descripción                      |
+| :---------------- | :-------- | :------------------------------- |
+| keyManagerAddress | address   | La dirección del GestordeClaves. |
+| keys              | bytes32[] | El conjunto de claves de datos.  |
+| values            | bytes[]   | El conjunto de valores de datos. |
 
-#### Return Value
+#### Valores Devueltos
 
-Returns the reuslt of the external call.
+Devuelve el resultado de la llamada externa.
 
 ### getPermissionName
 
@@ -135,18 +135,18 @@ function getPermissionName(
 ) internal pure returns (string memory errorMessage);
 ```
 
-Get the name of the permission from its BitArray value.
+Obtiene el nombre del permiso a partir de su valor BitArray.
 
-#### Parameters:
+#### Parámetros:
 
-| Name       | Type    | Description                                  |
-| :--------- | :------ | :------------------------------------------- |
-| permission | bytes32 | The permission whose name is to be returned. |
+| Nombre     | Tipo    | Descripción                            |
+| :--------- | :------ | :------------------------------------- |
+| permission | bytes32 | Permiso cuyo nombre se desea devolver. |
 
-#### Return Value
+#### Valores Devueltos
 
-The name of the permission.
+El nombre del permiso.
 
-## References
+## Referencias
 
-- [Solidity implementations (GitHub)](https://github.com/lukso-network/lsp-smart-contracts/tree/develop/contracts)
+- [Implementaciones de Solidity (GitHub)](https://github.com/lukso-network/lsp-smart-contracts/tree/develop/contracts)

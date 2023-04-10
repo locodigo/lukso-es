@@ -1,56 +1,56 @@
 ---
-sidebar_label: 'LSP1 - Universal Receiver Delegate'
+sidebar_label: 'LSP1 - Receptor Delegado Universal'
 sidebar_position: 2
 ---
 
-# LSP1 - Universal Receiver Delegate
+# LSP1 - Receptor Delegado Universal
 
-:::info Standard Document
+:::info Documento Estándard
 
-[LSP1 - Universal Receiver Delegate](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-1-UniversalReceiver.md#specification-of-the-universalreceiverdelegate)
-
-:::
-
-:::success Recommendation
-
-To better understand this standard, it is well-advised first to check the origin standard **[LSP1-UniversalReceiver](../generic-standards/lsp1-universal-receiver.md)**.
+[LSP1 - Receptor Delegado Universal](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-1-UniversalReceiver.md#specification-of-the-universalreceiverdelegate)
 
 :::
 
-## Introduction
+:::success Sugerencia
 
-Once deployed, the code of a smart contract **can not be changed**. However, builders can decide how their smart contracts implement the [`universalReceiver(...)`](../smart-contracts/lsp0-erc725-account.md#universalreceiver) function. This standard allows any external smart contract to change relations from the main contract to change function behavior.
-
-Therefore, it is advised not to hardcode how the smart contract should handle and react to specific calls inside the `universalReceiver(...)` function. Instead, it should delegate this functionality to another external contract. Developers could then customize such contracts to implement a specific logic that is **changeable anytime via an upgrade**.
-
-## What does this standard represent ?
-
-### Specification
-
-:::success recommendation
-
-Smart contracts implementing the [LSP1-UniversalReceiverDelegate](#) standard SHOULD **register** the **[LSP1UniversalReceiverDelegate InterfaceId](../smart-contracts/interface-ids.md) using ERC165**. This way, other contracts can be aware that the contract supports the LSP1 standard.
+Para comprender mejor este estándar, se recomienda consultar primero el estándar de origen **[LSP1-ReceptorUniversal](../generic-standards/lsp1-universal-receiver.md)**.
 
 :::
 
-This standard defines a contract called **UniversalReceiverDelegate** containing a single function named `universalReceiverDelegate(...)` that should be called by the `universalReceiver(..)` function with:
+## Introducción
 
-- address `caller`: the address that initially called the `universalReceiver(...)` function.
+Una vez desplegado, el código de un contrato inteligente **no puede ser modificado**. Sin embargo, los constructores pueden decidir cómo sus contratos inteligentes implementan la función [`universalReceiver(...)`](../smart-contracts/lsp0-erc725-account.md#universalreceiver). Este estándar permite a cualquier contrato inteligente externo cambiar las relaciones del contrato principal para cambiar el comportamiento de la función.
 
-- uint256 `value`: the amount of value sent to the `universalReceiver(...)` function.
+Por lo tanto, se aconseja no programar cómo el contrato inteligente debe manejar y reaccionar a llamadas específicas dentro de la función `universalReceiver(...)`. En su lugar, debería delegar esta funcionalidad a otro contrato externo. Los desarrolladores podrían entonces personalizar dichos contratos para implementar una lógica específica que sea **canjeable en cualquier momento a través de una actualización**.
 
-- bytes32 `typeId`: the typeId passed to the `universalReceiver(...)` function.
+## ¿Qué representa esta norma?
 
-- bytes `data`: the data passed to the `universalReceiver(...)` function.
+### Especificación
+
+:::success Sugerencia
+
+Los contratos inteligentes que implementen el estándar [LSP1-ReceptorDelegadoUniversal](#) DEBERÍAN **registrar** el **[IdDeInterfazDeReceptorDelegadoUniversalLSP1](../smart-contracts/interface-ids.md) utilizando ERC165**. De esta forma, otros contratos pueden saber que el contrato soporta el estándar LSP1.
+
+:::
+
+Este estándar define un contrato llamado **ReceptorDelegadoUniversal** que contiene una única función llamada `universalReceiverDelegate(...)` que debe ser llamada por la función `universalReceiver(..)` con:
+
+- address `caller`: la dirección que llamó inicialmente a la función `universalReceiver(...)`.
+
+- uint256 `value`: la cantidad de valor enviada a la función `universalReceiver(...)`.
+
+- bytes32 `typeId`: el typeId pasado a la función `universalReceiver(...)`.
+
+- bytes `data`: los datos pasados a la función `universalReceiver(...)`.
 
 
 
 
-### How Delegation works
+### Cómo funciona la delegación
 
-The address of the **[UniversalReceiverDelegate](../smart-contracts/lsp1-universal-receiver-delegate-up.md)** contract can be stored inside the storage of the contract delegating its `universalReceiver(...)` functionality. This allows the upgrade of the **UniversalReceiverDelegate** simply by changing the address (in storage) to another UniversalReceiverDelegate containing a new logic.
+La dirección del contrato **[ReceptorDelegadoUniversal](../smart-contracts/lsp1-universal-receiver-delegate-up.md)** puede almacenarse dentro del almacenamiento del contrato que delega su funcionalidad `universalReceiver(...)`. Esto permite la actualización del **ReceptorDelegadoUniversal** simplemente cambiando la dirección (en el almacenamiento) a otro ReceptorDelegadoUniversal que contenga una nueva lógica.
 
-If the contract implementing the `universalReceiver(..)` supports **[ERC725Y Data key-value store](https://github.com/ERC725Alliance/erc725/blob/main/docs/ERC-725.md#erc725y)**, the address of the **external contract** MUST be set as a value for the **LSP1UniversalReceiverDelegate data key** shown below to enable the optional extension. This key-value pair will act as a reference, making this external contract upgradeable if required.
+Si el contrato que implementa el `universalReceiver(..)` admite **[Almacén de clave-valor de datos ERC725Y](https://github.com/ERC725Alliance/erc725/blob/main/docs/ERC-725.md#erc725y)**, la dirección del **contrato externo** DEBE establecerse como valor para la **clave de datos LSP1ReceptorDelegadoUniversal** que se muestra a continuación para habilitar la ampliación opcional. Este par clave-valor actuará como referencia, haciendo que este contrato externo sea actualizable en caso necesario.
 
 ```json
 {
@@ -61,38 +61,38 @@ If the contract implementing the `universalReceiver(..)` supports **[ERC725Y Dat
   "valueContent": "Address"
 }
 ```
-Check **[LSP2-ERC725YJSONSchema](./lsp2-json-schema.md)** for more information about the JSON schema.
+Consulta **[LSP2-EsquemaJSONERC725Y](./lsp2-json-schema.md)** para obtener más información sobre el esquema JSON.
 
-## Implementations
+## Implementaciones
 
-There are several implementations of the standard. The **[LSP1UniversalReceiverDelegateUP](../smart-contracts/lsp1-universal-receiver-delegate-up.md)** contract is one of them and is used as a delegate to the `universalReceiver(...)` function of **UniversalProfile** contract.
+Existen varias implementaciones del estándar. El contrato **[LSP1ReceptorDelegadoUniversalUP](../smart-contracts/lsp1-universal-receiver-delegate-up.md)** es una de ellas y se utiliza como delegado de la función `universalReceiver(...)` del contrato **PerfilUniversal**.
 
-At the moment, this contract allows to:
+Por el momento, este contrato permite
 
-- receive and send tokens & vaults
-- register the data keys representing them according to **[LSP5-ReceivedAssets](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-5-ReceivedAssets.md)** and **[LSP10-ReceivedVaults](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-10-ReceivedVaults.md)** Standards.
+- recibir y enviar tokens y vaults
+- registrar las claves de datos que los representan según las normas **[LSP5-ActivosRecibidos](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-5-ReceivedAssets.md)** y **[LSP10-BóvedasRecibidas](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-10-ReceivedVaults.md)**.
 
-### Token transfer scenario
+### Escenario de transferencia de Tokens
 
-One of the possible scenarios is a token transfer between Alice and Bob. Alice wants to transfer a token owned by her Universal Profile to the Universal Profile of her friend Bob.
+Un escenario posible es el de una transferencia de tokens entre Alice y Bob. Alice quiere transferir un token propiedad de su Perfil Universal al Perfil Universal de su amigo Bob.
 
-**1.** It calls the **`transfer(...)`** function on the token contract through the [KeyManager](../smart-contracts/lsp6-key-manager.md).
+**1.** Llama a la función **`transfer(...)`** en el contrato de token a través del [Gestor de Claves](../smart-contracts/lsp6-key-manager.md).
 
 ![executing transfer function](/img/standards/lsp1delegate/token-transfer-1.jpg)
 
-**2.** The `transfer(...)` function on the token contract will directly **trigger a hook** that will call the `universalReceiver(...)` function on both sender and recipient Universal Profiles.
+**2.** La función `transfer(...)` del contrato de tokens **activará directamente un gancho** que llamará a la función `universalReceiver(...)` de los Perfiles Universales del remitente y del destinatario.
 
 ![token contract hooks calling universalReceiver function](/img/standards/lsp1delegate/token-transfer-2.jpg)
 
-**3.** 3. If the **UniversalReceiverDelegate** contract is set, it will be called by the `universalReceiver(...)` function and will execute its custom logic.
+**3.** Si se establece el contrato **ReceptorDelegadoUniversal**, será llamado por la función `universalReceiver(...)` y ejecutará su lógica personalizada.
 
 ![universalReceiver function calling UniversalReceiverDelegate contract](/img/standards/lsp1delegate/token-transfer-3.jpg)
 
-**4.** The **UniversalReceiverDelegate** of **Universal Profile** allows the transfer and set **[LSP5-ReceivedAssets](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-5-ReceivedAssets.md)** data keys on both Profiles through the KeyManager.
+**4.** El **ReceptorDelegadoUniversal** del **Perfil Universal** permite transferir y establecer **[LSP5-ActivosRecibidos](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-5-ReceivedAssets.md)** claves de datos en ambos Perfiles a través del Gestor de Claves.
 
 ![UniversalReceiverDelegate setting data keys on profile](/img/standards/lsp1delegate/token-transfer-4.jpg)
 
-## References
+## Referencias
 
-- [LUKSO Standards Proposals: LSP1 - Universal Receiver (Standard Specification, GitHub)](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-1-UniversalReceiver.md)
-- [LSP1 Universal Receiver: Solidity implementations (GitHub)](https://github.com/lukso-network/lsp-universalprofile-smart-contracts/tree/develop/contracts/LSP1UniversalReceiver)
+- [Propuestas de Estándares LUKSO: LSP1 - Receptor Delegado Universal (Especificación estándar, GitHub)](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-1-UniversalReceiver.md)
+- [LSP1 Receptor Delegado Universal: implementaciones de Solidity (GitHub)](https://github.com/lukso-network/lsp-universalprofile-smart-contracts/tree/develop/contracts/LSP1UniversalReceiver)

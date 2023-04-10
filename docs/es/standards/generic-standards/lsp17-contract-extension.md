@@ -1,90 +1,90 @@
 ---
-sidebar_label: 'LSP17 - Contract Extension'
+sidebar_label: 'LSP17 - Extensión del Contrato'
 sidebar_position: 4
 ---
 
-# LSP17 - Contract Extension
+# LSP17 - Extensión del Contrato
 
-:::info Standard Document
+:::info Documento Estándard
 
-[LSP17 - Contract Extension](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-17-ContractExtension.md)
+[LSP17 - Extensión del Contrato](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-17-ContractExtension.md)
 
 :::
 
-## Introduction
+## Introducción
 
-Once a contract is deployed on the blockchain, it is not possible to modify the contract to add new native functions or change the behavior of existing ones. This can be a limitation for smart contracts, particularly those that may need to adapt to new use cases and standards over time.
+Una vez que un contrato se despliega en la blockchain, no es posible modificarlo para añadir nuevas funciones nativas o cambiar el comportamiento de las existentes. Esto puede suponer una limitación para los contratos inteligentes, especialmente para aquellos que con el tiempo deban adaptarse a nuevos casos de uso y estándares.
 
-What is required is a method to extend the functionalities of a smart contract even after it has been deployed, allowing it to continue to support new features over time.
+Lo que se necesita es un método para ampliar las funcionalidades de un contrato inteligente incluso después de que haya sido desplegado, permitiéndole seguir soportando nuevas características con el tiempo.
 
-A possible solution to this problem is to establish a system of extensions that can be added to a smart contract, enabling it to **acquire new functionalities** without the need for redeployment.
+Una posible solución a este problema es establecer un sistema de extensiones que puedan añadirse a un contrato inteligente, permitiéndole **adquirir nuevas funcionalidades** sin necesidad de volver a desplegarlo.
 
-## What does this standard represent ?
+## ¿Qué representa este estándar?
 
-This standard defines a mechanism for extending a contract to support new functions through the use of **extensions**.
+Este estándar define un mecanismo para extender un contrato para soportar nuevas funciones mediante el uso de **extensiones**.
 
 ![Normal contract Vs contract implementing LSP17](/img/standards/lsp17/TwoContracts.jpeg)
 
-The **_smart contract A_** implements 4 functions natively. Once this smart contract is deployed, no new functions can be added or changes made to the existing ones.
+El **_contrato inteligente A_** implementa 4 funciones de forma nativa. Una vez desplegado este contrato inteligente, no se pueden añadir nuevas funciones ni realizar cambios en las existentes.
 
-In contrast, the **_smart contract B_**, which supports the **[LSP17 standard](#)**, does not implement any native functions but rather relies on extensions for the functionality that is needed and can add more extensions in the future.
+En cambio, el **_contrato inteligente B_**, que soporta el **[estándar LSP17](#)**, no implementa ninguna función nativa, sino que se basa en extensiones para la funcionalidad que sea necesaria y puede añadir más extensiones en el futuro.
 
-Thus, smart contract B has the ability **to support an unlimited number of functionalities** and can add new functions in the future if desired.
+Así, el contrato inteligente B tiene la capacidad de **soportar un número ilimitado de funcionalidades** y puede añadir nuevas funciones en el futuro si lo desea.
 
 ![Normal contract Vs contract implementing LSP17](/img/standards/lsp17/OneContract.jpeg)
 
-As shown in the figure above, smart contract B **changed the extension** of the `execute(..)` function to a newer version, removed the `depositToken(..)` extension, and added new extension for `socialRecover(..)` function.
+Como se muestra en la figura anterior, el contrato inteligente B **cambió la extensión** de la función `execute(..)` a una versión más reciente, eliminó la extensión `depositToken(..)` y añadió una nueva extensión para la función `socialRecover(..)`.
 
-This system of extensions allows for a smart contract to evolve and adapt to changes that may arise in the future. By implementing this system, smart contracts can become more versatile and capable of supporting a broader range of functionalities, even after deployment.
+Este sistema de extensiones permite que un contrato inteligente evolucione y se adapte a los cambios que puedan surgir en el futuro. Mediante la implementación de este sistema, los contratos inteligentes pueden ser más versátiles y capaces de soportar una gama más amplia de funcionalidades, incluso después de su despliegue.
 
-### Specification
+### Especificación
 
-This standard defines two types of contracts:
+Este estándar define dos tipos de contratos:
 
-- The **extendable contract**, which is the contract whose functionality we want to extend.
+- El **contrato extensible**, que es el contrato cuya funcionalidad queremos extender.
 
-- The **extension contract**, which is the contract providing the functionality to be added to the extendable contract.
+- El **contrato extensible**, que es el contrato que proporciona la funcionalidad que se añadirá al contrato extensible.
 
-When the extendable contract is called with a function that is not natively implemented, it checks the address of the extension mapped to that function.
+Cuando se llama al contrato extensible con una función que no está implementada de forma nativa, comprueba la dirección de la extensión asignada a esa función.
 
-If no extension is set for the function being called, the call **MUST revert**.
+Si no se establece ninguna extensión para la función a la que se llama, la llamada **DEBE revertirse**.
 
-But if an extension is set, the extendable contract will make a call to that extension using the **CALL** opcode, along with an additional calldata of 52 bytes containing the address of the caller (20 bytes) and the value sent along calling the function by the caller (32 bytes).
+Pero si se establece una extensión, el contrato extensible hará una llamada a esa extensión utilizando el opcode **CALL**, junto con un calldata adicional de 52 bytes que contiene la dirección del llamante (20 bytes) y el valor enviado junto con la llamada a la función por el llamante (32 bytes).
 
 ![Calling An LSP17 Extension](/img/standards/lsp17/CallingAnLSP17Extension.jpeg)
 
-The 52 bytes of additional calldata appended to the call to the extension contract provides context about the caller and the value sent in the call, allowing the extension to validate the call based on these factors if desired.
+Los 52 bytes de calldata adicionales añadidos a la llamada al contrato extensible proporcionan contexto sobre el llamante y el valor enviado en la llamada, permitiendo a la extensión validar la llamada basándose en estos factores si lo desea.
 
-> This standard does not dictate a specific method for mapping function selectors to extensions or for setting or changing these extensions in the extendable contract, developers can choose their preferred approach.
+> Este estándar no dicta un método específico para mapear selectores de función a extensiones o para establecer o cambiar estas extensiones en el contrato extensible, los desarrolladores pueden elegir su enfoque preferido.
 
-### Extension Re-usability
+### Reutilización de extensiones
 
-While contracts can deploy and customize their own extensions, many smart contracts **share almost the same logic** for certain functions. In this case, the same extensions can be re-used by different contracts supporting LSP17.
+Mientras que los contratos pueden desplegar y personalizar sus propias extensiones, muchos contratos inteligentes **comparten casi la misma lógica** para ciertas funciones. En este caso, las mismas extensiones pueden ser reutilizadas por diferentes contratos que soporten LSP17.
 
-For example, **_smart contract A & B_** are two independant contracts that implement different functions but share the same logic for verifying signatures. Therefore, they can use the same extension for signature validation for the `isValidSignature(..)` function.
+Por ejemplo, **_contrato inteligente A y B_** son dos contratos independientes que implementan funciones diferentes pero comparten la misma lógica para verificar firmas. Por lo tanto, pueden utilizar la misma extensión para la validación de firmas para la función `isValidSignature(..)`.
 
 ![Two contracts sharing the same LSP17 Extension](/img/standards/lsp17/ShareExtension.jpeg)
 
-This approach leads to fewer contracts being deployed on the blockchain with the same logic, resulting in less chain congestion and simplifying the development process by reusing already deployed and verified extension contracts.
+Este enfoque hace que se desplieguen menos contratos en la blockchain con la misma lógica, lo que provoca una menor congestión de la cadena y simplifica el proceso de desarrollo al reutilizar contratos de extensión ya desplegados y verificados.
 
-### Security Considerations
+### Consideraciones de seguridad
 
-As the extensions are called using the **CALL** opcode not **DELEGATECALL**, it' safe to assume that there is no risk of destroying the extendable smart contract through `selfdestruct`.
+Como las extensiones se llaman utilizando el opcode **CALL** y no **DELEGATECALL**, es seguro asumir que no hay riesgo de destruir el contrato inteligente extensible a través de `selfdestruct`.
 
-However, it is important to be aware that **adding random contracts as extensions carelessly** can be problematic as the extensions will have the extendable contract as their caller (`msg.sender`), which can lead to impersonating the extendable contract in certain situations.
+Sin embargo, es importante tener en cuenta que **añadir contratos aleatorios como extensiones por descuido** puede ser problemático ya que las extensiones tendrán el contrato extensible como su llamador (`msg.sender`), lo que puede llevar a suplantar el contrato extensible en ciertas situaciones.
 
-### Example
+### Ejemplo
 
-A decentralized exchange cannot accept safe ERC721 or ERC1155 transfers unless it implements specific functions with specific return values. This ensures that the contract knows how to handle these tokens, thus making the transfer safe.
+Una plataforma de intercambio descentralizada no puede aceptar transferencias seguras ERC721 o ERC1155 a menos que implemente funciones específicas con valores de retorno específicos. Esto asegura que el contrato sabe cómo manejar estos tokens, haciendo así la transferencia segura.
 
 ![Exchange receiving ERC721 and ERC1155 Tokens](/img/standards/lsp17/ExchangeAcceptingERCTokens.jpeg)
 
-The decentralized exchange or any other type of contract can receive tokens of these types, but what happens if another token standard emerges that people start building on and that has the same validation system where it requires the function `onERCXXXReceived(..)` ? This will make the DEX unable to receive these kinds of tokens because it did not implement this function simply because it did not exist at the time.
+La plataforma de intercambio descentralizada o cualquier otro tipo de contrato puede recibir tokens de estos tipos, pero ¿qué ocurre si surge otro estándar de tokens sobre el que la gente empieza a construir y que tiene el mismo sistema de validación en el que requiere la función `onERCXXXReceived(..)`? Esto hará que el DEX no pueda recibir este tipo de tokens porque no implementó esta función simplemente porque no existía en ese momento.
 
 ![Exchange cannot receive ERCXXX Tokens](/img/standards/lsp17/ExchangeCannotAcceptERCTokens.jpeg)
 
-So the only way for this DEX to support new types of tokens is to redeploy the contract with this new function, which can be problematic as many protocols depend and interact with this DEX on a specific address.
+Así que la única manera de que este DEX soporte nuevos tipos de tokens es volver a desplegar el contrato con esta nueva función, lo que puede ser problemático ya que muchos protocolos dependen e interactúan con este DEX en una dirección específica.
 
-This problem can be resolved by utilizing **LSP17** in the decentralized exchange (DEX). With this standard, the contract can be deployed with only the `onERC721Received(..)` or `onERC1155Received(..)` functions implemented, but additional functions such as `onERCXXXReceived(..)` can be **added as extensions** later. LSP17 also allows for the potential addition of extensions for any future standard-required functions that may arise.
+Este problema puede resolverse utilizando **LSP17** en el intercambio descentralizado (DEX). Con este estándar, el contrato puede desplegarse con sólo las funciones `onERC721Received(..)` o `onERC1155Received(..)` implementadas, pero funciones adicionales como `onERCXXXReceived(..)` pueden **añadirse como extensiones** más adelante. LSP17 también permite la adición potencial de extensiones para cualquier futura función requerida por la norma que pueda surgir.
 
 ![Exchange adding ERCXXX Token Extension](/img/standards/lsp17/ExchangeAddingERCTokenExtension.jpeg)

@@ -1,60 +1,60 @@
 ---
-title: Introduction
+title: Introducción
 sidebar_position: 1
 ---
 
-# Smart Contract Implementation
+# Implementación de Contratos Inteligentes
 
-:::success Documentation
+:::success Documentación
 
-The smart contracts are public and open source. They can be found [on GitHub](https://github.com/lukso-network/lsp-smart-contracts) and in the [`@lukso/lsp-smart-contracts`](https://www.npmjs.com/package/@lukso/lsp-smart-contracts) NPM package.
+Los contratos inteligentes son públicos y de código abierto. Se pueden encontrar [en GitHub](https://github.com/lukso-network/lsp-smart-contracts) y en el paquete NPM [`@lukso/lsp-smart-contracts`](https://www.npmjs.com/package/@lukso/lsp-smart-contracts).
 
 :::
 
-This section contains the reference contract implementations of **[LUKSO Standard Proposals](../introduction.md)**.
+Esta sección contiene las implementaciones de contratos de referencia de **[Propuestas de Estándares LUKSO](../introduction.md)**.
 
-Some of the standards do not have a contract implementation as they represent **Metadata-Standards** to be used in the implementation contracts.
+Algunos de estos estándares no tienen una implementación de contrato, ya que representan **Estándares de metadatos** que se utilizarán en la implementación de contratos.
 
-Developers wishing to understand the standards in terms of code and the tradeoffs within are well-advised to read these documents alongside the Solidity code itself.
+Se recomienda a los desarrolladores que deseen comprender los estándares en términos de código y las ventajas y desventajas, que lean estos documentos junto con el código de Solidity.
 
 ---
 
-## Installation
+## Instalación
 
 ```bash
 npm install @lukso/lsp-smart-contracts
 ```
 
-## Overview
+## Visión general
 
-The contracts can be divided by their usage. Some are related to **Universal Profiles**, while others are related to **Digital Assets and NFT 2.0**. Finally, some standards are for more **general use cases**.
+Los contratos pueden dividirse según su uso. Algunos están relacionados con **Perfiles Universales**, mientras que otros lo están con **Activos Digitales y NFT 2.0**. Por último, algunas normas se refieren a **casos de uso más general**.
 
-### Universal Profile
+### Perfil Universal
 
-The **Universal Profile** contracts allow a better representation of the identity on the blockchain and better control over it.
+Los contratos del **Perfil Universal** permiten una mejor representación de la identidad en la blockchain y un mejor control sobre ella.
 
-- **[LSP0ERC725Account](./lsp0-erc725-account.md)**: a contract that can be used as an account and represents an **identity on-chain**.
-- **[LSP1UniversalReceiverDelegateUP](./lsp1-universal-receiver-delegate-up.md)**: a contract that allows the account to react to the calls that it receives (Normal transaction, Token transfer, Vaults transfer, etc.).
-- **[LSP6KeyManager](./lsp6-key-manager.md)**: a contract that allows **multi-control** over the account using different permissions.
+- **[LSP0CuentaERC725](./lsp0-erc725-account.md)**: contrato que puede utilizarse como cuenta y representa una **identidad on-chain**.
+- **[LSP1ReceptorDelegadoUniversalUP](./lsp1-universal-receiver-delegate-up.md)**: contrato que permite a la cuenta reaccionar a las llamadas que recibe (transacción normal, transferencia de tokens, transferencia de bóvedas, etc.).
+- **[LSP6GestordeClaves](./lsp6-key-manager.md)**: un contrato que permite **multicontrol** sobre la cuenta utilizando diferentes permisos.
 
-### Digital Assets
+### Activos digitales
 
-The **Digital Asset (Token and NFT 2.0)** contracts are the newest advanced version of the existing token standards. They come with many features that enhance the security and the overall user experience and compatibility with [ERC725Accounts](../universal-profile/lsp0-erc725account.md) and [Universal Receivers](../generic-standards/lsp1-universal-receiver.md).
+Los contratos de **Activos Digitales (Token y NFT 2.0)** son la versión avanzada más reciente de los estándares de token existentes. Vienen con muchas características que mejoran la seguridad y la experiencia general del usuario y la compatibilidad con las [CuentasERC725](../universal-profile/lsp0-erc725account.md) y los [Receptores Universales](../generic-standards/lsp1-universal-receiver.md).
 
-- **[LSP4DigitalAssetMetadata](./lsp4-digital-asset-metadata)**: a contract that sets the **metadata** of the **Digital Asset**.
-- **[LSP7DigitalAsset](./lsp7-digital-asset.md)**: a contract that either represents a fungible or non-fungible token (NFT).
-- **[LSP8IdentifiableDigitalAsset](./lsp8-identifiable-digital-asset.md)**: a contract that represents a non-fungible token (NFT). It uses a bytes32 tokenId to allow many uses of token identification, including numbers, contract addresses, and hashed values (e.g., serial numbers).
+- **[LSP4MetadatosActivoDigital](./lsp4-digital-asset-metadata)**: contrato que establece los **metadatos** del **activo digital**.
+- **[LSP7ActivoDigital](./lsp7-activo-digital.md)**: contrato que representa un token fungible o no fungible (NFT).
+- **[LSP8ActivoDigitalIdentificable](./lsp8-identifiable-digital-asset.md)**: contrato que representa un token no fungible (NFT). Utiliza un bytes32 tokenId para permitir muchos usos de la identificación de tokens, incluidos números, direcciones de contrato y valores hash (por ejemplo, números de serie).
 
-### Periphery
+### Periferia
 
-These contracts are not just related to one specific section and could be used with the **Universal Profile**, **Digital Asset**, and **NFT 2.0** contracts.
+Estos contratos no están relacionados únicamente con una sección específica y podrían utilizarse con los contratos **Universal Profile**, **Digital Asset** y **NFT 2.0**.
 
-- **[LSP9Vault](./lsp9-vault.md)**: a contract representing a **Vault** able to execute and hold assets could be owned by an LSP0ERC725Account contract.
-- **[LSP1UniversalReceiverDelegateVault](./lsp1-universal-receiver-delegate-vault.md)**: a contract that allows the vault to react to the calls it receives (Normal transaction, Token transfer, etc.).
+- **[LSP9Bóveda](./lsp9-vault.md)**: un contrato que representa una **Bóveda** capaz de ejecutar y mantener activos podría ser propiedad de un contrato LSP0ERC725Account.
+- **[LSP1ReceptorDelegadoUniversalBóveda](./lsp1-universal-receiver-delegate-vault.md)**: contrato que permite a la cámara acorazada reaccionar a las llamadas que recibe (transacción normal, transferencia de tokens, etc.).
 
-## Usage
+## Uso
 
-### Create a Universal Profile
+### Crear un Perfil Universal
 
 ```solidity
 // MyUP.sol
@@ -71,7 +71,7 @@ contract MyUP is UniversalProfile {
 }
 ```
 
-### Create a Fungible Token
+### Crear un Token Fungible
 
 ```solidity
 // MyToken.sol
@@ -92,8 +92,8 @@ contract MyToken is LSP7DigitalAsset {
 }
 ```
 
-## Further Information
+## Más información
 
-- [@lukso/lsp-smart-contracts NPM package](../../tools/lsp-smart-contracts/getting-started.md)
-- [UniversalProfile & Identity Section](https://youtu.be/SbTo_e3l_Lk?t=1727)
-- [NFT 2.0 Section](https://youtu.be/hg1Ow6u9QVk)
+- [Paquete NPM @lukso/lsp-smart-contracts](../../tools/lsp-smart-contracts/getting-started.md)
+- [Sección UniversalProfile & Identity](https://youtu.be/SbTo_e3l_Lk?t=1727)
+- [Sección NFT 2.0](https://youtu.be/hg1Ow6u9QVk)

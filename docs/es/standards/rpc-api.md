@@ -1,68 +1,68 @@
 ---
-title: 🆙 RPC API
+title: 🆙 API RPC
 sidebar_position: 10
 ---
 
-# 🆙 RPC API
+# 🆙 API RPC
 
-:::danger Work in progress
+:::dangerProyecto en desarrollo
 
-This page is under active development.
+Esta página se encuentra en fase de desarrollo.
 
 :::
 
-The [LUKSO Extension](../guides/browser-extension/install-browser-extension.md) uses new RPC API which are described here.
+La [Extensión LUKSO](../guides/browser-extension/install-browser-extension.md) utiliza nuevos RPC API que se describen aquí.
 
-## Methods
+## Métodos
 
 ### up_addTransactionRelayer
 
-Add a custom relayer.
+Agregar un retransmisor personalizado.
 
-#### Parameters
+#### Parámetros
 
-##### 1. `relayer` - Object
+##### 1. `relayer` - Objeto
 
-Object containing the new relayer properties. To find more information about custom relayers, you can read the [Transaction Relay Service API](./relayer-api.md).
+Objeto que contiene las propiedades del nuevo retransmisor. Para obtener más información sobre los retransmisores personalizados, puede leer la [API del Servicio de Retransmisión de Transacciones](./relayer-api.md).
 
-| Name       | Type   | Description                   |
-| :--------- | :----- | :---------------------------- |
-| `name`     | String | The name of the relayer.      |
-| `apiUrl`   | String | The base API URL.             |
-| `chainIds` | Array  | Array of string (hex) or int. |
+| Nombre     | Tipo     | Descripción                      |
+| :--------- | :------- | :------------------------------- |
+| `name`     | Cadena   | El nombre del retransmisor.      |
+| `apiUrl`   | Cadena   | La URL de la API base.           |
+| `chainIds` | Conjunto | Conjunto de cadenas (hex) o int. |
 
 ```js
 params: [
   {
-    name: 'My Relayer',
+    name: 'My Retransmisor',
     apiUrl: 'https://relayer.l16.staging.lukso.dev/api/v1/',
     chainIds: [2828],
   },
 ];
 ```
 
-#### Returns
+#### Devuelve
 
-##### 1. `String Array` - Array of universal profile addresses the user selected for this relay service
+##### 1. `String Array` - Conjunto de direcciones de perfil universal que el usuario seleccionó para este servicio de retransmisión.
 
-It returns an array of Universal Profile addresses.
+Devuelve el conjunto de direcciones de Perfiles Universales.
 
 ### up_import
 
-Add a Universal Profile address.
+Agregar una dirección de Perfil Universal.
 
-#### Parameters
+#### Parámetros
 
-##### 1. `String` - Universal profile address to add to the extension
+##### 1. `String` - Dirección de perfil universal a añadir a la extensión
 
-The Universal Profile address to add.
+La dirección de Perfil Universal a añadir.
 
 ```js
 params: ['0x311611C9A46a192C14Ea993159a0498EDE5578aC'];
 ```
 
-#### Returns
+#### Devuelve
 
-##### 1. `String` - New controller address, to be added to the profile by the dapp.
+##### 1. `String` - Nueva dirección del controlador, que será añadida al perfil por la dapp.
 
-TODO
+POR HACER

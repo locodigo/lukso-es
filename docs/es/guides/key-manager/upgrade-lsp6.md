@@ -287,7 +287,7 @@ La actualización ha finalizado correctamente.
 
 <!-- prettier-ignore-start -->
 
-```javascript title="upgrade-lsp6.js"
+```javascript title="actualizar-lsp6.js"
 import UniversalProfile from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json';
 import LSP6KeyManager from '@lukso/lsp-smart-contracts/artifacts/LSP6KeyManager.json';
 import Web3 from 'web3';

@@ -1,72 +1,72 @@
 ---
-sidebar_label: 'LSP9 - Vault'
+sidebar_label: 'LSP9 - Bóvedas'
 sidebar_position: 7
 ---
 
-# LSP9 - Vault
+# LSP9 - Bóvedas
 
-:::info Standard Document
+:::info Documento Estándard
 
-[LSP9 - Vault](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-9-Vault.md)
+[LSP9 - Bóvedas](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-9-Vault.md)
 
 :::
 
-## Introduction
+## Introducción
 
-Using the Key Manager with the Universal Profile will enable third parties to execute through your profile given specific permissions, but this will not eliminate the risk of operating maliciously with your data and belongings.
+El uso del Gestor de Claves con el Perfil Universal permitirá a terceros hacer operaciones a través de tu perfil otorgándole permisos específicos, pero esto no eliminará el riesgo de operar maliciosamente con tus datos y pertenencias.
 
-Third parties should be restricted when talking to a specific smart contract through the Universal Profile to avoid this risk when it almost has the same functionalities and is controlled by the Universal Profile.
+Se debe restringir a terceros cuando hablen con un contrato inteligente específico a través del Perfil Universal para evitar este riesgo cuando casi tiene las mismas funcionalidades y está controlado por el Perfil Universal.
 
-## What does this standard represent?
+## ¿Qué representa este estándar?
 
-This standard defines a vault that can hold assets and interact with other contracts. It can **attach information** via [ERC725Y](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-725.md#erc725y) to itself, **execute, deploy or transfer value** to any other smart contract or EOA via [ERC725X](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-725.md#erc725x). It can be **notified of incoming assets** via the [LSP1-UniversalReceiver](https://github.com/lukso-network/LIPs/blob/master/LSPs/LSP-1-UniversalReceiver.md) function.
+Este estándar define una bóveda que puede contener activos e interactuar con otros contratos. Puede **adjuntar información** a través de [ERC725Y](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-725.md#erc725y) a sí misma, **ejecutar, desplegar o transferir valor** a cualquier otro contrato inteligente o EOA a través de [ERC725X](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-725.md#erc725x). Puede ser **notificado de los activos entrantes** a través de la función de [LSP1-ReceptorUniversal](https://github.com/lukso-network/LIPs/blob/master/LSPs/LSP-1-UniversalReceiver.md).
 
-This standard uses the **[ERC173](https://eips.ethereum.org/EIPS/eip-173)** standard to provide ownership functions for owning and controlling the implementation contract.
+Este estándar utiliza el estándar **[ERC173](https://eips.ethereum.org/EIPS/eip-173)** para proporcionar funciones de propiedad para poseer y controlar el contrato de implementación.
 
-### ERC725X - Generic Executor
+### ERC725X - Ejecutor genérico
 
-This substandard enables the vault to execute a call on any other smart contracts, transfer the blockchain's native token, or deploy a new smart contract. Only the owner can perform these operations below.
+Este subestándar permite a la bóveda ejecutar una llamada en cualquier otro contrato inteligente, transferir el token nativo de la blockchain o desplegar un nuevo contrato inteligente. Sólo el propietario puede realizar estas operaciones a continuación.
 
-The following `operationType` MUST exist:
+DEBE existir el siguiente `operationType`:
 
-- `0` for `CALL`
-- `1` for `CREATE`
-- `2` for `CREATE2`
-- `3` for `STATICCALL`
+- `0` para `CALL
+- `1` para `CREATE
+- `2` para "CREAR2
+- `3` para "STATICCALL
 
-The following `operationType` COULD exist:
+Podría existir el siguiente `operationType`:
 
-- `4` for `DELEGATECALL` - **NOTE** This is a potentially dangerous operation
+- `4` para `DELEGATECALL` - **NOTA** Se trata de una operación potencialmente peligrosa
 
-### ERC725Y - Generic Data Key-Value Store
+### ERC725Y - Almacén Genérico de Datos Clave-Valor
 
-This substandard enables the vault to hold arbitrary data through a generic data key/value store. It gives flexibility to the contract storage by allowing to attach any information to the contract and update it easily.
+Este subestándar permite a la bóveda contener datos arbitrarios a través de un almacén genérico de clave/valor de datos. Da flexibilidad al almacenamiento de contratos al permitir adjuntar cualquier información al contrato y actualizarla fácilmente.
 
 :::info
-The data keys and values are constructed according to the **[LSP2-ERC725YJSONSchema](../generic-standards/lsp2-json-schema.md)** standard.
+Las claves y los valores de los datos se construyen de acuerdo con el estándar **[LSP2-EsquemaJSONERC725Y](../generic-standards/lsp2-json-schema.md)**.
 :::
 
-### LSP1 - UniversalReceiver
+### LSP1 - ReceptorUniversal
 
 :::info
 
-See the **[LSP1-UniversalReceiver](../generic-standards/lsp1-universal-receiver.md)** standard for more information.
+Consulta el estándar **[LSP1-ReceptorUniversal](../generic-standards/lsp1-universal-receiver.md)** para obtener más información.
 
 :::
 
 :::caution
 
-The implementation of the **UniversalReceiverDelegate** used by the Universal Profile is different from the one used by the vault. Check [LSP1UniversalReceiverDelegateVault](../smart-contracts/lsp1-universal-receiver-delegate-vault.md)
+La implementación del **ReceptorDelegadoUniversal** utilizada por el Perfil Universal es diferente de la utilizada por la bóveda. Consulta [LSP1ReceptorDelegadoUniversalBóveda](../smart-contracts/lsp1-universal-receiver-delegate-vault.md)
 
 :::
 
-This standard enables the vault to be notified of incoming transactions such as token transfers, information transfers, etc. Notifications are handy when users want to customize how their account contract reacts to certain tokens by either rejecting them or operating a specific call on each received token.
+Este estándar permite notificar a la bóveda las transacciones entrantes, como transferencias de tokens, transferencias de información, etc. Las notificaciones son útiles cuando los usuarios desean personalizar la forma en que su contrato se comporta ante determinados tokens, ya sea rechazándolos u operando una llamada específica para cada token recibido.
 
-The **[LSP9-Vault](#)** implements the `universalReceiver(..)` function that:
+El **[LSP9 Bóveda](#)** implementa la función `universalReceiver(..)` que:
 
-- Emits an event with the typeId and data passed to it, as well as additional parameters such as the amount sent to the function, the caller of the function, and the return value of the delegate contracts.
+- Emite un evento con el typeId y los datos que se le han pasado, así como parámetros adicionales como la cantidad enviada a la función, el llamante de la función y el valor de retorno de los contratos delegados.
 
-- Forwards the call to the **UniversalReceiverDelegate** contract address stored under the data key attached below, if it supports [LSP1UniversalReceiverDelegate InterfaceId](../smart-contracts/interface-ids.md).
+- Reenvía la llamada a la dirección del contrato **ReceptorDelegadoUniversal** almacenada en la clave de datos adjunta a continuación, si admite [LSP1InterfazIddeUniversalReceptorDelegado](../smart-contracts/interface-ids.md).
 
 ```json
 {
@@ -78,7 +78,7 @@ The **[LSP9-Vault](#)** implements the `universalReceiver(..)` function that:
 }
 ```
 
-- Forwards the call to the **typeId delegate** contract address stored under the data key attached below, if it supports [LSP1UniversalReceiverDelegate InterfaceId](../smart-contracts/interface-ids.md).
+- Reenvía la llamada a la dirección del contrato **typeId delegate** almacenada en la clave de datos adjunta a continuación, si admite [LSP1InterfazIddeUniversalReceptorDelegado](../smart-contracts/interface-ids.md).
 
 ```json
 {
@@ -90,30 +90,30 @@ The **[LSP9-Vault](#)** implements the `universalReceiver(..)` function that:
 }
 ```
 
-> <bytes32\> is the `typeId` passed to the `universalReceiver(..)` function. 
+> <bytes32\> es el `typeId` pasado a la función `universalReceiver(..)`.
 
 ### LSP14 - Ownable2Step
 
 :::info
 
-See the **[LSP14 - Ownable2Step](../generic-standards/lsp14-ownable-2-step.md)** standard for more information.
+Consulta el estándar **[LSP14 - Propiedad 2-Pasos](../generic-standards/lsp14-ownable-2-step.md)** para obtener más información.
 
 :::
 
-This standard allows for the **LSP9 - Vault** contract's ownership to be controlled by an EOA or by another contract, by implementing **3 essential methods**:
+Este estándar permite que la propiedad del contrato **Bóveda LSP9** sea controlada por una EOA o por otro contrato, implementando **3 métodos esenciales**:
 
 - [`transferOwnership()`](../smart-contracts/lsp14-ownable-2-step.md#transferownership)
-- [`acceptOwnership()`](../smart-contracts/lsp14-ownable-2-step.md#acceptownership)
-- [`renounceOwnership()`](../smart-contracts/lsp14-ownable-2-step.md#renounceownership)
+- [`acceptOwnership()`](../contratos-inteligentes/lsp14-propietario-2-paso.md#acceptownership)
+- [`renounceOwnership()`](../contratos-inteligentes/lsp14-propietario-2-paso.md#renounceownership)
 
-### Flow
+### Flujo
 
-Developers could use the vault to hold assets and, as mentioned before, could be used to restrict third parties to only operate on the assets and metadata of the vault and not the Universal Profile. The Universal Profile's metadata and assets are safe if the third party tries to act maliciously.
+Los desarrolladores podrían utilizar la bóveda para guardar activos y, como se ha mencionado antes, podría utilizarse para restringir a terceros que sólo operen sobre los activos y metadatos de la bóveda y no sobre el Perfil Universal. Los metadatos y activos del Perfil Universal están a salvo si el tercero intenta actuar maliciosamente.
 
-**1.** The **protocol** should be allowed to only talk to the vault A1 through [AllowedAddresses permission](./lsp6-key-manager#address-permissions).
+**1.** El **protocolo** sólo debería poder hablar con la bóveda A1 a través de [AllowedAddresses permission](./lsp6-key-manager#address-permissions).
 
-![LSP9 vault allowed in profile](/img/standards/lsp9/vault-flow.jpeg)
+![Bóveda LSP9 permitida en el perfil](/img/standards/lsp9/vault-flow.jpeg)
 
-**2.** All the **protocol** transactions should be routed through the vault. Otherwise, the transaction will **revert**.
+**2.** Todas las **transacciones de protocolo** deben enrutarse a través de la bóveda. De lo contrario, la transacción se **revertirá**.
 
-![LSP9 vault with third parties flow](/img/standards/lsp9/lsp9-vault-flow.jpeg)
+![Bóveda LSP9 con flujo de terceros](/img/standards/lsp9/lsp9-vault-flow.jpeg)

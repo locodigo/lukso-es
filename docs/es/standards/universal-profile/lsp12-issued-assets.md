@@ -1,35 +1,35 @@
 ---
-sidebar_label: 'LSP12 - Issued Assets'
+sidebar_label: 'LSP12 - Activos Emitidos'
 sidebar_position: 9
 ---
 
-# LSP12 - Issued Assets
+# LSP12 - Activos Emitidos
 
-:::info Standard Document
+:::info Documento Estándar
 
-[LSP12 - Issued Assets](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-12-IssuedAssets.md)
-
-:::
-
-## Introduction
-
-Keeping track of all the assets that addresses create is currently unfeasible where listing the issued assets is being done by centralized services. This inconvenience brings light to the following problem: the absence of a standard way to read the issued assets on/off-chain which allow users to create fake assets claiming that they are the original ones.
-
-One way to solve this problem is to create generic metadata keys that would register in the smart contract storage how many different assets a smart contract has issued and their addresses. These keys will be a reference for users to check the authenticity of assets.
-
-## What does this standard represent ?
-
-:::tip Recommendation
-
-Make sure to understand the **[ERC725Y Generic Key/Value Store](../lsp-background/erc725.md#erc725y---generic-data-keyvalue-store)** and **[LSP2 - ERC725YJSONSchema](../generic-standards/lsp2-json-schema.md)** Standards before going through the ERC725Y Data Keys.
+[LSP12 - Activos Emitidos](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-12-IssuedAssets.md)
 
 :::
 
-This Metadata standard describes two data keys that can be added to an [ERC725Y](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-725.md) smart contract to keep track of issued assets.
+## Introducción
+
+Llevar la cuenta de todos los activos que crean las direcciones es actualmente inviable cuando la lista de activos emitidos la realizan servicios centralizados. Este inconveniente pone de manifiesto el siguiente problema: la ausencia de una forma estándar de leer los activos emitidos dentro y fuera de la cadena, lo que permite a los usuarios crear activos falsos alegando que son los originales.
+
+Una forma de resolver este problema es crear claves de metadatos genéricas que registren en el almacén de contratos inteligentes cuántos activos diferentes ha emitido un contrato inteligente y sus direcciones. Estas claves serán una referencia para que los usuarios comprueben la autenticidad de los activos.
+
+## ¿Qué representa este estándar?
+
+:::tip Recomendación
+
+Asegúrate de comprender las normas **[ERC725Y Almacenamiento Genérico de Claves/Valores](../lsp-background/erc725.md#erc725y---generic-data-keyvalue-store)** y **[LSP2 - EsquemaJSONERC725Y](../generic-standards/lsp2-json-schema.md)** antes de revisar las claves de datos ERC725Y.
+
+:::
+
+Este estándar de metadatos describe dos claves de datos que pueden añadirse a un contrato inteligente [ERC725Y](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-725.md) para realizar un seguimiento de los activos emitidos.
 
 ### `LSP12IssuedAssets[]`
 
-This data key represents a list of all issued assets by the contract.
+Esta clave de datos representa una lista con todos los activos emitidos por el contrato.
 
 ```json
 {
@@ -43,10 +43,10 @@ This data key represents a list of all issued assets by the contract.
 
 ### `LSP12IssuedAssetsMap`
 
-This data key represents a map key holding both:
+Esta clave de datos representa una clave de mapa que contiene tanto
 
-- an [ERC165 interface ID](https://eips.ethereum.org/EIPS/eip-165) to quickly identify the standard used by the issued assets. (Could be LSP7 or LSP8 asset)
-- the index in the [`LSP12IssuedAssets[]`](#lsp12issuedassets) array where the issued assets addresses are stored.
+- un [ID de interfaz ERC165](https://eips.ethereum.org/EIPS/eip-165) para identificar rápidamente el estándar utilizado por los activos emitidos. (Puede ser un activo LSP7 o LSP8)
+- el índice en el conjunto [`LSP12IssuedAssets[]`](#lsp12issuedassets) donde se almacenan las direcciones de los activos emitidos.
 
 ```json
 {
@@ -58,17 +58,17 @@ This data key represents a map key holding both:
 }
 ```
 
-### Asset Verification Flow
+### Flujo de verificación de activos
 
-![LSP12 Issued Assets Flow](../../../../static/img/standards/lsp12/lsp12-issuedassets1.jpeg)
+![Flujo de activos emitidos LSP12](../../../../static/img/standards/lsp12/lsp12-issuedassets1.jpeg)
 
-The full **verification flow** for an asset should contain a check on the **asset** and the **issuer** smart contract.
+El **flujo de verificación** completo de un activo debe contener una comprobación del **activo** y del contrato inteligente **emisor**.
 
-- **Step 1:** Should check on the asset smart contract, the **owner** or the **[LSP4Creators Array](../nft-2.0/LSP4-Digital-Asset-Metadata.md#lsp4creators)** data key and retrieve the address of the creator from the array.
+- Paso 1:** Debes comprobar el contrato inteligente del activo, el **propietario** o la clave de datos **[LSP4Creators Array](../nft-2.0/LSP4-Digital-Asset-Metadata.md#lsp4creators)** y recuperar la dirección del creador de la matriz.
 
-![Checking LSP4Creators Array on asset](../../../../static/img/standards/lsp12/lsp12-issuedassets2.jpeg)
+![Comprobación del Conjunto LSP4Creadores en el activo](../../../../static/img/standards/lsp12/lsp12-issuedassets2.jpeg)
 
-- **Step 2:** Should check on the address retrieved in **Step 1** that the address of the asset being checked, matches one of the assets addresses stored in the **[LSP12IssuedAssets Array](#lsp12issuedassets)** of the UniversalProfile.
+- **Paso 2:** Se debe comprobar que la dirección recuperada en el **Paso 1** coincide con una de las direcciones de los activos almacenados en la matriz LSP12IssuedAssets (#lsp12issuedassets)** del Perfil Universal.
 
-![Checking LSP12IssuedAssets Array on UP](../../../../static/img/standards/lsp12/lsp12-issuedassets3.jpeg)
+![Comprobación de la matriz LSP12IssuedAssets en UP](../../../../static/img/standards/lsp12/lsp12-issuedassets3.jpeg)
 

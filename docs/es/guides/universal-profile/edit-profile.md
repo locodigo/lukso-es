@@ -38,7 +38,7 @@ Un conjunto de claves de datos ERC725Y se define como un **esquema ERC725Y**. El
 
 Un esquema nos permite saber qué claves de datos ERC725Y podemos establecer y **qué información podemos recuperar y editar desde nuestro Perfil Universal**.
 
-Perfil universal + esquema JSON ERC725Y (diagrama)](/img/standards/lsp2/ERC725Y-JSON-Schema-explained.jpeg)
+![Perfil universal + esquema JSON ERC725Y (diagrama)](/img/standards/lsp2/ERC725Y-JSON-Schema-explained.jpeg)
 
 > Para más detalles, consulta: [LSP2 - ERC725Y JSON Schema](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#specification)
 
@@ -215,7 +215,7 @@ Para ello, utilizaremos nuestra librería [erc725.js], que nos ayuda a cifrar lo
 Para configurar la librería erc725.js, necesitaremos lo siguiente:
 
 - La dirección de nuestro contrato de Perfil Universal: es la dirección de nuestro perfil mencionada en la URL del [explorador de perfiles](https://l16.universalprofile.cloud/).
-- Un esquema JSON ERC725Y: un conjunto de pares clave-valor ERC725Y ([LSP2 - ERC725Y JSON Schema](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md))
+- Un esquema JSON ERC725Y: un conjunto de pares clave-valor ERC725Y ([LSP2 - Esquema JSON ERC725Y](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md))
 - Un proveedor RPC: `https://rpc.l16.lukso.network`
 
 Una vez inicializado nuestro erc725.js, podemos cifrar los datos del `LSP3Profile` para generar una clave y un valor.
@@ -492,7 +492,7 @@ Ahora puede verificar el Perfil Universal en el sitio web [explorador de perfile
 
 `https://l16.universalprofile.cloud/[DIRECCIÓN UP]`
 
-Perfil universal con fotos e información en l16.universalprofile.cloud](./img/edit-profile.png)
+![Perfil universal con fotos e información en l16.universalprofile.cloud](./img/edit-profile.png)
 
 [erc725.js]: ../../tools/erc725js/getting-started
 [ipfs]: https://ipfs.io/

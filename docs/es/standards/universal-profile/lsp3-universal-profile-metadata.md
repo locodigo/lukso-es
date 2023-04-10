@@ -1,30 +1,30 @@
 ---
-sidebar_label: 'LSP3 - Universal Profile Metadata'
+sidebar_label: 'LSP3 - Metadatos de Perfil Universal'
 sidebar_position: 4
 ---
 
-# LSP3 - Universal Profile Metadata
+# LSP3 - Metadatos de Perfil Universal
 
-:::info Standard Document
+:::info Documento Estándard
 
-[LSP3 - Universal Profile Metadata](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-3-UniversalProfile-Metadata.md)
+[LSP3 - Metadatos de Perfil Universal](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-3-UniversalProfile-Metadata.md)
 
 :::
 
-## Introduction
+## Introducción
 
-The implementation of the **[LSP0-ERC725Account](./lsp0-erc725account.md)** standard does not contain any metadata describing the account.
+La implementación del estándar **[LSP0-CuentaERC725](./lsp0-erc725account.md)** no contiene metadatos que describan la cuenta.
 
-**LSP3-UniversalProfile-Metadata** is a Metadata standard that defines specific data keys to describe a Universal Profile. A Universal Profile combines the following two standards.
+**LSP3-Metadatos-PerfilUniversal** es un estándar de metadatos que define claves de datos específicas para describir un Perfil Universal. Un Perfil Universal combina los dos estándares siguientes.
 
-- **[LSP0-ERC725Account](./lsp0-erc725account.md)**: an interface for a smart contract-based account.
-- **LSP3-UniversalProfile-Metadata**: a set of predefined [ERC725Y](lsp0-erc725account.md#erc725y---generic-key-value-store) Data keys to describe the profile.
+- **[LSP0-CuentaERC725](./lsp0-erc725account.md)**: una interfaz para una cuenta basada en un contrato inteligente.
+- **LSP3-Metadatos-PerfilUniversal**: un conjunto de claves de datos predefinidas [ERC725Y](lsp0-erc725account.md#erc725y---generic-key-value-store) para describir el perfil.
 
-## ERC725Y Data Keys
+## Claves de datos ERC725Y
 
-:::tip Recommendation
+:::tip Recomendación
 
-Make sure to understand the **[ERC725Y Generic Key/Value Store](../lsp-background/erc725.md#erc725y---generic-data-keyvalue-store)** and **[LSP2 - ERC725YJSONSchema](../generic-standards/lsp2-json-schema.md)** Standards before going through the ERC725Y Data Keys.
+Asegúrate de comprender las normas **[ERC725Y Almacenamiento Genérico de Claves/Valores](../lsp-background/erc725.md#erc725y---generic-data-keyvalue-store)** y **[LSP2 - EsquemaJSONERC725Y](../generic-standards/lsp2-json-schema.md)** antes de revisar las Claves de Datos ERC725Y.
 
 :::
 
@@ -40,7 +40,7 @@ Make sure to understand the **[ERC725Y Generic Key/Value Store](../lsp-backgroun
 }
 ```
 
-This data key is used to know if the contract represents a **Universal Profile**.
+Esta clave de datos se utiliza para saber si el contrato representa un **Perfil Universal**.
 
 ### `LSP3Profile`
 
@@ -54,18 +54,18 @@ This data key is used to know if the contract represents a **Universal Profile**
 }
 ```
 
-The value attached to this data key is a [JSONURL-encoded value](../../standards/generic-standards/lsp2-json-schema.md). It represents a reference to a [JSON file that describes the Universal Profile MetaData](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-3-UniversalProfile-Metadata.md#lsp3profile). The file can be stored on a centralized or decentralized storage.
+El valor adjunto a esta clave de datos es un [valor cifrado JSONURL](../../standards/generic-standards/lsp2-json-schema.md). Este valor representa una referencia a un [archivo JSON que describe los MetaDatos del Perfil Universal](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-3-UniversalProfile-Metadata.md#lsp3profile). Este archivo puede almacenarse de forma centralizada o descentralizada.
 
-Inside the JSON file, the keys `profileImage` and `backgroundImage` can accept an array of images, defining an image with different dimensions, `width` and `height`. Picture scaling is helpful for client interfaces to download and serve the images with the most suitable dimensions instead of re-scale them afterward.
+Dentro del archivo JSON, las claves `profileImage` y `backgroundImage` pueden aceptar un conjunto de imágenes, definiendo una imagen con diferentes dimensiones, `width` y `height`. Ajustar la escala de la imagen es útil para que las interfaces de cliente descarguen y muestren las imágenes con las dimensiones más adecuadas en lugar de reescalarlas después.
 
 <details>
-    <summary>Example of JSON File linked to <code>LSP3Profile</code>data key </summary>
+<summary>Ejemplo de archivo JSON vinculado a la clave de datos<code>LSP3Profile</code>. </summary>
 
 ```json
 {
   "LSP3Profile": {
     "name": "frozeman",
-    "description": "The inventor of ERC725 and ERC20...",
+    "description": "El inventor del ERC725 y el ERC20...",
     "links": [
       { "title": "Twitter", "url": "https://twitter.com/feindura" },
       { "title": "lukso.network", "url": "https://lukso.network" }
@@ -81,8 +81,8 @@ Inside the JSON file, the keys `profileImage` and `backgroundImage` can accept a
     ],
     "profileImage": [
       {
-        "address": 0x1231c7436a77a009a97e48e4e10c92e89fd95fe15, // the address of an LSP7 or LSP8
-        "tokenId": 0xdde1c7436a77a009a97e48e4e10c92e89fd95fe1556fc5c62ecef57cea51aa37 // (optional) if token contract is an LSP7
+        "address": 0x1231c7436a77a009a97e48e4e10c92e89fd95fe15, // la dirección de un LSP7 o un LSP8
+        "tokenId": 0xdde1c7436a77a009a97e48e4e10c92e89fd95fe1556fc5c62ecef57cea51aa37 // (opcional) si el contrato de token es un LSP7
       }
     ],
     "backgroundImage": [
@@ -109,9 +109,9 @@ Inside the JSON file, the keys `profileImage` and `backgroundImage` can accept a
 
 ### `LSP12IssuedAssets`
 
-**Universal Profiles** can create digital assets, such as [tokens and NFTs](../nft-2.0/introduction.md). All assets (tokens and NFTs) created should be registered in the `LSP12IssuedAssets[]` Array.
+**Los Perfiles Universales** pueden crear activos digitales, como [tokens y NFTs](../nft-2.0/introduction.md). Todos los activos (tokens y NFTs) creados deben registrarse en el conjunto `LSP12IssuedAssets[]`.
 
-The `LSP12IssuedAssetsMap:<address>` can then be used to know the asset type (_e.g., an [LSP7 token](../nft-2.0/LSP7-Digital-Asset.md) or an [LSP8 NFT](../nft-2.0/LSP8-Identifiable-Digital-Asset.md)_) by extracting the `bytes4` ERC165 interface id of the asset contract. Developers can extract this `bytes4` value from the value retrieved, first 4bytes.
+El `LSP12IssuedAssetsMap:<address>` puede utilizarse para conocer el tipo de activo (_por ejemplo, un [token LSP7](../nft-2.0/LSP7-Digital-Asset.md) o un [LSP8 NFT](../nft-2.0/LSP8-Identifiable-Digital-Asset.md)_) extrayendo el identificador de interfaz ERC165 `bytes4` del contrato del activo. Los desarrolladores pueden extraer este valor `bytes4` del valor recuperado, los primeros 4bytes.
 
 ```json
 {
@@ -137,7 +137,7 @@ The `LSP12IssuedAssetsMap:<address>` can then be used to know the asset type (_e
 
 :::info
 
-See the [LSP5 - Received Assets](./lsp5-received-assets.md) standard page for more information.
+Consulta la página del estándar [LSP5 - Activos recibidos](./lsp5-received-assets.md) para obtener más información.
 
 :::
 
@@ -151,4 +151,4 @@ See the [LSP5 - Received Assets](./lsp5-received-assets.md) standard page for mo
 }
 ```
 
-If the Universal Profile is used with the **[LSP6-KeyManager](./lsp6-key-manager.md)** and **[LSP1-UniversalReceiverDelegate](../generic-standards/lsp1-universal-receiver-delegate.md)**, the received assets will be automatically registered in the storage. To know how many different assets you have, you can query this data key.
+Si se utiliza el Perfil Universal con el **[LSP6-GestordeClaves](./lsp6-key-manager.md)** y **[LSP1-ReceptorDelegado Universal](../generic-standards/lsp1-universal-receiver-delegate.md)**, los activos recibidos se registrarán automáticamente en el almacén. Para saber cuántos activos diferentes tienes, puedes consultar esta clave de datos.

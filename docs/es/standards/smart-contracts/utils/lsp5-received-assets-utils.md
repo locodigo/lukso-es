@@ -11,9 +11,9 @@ sidebar_position: 2
 
 :::
 
-This library can be used to generate ERC725Y data keys-values pairs related to LSP5ReceivedAssets. This is useful to register and de-register addresses of assets owned such as LSP7 tokens or LSP8 NFTs.
+Esta librería puede utilizarse para generar pares de claves-valores de datos ERC725Y relacionados con LSP5ActivosRecibidos. Esto es útil para registrar y dar de baja direcciones de activos poseídos como tokens LSP7 o NFTs LSP8.
 
-## Functions
+## Funciones
 
 ### generateReceivedAssetKeys
 
@@ -26,23 +26,23 @@ function generateReceivedAssetKeys(
 ) internal view returns (bytes32[] memory keys, bytes[] memory values);
 ```
 
-Generate the data keys/values to be set on the receiver address after receiving assets.
+Generar las claves/valores de datos que se establecerán en la dirección del receptor tras recibir los activos.
 
-#### Parameters:
+#### Parámetros:
 
-| Name          | Type    | Description                                                                                                 |
-| :------------ | :------ | :---------------------------------------------------------------------------------------------------------- |
-| `receiver`    | address | The address receiving the asset and where the Keys should be added.                                         |
-| `asset`       | address | The address of the asset being received.                                                                    |
-| `assetMapKey` | bytes32 | The map key of the asset being received containing the interfaceId of the asset and the index in the array. |
-| `interfaceID` | bytes4  | The interfaceID of the asset being received.                                                                |
+| Nombre        | Tipo    | Descripción                                                                                                   |
+| :------------ | :------ | :------------------------------------------------------------------------------------------------------------ |
+| `receiver`    | address | La dirección que recibe el activo y donde deben añadirse las Claves.                                          |
+| `asset`       | address | La dirección del activo que se recibe.                                                                        |
+| `assetMapKey` | bytes32 | La clave de mapa del activo que se recibe, que contiene el interfaceId del activo y el índice en el conjunto. |
+| `interfaceID` | bytes4  | El interfaceID del activo que se recibe.                                                                      |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name     | Type      | Description           |
-| :------- | :-------- | :-------------------- |
-| `keys`   | bytes32[] | Array of data keys.   |
-| `values` | bytes[]   | Array of data values. |
+| Nombre   | Tipo      | Descripción                   |
+| :------- | :-------- | :---------------------------- |
+| `keys`   | bytes32[] | Conjunto de claves de datos.  |
+| `values` | bytes[]   | Conjunto de valores de datos. |
 
 ### generateSentAssetKeys
 
@@ -54,22 +54,22 @@ function generateSentAssetKeys(
 ) internal view returns (bytes32[] memory keys, bytes[] memory values);
 ```
 
-Generating the data keys/values to be set on the sender address after sending assets.
+Generación de las claves/valores de datos que se establecerán en la dirección del remitente tras el envío de los activos.
 
-#### Parameters:
+#### Parámetros:
 
-| Name                     | Type    | Description                                                                                                 |
-| :----------------------- | :------ | :---------------------------------------------------------------------------------------------------------- |
-| sender                   | address | The address sending the asset and where the Keys should be updated.                                         |
-| assetMapKey              | bytes32 | The map key of the asset being received containing the interfaceId of the asset and the index in the array. |
-| assetInterfaceIdAndIndex | bytes   | The value of the map key of the asset being sent.                                                           |
+| Nombre                   | Tipo    | Descripción                                                                                                   |
+| :----------------------- | :------ | :------------------------------------------------------------------------------------------------------------ |
+| sender                   | address | La dirección que envía el activo y donde deben actualizarse las Claves.                                       |
+| assetMapKey              | bytes32 | La clave de mapa del activo que se recibe, que contiene el interfaceId del activo y el índice en el conjunto. |
+| assetInterfaceIdAndIndex | bytes   | El valor de la clave de mapa del activo que se envía.                                                         |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name     | Type      | Description                                                                                                                     |
-| :------- | :-------- | :------------------------------------------------------------------------------------------------------------------------------ |
-| `keys`   | bytes32[] | Array of data keys, `LSP5RecievedAssets[]`, `LSP5RecievedAssets[index]`, `LSP5RecievedAssetsMap + asset address` to be precise. |
-| `values` | bytes[]   | Array of data values.                                                                                                           |
+| Nombre   | Tipo      | Descripción                                                                                                                                  |
+| :------- | :-------- | :------------------------------------------------------------------------------------------------------------------------------------------- |
+| `keys`   | bytes32[] | Conjunto de claves de datos, `LSP5RecievedAssets[]`, `LSP5RecievedAssets[index]`, `LSP5RecievedAssetsMap + asset address` para ser precisos. |
+| `values` | bytes[]   | Conjunto de valores de datos.                                                                                                                |
 
 ### extractIndexFromMap
 
@@ -79,20 +79,20 @@ function extractIndexFromMap(
 ) internal pure returns (uint64);
 ```
 
-Extracts the index from a mapping of `valueType` (bytes8,bytes4) and `valueContent` (Bytes4,Number).
+Extrae el índice de un mapeo de `valueType` (bytes8,bytes4) y `valueContent` (Bytes4,Number).
 
-#### Parameters:
+#### Parámetros:
 
-| Name     | Type  | Description                                                                         |
-| :------- | :---- | :---------------------------------------------------------------------------------- |
-| mapValue | bytes | A bytes12 mapping of `valueType` (bytes8,bytes4) and `valueContent` (Bytes4,Number) |
+| Nombre   | Tipo  | Descripción                                                                      |
+| :------- | :---- | :------------------------------------------------------------------------------- |
+| mapValue | bytes | Un mapeo bytes12 de `valueType` (bytes8,bytes4) y `valueContent` (Bytes4,Number) |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name    | Type   | Description                   |
-| :------ | :----- | :---------------------------- |
-| `index` | uint64 | Extracted index from mapping. |
+| Nombre  | Tipo   | Descripción                |
+| :------ | :----- | :------------------------- |
+| `index` | uint64 | Índice extraído del mapeo. |
 
-## References
+## Referencias
 
-- [Solidity implementations (GitHub)](https://github.com/lukso-network/lsp-smart-contracts/tree/develop/contracts)
+- [Implementaciones de Solidity (GitHub)](https://github.com/lukso-network/lsp-smart-contracts/tree/develop/contracts)

@@ -7,7 +7,7 @@ sidebar_position: 2
 
 ## Introducción
 
-Como se menciona en la sección [Fundamentos de los LSP](./introduction.md#lsps-foundation), los LSP no dependen del orden, lo que significa que un estándar puede utilizar otro que le siga o le preceda en el orden. Por ejemplo, **[LSP0 - ERC725Account](#)** utiliza **[LSP1 - UniversalReceiver](#)**, **[LSP2 - ERC725YJSONSchema](#)** y podría utilizar **[LSP3 - UniversalProfileMetadata](#)**, etc.
+Como se menciona en la sección [Fundamentos de los LSP](./introduction.md#lsps-foundation), los LSP no dependen del orden, lo que significa que un estándar puede utilizar otro que le siga o le preceda en el orden. Por ejemplo, **[LSP0 - ERC725Account](#)** utiliza **[LSP1 - UniversalReceiver](#)**, **[LSP2 - EsquemaJSONERC725Y](#)** y podría utilizar **[LSP3 - UniversalProfileMetadata](#)**, etc.
 
 ## Hoja de ruta de los LSP
 
@@ -15,7 +15,7 @@ Para entender bien los LSPs, deberían estudiarse en el siguiente orden:
 
 - **[ERC725 - Ejecutor General y Almacén de Claves/Valores de Datos](./lsp-background/erc725.md)**
 
-- **[LSP2 - Esquema ERC725YJSONS](./generic-standards/lsp2-json-schema.md)**
+- **[LSP2 - Esquema JSON ERC725Y](./generic-standards/lsp2-json-schema.md)**
 
 - **[LSP0 - Cuenta ERC725](./universal-profile/lsp0-erc725account.md)**
 

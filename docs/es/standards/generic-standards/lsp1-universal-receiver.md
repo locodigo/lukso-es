@@ -1,97 +1,97 @@
 ---
-sidebar_label: 'LSP1 - Universal Receiver'
+sidebar_label: 'LSP1 - Receptor Universal'
 sidebar_position: 1
 ---
 
-# LSP1 - Universal Receiver
+# LSP1 - Receptor Universal
 
-:::info Standard Document
+:::info Documento Estándard
 
-[LSP1 - Universal Receiver](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-1-UniversalReceiver.md)
+[LSP1 - Receptor Universal](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-1-UniversalReceiver.md)
 
 :::
 
-## Introduction
-There is often the need for smart contracts to **be aware of incoming transactions**, especially receiving tokens.
+## Introducción
+A menudo existe la necesidad de que los contratos inteligentes **estén al tanto de las transacciones entrantes**, especialmente la recepción de tokens.
 
-A good example is **[ERC20](https://eips.ethereum.org/EIPS/eip-20)** token transfers. When a smart contract receives a token, it has no generic way **to be notified** about it. During the token transfer, the sender's balance decreases, and the recipient's balance increases. There are **no further interactions**, and the ERC20 token contract just acts as a registry.
+Un buen ejemplo son las transferencias de tokens **[ERC20](https://eips.ethereum.org/EIPS/eip-20)**. Cuando un contrato inteligente recibe un token, no tiene una forma genérica de **ser notificado** sobre ello. Durante la transferencia de tokens, el saldo del emisor disminuye, y el saldo del receptor aumenta. No hay **más interacciones**, y el contrato de tokens ERC20 sólo actúa como un registro.
 
 ![Smart contract recipient outside interaction](/img/standards/lsp1/token-contract-registry.jpeg)
 
-One solution to this problem could be to listen to all the ERC20 token transfer events on the network. However, this requires using a trusted third party to listen to the events. Such a method limits smart contracts autonomy and introduces a single point of failure.
+Una solución a este problema podría ser escuchar todos los eventos de transferencia de tokens ERC20 en la red. Sin embargo, esto requiere el uso de un tercero de confianza para escuchar los eventos. Este método limita la autonomía de los contratos inteligentes e introduce un único punto de fallo.
 
-Standards like **[ERC223](https://eips.ethereum.org/EIPS/eip-223)**, **[ERC721](https://eips.ethereum.org/EIPS/eip-712)**, and **[ERC1155](https://eips.ethereum.org/EIPS/eip-1155)** require having specific functions in order to receive and be notified about the token such as `tokenReceived(..)`, `onERC721Received(..)`, and `onERC1155Received(..)` respectively.
+Estándares como **[ERC223](https://eips.ethereum.org/EIPS/eip-223)**, **[ERC721](https://eips.ethereum.org/EIPS/eip-712)**, y **[ERC1155](https://eips.ethereum.org/EIPS/eip-1155)** requieren tener funciones específicas para recibir y ser notificado sobre el token como `tokenReceived(..)`, `onERC721Received(..)`, y `onERC1155Received(..)` respectivamente.
 
-These functions have different contexts, parameters, and events that make the smart contract not interoperable. If later in the future, a token standard **ERCXXXX** gets adopted, the smart contract (account, DEXs) will not be able to receive these kinds of tokens because it was already deployed on the network and **does not support** `onERCXXXXReceived(..)` function.
+Estas funciones tienen diferentes contextos, parámetros y eventos que hacen que el contrato inteligente no sea interoperable. Si más adelante en el futuro, se adopta un estándar de token **ERCXXXX**, el contrato inteligente (cuenta, DEXs) no será capaz de recibir este tipo de tokens porque ya fue desplegado en la red y **no soporta** la función `onERCXXXXReceived(..)`.
 
 ![On token received functions](/img/standards/lsp1/on-received-functions.jpeg)
 
-One way to solve this problem is by creating a **standard and unified function** that any smart contract can implement. DEXs, Wallets, or profiles could use this function to be notified about an incoming asset, information, followers, etc.
+Una forma de resolver este problema es crear una **función estándar y unificada** que cualquier contrato inteligente pueda implementar. DEXs, Wallets, o perfiles podrían utilizar esta función para ser notificados sobre un activo entrante, información, seguidores, etc.
 
 ![Unified notification function to call](/img/standards/lsp1/unified-notification-function.jpeg)
 
-## What does this standard represent?
+## ¿Qué representa esta norma?
 
-### Specification
+### Especificación
 
-:::success recommendation
+:::success sugerencia
 
-Smart contracts implementing the [LSP1-UniversalReceiver](#) standard SHOULD **register** the **[LSP1UniversalReceiver InterfaceId](../smart-contracts/interface-ids.md) using ERC165**. This way, other contracts can be aware that the contract supports the LSP1 standard.
+Los contratos inteligentes que implementen el estándar [LSP1-ReceporUniversal](#) DEBERÍAN **registrar** el **[ID-de-interfaz de LSP1ReceporUniversa](../smart-contracts/interface-ids.md) utilizando ERC165**. De esta forma, otros contratos pueden saber que el contrato soporta el estándar LSP1.
 
 :::
 
-This standard defines a single function named `universalReceiver(...)` that could receive **any arbitrary information**. It takes two parameters:
+Este estándar define una única función llamada `universalReceiver(...)` que puede recibir **cualquier información arbitraria**. Toma dos parámetros:
 
-- bytes32 `typeId`: Hash or Hook of a specific standard.
-- bytes `data`: Any arbitrary data.
+- bytes32 `typeId`: Hash o Hook de un estándar específico.
+- bytes `data`: Cualquier dato arbitrario.
 
-> Receiving contracts should consider the `typeId` parameter to **decode the data correctly**.
+> Los contratos receptores deben tener en cuenta el parámetro `typeId` para **descifrar los datos correctamente**.
 
-The `universalReceiver(...)` function **emits an event with the data passed to it and some additional data**. 
+La función `universalReceiver(...)` **emite un evento con los datos que se le pasan y algunos datos adicionales**.
 
 ![universalReceiver function emits an event](/img/standards/lsp1/universal-receiver-event.jpeg)
 
-For example, **to notify the recipient that he is about to receive tokens**, during a token transfer, the token contract can call the `universalReceiver(..)` function of the recipient with:
+Por ejemplo, **para notificar al receptor que está a punto de recibir tokens**, durante una transferencia de tokens, el contrato de tokens puede llamar a la función `universalReceiver(..)` del receptor con:
 
 - bytes32 `typeId`: **Hash**('ERCXXXXTokenReceived')
-- bytes `data`: **packedData**(amount of token sent, the sender address, the block timestamp)
+- bytes `data`: **packedData**(cantidad de token enviado, la dirección del remitente, la marca de tiempo del bloque)
 
-In this way, instead of **listening to all the events of the token contrats on the network**, and checking which one of these transfers is relative to the recipient, users can listen to the **[UniversalReceiver](../smart-contracts/lsp0-erc725-account.md#universalreceiver-1)** event on the contract implementing the `universalReceiver(..)` and know the token transfer details.  
+De esta forma, en lugar de **escuchar todos los eventos de los contratos de tokens en la red**, y comprobar cuál de estas transferencias es relativa al receptor, los usuarios pueden escuchar el evento **[ReceptorUniversal](../smart-contracts/lsp0-erc725-account.md#universalreceiver-1)** del contrato que implementa el `receptoruniversal(..)` y conocer los detalles de la transferencia del token.  
 
 
-As well as emitting an event, the `universalReceiver(...)` function can implement **custom logic** to make the contract behave differently based on the data received. Some ideas include:
+Además de emitir un evento, la función `universalReceiver(...)` puede implementar **lógica personalizada** para hacer que el contrato se comporte de forma diferente en función de los datos recibidos. Algunas ideas incluyen:
 
-- Reverting on calls to completely disallow the smart contract from receiving assets, information, etc. :x:
-- Registering the received assets inside the contract storage (see [LSP5 - Received Assets](../universal-profile/lsp5-received-assets.md)). :heavy_plus_sign:
-- Disallowing receiving specific tokens from specific token contract addresses, for instance (e.g: spam tokens).
-- Forwarding all the received assets to an external vault or a staking contract.
-- Forwarding specific tokens in a contract behind a protocol or dApp (e.g: liquidity or lending pool to earn interest).
-- Depending on the typeId, save a percentage % of tokens received (native tokens or not), by placing them in a vault for instance.
+- Revertir en las llamadas para desautorizar completamente que el contrato inteligente reciba activos, información, etc. :x:
+- Registrar los activos recibidos dentro del almacenamiento del contrato (ver [LSP5 - Activos Recibidos](../universal-profile/lsp5-received-assets.md)). :heavy_plus_sign:
+- No permitir la recepción de tokens específicos de direcciones de contratos de tokens específicos, por ejemplo (p. ej.: tokens de spam).
+- Reenvío de todos los activos recibidos a una bóveda externa o a un contrato de participaciones.
+- Reenviar tokens específicos en un contrato detrás de un protocolo o dApp (por ejemplo: liquidez o fondo de préstamos para ganar intereses).
+- Dependiendo del typeId, guardar un porcentaje % de tokens recibidos (tokens nativos o no), colocándolos en una bóveda por ejemplo.
 
 ![universalReceiver function execute custom logic](/img/standards/lsp1/universal-receiver-logic.jpeg)
 
 
 
-## Extension
+## Extensión
 
 :::info
 
-See the **[LSP1-UniversalReceiverDelegate](../generic-standards/lsp1-universal-receiver-delegate.md)** standard for more details.
+See the **[LSP1-ReceptorDelegadoUniversal](../generic-standards/lsp1-universal-receiver-delegate.md)** standard for more details.
 
 :::
 
-Overriding and customizing the `universalReceiver(..)` function is an option for users to allow **different behaviours depending on the data received**. However, it's not advised to hardcode the logic of reacting to specific actions inside the function because **this logic may need to change in the future** depending on several factors (eg. the vault where the tokens are forwarded gets compromised, a new staking contract is deployed, decided to revert on specific tokens later). 
+Sobreescribir y personalizar la función `universalReceiver(..)` es una opción para que los usuarios permitan **comportamientos diferentes dependiendo de los datos recibidos**. Sin embargo, no es aconsejable codificar la lógica de reacción a acciones específicas dentro de la función porque **esta lógica puede necesitar cambiar en el futuro** dependiendo de varios factores (por ejemplo, la bóveda donde se reenvían los tokens se ve comprometida, se despliega un nuevo contrato de estaca, se decide revertir sobre tokens específicos más tarde). 
 
-**[LSP1-UniversalReceiverDelegate](../generic-standards/lsp1-universal-receiver-delegate.md)** is an **optional extension** to the **[LSP1-UniversalReceiver](#)** standard. As well as notifying a contract about the incoming and outgoing transactions by emitting an event, it can delegate the call to an external contract that can **handle and react to specific calls** with its custom logic.
+**[LSP1-ReceptorDelegadoUnviersal](../generic-standards/lsp1-universal-receiver-delegate.md)** es una **extensión opcional** del estándar **[LSP1-ReceptorUniversal](#)**. Además de notificar a un contrato sobre las transacciones entrantes y salientes emitiendo un evento, puede delegar la llamada a un contrato externo que puede **manejar y reaccionar a llamadas específicas** con su lógica personalizada.
 
 ![Universal Receiver Delegate contract](/img/standards/lsp1/universal-receiver-delegate.jpeg)
 
 
- address of the **external contract** can be stored and changed inside the contract storage. This way, users can customize such contracts to implement a specific logic that is changeable at any time.
+dirección del **contrato externo** puede almacenarse y cambiarse dentro del almacén de contratos. De esta forma, los usuarios pueden personalizar dichos contratos para implementar una lógica específica que sea modificable en cualquier momento.
 
 ![Multiple Universal Receiver Delegate](/img/standards/lsp1/multiple-urd.jpeg)
 
-If the contract implementing the `universalReceiver(..)` supports **[ERC725Y Data key-value store](https://github.com/ERC725Alliance/erc725/blob/main/docs/ERC-725.md#erc725y)**, the address of the **external contract** MUST be set as a value for the **LSP1UniversalReceiverDelegate data key** shown below to enable the optional extension. This key-value pair will act as a reference, making this external contract upgradeable if required.
+Si el contrato que implementa el `universalReceiver(..)` admite **[ERC725Y Almacén de Datos clave-valor](https://github.com/ERC725Alliance/erc725/blob/main/docs/ERC-725.md#erc725y)**, la dirección del **contrato externo** DEBE establecerse como valor para la **clave de datos LSP1ReceptorDelegadoUniversal** que se muestra a continuación para habilitar la extensión opcional. Este par clave-valor actuará como referencia, haciendo que este contrato externo sea actualizable en caso necesario.
 
 ```json
 {
@@ -102,8 +102,8 @@ If the contract implementing the `universalReceiver(..)` supports **[ERC725Y Dat
   "valueContent": "Address"
 }
 ```
-Check **[LSP2-ERC725YJSONSchema](./lsp2-json-schema.md)** for more information about the JSON schema.
+Consulta **[LSP2-EsquemaJSONERC725Y](./lsp2-json-schema.md)** para obtener más información sobre el esquema JSON.
 
-## References
+## Referencias
 
-- [LUKSO Standards Proposals: LSP1 - Universal Receiver (Standard Specification, GitHub)](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-1-UniversalReceiver.md)
+- [Propuestas de Estándares LUKSO: LSP1 - Receptor Delegado Universal (Especificación estándar, GitHub)](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-1-UniversalReceiver.md)

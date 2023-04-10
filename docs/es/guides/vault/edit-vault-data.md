@@ -8,7 +8,7 @@ import TabItem from '@theme/TabItem';
 
 # Editar datos de una Bóveda
 
-Esta guía te enseñará cómo adjuntar datos a un contrato **[LSP9Vault](../../standards/smart-contracts/lsp9-vault.md)**. Se puede adjuntar cualquier dato a la bóveda, y puesto que admite el estándar **[LSP1-UniversalReceiver](../../standards/generic-standards/lsp1-universal-receiver.md)**, estableceremos la dirección [**Receptor Delegado Universal**](../../standards/smart-contracts/lsp1-universal-receiver-delegate-vault.md) dentro del almacenamiento.
+Esta guía te enseñará cómo adjuntar datos a un contrato **[LSP9Bóveda](../../standards/smart-contracts/lsp9-vault.md)**. Se puede adjuntar cualquier dato a la bóveda, y puesto que admite el estándar **[LSP1-ReceptorUniversal](../../standards/generic-standards/lsp1-universal-receiver.md)**, estableceremos la dirección [**Receptor Delegado Universal**](../../standards/smart-contracts/lsp1-universal-receiver-delegate-vault.md) dentro del almacenamiento.
 
 ## Configuración de datos (Receptor Delegado Universal)
 

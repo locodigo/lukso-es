@@ -11,9 +11,9 @@ sidebar_position: 4
 
 :::
 
-This library contains helper functions that can be used to generate ERC725Y data keys-values pairs related to LSP10 Received Vaults.
+Esta librería contiene funciones de ayuda que se pueden utilizar para generar pares de claves-valores de datos ERC725Y relacionados con Bóvedas Recibidas LSP10.
 
-## Functions
+## Funciones
 
 ### generateReceivedVaultKeys
 
@@ -26,23 +26,23 @@ function generateReceivedVaultKeys(
 ) internal view returns (bytes32[] memory keys, bytes[] memory values);
 ```
 
-Generate the data keys/values to register the address of a `vault` on the ERC725Y storage of the `receiver`.
+Generar las claves/valores de datos para registrar la dirección de una `bóveda` en el almacenamiento ERC725Y del `receptor`.
 
-#### Parameters:
+#### Parámetros:
 
-| Name        | Type    | Description                                                                        |
-| :---------- | :------ | :--------------------------------------------------------------------------------- |
-| receiver    | address | The address receiving the vault and where the Keys should be added.                |
-| vault       | address | The address of the received vault.                                                 |
-| vaultMapKey | bytes32 | The map key constructed by concatenating LSP10Vault Map Prefix and `vault` address |
-| interfaceID | bytes4  | The interfaceID of the vault being received.                                       |
+| Nombre      | Tipo    | Descripción                                                                            |
+| :---------- | :------ | :------------------------------------------------------------------------------------- |
+| receiver    | address | La dirección que recibe la bóveda y donde deben añadirse las Claves.                   |
+| vault       | address | La dirección de la bóveda recibida.                                                    |
+| vaultMapKey | bytes32 | La clave de mapa construida concatenando LSP10Vault Map Prefix y la dirección `vault`. |
+| interfaceID | bytes4  | El interfaceID de la bóveda que se recibe.                                             |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name     | Type      | Description                                                                                                |
-| :------- | :-------- | :--------------------------------------------------------------------------------------------------------- |
-| `keys`   | bytes32[] | Array of data keys, `LSP10Vaults[]`, `LSP10Vaults[index]`, `LSP10VaultsMap + vault address` to be precise. |
-| `values` | bytes[]   | Array of data values.                                                                                      |
+| Nombre   | Tipo      | Descripción                                                                                                                                |
+| :------- | :-------- | :----------------------------------------------------------------------------------------------------------------------------------------- |
+| `keys`   | bytes32[] | Conjunto de claves de datos, `LSP10Vaults[]`, `LSP10Vaults[index]`, `LSP10VaultsMap + dirección de la cámara acorazada` para ser precisos. |
+| `values` | bytes[]   | Conjunto de valores de datos.                                                                                                              |
 
 ### generateSentVaultKeys
 
@@ -54,22 +54,22 @@ function generateSentVaultKeys(
 ) internal view returns (bytes32[] memory keys, bytes[] memory values);
 ```
 
-Generate the data keys/values to be set on the sender address after sending vaults.
+Generar las claves/valores de datos que se establecerán en la dirección del remitente tras el envío de bóvedas.
 
-#### Parameters:
+#### Parámetros:
 
-| Name                     | Type    | Description                                                                                             |
-| :----------------------- | :------ | :------------------------------------------------------------------------------------------------------ |
-| sender                   | address | The address sending the vault and where the Keys should be updated.                                     |
-| vaultMapKey              | bytes32 | The map key of the vault being sent containing the interfaceId of the vault and the index in the array. |
-| vaultInterfaceIdAndIndex | bytes   | The value of the map key of the vault being sent.                                                       |
+| Nombre                   | Tipo    | Descripción                                                                                                      |
+| :----------------------- | :------ | :--------------------------------------------------------------------------------------------------------------- |
+| sender                   | address | La dirección que envía la bóveda y donde deben actualizarse las Claves.                                          |
+| vaultMapKey              | bytes32 | La clave de mapa de la bóveda que se envía, que contiene el interfaceId de la bóveda y el índice en el conjunto. |
+| vaultInterfaceIdAndIndex | bytes   | El valor de la clave de mapa de la bóveda que se envía.                                                          |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name     | Type      | Description           |
-| :------- | :-------- | :-------------------- |
-| `keys`   | bytes32[] | Array of data keys.   |
-| `values` | bytes[]   | Array of data values. |
+| Nombre   | Tipo      | Descripción                   |
+| :------- | :-------- | :---------------------------- |
+| `keys`   | bytes32[] | Conjunto de claves de datos.  |
+| `values` | bytes[]   | Conjunto de valores de datos. |
 
 ### extractIndexFromMap
 
@@ -79,21 +79,21 @@ function extractIndexFromMap(
 ) internal pure returns (uint64);
 ```
 
-Extracts the index from a mapping of `valueType` (bytes8,bytes4) and `valueContent` (Bytes4,Number).
-Returns an index of type uint64.
+Extrae el índice de un mapeo de `valueType` (bytes8,bytes4) y `valueContent` (Bytes4,Number).
+Devuelve un índice de tipo uint64.
 
-#### Parameters:
+#### Parámetros:
 
-| Name     | Type  | Description                                                                         |
-| :------- | :---- | :---------------------------------------------------------------------------------- |
-| mapValue | bytes | A bytes12 mapping of `valueType` (bytes8,bytes4) and `valueContent` (Bytes4,Number) |
+| Nombre   | Tipo  | Descripción                                                                      |
+| :------- | :---- | :------------------------------------------------------------------------------- |
+| mapValue | bytes | Un mapeo bytes12 de `valueType` (bytes8,bytes4) y `valueContent` (Bytes4,Number) |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name    | Type   | Description                   |
-| :------ | :----- | :---------------------------- |
-| `index` | uint64 | Extracted index from mapping. |
+| Nombre  | Tipo   | Descripción                |
+| :------ | :----- | :------------------------- |
+| `index` | uint64 | Índice extraído del mapeo. |
 
-## References
+## Referencias
 
-- [Solidity implementations (GitHub)](https://github.com/lukso-network/lsp-smart-contracts/tree/develop/contracts)
+- [Implementaciones de Solidity (GitHub)](https://github.com/lukso-network/lsp-smart-contracts/tree/develop/contracts)

@@ -30,7 +30,7 @@ Si quieres llamar a un contrato inteligente específico que fue desplegado en la
 Supongamos que un contrato inteligente `targetContract` fue desplegado en la red y queremos que nuestra UP llame a la función `myCoolFunction` en este contrato. Tendremos que
 
 1. [cifrar-ABI](https://web3js.readthedocs.io/en/v1.2.11/web3-eth-contract.html#methods-mymethod-encodeabi) la llamada a la función con los parámetros que queramos pasar.
-2. 2. Pasar el calldata codificado como argumento `_data` de la función `execute(...)`.
+2. Pasar el calldata codificado como argumento `_data` de la función `execute(...)`.
 
 ## Configuración
 

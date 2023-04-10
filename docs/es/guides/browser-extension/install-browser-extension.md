@@ -30,8 +30,7 @@ Puedes probar la extensión de navegador con las siguientes dApps de ejemplo (O 
 Proyectos construidos por la comunidad LUKSO:
 
 - [lookso.io](https://lookso.io/) - A decentralized social feed geared towards Universal Profiles and the LUKSO blockchain
-- [universal.page](https://universal.page/) - Create a customizable website to showcase and sell digital assets on
-  LUKSO.
+- [universal.page](https://universal.page/) - Create a customizable website to showcase and sell digital assets on LUKSO.
 - [relayer-frontend.vercel.app](https://relayer-frontend.vercel.app/) - A relayer that lets you used your staking rewards to pay for your transaction fees.
 - [marble.cool](https://www.marble.cool/) - A LUKSO-native wallet.
 
@@ -39,9 +38,9 @@ Proyectos construidos por la comunidad LUKSO:
 
 Haz clic en el siguiente enlace para descargar la extensión, en función del navegador en el que quieras instalarla.
 
-### :inbox_tray: **[Enlace de descarga (v1.1.0.52-MV2)](https://storage.googleapis.com/up-browser-extension/universalprofile-extension-v1.1.0.52-mv2.zip) (Resto de navegadores)**
+### :inbox_tray: **[Enlace de descarga (v1.2.1.1-MV2)](https://storage.googleapis.com/up-browser-extension/universalprofile-extension-v1.2.1.1-mv2.zip) (Resto de navegadores)**
 
-### :inbox_tray: **[Enlace de descarga (v1.1.0.52-MV3)](https://storage.googleapis.com/up-browser-extension/universalprofile-extension-v1.1.0.52-mv3.zip) (Chrome)**
+### :inbox_tray: **[Enlace de descarga (v1.2.1.1-MV3)](https://storage.googleapis.com/up-browser-extension/universalprofile-extension-v1.2.1.1-mv3.zip) (Chrome)**
 
 ## Descomprimir el archivo
 

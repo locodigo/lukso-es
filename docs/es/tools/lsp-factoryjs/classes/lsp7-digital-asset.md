@@ -45,7 +45,7 @@ Objeto que especifica cómo se desplegará el Activo Digital LSP7
 | [`ipfsGateway`](../deployment/digital-asset#ipfs-upload-options) (opcional)    | Cadena \| Objeto | Una URL de pasarela IPFS o un objeto que contenga opciones de configuración IPFS.                                                                                                               |
 
 :::info
-You can read more about the `options` object specification on [its official page](../deployment/digital-asset.md#deployment-configuration)
+Puedes leer más sobre la especificación del objeto `options` en [su página oficial](../deployment/digital-asset.md#deployment-configuration)
 :::
 
 ### Respuesta

@@ -3,7 +3,7 @@ title: LSP2Utils
 sidebar_position: 1
 ---
 
-# LSP2JSONSchemaUtils
+# LSP2UtilsEsquemaJSON
 
 :::info
 
@@ -11,9 +11,9 @@ sidebar_position: 1
 
 :::
 
-This library can be used to generate ERC725Y data keys according to the JSON schemas defined in the LSP2 standard.
+Esta librería puede utilizarse para generar claves de datos ERC725Y de acuerdo con los esquemas JSON definidos en el estándar LSP2.
 
-## Functions
+## Funciones
 
 ### generateSingletonKey
 
@@ -23,19 +23,19 @@ function generateSingletonKey(
 ) internal pure returns (bytes32);
 ```
 
-Generates a data key of `keyType` Singleton.
+Genera una clave de datos de `keyType` Singleton.
 
-#### Parameters:
+#### Parámetros:
 
-| Name      | Type   | Description                                          |
-| :-------- | :----- | :--------------------------------------------------- |
-| `keyName` | string | The string to hash to generate a Singleton data key. |
+| Nombre    |  Tipo  | Descripción                                                 |
+| :-------- | :----- | :---------------------------------------------------------- |
+| `keyName` | string | La cadena a hash para generar una clave de datos Singleton. |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name     | Type    | Description                      |
-| :------- | :------ | :------------------------------- |
-| `result` | bytes32 | Data key of `keyType` Singleton. |
+| Nombre   | Tipo    | Descripción                                   |
+| :------- | :------ | :-------------------------------------------- |
+| `result` | bytes32 | Clave de datos del mapeo `keyType` Singleton. |
 
 ### generateArrayKey
 
@@ -45,29 +45,29 @@ function generateArrayKey(
 ) internal pure returns (bytes32);
 ```
 
-Generates a data key of `keyType` Array by hashing `keyName`.
+Genera una clave de datos del mapeo `keyType` mediante el hash `keyName`.
 
-##### Requirements:
+##### Requisitos:
 
-- The last two characters MUST be `[]`.
+- Los dos últimos caracteres DEBEN ser `[]`.
 
-E.g.:
+Ej:
 
 ```solidity
 string memory keyName = "ArrayName[]";
 ```
 
-#### Parameters:
+#### Parámetros:
 
-| Name      | Type   | Description                                                            |
-| :-------- | :----- | :--------------------------------------------------------------------- |
-| `keyName` | string | The string that will be used to generate a data key of `keyType` Array |
+| Nombre    | Tipo   | Descripción                                                                   |
+| :-------- | :----- | :---------------------------------------------------------------------------- |
+| `keyName` | string | La cadena que se utilizará para generar una clave de datos de `keyType` Array |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name     | Type    | Description                  |
-| :------- | :------ | :--------------------------- |
-| `result` | bytes32 | Data key of `keyType` Array. |
+| Nombre    | Tipo   | Descripción                         |
+| :------- | :------ | :---------------------------------- |
+| `result` | bytes32 | Clave de datos del array `keyType`. |
 
 ### generateArrayElementKeyAtIndex
 
@@ -78,20 +78,20 @@ function generateArrayElementKeyAtIndex(
 ) internal pure returns (bytes32);
 ```
 
-Generates the element data key for the `arrayKey` at the given `index`. This is done by concatenating the first 16 bytes of `arrayKey` with an `index`.
+Genera la clave de datos del elemento `arrayKey` en el `index` dado. Esto se hace concatenando los primeros 16 bytes de `arrayKey` con un `index`.
 
-#### Parameters:
+#### Parámetros:
 
-| Name       | Type    | Description                        |
-| :--------- | :------ | :--------------------------------- |
-| `arrayKey` | bytes32 | Array data key.                    |
-| `index`    | uint256 | Index of the element in the array. |
+| Nombre     | Tipo    | Descripción                      |
+| :--------- | :------ | :------------------------------- |
+| `arrayKey` | bytes32 | Clave de datos del array.        |
+| `index`    | uint256 | Índice del elemento en el array. |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name     | Type    | Description                           |
-| :------- | :------ | :------------------------------------ |
-| `result` | bytes32 | Data key of the element in the array. |
+| Nombre    | Tipo   | Descripción                              |
+| :------- | :------ | :--------------------------------------- |
+| `result` | bytes32 | Clave de datos del elemento en el array. |
 
 ### generateMappingKey(string,srting)
 
@@ -102,20 +102,20 @@ function generateMappingKey(
 ) internal pure returns (bytes32);
 ```
 
-Generates a data key of `keyType` Mapping by concatenating the hash of the `firstWord` with the hash of the `secondWord`.
+Genera una clave de datos del mapeo `keyType` concatenando el hash de la `firstWord` con el hash de la `secondWord`.
 
-#### Parameters:
+#### Parámetros:
 
-| Name        | Type   | Description                                                                                                      |
-| :---------- | :----- | :--------------------------------------------------------------------------------------------------------------- |
-| `firstWord` | string | Used to generate a hash and its first 10 bytes are used for the first part of the data key of `keyType` Mapping. |
-| `lastWord`  | string | Used to generate a hash and its first 20 bytes are used for the last part of the data key of `keyType` Mapping.  |
+| Nombre      | Tipo   | Descripción                                                                                                                         |
+| :---------- | :----- | :---------------------------------------------------------------------------------------------------------------------------------- |
+| `firstWord` | string | Se utiliza para generar un hash y sus 10 primeros bytes se utilizan para la primera parte de la clave de datos del mapeo `keyType`. |
+| `lastWord`  | string | Se utiliza para generar un hash y sus primeros 20 bytes se utilizan para la última parte de la clave de datos del mapeo `keyType`.  |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name     | Type    | Description                    |
-| :------- | :------ | :----------------------------- |
-| `result` | bytes32 | Data key of `keyType` Mapping. |
+| Nombre    | Tipo   | Descripción                         |
+| :------- | :------ | :---------------------------------- |
+| `result` | bytes32 | Clave de datos del mapeo `keyType`. |
 
 ### generateMappingKey(string,address)
 
@@ -126,20 +126,20 @@ function generateMappingKey(
 ) internal pure returns (bytes32);
 ```
 
-Generates a data key of `keyType` Mapping by hashing a string and concatenating it with an address.
+Genera una clave de datos del mapeo `keyType` mediante el hash de una cadena y su concatenación con una dirección.
 
-#### Parameters:
+#### Parámetros:
 
-| Name        | Type    | Description                                                                                                      |
-| :---------- | :------ | :--------------------------------------------------------------------------------------------------------------- |
-| `firstWord` | string  | Used to generate a hash and its first 10 bytes are used for the first part of the data key of `keyType` Mapping. |
-| `addr`      | address | Used for the last part of the data key of `keyType` Mapping.                                                     |
+| Nombre      | Tipo    | Descripción                                                                                                                         |
+| :---------- | :------ | :---------------------------------------------------------------------------------------------------------------------------------- |
+| `firstWord` | string  | Se utiliza para generar un hash y sus 10 primeros bytes se utilizan para la primera parte de la clave de datos del mapeo `keyType`. |
+| `addr`      | address | Se utiliza para la última parte de la clave de datos del mapeo `keyType`.                                                           |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name     | Type    | Description                    |
-| :------- | :------ | :----------------------------- |
-| `result` | bytes32 | Data key of `keyType` Mapping. |
+| Nombre   | Tipo    | Descripción                         |
+| :------- | :------ | :---------------------------------- |
+| `result` | bytes32 | Clave de datos del mapeo `keyType`. |
 
 ### generateMappingKey(bytes10,bytes20)
 
@@ -150,20 +150,20 @@ function generateMappingKey(
 ) internal pure returns (bytes32);
 ```
 
-Generate a data key of `keyType` Mapping by concatenating `keyPrefix` with `bytes20Value`.
+Genera una clave de datos del mapeo `keyType` concatenando `keyPrefix` con `bytes20Value`.
 
-#### Parameters:
+#### Parámetros:
 
-| Name           | Type    | Description                                       |
-| :------------- | :------ | :------------------------------------------------ |
-| `keyPrefix`    | bytes10 | First part of the data key of `keyType` Mapping.  |
-| `bytes20Value` | bytes20 | Second part of the data key of `keyType` Mapping. |
+| Nombre         | Tipo    | Descripción                                             |
+| :------------- | :------ | :------------------------------------------------------ |
+| `keyPrefix`    | bytes10 | Primera parte de la clave de datos del mapeo `keyType`. |
+| `bytes20Value` | bytes20 | Segunda parte de la clave de datos del mapeo `keyType`. |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name     | Type    | Description                    |
-| :------- | :------ | :----------------------------- |
-| `result` | bytes32 | Data key of `keyType` Mapping. |
+| Nombre   | Tipo    | Descripción                         |
+| :------- | :------ | :---------------------------------- |
+| `result` | bytes32 | Clave de datos del mapeo `keyType`. |
 
 ### generateMappingWithGroupingKey(string,string,address)
 
@@ -175,21 +175,21 @@ function generateMappingWithGroupingKey(
 ) internal pure returns (bytes32);
 ```
 
-Generate a data key of `keyType` MappingWithGrouping by concatenating the hash of the `firstWord`, the hash of the `secondWord` and an address.
+Genera una clave de datos de `keyType` MappingWithGrouping concatenando el hash de la `firstWord`, el hash de la `secondWord` y una dirección.
 
-#### Parameters:
+#### Parámetros:
 
-| Name         | Type    | Description                                                                                                                  |
-| :----------- | :------ | :--------------------------------------------------------------------------------------------------------------------------- |
-| `firstWord`  | string  | Used to generate a hash and its first 6 bytes are used for the first part of the data key of `keyType` MappingWithGrouping.  |
-| `secondWord` | string  | Used to generate a hash and its first 4 bytes are used for the second part of the data key of `keyType` MappingWithGrouping. |
-| `addr`       | address | Used for the last part of the data key of `keyType` MappingWithGrouping.                                                     |
+| Nombre       | Tipo    | Descripción                                                                                                                                     |
+| :----------- | :------ | :---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `firstWord`  | string  | Se utiliza para generar un hash y sus 6 primeros bytes se utilizan para la primera parte de la clave de datos de `keyType` MappingWithGrouping. |
+| `secondWord` | string  | Se utiliza para generar un hash y sus 4 primeros bytes se utilizan para la segunda parte de la clave de datos de `keyType` MappingWithGrouping. |
+| `addr`       | address | Se utiliza para la última parte de la clave de datos de `keyType` MappingWithGrouping.                                                          |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name     | Type    | Description                                |
+| Nombre    | Tipo   | Descripción                               |
 | :------- | :------ | :----------------------------------------- |
-| `result` | bytes32 | Data key of `keyType` MappingWithGrouping. |
+| `result` | bytes32 | Clave de datos de `keyType` MappingWithGrouping. |
 
 ### generateMappingWithGroupingKey(bytes10,bytes20)
 
@@ -200,20 +200,20 @@ function generateMappingWithGroupingKey(
 ) internal pure returns (bytes32);
 ```
 
-Generate a data key of `keyType` MappingWithGrouping by concatenating `keyPrefix` with `bytes20Value`.
+Genera una clave de datos de `keyType` MappingWithGrouping concatenando `keyPrefix` con `bytes20Value`.
 
-#### Parameters:
+#### Parámetros:
 
-| Name           | Type    | Description                                                               |
-| :------------- | :------ | :------------------------------------------------------------------------ |
-| `keyPrefix`    | bytes10 | Used for the first part of the data key of `keyType` MappingWithGrouping. |
-| `bytes20Value` | bytes20 | Used for the first last of the data key of `keyType` MappingWithGrouping. |
+| Nombre         | Tipo    | Descripción                                                                             |
+| :------------- | :------ | :-------------------------------------------------------------------------------------- |
+| `keyPrefix`    | bytes10 | Se utiliza para la primera parte de la clave de datos de `keyType` MappingWithGrouping. |
+| `bytes20Value` | bytes20 | Se utiliza para la última parte de la clave de datos de `keyType` MappingWithGrouping.  |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name     | Type    | Description                                |
-| :------- | :------ | :----------------------------------------- |
-| `result` | bytes32 | Data key of `keyType` MappingWithGrouping. |
+| Nombre   | Tipo    | Descripción                                      |
+| :------- | :------ | :----------------------------------------------- |
+| `result` | bytes32 | Clave de datos de `keyType` MappingWithGrouping. |
 
 ### generateJSONURLValue
 
@@ -225,21 +225,21 @@ function generateJSONURLValue(
 ) internal pure returns (bytes memory key);
 ```
 
-Generate a JSONURL valueContent.
+Generar un JSONURL valueContent.
 
-#### Parameters:
+#### Parámetros:
 
-| Name           | Type   | Description                              |
-| :------------- | :----- | :--------------------------------------- |
-| `hashFunction` | string | The function used to hash the JSON file. |
-| `json`         | string | Bytes value of the JSON file.            |
-| `url`          | string | The URL where the JSON file is hosted.   |
+| Nombre         | Tipo   | Descripción                                            |
+| :------------- | :----- | :----------------------------------------------------- |
+| `hashFunction` | string | La función utilizada para hacer hash del archivo JSON. |
+| `json`         | string | Valor en bytes del archivo JSON.                       |
+| `url`          | string | La URL donde se aloja el archivo JSON.                 |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name     | Type    | Description     |
+| Nombre   | Tipo    | Descripción     |
 | :------- | :------ | :-------------- |
-| `result` | bytes32 | JSON URL Value. |
+| `result` | bytes32 | Valor URL JSON. |
 
 ### generateASSETURLValue
 
@@ -251,21 +251,21 @@ function generateASSETURLValue(
 ) internal pure returns (bytes memory key);
 ```
 
-Generate a ASSETURL valueContent.
+Generar un ASSETURL valueContent.
 
-#### Parameters:
+#### Parámetros:
 
-| Name           | Type   | Description                              |
-| :------------- | :----- | :--------------------------------------- |
-| `hashFunction` | string | The function used to hash the JSON file. |
-| `assetBytes`   | string | Bytes value of the JSON file.            |
-| `url`          | string | The URL where the JSON file is hosted.   |
+| Nombre         | Tipo   | Descripción                                            |
+| :------------- | :----- | :----------------------------------------------------- |
+| `hashFunction` | string | La función utilizada para hacer hash del archivo JSON. |
+| `assetBytes`   | string | Valor en bytes del archivo JSON.                       |
+| `url`          | string | La URL donde se aloja el archivo JSON.                 |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name     | Type    | Description      |
-| :------- | :------ | :--------------- |
-| `result` | bytes32 | ASSET URL Value. |
+| Nombre    | Tipo   | Descripción               |
+| :------- | :------ | :------------------------ |
+| `result` | bytes32 | Valor de la URL de ASSET. |
 
 ### isEncodedArray
 
@@ -275,13 +275,13 @@ function isEncodedArray(
 ) internal pure returns (bool);
 ```
 
-Verifing if `data` is an encoded array
+Comprobar si `data` es un conjunto codificado
 
-#### Parameters:
+#### Parámetros:
 
-| Name   | Type  | Description                       |
-| :----- | :---- | :-------------------------------- |
-| `data` | bytes | The value that is to be verified. |
+| Nombre | Tipo  | Descripción                   |
+| :----- | :---- | :---------------------------- |
+| `data` | bytes | El valor que debe verificarse.|
 
 ### isEncodedArrayOfAddresses
 
@@ -291,13 +291,13 @@ function isEncodedArrayOfAddresses(
 ) internal pure returns (bool);
 ```
 
-Verifing if `data` is an encoded array of addresses (address[])
+Comprobación de si `data` es un conjunto codificado de direcciones (address[])
 
-#### Parameters:
+#### Parámetros:
 
-| Name   | Type  | Description                       |
-| :----- | :---- | :-------------------------------- |
-| `data` | bytes | The value that is to be verified. |
+| Nombre | Tipo  | Descripción                    |
+| :----- | :---- | :----------------------------- |
+| `data` | bytes | El valor que debe verificarse. |
 
 ### isBytes4EncodedArray
 
@@ -307,13 +307,13 @@ function isBytes4EncodedArray(
 ) internal pure returns (bool);
 ```
 
-Verify that `data` is an array of bytes4 (bytes4[]) encoded according to the Solidity ABI specs.
+Comprueba que `data` es un conjunto de bytes4 (bytes4[]) codificado según las especificaciones ABI de Solidity.
 
-#### Parameters:
+#### Parámetros:
 
-| Name   | Type  | Description                       |
-| :----- | :---- | :-------------------------------- |
-| `data` | bytes | The value that is to be verified. |
+| Nombre | Tipo  | Descripción                    |
+| :----- | :---- | :----------------------------- |
+| `data` | bytes | El valor que debe verificarse. |
 
 ### isCompactBytesArray
 
@@ -323,13 +323,13 @@ function isCompactBytesArray(
 ) internal pure returns (bool);
 ```
 
-Verify the validity of the `compactBytesArray` according to LSP2.
+Verificar la validez del `compactBytesArray` según LSP2.
 
-#### Parameters:
+#### Parámetros:
 
-| Name                | Type  | Description                       |
-| :------------------ | :---- | :-------------------------------- |
-| `compactBytesArray` | bytes | The value that is to be verified. |
+| Nombre              | Tipo  | Descripción                    |
+| :------------------ | :---- | :----------------------------- |
+| `compactBytesArray` | bytes | El valor que debe verificarse. |
 
 ### uncheckedIncrement
 
@@ -339,9 +339,9 @@ uncheckedIncrement(
 ) internal pure returns (uint256);
 ```
 
-Will return unchecked incremented uint256.
-Can be used to save gas when iterating over loops.
+Devolverá uint256 incrementado sin marcar.
+Puede usarse para ahorrar gas al iterar sobre bucles.
 
-## References
+## Referencias
 
-- [Solidity implementations (GitHub)](https://github.com/lukso-network/lsp-smart-contracts/tree/develop/contracts)
+- [Implementaciones de Solidity (GitHub)](https://github.com/lukso-network/lsp-smart-contracts/tree/develop/contracts)

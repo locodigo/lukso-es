@@ -22,13 +22,13 @@ Puedes cerrar los registros pulsando `ctrl+c`.
 
 ## Estadísticas
 
-- Estadísticas de ejecución](https://stats.execution.l16.lukso.network)
-- Estadísticas de consenso](https://stats.consensus.l16.lukso.network)
+- [Estadísticas de ejecución](https://stats.execution.l16.lukso.network)
+- [Estadísticas de consenso](https://stats.consensus.l16.lukso.network)
 
 ## Exploradores
 
-- Explorador de ejecución](https://explorer.execution.l16.lukso.network)
-- Explorador de consenso](https://explorer.consensus.l16.lukso.network)
+- [Explorador de ejecución](https://explorer.execution.l16.lukso.network)
+- [Explorador de consenso](https://explorer.consensus.l16.lukso.network)
 
 ## Monitoreo
 

@@ -1,36 +1,36 @@
 ---
-sidebar_label: 'LSP5 - Received Assets'
+sidebar_label: 'LSP5 - Activos Recibdos'
 sidebar_position: 5
 ---
 
-# LSP5 - Received Assets
+# LSP5 - Activos Recibidos
 
-:::info Standard Document
+:::info Documento Estándard
 
-[LSP5 - Received Assets](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-5-ReceivedAssets.md)
-
-:::
-
-## Introduction
-
-Keeping track of all the tokens that an address owns is currently unfeasible. If you want to know from which tokens you own, you need to manually import the token contract address and query the balance of your key in it each time for each token. This inconvenience brings light to the following problem: owning tokens without being aware because there are no ways of being notified about the tokens you have received in the first place.
-
-One way to solve this problem is to create generic metadata keys that would register in the smart contract storage how many different tokens you own and the address of the transferred token contracts.
-
-## What does this standard represent?
-
-:::tip Recommendation
-
-Make sure to understand the **[ERC725Y Generic Key/Value Store](../lsp-background/erc725.md#erc725y---generic-data-keyvalue-store)** and **[LSP2 - ERC725YJSONSchema](../generic-standards/lsp2-json-schema.md)** Standards before going through the ERC725Y Data Keys.
+[LSP5 - Activos Recibidos](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-5-ReceivedAssets.md)
 
 :::
 
+## Introducción
 
-This Metadata standard describes two data keys that can be added to an [ERC725Y](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-725.md#erc725y) smart contract to reference and keep track of received assets.
+Llevar un registro de todos los tokens que posee una dirección es actualmente inviable. Si quieres saber de qué tokens eres propietario, tienes que importar manualmente la dirección del contrato de tokens y consultar el saldo de tu clave en ella cada vez para cada token. Este inconveniente pone de manifiesto el siguiente problema: poseer tokens sin ser consciente de ello porque no hay forma de ser notificado sobre los tokens que has recibido en primer lugar.
 
-### `LSP5ReceivedAssets[]`
+Una forma de resolver este problema es crear claves de metadatos genéricas que registrarían en el almacenamiento del contrato inteligente cuántos tokens diferentes posees y la dirección de los contratos de tokens transferidos.
 
-This data key represents a list of all tokens and NFTs currently owned by the contract.
+## ¿Qué representa esta norma?
+
+:::tip Recomendación
+
+Asegúrate de comprender las normas **[ERC725Y Almacenamiento Genérico de Claves/Valores](../lsp-background/erc725.md#erc725y---generic-data-keyvalue-store)** y **[LSP2 - EsquemaJSONERC725Y](../generic-standards/lsp2-json-schema.md)** antes de revisar las claves de datos ERC725Y.
+
+:::
+
+
+Este estándar de metadatos describe dos claves de datos que pueden añadirse a un contrato inteligente [ERC725Y](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-725.md#erc725y) para hacer referencia y realizar un seguimiento de los activos recibidos.
+
+### `LSP5ActivosRecibidos[]`
+
+Esta clave de datos representa una lista de todos los tokens y NFTs que posee actualmente el contrato.
 
 ```json
 {
@@ -42,20 +42,20 @@ This data key represents a list of all tokens and NFTs currently owned by the co
 }
 ```
 
-:::tip Recommendation
+:::tip Recomendación
 
-It is advised to query the **`LSP5ReceivedAssets[]`** data key to verify if a contract supports the **[LSP5 - ReceivedAsset](./lsp5-received-assets.md)** standard.
+Se recomienda consultar la clave de datos **`LSP5ActivosRecibidos[]`** para comprobar si un contrato es compatible con el estándar **[LSP5 - ActivosRecibidos](./lsp5-received-assets.md)**.
 
 :::
 
 ### `LSP5ReceivedAssetsMap`
 
-This data key represents a map key, both holding:
+Esta clave de datos representa una clave de mapa, ambas con
 
-- an [ERC165 interface ID](https://eips.ethereum.org/EIPS/eip-165) to quickly identify the standard used by each asset smart contract (without the need to query the asset contracts directly).
-- the index in the [`LSP5ReceivedAssets[]`](#lsp5receivedassets-) Array where the received asset addresses are stored.
+- un [ERC165 ID de interfaz](https://eips.ethereum.org/EIPS/eip-165) para identificar rápidamente el estándar utilizado por cada contrato inteligente de activos (sin necesidad de consultar directamente los contratos de activos).
+- el índice en el conjunto [`LSP5ReceivedAssets[]`](#lsp5receivedassets-) donde se almacenan las direcciones de los activos recibidos.
 
-The `LSP5ReceivedAssetsMap` data key also helps to prevent adding duplications to the array when automatically added via smart contract (_e.g., _ an [LSP1-UniversalReceiverDelegate](../generic-standards/lsp1-universal-receiver-delegate.md)).
+La clave de datos `LSP5ReceivedAssetsMap` también ayuda a evitar que se añadan duplicaciones a dicho conjunto cuando se añaden automáticamente a través de un contrato inteligente (por ejemplo, _ un [LSP1-ReceptorDelegadoUniversal](../generic-standards/lsp1-universal-receiver-delegate.md)).
 
 ```json
 {
@@ -67,20 +67,20 @@ The `LSP5ReceivedAssetsMap` data key also helps to prevent adding duplications t
 }
 ```
 
-### Flow
+### Flujo
 
-:::info Note
+:::info Nota
 
-The data keys are also set on the **sender Universal Profile** to remove the token contract address if all the balance is sent.
+Las claves de datos también se establecen en el **Perfil Universal del remitente** para eliminar la dirección del contrato de token si se envía todo el saldo.
 
 :::
 
-If set when transferring tokens, these data keys are automatically updated in the Universal Profile storage via the [LSP1UniversalReceiverDelegateUP](../smart-contracts/lsp1-universal-receiver-delegate-up.md) contract.
+Si se establecen al transferir tokens, estas claves de datos se actualizan automáticamente en el almacenamiento del Perfil Universal a través del contrato [LSP1ReceptorDelegadoUniversalUP](../smart-contracts/lsp1-universal-receiver-delegate-up.md).
 
 :::note
-Check the [token transfer scenario](../generic-standards/lsp1-universal-receiver-delegate#token-transfer-scenario) for more details.
+Consulta el [escenario de transferencia de tokens](../generic-standards/lsp1-universal-receiver-delegate#token-transfer-scenario) para más detalles.
 :::
 
-![Token transfer detailed flow](/img/standards/lsp5/detailed-token-transfer.jpeg)
+![Flujo detallado de transferencia de tokens](/img/standards/lsp5/detailed-token-transfer.jpeg)
 
-![LSP5 Received Assets Flow](/img/standards/lsp5/lsp5-received-assets.jpeg)
+![Flujo de activos recibidos de LSP5](/img/standards/lsp5/lsp5-received-assets.jpeg)

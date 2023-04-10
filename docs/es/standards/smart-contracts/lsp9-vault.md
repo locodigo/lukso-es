@@ -1,22 +1,22 @@
 ---
-title: LSP9Vault
+title: LSP9Bóveda
 sidebar_position: 11
 ---
 
-# LSP9Vault
+# LSP9Bóveda
 
-:::info Solidity contract
+:::info Contrato Solidity
 
-[`LSP9Vault.sol`](https://github.com/lukso-network/lsp-smart-contracts/blob/main/contracts/LSP9Vault/LSP9Vault.sol)
+[`LSP9Bóveda.sol`](https://github.com/lukso-network/lsp-smart-contracts/blob/main/contracts/LSP9Vault/LSP9Vault.sol)
 
 :::
 
-The **LSP9Vault** contract is an implementation of the **[LSP9-Vault Standard](#)**.
+El contrato **LSP9Bóveda** es una implementación del **[Estándar LSP9-Bóveda](#)**.
 
-This contract can be used as a **vault** that can **hold assets** and **interact with other smart contracts**, as it has all the functions of the **[LSP0ERC725Account](./lsp0-erc725-account.md)** contract, except for the **`isValidSignature(...)`** function.
+Este contrato puede utilizarse como una **bóveda** que puede **conservar activos** e **interactuar con otros contratos inteligentes**, ya que tiene todas las funciones del contrato **[LSP0CuentaERC725](./lsp0-erc725-account.md)**, excepto la función **`isValidSignature(...)`**.
 
 :::note
-_LSP9Vault contract also contains the methods from the [ERC165 Standard](https://eips.ethereum.org/EIPS/eip-165):_
+_El contrato LSP9Bóveda también contiene los métodos del [Estándar ERC165](https://eips.ethereum.org/EIPS/eip-165):_
 
 ```solidity
 function supportsInterface(bytes4 interfaceId) public view returns (bool)
@@ -26,7 +26,7 @@ function supportsInterface(bytes4 interfaceId) public view returns (bool)
 
 ---
 
-## Functions
+## Funciones
 
 ### constructor
 
@@ -34,15 +34,15 @@ function supportsInterface(bytes4 interfaceId) public view returns (bool)
 constructor(address initialOwner)
 ```
 
-Sets the **initial owner** of the contract, the **[SupportedStandards:LSP9Vault ](#)** data key in the vault storage.
+Establece el **propietario inicial** del contrato, la clave de datos **[EstándaresSuportados: LSP9Bóveda ](#)** en el almacenamiento de la bóveda.
 
-If the `initialOwner` is an **[LSP0ERC725Account](./lsp0-erc725-account.md)** contract, the **[`universalReceiver(...)`](./lsp0-erc725-account.md#universalreceiver)** function will be called on the **LSP0ERC725Account** contract to inform the account about the **newly owned vault**.
+Si el `initialOwner` es un contrato **[LSP0CuentaERC725](./lsp0-erc725-account.md)**, se llamará a la función **[`universalReceiver(...)`](./lsp0-erc725-account.md#universalreceiver)** en el contrato **LSP0CuentaERC725** para informar a la cuenta sobre la **nueva propiedad de la bóveda**.
 
-#### Parameters:
+#### Parámetros:
 
-| Name           | Type      | Description                                      |
-| :------------- | :-------- | :----------------------------------------------- |
-| `initialOwner` | `address` | The address to set as the owner of the contract. |
+| Nombre         | Tipo      | Descripción                                              |
+| :------------- | :-------- | :------------------------------------------------------- |
+| `initialOwner` | `address` | La dirección a establecer como propietaria del contrato. |
 
 ### owner
 
@@ -50,13 +50,13 @@ If the `initialOwner` is an **[LSP0ERC725Account](./lsp0-erc725-account.md)** co
 function owner() public view returns (address owner)
 ```
 
-Returns the address of the current vault owner.
+Devuelve la dirección del propietario actual de la bóveda.
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name    | Type      | Description                     |
-| :------ | :-------- | :------------------------------ |
-| `owner` | `address` | The current owner of the vault. |
+| Nombre  | Tipo      | Descripción                         |
+| :------ | :-------- | :---------------------------------- |
+| `owner` | `address` | El propietario actual de la bóveda. |
 
 ### pendingOwner
 
@@ -64,15 +64,15 @@ Returns the address of the current vault owner.
 function pendingOwner() public view returns (address)
 ```
 
-Return the address of the pending owner that was initiated by [`transferOwnership(address)`](#transferownership).
+Devuelve la dirección del propietario pendiente que fue iniciado por [`transferOwnership(address)`](#transferownership).
 
-> **NB:** if no ownership transfer is in progress, the `pendingOwner` MUST be `address(0)`.
+> **NB:** si no hay ninguna transferencia de propiedad en curso, el `pendingOwner` DEBE ser `address(0)`.
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name           | Type      | Description                      |
-| :------------- | :-------- | :------------------------------- |
-| `pendingOwner` | `address` | The address of the pending owner |
+| Nombre         | Tipo      | Descripción                            |
+| :------------- | :-------- | :------------------------------------- |
+| `pendingOwner` | `address` | La dirección del propietario pendiente |
 
 ### transferOwnership
 
@@ -80,18 +80,18 @@ Return the address of the pending owner that was initiated by [`transferOwnershi
 function transferOwnership(address newOwner) public
 ```
 
-Initiate an ownership transfer by setting the `newOwner` as `pendingOwner`.
+Iniciar una transferencia de propiedad estableciendo el `newOwner` como `pendingOwner`.
 
-Requirements:
+Requisitos:
 
-- Can only be called by the current owner.
-- The `newOwner` to be set as the `pendingOwner` cannot be `address(this)`.
+- Sólo puede ser llamado por el propietario actual.
+- El `newOwner` a establecer como `pendingOwner` no puede ser `address(this)`.
 
-#### Parameters:
+#### Parámetros:
 
-| Name       | Type      | Description                           |
-| :--------- | :-------- | :------------------------------------ |
-| `newOwner` | `address` | The address to set as `pendingOwner`. |
+| Nombre     | Tipo      | Descripción                                    |
+| :--------- | :-------- | :--------------------------------------------- |
+| `newOwner` | `address` | La dirección a establecer como `pendingOwner`. |
 
 ### acceptOwnership
 
@@ -99,9 +99,9 @@ Requirements:
 function acceptOwnership() public
 ```
 
-Transfers ownership of the contract to the `pendingOwner` address. Can only be called by the `pendingOwner`.
+Transfiere la propiedad del contrato a la dirección `pendingOwner`. Sólo puede ser invocado por el `pendingOwner`.
 
-_Triggers the **[OwnershipTransferred](#ownershiptransferred)** event once the new owner has claimed ownership._
+_Activa el evento **[OwnershipTransferred](#ownershiptransferred)** una vez que el nuevo propietario ha reclamado la propiedad._
 
 ### renounceOwnership
 
@@ -109,19 +109,19 @@ _Triggers the **[OwnershipTransferred](#ownershiptransferred)** event once the n
 function renounceOwnership() public
 ```
 
-Since renouncing ownership is a sensitive operation, it is done as a two step process by calling `renounceOwnership(..)` twice. First to initiate the process, second as a confirmation.
+Dado que renunciar a la propiedad es una operación delicada, se realiza como un proceso de dos pasos llamando a `renounceOwnership(..)` dos veces. La primera para iniciar el proceso, la segunda como confirmación.
 
-The current block number is saved as a part of initiation because the following behaviour is wanted:
+El número de bloque actual se guarda como parte de la iniciación porque se desea el siguiente comportamiento:
 
-- The first 100 blocks after the saved block is the pending period, if you call `renounceOwnership(..)` during this period, the transaction will be reverted.
-- the following 100 blocks is the period when you can confirm the renouncement of the contract by calling `renounceOwnership(..)` the second time.
+- Los primeros 100 bloques después del bloque guardado es el periodo pendiente, si llama a `renounceOwnership(..)` durante este periodo, la transacción será revertida.
+- los siguientes 100 bloques es el periodo en el que puedes confirmar la renuncia al contrato llamando a `renounceOwnership(..)` por segunda vez.
 
-_Triggers the **[RenounceOwnershipInitiated](#renounceownershipinitiated)** event in the first call._
+_Activa el evento **[RenunciaPropiedadIniciada]("#renounceownershipinitiated")** en la primera llamada._
 
-_Triggers the **[OwnershipTransferred](#ownershiptransferred)** event after successfully renouncing ownership._
+_Activa el evento **[TitularidadTransferida](#ownershiptransferred)** después de renunciar con éxito a la titularidad._
 
 :::warning
-Leaves the contract without an owner. Once ownership of the contract is renounced, it won't be possible to call the functions restricted to the owner only.
+Deja el contrato sin propietario. Una vez que se renuncia a la propiedad del contrato, no será posible llamar a las funciones restringidas únicamente al propietario.
 :::
 
 ### fallback
@@ -130,9 +130,9 @@ Leaves the contract without an owner. Once ownership of the contract is renounce
 fallback() external payable
 ```
 
-Executed when value is transferred to the contract or when function identifier doesn't match any of the available functions.
+Se ejecuta cuando el valor se transfiere al contrato o cuando el identificador de función no coincide con ninguna de las funciones disponibles.
 
-_Triggers the **[ValueReceived](#valuereceived)** event when a native token is received._
+_Activa el evento **[ValorRecibido]( #valuereceived)** cuando se recibe un token nativo._
 
 ### execute
 
@@ -145,39 +145,39 @@ function execute(
 ) public payable returns (bytes memory result)
 ```
 
-Executes a call on any other smart contracts, transfers value, or deploys a new smart contract.
+Ejecuta una llamada en cualquier otro contrato inteligente, transfiere valor o despliega un nuevo contrato inteligente.
 
-The following `operationType` MUST exist:
+DEBE existir el siguiente `operationType`:
 
-- `0` for `CALL`
-- `1` for `CREATE`
-- `2` for `CREATE2`
-- `3` for `STATICCALL`
+- `0` para `CALL`
+- `1` para `CREATE`
+- `2` para `CREATE2`
+- `3` para `STATICCALL`
 
-_Triggers the **[Executed](#executed)** event when a call is successfully executed using `CALL/STATICCALL` operations._
+_Activa el evento **[Executed](#ejecutado)** cuando se ejecuta con éxito una llamada mediante las operaciones `CALL/STATICCALL`._
 
-_Triggers the **[ContractCreated](#contractcreated)** event when a smart contract is created using `CREATE/CREATE2` operations._
+_Activa el evento **[ContractCreated](#contractcreated)** cuando se crea un contrato inteligente mediante las operaciones `CREATE/CREATE2`._
 
 :::note
-The `execute(...)` function can only be called by the current owner of the vault.
+La función `execute(...)` sólo puede ser invocada por el propietario actual de la bóveda.
 
-The operation type `staticcall` (`3`) does not allow to transfer value.
+El tipo de operación `staticcall` (`3`) no permite transferir valor.
 :::
 
-#### Parameters:
+#### Parámetros:
 
-| Name            | Type      | Description                                                                                                              |
-| :-------------- | :-------- | :----------------------------------------------------------------------------------------------------------------------- |
-| `operationType` | `uint256` | The type of operation that needs to be executed.                                                                         |
-| `target`        | `address` | The address to interact with. `target` will be unused if a contract is created (operation 1 & 2).                        |
-| `value`         | `uint256` | The amount of native tokens to transfer with the transaction (in Wei).                                                   |
-| `data`          | `bytes`   | The calldata (ABI-encoded payload of a function to run on an other contract), or the bytecode of the contract to deploy. |
+| Nombre          | Tipo      | Descripción                                                                                                                     |
+| :-------------- | :-------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| `operationType` | `uint256` | El tipo de operación que debe ejecutarse.                                                                                       |
+| `target`        | `address` | La dirección con la que interactuar. `target` no se utilizará si se crea un contrato (operación 1 y 2).                         |
+| `value`         | `uint256` | La cantidad de tokens nativos a transferir con la transacción (en Wei).                                                         |
+| `data`          | `bytes`   | Los calldata (carga útil codificada ABI de una función para ejecutar en otro contrato), o el bytecode del contrato a desplegar. |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name     | Type    | Description                                                                                         |
-| :------- | :------ | :-------------------------------------------------------------------------------------------------- |
-| `result` | `bytes` | The returned data of the called function, or the address of the contract created (operation 1 & 2). |
+| Nombre   | Tipo    | Descripción                                                                                      |
+| :------- | :------ | :----------------------------------------------------------------------------------------------- |
+| `result` | `bytes` | Los datos devueltos de la función llamada, o la dirección del contrato creado (operación 1 y 2). |
 
 ### setData
 
@@ -188,20 +188,20 @@ function setData(
 ) public
 ```
 
-Sets the data of a single data `key` as **bytes** to the vault's storage.
+Establece los datos de una única `clave` de datos como **bytes** en el almacenamiento de la bóveda.
 
-_Triggers the **[DataChanged](#datachanged)** event when successfully setting the data._
+_Activa el evento **[DataChanged](#datachanged)** cuando se establecen correctamente los datos._
 
 :::note
-The `setData(...)` function can only be called by the current owner of the contract and the LSP1UniversalReceiverDelegateVault contract.
+La función `setData(...)` sólo puede ser invocada por el propietario actual del contrato y del contrato LSP1ReceptorDelegadoUnviersalBóveda
 :::
 
-#### Parameters:
+#### Parámetros:
 
-| Name    | Type      | Description                         |
-| :------ | :-------- | :---------------------------------- |
-| `key`   | `bytes32` | The data key for which to set data. |
-| `value` | `bytes`   | The data to set as bytes.           |
+| Nombre  | Tipo      | Descripción                                         |
+| :------ | :-------- | :-------------------------------------------------- |
+| `key`   | `bytes32` | La clave de datos para la que establecer los datos. |
+| `value` | `bytes`   | Los datos a establecer en bytes.                    |
 
 ### getData
 
@@ -209,19 +209,19 @@ The `setData(...)` function can only be called by the current owner of the contr
 function getData(bytes32 key) public view returns (bytes memory value)
 ```
 
-Retrieves the data that was set for a particular data `key`.
+Recupera los datos que se establecieron para una `clave` de datos concreta.
 
-#### Parameters:
+#### Parámetros:
 
-| Name  | Type      | Description                         |
-| :---- | :-------- | :---------------------------------- |
-| `key` | `bytes32` | The data key to retrieve data from. |
+| Nombre | Tipo      | Descripción                                            |
+| :----- | :-------- | :----------------------------------------------------- |
+| `key`  | `bytes32` | La clave de datos de la cual se recuperarán los datos. |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name    | Type    | Description                          |
-| :------ | :------ | :----------------------------------- |
-| `value` | `bytes` | The data for the requested data key. |
+| Nombre  | Tipo    | Descripción                       |
+| :------ | :------ | :-------------------------------- |
+| `value` | `bytes` | Los datos de la clave solicitada. |
 
 ### execute (Array)
 
@@ -234,40 +234,40 @@ function execute(
 ) public payable returns (bytes memory result)
 ```
 
-Same as [`execute(uint256,address,uint256,bytes)`](#execute---erc725x) but executes a batch of calls on any other smart contracts, transferring values, or deploying new smart contracts.
+Igual que [`execute(uint256,address,uint256,bytes)`](#execute---erc725x) pero ejecuta un lote de llamadas en cualquier otro contrato inteligente, transfiriendo valores, o desplegando nuevos contratos inteligentes.
 
-The values in the list of `operationsType` can be one of the following:
+Los valores de la lista de `operationsType` pueden ser uno de los siguientes:
 
-- `0` for `CALL`
-- `1` for `CREATE`
-- `2` for `CREATE2`
-- `3` for `STATICCALL`
-- `4` for `DELEGATECALL`
+- `0` para `CALL`
+- `1` para `CREATE`
+- `2` para `CREATE2`
+- `3` para `STATICCALL`
+- `4` para `DELEGATECALL`
 
-_Triggers the **[Executed](#executed)** event on every successful call that used operation type `CALL`, `STATICCALL` or `DELEGATECALL`._
+_Activa el evento **[Executed](#executed)** en cada llamada realizada con éxito en la que se haya utilizado el tipo de operación `CALL`, `STATICCALL` o `DELEGATECALL`._
 
-_Triggers the **[ContractCreated](#contractcreated)** event on every newly created smart contract that used operation `CREATE` or `CREATE2`._
+_Activa el evento **[ContractCreated](#contractcreated)** en cada contrato inteligente recién creado que haya utilizado la operación `CREATE` o `CREATE2`._
 
 :::note
-The `execute(uint256[],address[],uint256[],bytes[])` function can only be called by the current owner of the contract.
+La función `execute(uint256[],address[],uint256[],bytes[])` sólo puede ser invocada por el propietario actual del contrato.
 
-The operation types `staticcall` (`3`) and `delegatecall` (`4`) do not allow to transfer value.
+Los tipos de operación `staticcall` (`3`) y `delegatecall` (`4`) no permiten transferir valor.
 :::
 
-#### Parameters:
+#### Parámetros:
 
-| Name             | Type        | Description                                                                                                               |
-| :--------------- | :---------- | :------------------------------------------------------------------------------------------------------------------------ |
-| `operationsType` | `uint256[]` | The type of operations that need to be executed.                                                                          |
-| `targets`        | `address[]` | The addresses to interact with. Unused if a contract is created (operations 1 & 2).                                       |
-| `values`         | `uint256[]` | The amount of native tokens to transfer with the transaction (in Wei).                                                    |
-| `datas`          | `bytes[]`   | The calldatas (ABI-encoded payloads of functions to run on other contracts), or the bytecodes of the contracts to deploy. |
+| Nombre           | Tipo        | Descripción                                                                                                                                |
+| :--------------- | :---------- | :----------------------------------------------------------------------------------------------------------------------------------------- |
+| `operationsType` | `uint256[]` | El tipo de operaciones que deben ejecutarse.                                                                                               |
+| `targets`        | `address[]` | Las direcciones con las que interactuar. No se utiliza si se crea un contrato (operaciones 1 y 2).                                         |
+| `values`         | `uint256[]` | La cantidad de tokens nativos a transferir con la transacción (en Wei).                                                                    |
+| `datas`          | `bytes[]`   | Los calldatas (cargas útiles codificadas ABI de funciones para ejecutar en otros contratos), o los bytecodes de los contratos a desplegar. |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name      | Type      | Description                                                                                                                                   |
-| :-------- | :-------- | :-------------------------------------------------------------------------------------------------------------------------------------------- |
-| `results` | `bytes[]` | The datas that were returned by the functions called on the external contracts, or the addresses of the contracts created (operations 1 & 2). |
+| Nombre    | Tipo      | Descripción                                                                                                                               |
+| :-------- | :-------- | :---------------------------------------------------------------------------------------------------------------------------------------- |
+| `results` | `bytes[]` | Los datos devueltos por las funciones llamadas en los contratos externos, o las direcciones de los contratos creados (operaciones 1 y 2). |
 
 ### setData (Array)
 
@@ -278,20 +278,20 @@ function setData(
 ) public
 ```
 
-Sets an array of data at multiple data keys in the vault storage.
+Establece un conjunto de datos en múltiples claves de datos en el almacenamiento de la bóveda.
 
-_Triggers the **[DataChanged](#datachanged)** event when successfully setting the data._
+_Activa el evento **[DataChanged](#datachanged)** cuando se establecen correctamente los datos._
 
 :::note
-The `setData(...)` function can only be called by the current owner of the contract and the LSP1UniversalReceiverDelegateVault contract.
+La función `setData(...)` sólo puede ser invocada por el propietario actual del contrato y del contrato LSP1ReceptorDelegadoUnviersalBóveda.
 :::
 
-#### Parameters:
+#### Parámetros:
 
-| Name     | Type        | Description                          |
-| :------- | :---------- | :----------------------------------- |
-| `keys`   | `bytes32[]` | The data keys for which to set data. |
-| `values` | `bytes[]`   | The array of data to set.            |
+| Nombre   | Tipo        | Descripción                                        |
+| :------- | :---------- | :------------------------------------------------- |
+| `keys`   | `bytes32[]` | Las claves de datos para las que establecer datos. |
+| `values` | `bytes[]`   | El conjunto de datos a establecer.                 |
 
 ### getData (Array)
 
@@ -299,19 +299,19 @@ The `setData(...)` function can only be called by the current owner of the contr
 function getData(bytes32[] memory keys) public view returns (bytes[] memory values)
 ```
 
-Retrieves an array of data for multiple given data keys.
+Recupera un conjunto de datos para múltiples claves de datos dadas.
 
-#### Parameters:
+#### Parámetros:
 
-| Name   | Type        | Description                          |
-| :----- | :---------- | :----------------------------------- |
-| `keys` | `bytes32[]` | The data keys to retrieve data from. |
+| Nombre | Tipo        | Descripción                                                 |
+| :----- | :---------- | :---------------------------------------------------------- |
+| `keys` | `bytes32[]` | Las claves de datos de las cuales se recuperarán los datos. |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name     | Type      | Description                                       |
-| :------- | :-------- | :------------------------------------------------ |
-| `values` | `bytes[]` | An array of the data for the requested data keys. |
+| Nombre   | Tipo      | Descripción                                                |
+| :------- | :-------- | :--------------------------------------------------------- |
+| `values` | `bytes[]` | Un conjunto de datos para las claves de datos solicitadas. |
 
 ### universalReceiver
 
@@ -322,25 +322,25 @@ function universalReceiver(
 ) public payable returns (bytes memory result)
 ```
 
-Forwards the call to the **UniversalReceiverDelegate** contract if its address is stored at the [LSP1UniversalReceiverDelegate](../generic-standards/lsp1-universal-receiver.md#extension) data Key.
-The contract being called is expected to be an **[LSP1UniversalReceiverDelegateVault](./lsp1-universal-receiver-delegate-vault.md)**, supporting [LSP1UniversalReceiverDelegate InterfaceId](./interface-ids.md) using ERC165.
+Reenvía la llamada al contrato **ReceptorDelegadoUniversal** si su dirección está almacenada en la clave de datos [LSP1ReceptorDelegadoUniversal](../generic-standards/lsp1-universal-receiver.md#extension).
+Se espera que el contrato al que se llama sea un **[LSP1ReceptorDelegadoUniversalBóveda](./lsp1-universal-receiver-delegate-vault.md)**, compatible con [LSP1ReceptorDelegadoUniversal InterfaceId](./interface-ids.md) utilizando ERC165.
 
-_Triggers the **[UniversalReceiver](#universalreceiver-1)** event when this function gets successfully executed._
+_Activa el evento **[ReceptorUniversal](#universalreceiver-1)** cuando esta función se ejecuta correctamente._
 
-#### Parameters:
+#### Parámetros:
 
-| Name     | Type      | Description                    |
-| :------- | :-------- | :----------------------------- |
-| `typeId` | `bytes32` | The type of transfer received. |
-| `data`   | `bytes`   | The data received.             |
+| Nombre   | Tipo      | Descripción                     |
+| :------- | :-------- | :------------------------------ |
+| `typeId` | `bytes32` | Tipo de transferencia recibida. |
+| `data`   | `bytes`   | Los datos recibidos             |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name     | Type    | Description                            |
-| :------- | :------ | :------------------------------------- |
-| `result` | `bytes` | Can be used to encode response values. |
+| Nombre   | Tipo    | Descripción                                           |
+| :------- | :------ | :---------------------------------------------------- |
+| `result` | `bytes` | Puede utilizarse para codificar valores de respuesta. |
 
-## Events
+## Eventos
 
 ### OwnershipTransferStarted
 
@@ -351,14 +351,14 @@ event OwnershipTransferred(
 )
 ```
 
-_**MUST** be fired when the **[`transferOwnership(...)`](#transferownership)** function is successfully initiated._
+_**DEBE** dispararse cuando la función **[`transferOwnership(...)`](#transferownership)** se inicia con éxito._
 
-#### Values:
+#### Valores:
 
-| Name           | Type      | Description                              |
-| :------------- | :-------- | :--------------------------------------- |
-| `currentOwner` | `address` | The current owner of the contract.       |
-| `newOwner`     | `address` | The potential new owner of the contract. |
+| Nombre         | Tipo      | Descripción                                  |
+| :------------- | :-------- | :------------------------------------------- |
+| `currentOwner` | `address` | El propietario actual del contrato.          |
+| `newOwner`     | `address` | El potencial nuevo propietario del contrato. |
 
 ### OwnershipTransferred
 
@@ -369,14 +369,14 @@ event OwnershipTransferred(
 )
 ```
 
-_**MUST** be fired when the **[`transferOwnership(...)`](#transferownership)** function is successfully executed._
+_**DEBE** dispararse cuando la función **[`transferOwnership(...)`](#transferownership)** se ejecuta con éxito._
 
-#### Values:
+#### Valores:
 
-| Name            | Type      | Description                         |
-| :-------------- | :-------- | :---------------------------------- |
-| `previousOwner` | `address` | The previous owner of the contract. |
-| `newOwner`      | `address` | The new owner of the contract.      |
+| Nombre          | Tipo      | Descripción                           |
+| :-------------- | :-------- | :------------------------------------ |
+| `previousOwner` | `address` | El propietario anterior del contrato. |
+| `newOwner`      | `address` | El nuevo propietario del contrato.    |
 
 ### RenounceOwnershipStarted
 
@@ -384,7 +384,7 @@ _**MUST** be fired when the **[`transferOwnership(...)`](#transferownership)** f
 event RenounceOwnershipStarted()
 ```
 
-_**MUST** be fired when the **[`renounceOwnership()`](#renounceownership)** process is initiated._
+_**DEBE** dispararse cuando se inicia el proceso **[`renounceOwnership()`](#renounceownership)**._
 
 ### OwnershipRenounced
 
@@ -392,7 +392,7 @@ _**MUST** be fired when the **[`renounceOwnership()`](#renounceownership)** proc
 event OwnershipRenounced()
 ```
 
-_**MUST** be fired when the **[`renounceOwnership()`](#renounceownership)** process is confirmed._
+_**DEBE** activarse cuando se confirma el proceso **[`renounceOwnership()`](#renounceownership)**.._
 
 ### ValueReceived
 
@@ -403,14 +403,14 @@ event ValueReceived(
 )
 ```
 
-_**MUST** be fired when when a native token is received via **[`fallback(...)`](#fallback)** function._
+_**DEBE** dispararse cuando se recibe un token nativo a través de la función **[`fallback(...)`](#fallback)**._
 
-#### Values:
+#### Valores:
 
-| Name     | Type      | Description                |
-| :------- | :-------- | :------------------------- |
-| `sender` | `address` | The address of the sender. |
-| `value`  | `uint256` | The amount sent.           |
+| Nombre   | Tipo      | Descripción                 |
+| :------- | :-------- | :-------------------------- |
+| `sender` | `address` | La dirección del remitente. |
+| `value`  | `uint256` | Cantidad enviada.           |
 
 ### Executed
 
@@ -423,16 +423,16 @@ event Executed(
 )
 ```
 
-_**MUST** be fired when the **[`execute(...)`](#execute)** function creates a new call using the `CALL` or `STATICCALL` operation._
+_**DEBE** dispararse cuando la función **[`execute(...)`](#execute)** crea una nueva llamada utilizando la operación `CALL` o `STATICCALL`._
 
-#### Values:
+#### Valores:
 
-| Name        | Type      | Description                                                       |
-| :---------- | :-------- | :---------------------------------------------------------------- |
-| `operation` | `uint256` | The operation executed.                                           |
-| `target`    | `address` | The smart contract or address interacted with.                    |
-| `value`     | `uint256` | The value transferred.                                            |
-| `selector`  | `bytes4`  | The bytes4 selector of the function executed at the `to` address. |
+| Nombre      | Tipo      | Descripción                                                      |
+| :---------- | :-------- | :--------------------------------------------------------------- |
+| `operation` | `uint256` | La operación ejecutada.                                          |
+| `target`    | `address` | El contrato inteligente o la dirección con la que se interactúa. |
+| `value`     | `uint256` | Valor transferido.                                               |
+| `selector`  | `bytes4`  | El selector bytes4 de la función ejecutada en la dirección `to`. |
 
 ### ContractCreated
 
@@ -444,15 +444,15 @@ event ContractCreated(
 )
 ```
 
-_**MUST** be fired when the **[`execute(...)`](#execute)** function creates a new contract using the `CREATE` or `CREATE2` operation._
+_**DEBE** dispararse cuando la función **[`execute(...)`](#execute)** crea un nuevo contrato utilizando la operación `CREATE` o `CREATE2`._
 
-#### Values:
+#### Valores:
 
-| Name        | Type      | Description                          |
-| :---------- | :-------- | :----------------------------------- |
-| `operation` | `uint256` | The operation executed.              |
-| `to`        | `address` | The address of the created contract. |
-| `value`     | `uint256` | The value sent to the contract.      |
+| Nombre      | Tipo      | Descripción                        |
+| :---------- | :-------- | :--------------------------------- |
+| `operation` | `uint256` | La operación ejecutada.            |
+| `to`        | `address` | La dirección del contrato creado.  |
+| `value`     | `uint256` | El valor que se envía al contrato. |
 
 ### DataChanged
 
@@ -460,17 +460,17 @@ _**MUST** be fired when the **[`execute(...)`](#execute)** function creates a ne
 event DataChanged(bytes32 dataKey, bytes dataValue)
 ```
 
-_**MUST** be fired when the **[`setData(...)`](#setdata)** function is successfully executed._
+_**DEBE** dispararse cuando la función **[`setData(...)`](#setdata)** se ejecuta con éxito._
 
-#### Values:
+#### Valores:
 
-| Name        | Type      | Description                           |
-| :---------- | :-------- | :------------------------------------ |
-| `dataKey`   | `bytes32` | The data key which data value is set. |
-| `dataValue` | `bytes`   | The data value to set.                |
+| Nombre      | Tipo      | Descripción                                |
+| :---------- | :-------- | :----------------------------------------- |
+| `dataKey`   | `bytes32` | La clave de datos cuyo valor se establece. |
+| `dataValue` | `bytes`   | El valor de los datos a establecer.        |
 
 :::info
-The `DataChanged` event will emit only the first 256 bytes of `dataValue` (for large values set in the ERC725Y storage).
+El evento `DataChanged` emitirá sólo los primeros 256 bytes de `dataValue` (para valores grandes establecidos en el almacenamiento ERC725Y).
 :::
 
 ### UniversalReceiver
@@ -485,17 +485,17 @@ event UniversalReceiver(
 )
 ```
 
-_**MUST** be fired when the **[`universalReceiver(...)`](#universalreceiver)** function is successfully executed._
+_**DEBE** dispararse cuando la función **[`universalReceiver(...)`](#universalreceiver)** se ejecuta correctamente._
 
-#### Values:
+#### Valores:
 
-| Name            | Type      | Description                                                     |
-| :-------------- | :-------- | :-------------------------------------------------------------- |
-| `from`          | `address` | The address calling the **universalReceiver** function.         |
-| `value`         | `uint256` | The amount of value sent to the **universalReceiver** function. |
-| `typeId`        | `bytes32` | The hash of a specific standard or a hook.                      |
-| `receivedData`  | `bytes`   | The arbitrary data passed to **universalReceiver** function.    |
-| `returnedValue` | `bytes`   | The value returned by the **universalReceiver** function.       |
+| Nombre          | Tipo      | Descripción                                                       |
+| :-------------- | :-------- | :---------------------------------------------------------------- |
+| `from`          | `address` | La dirección que llama a la función **universalReceiver**.        |
+| `value`         | `uint256` | La cantidad de valor enviada a la función **universalReceiver**.  |
+| `typeId`        | `bytes32` | El hash de un estándar específico o un gancho.                    |
+| `receivedData`  | `bytes`   | Los datos arbitrarios pasados a la función **universalReceiver**. |
+| `returnedValue` | `bytes`   | El valor devuelto por la función **universalReceiver**.           |
 
 ## References
 

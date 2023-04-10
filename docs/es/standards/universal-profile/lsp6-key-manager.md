@@ -1,226 +1,230 @@
 ---
-sidebar_label: 'LSP6 - Key Manager'
+sidebar_label: 'LSP6 - Gestor de Claves'
 sidebar_position: 6
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# LSP6 - Key Manager
+# LSP6 - Gestor de Claves
 
-:::info Standard Document
+:::info Documento Estándard
 
-[LSP6 - Key Manager](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-6-KeyManager.md)
+[LSP6 - Gestor de Claves](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-6-KeyManager.md)
 
 :::
 
-## Introduction
+## Introducción
 
-An [LSP0ERC725Account](./../smart-contracts/lsp0-erc725-account.md) on its own comes with limited usability. Since it is an **owned contract**, only the account's owner can write data into it or use it to interact with other smart contracts.
+Una [CuentaLSP0ERC725](./../smart-contracts/lsp0-erc725-account.md) por sí sola tiene una usabilidad limitada. Dado que es un **contrato propio**, sólo el propietario de la cuenta puede escribir datos en él o utilizarlo para interactuar con otros contratos inteligentes.
 
-Here comes the Key Manager. A smart contract that controls an LSP0ERC725Account, acting as its new owner. It then functions as a gateway for the **account** contract.
+Aquí es donde entra en juego el Gestor de Claves. Un contrato inteligente que controla una CuentaLSP0ERC725, actuando como su nuevo propietario. Así, funciona como una puerta de enlace para el contrato **account**.
 
-The idea is to give [permissions](#permissions) to any `address`, like Externally Owned Accounts (EOA) or smart contracts. These can then interact with the LSP0ERC725Account **through the Key Manager**. The Key Manager will allow or restrict access based on the permissions set for the calling `address`.
+La idea es dar [permisos](#permissions) a cualquier `dirección`, como Cuentas de Propiedad Externa (EOA) o contratos inteligentes. Estos pueden entonces interactuar con la CuentaLSP0ERC725 **a través del Gestor de Claves**. El Gestor de Claves permitirá o restringirá el acceso en función de los permisos establecidos para la "dirección" de llamada.
 
-Permissioned addresses can interact directly with the Key Manager or can sign a message to be executed by any other parties (users, relay services).
+Las direcciones con permiso pueden interactuar directamente con el Gestor de Claves o pueden firmar un mensaje para ser ejecutado por cualquier instancia (usuarios, servicios de retransmisión).
 
-:x: &nbsp; **Without a Key Manager**, only the LSP0ERC725Account's owner can use its Account.
+:x: &nbsp; **Sin Gestor de Claves**, sólo el propietario de la LSP0ERC725Account puede utilizar su Cuenta.
 
-:white_check_mark: &nbsp; **With a Key Manager** attached to an LSP0ERC725Account, other addresses (EOAs or contracts) can use an Account on behalf of its owner.
+:white_check_mark: &nbsp; **Con un Gestor de Claves** asociado a una CuentaLSP0ERC725, otras direcciones (EOA o contratos) pueden utilizar una Cuenta en nombre de su propietario.
 
-![LSP6 Key Manager overview allowed](/img/standards/lsp6/lsp6-key-manager-overview-allowed.jpeg)
+![Descripción general del Gestor de Claves LSP6 permitido](/img/standards/lsp6/lsp6-key-manager-overview-allowed.jpeg)
 
-![LSP6 Key Manager overview not allowed](/img/standards/lsp6/lsp6-key-manager-overview-not-allowed.jpeg)
+![Vista general del Gestor de Claves LSP6 no permitida](/img/standards/lsp6/lsp6-key-manager-overview-not-allowed.jpeg)
 
-Permissions for addresses are not stored on the Key Manager. Instead, they are **stored inside the data key - value store of the LSP0ERC725Account** linked to the Key Manager. This way, it is possible to easily **upgrade** the Key Manager without resetting all the permissions again.
+Los permisos para las direcciones no se almacenan en el Gestor de Claves. En su lugar, se **almacenan dentro de la clave de datos - almacén de valores de la CuentaLSP0ERC725** vinculada al Gestor de Claves. De esta forma, es posible **actualizar** fácilmente el Gestor de Claves sin tener que restablecer de nuevo todos los permisos.
+
+Traducción realizada con la versión gratuita del traductor www.DeepL.com/Translator
 
 ---
 
-## Permissions
+## Permisos
 
 :::tip
 
-You can use the [`encodePermissions(...)`](../../../../../../../tools/erc725js/classes/ERC725#encodepermissions) and [`decodePermissions(...)`](../../../../../../tools/erc725js/classes/ERC725#decodepermissions) functions from the [_erc725.js_](../../../../../../tools/erc725js/getting-started) tool to **create, combine** or **decode permission values**.
+Puedes utilizar las funciones [`encodePermissions(...)`](../../../../../../../../../tools/erc725js/classes/ERC725#encodepermissions) y [`decodePermissions(...)`](../../../../../../.. /tools/erc725js/classes/ERC725#decodepermissions) de la herramienta [_erc725.js_](../../../../../../tools/erc725js/getting-started) para **crear, combinar** o **descifrar valores de permisos**.
 
 :::
 
-![LSP6 permissions](/img/standards/lsp6/lsp6-permissions.jpeg)
+![Permisos LSP6](/img/standards/lsp6/lsp6-permissions.jpeg)
 
-Click on the toggles below to **learn more about the features enabled by each permission**.
+Haz clic en los siguientes elementos para **obtener más información sobre las funciones habilitadas por cada permiso**.
+
+Traducción realizada con la versión gratuita del traductor www.DeepL.com/Translator
 
 <details id="changeowner">
-    <summary><code>CHANGEOWNER</code> - Allows changing the owner of the controlled contract</summary>
+    <summary><code>CHANGEOWNER</code> - Permite cambiar el propietario del contrato controlado.</summary>
     <p style={{marginBottom: '3%', marginTop: '2%', textAlign: 'center'}}>
         <b>value = </b><code>0x0000000000000000000000000000000000000000000000000000000000000001</code>
     </p>
 
-The `CHANGEOWNER` permission enables the change of the owner of the linked ERC725Account.
-Using this permission, you can easily upgrade the [`LSP6KeyManager`](../smart-contracts/lsp6-key-manager.md) attached to the Account by transferring ownership to a new Key Manager.
+El permiso `CHANGEOWNER` permite cambiar el propietario de la CuentaERC725 vinculada.
+Utilizando este permiso, puedes actualizar fácilmente el [`LSP6GestordeClaves`](../smart-contracts/lsp6-key-manager.md) vinculado a la Cuenta transfiriendo la propiedad a un nuevo Gestor de Claves.
 
 </details>
 
 <details>
-    <summary><code>ADDCONTROLLER</code> - Allows giving permissions to new addresses.</summary>
+    <summary><code>ADDCONTROLLER</code> - Permite dar permisos a nuevas direcciones.</summary>
     <p style={{marginBottom: '3%', marginTop: '2%', textAlign: 'center'}}>
         <b>value = </b><code>0x0000000000000000000000000000000000000000000000000000000000000002</code>
     </p>
 
-The `ADDCONTROLLER` permission enables to grant permissions to new addresses (controllers) that did not have any permissions before. This allows the addition of new controller addresses that can then interact with or use the linked ERC725Account.
+El permiso `ADDCONTROLLER` posibilita conceder permisos a nuevas direcciones (controladores) que antes no tenían ningún permiso. Esto permite añadir nuevas direcciones de controlador que pueden interactuar o utilizar la CuentaERC725 vinculada.
 
-The `ADDCONTROLLER` permission is needed to:
+El permiso `ADDCONTROLLER` es necesario para:
 
-- Give a new address some permission by setting its permissions under `AddressPermissions:Permissions:<controller-address>`
-- Add a new controller address in the list of `AddressPermissions[index]` at a specific `index`.
-- Increase the length of the `AddressPermissions[]` Array length (to describe that a new controller address has been added).
+- Dar a una nueva dirección algún permiso estableciendo sus permisos en `AddressPermissions:Permissions:<controller-address>`.
+- Añadir una nueva dirección de controlador en la lista de `AddressPermissions[index]` en un `index` específico.
+- Aumentar la longitud del conjunto `AddressPermissions[]` (para describir que se ha añadido una nueva dirección de controlador).
 
 ![ADD Permissions](/img/standards/lsp6/lsp6-add-permissions.jpeg)
 
 </details>
 
 <details>
-    <summary><code>CHANGEPERMISSIONS</code> - Allows changing existing permissions of addresses.</summary>
+    <summary><code>CHANGEPERMISSIONS</code> - Permite cambiar los permisos existentes de las direcciones.</summary>
     <p style={{marginBottom: '3%', marginTop: '2%', textAlign: 'center'}}>
         <b>value = </b><code>0x0000000000000000000000000000000000000000000000000000000000000004</code>
     </p>
 
-This permission allows for **editing permissions** of any address that has some permissions already set on the ERC725Account (including itself).
-The `CHANGEPERMISSIONS` is also needed to:
+Este permiso permite **editar permisos** de cualquier dirección que ya tenga algún permiso establecido en la CuentaERC725 (incluida ella misma).
+El `CHANGEPERMISSIONS` también es necesario para:
 
-- 🗑️ **Remove** a controller `address` from the list of `AddressPermissions[]`, meaning:
-  - removing its address at a specific index at `AddressPermissions[index]`
-  - decreasing the `AddressPermissions[]` Array length (to describe that a controller address has been removed).
-- 🖊️ **Edit** an entry in the `AddressPermissions[index]` Array, meaning changing the address stored at a specific index.
-  > ⚠️ **Warning:** a controller address with `CHANGEPERMISSIONS` can also edit its own permissions. Be cautious when granting this permission!
+- 🗑️ **Eliminar** una `dirección` controladora de la lista de `AddressPermissions[]`, es decir:
+  - eliminar su dirección en un índice específico en `AddressPermissions[index]`.
+- disminuir la longitud del conjunto `AddressPermissions[]` (para describir que se ha eliminado la dirección de un controlador).
+- 🖊️ **Editar** una entrada en el Array `AddressPermissions[index]`, lo que significa cambiar la dirección almacenada en un índice específico.
+  > ⚠️ **Atención:** una dirección de controlador con `CHANGEPERMISSIONS` también puede editar sus propios permisos. ¡Tenga cuidado al conceder este permiso!
 
-![CHANGE Permissions](/img/standards/lsp6/lsp6-change-permissions.jpeg)
+![CAMBIAR PERMISOS](/img/standards/lsp6/lsp6-cambiar-permisos.jpeg)
 
-Bear in mind that the behavior of `CHANGEPERMISSIONS` slightly varies depending on the new permissions value being set (see figure below).
+Ten en cuenta que el comportamiento de `CHANGEPERMISSIONS` varía ligeramente en función del nuevo valor de permisos que se establezca (véase la figura siguiente).
 
 ![CHANGE Permissions](/img/standards/lsp6/lsp6-change-permissions-variants.jpeg)
 
 </details>
 
 <details>
-    <summary><code>ADDEXTENSIONS</code> - Allows adding new extension contracts on the linked ERC725Account.</summary>
+    <summary><code>ADDEXTENSIONS</code> - Permite añadir más contratos de extensión en la CuentaERC725 vinculada.</summary>
     <p style={{marginBottom: '3%', marginTop: '2%', textAlign: 'center'}}>
         <b>value = </b><code>0x0000000000000000000000000000000000000000000000000000000000000008</code>
     </p>
 
-The `ADDEXTENSIONS` permission enables to add new extension contracts via the `fallback` function of the linked ERC725Account.
+El permiso `ADDEXTENSIONS` permite añadir nuevos contratos de extensión a través de la función `fallback` de la CuentaERC725 vinculada.
 
 </details>
 
 <details>
-    <summary><code>CHANGEEXTENSIONS</code> - Allows editing the address for an extension contract on the linked ERC725Account.</summary>
+    <summary><code>CHANGEEXTENSIONS</code> - Permite editar la dirección de un contrato de extensión en la CuentaERC725 vinculada.</summary>
     <p style={{marginBottom: '3%', marginTop: '2%', textAlign: 'center'}}>
         <b>value = </b><code>0x0000000000000000000000000000000000000000000000000000000000000010</code>
     </p>
 
-The `CHANGEEXTENSIONS` permission enables to edit the extension contract address for a specific bytes4 function selector sent to the `fallback` function of the linked ERC725Account.
+El permiso `CHANGEEXTENSIONS` permite editar la dirección del contrato de extensión para un selector de función bytes4 específico enviado a la función `fallback` de la CuentaERC725 vinculada.
 
 </details>
 
 <details>
-    <summary><code>ADDUNIVERSALRECEIVERDELEGATE</code> - Allows adding new LSP1UniversalReceiverDelegate contracts addresses.</summary>
+    <summary><code>ADDUNIVERSALRECEIVERDELEGATE</code> - Permite añadir nuevas direcciones de contratos LSP1ReceptorDelegadoUnviersal.</summary>
     <p style={{marginBottom: '3%', marginTop: '2%', textAlign: 'center'}}>
         <b>value = </b><code>0x0000000000000000000000000000000000000000000000000000000000000020</code>
     </p>
 
-The `ADDUNIVERSALRECEIVERDELEGATE` permission enables to add new LSP1UniversalReceiverDelegate extension contracts for specific Type IDs, when no contracts extension was initially setup for a specific Type ID.
+El permiso `ADDUNIVERSALRECEIVERDELEGATE` permite añadir nuevos contratos de extensión LSP1ReceptorDelegadoUnviersal para identificadores de tipo específicos, cuando no se ha configurado inicialmente ninguna extensión de contratos para un identificador de tipo específico.
 
-See [**LSP1 Universal Receiver > extension**](../generic-standards/lsp1-universal-receiver.md#extension) for more details.
+Consulte [**LSP1 Receptor Delegado Universal > extension**](../generic-standards/lsp1-universal-receiver.md#extension) para obtener más detalles.
 
-> **NB** this permission also enables to set the address of the default LSP1UniversalReceiverDelegate contract under the `LSP1UniversalReceiverDelegate` data key if no address was set in the first place.
+> **NB** este permiso también permite establecer la dirección del contrato predeterminado LSP1ReceptorDelegadoUnviersal bajo la clave de datos `LSP1UniversalReceiverDelegate` si no se estableció ninguna dirección en primer lugar.
 
 </details>
 
 <details>
-    <summary><code>CHANGEUNIVERSALRECEIVERDELEGATE</code> - Allows editing LSP1UniversalReceiverDelegate contracts addresses.</summary>
+    <summary><code>CHANGEUNIVERSALRECEIVERDELEGATE</code> - Permite editar las direcciones de los contratos LSP1ReceptorDelegadoUnviersal.</summary>
     <p style={{marginBottom: '3%', marginTop: '2%', textAlign: 'center'}}>
         <b>value = </b><code>0x0000000000000000000000000000000000000000000000000000000000000040</code>
     </p>
 
-The `CHANGEUNIVERSALRECEIVERDELEGATE` permission enables two things:
+El permiso `CHANGEUNIVERSALRECEIVERDELEGATE` permite dos cosas:
 
-1. edit the address of the default LSP1UniversalReceiverDelegate contract (linked under the `LSP1UniversalReceiverDelegate` data key).
-2. edit the addresses of the LSP1UniversalReceiverDelegate extension contracts linked to specific Type IDs.
+1. editar la dirección del contrato predeterminado LSP1ReceptorDelegadoUnviersal (vinculado bajo la clave de datos `LSP1UniversalReceiverDelegate`).
+2. editar las direcciones de los contratos de extensión LSP1UniversalReceiverDelegate vinculados a identificadores de tipo específicos.
 
-See [**LSP1 Universal Receiver > extension**](../generic-standards/lsp1-universal-receiver.md#extension) for more details.
+Véase [**LSP1 Receptor Delegado Universal > extension**](../generic-standards/lsp1-universal-receiver.md#extension) para más detalles.
 
 </details>
 
 <details>
-    <summary><code>REENTRANCY</code> - Allows reentering during an execution</summary>
+    <summary><code>REENTRANCY</code> - Permite reingresar durante una ejecución.</summary>
     <p style={{marginBottom: '3%', marginTop: '2%', textAlign: 'center'}}>
         <b>value = </b><code>0x0000000000000000000000000000000000000000000000000000000000000080</code>
     </p>
 
-Given a contract or EOA has this permission, it enables it to be able to execute a payload during the execution of another payload. A contract would reenter by using `execute(..)` and an EOA would do that through `executeRelayCall(..)`.
+Cuando un contrato o una EOA tiene este permiso, le permite ejecutar una carga útil durante la ejecución de otra carga útil. Un contrato volvería a entrar utilizando `execute(..)` y una EOA lo haría a través de `executeRelayCall(..)`.
 
-E.g. One of the best uses for this permission is the following scenario:
+Por ejemplo, uno de los mejores usos para este permiso es el siguiente escenario:
 
-1. The ERC725Acccount linked to the Key Manager makes an external call to a _contract A_.
-2. _Contract A_ will make some internal updates using the received data.
-3. The _contract A_ will then call back the ERC725Account **(via the Key Manager)** with another payload that will update the account storage.
+1. La CuentaERC725A vinculada al Gestor de Claves realiza una llamada externa a un _contrato A_.
+2. El _contrato A_ realizará algunas actualizaciones internas utilizando los datos recibidos.
+3. A continuación, el _contrato A_ volverá a llamar a la CuentaERC725 **(a través del Gestor de Claves)** con otra carga útil que actualizará el almacenamiento de la cuenta.
 
-![REENTRANCY Permission 1](/img/standards/lsp6/lsp6-reentrancy-example-1.jpeg)
-![REENTRANCY Permission 2](/img/standards/lsp6/lsp6-reentrancy-example-2.jpeg)
+![Permiso REENTRANCY  1](/img/standards/lsp6/lsp6-reentrancy-example-1.jpeg)
+![Permiso REENTRANCY  2](/img/standards/lsp6/lsp6-reentrancy-example-2.jpeg)
 
-In order for that interaction to happen the contract A must have the REENTRANCY permission.
+Para que se produzca esa interacción, el contrato A debe tener el permiso REENTRANCY.
 
 </details>
 
 <details>
-    <summary><code>TRANSFERVALUE</code> - Allows to transfer the native tokens of the linked ERC725Account <strong>with restrictions</strong>.</summary>
+    <summary><code>TRANSFERVALUE</code> - Permite transferir los tokens nativos de la CuentaERC725A vinculada <strong>con restricciones</strong>.</summary>
     <p style={{marginBottom: '3%', marginTop: '2%', textAlign: 'center'}}>
         <b>value = </b><code>0x0000000000000000000000000000000000000000000000000000000000000200</code>
     </p>
 
-The `TRANSFERVALUE` permission enables to transfer the native tokens of the linked ERC725Account **with restrictions**.
+El permiso `TRANSFERVALUE` permite transferir los tokens nativos de la CuentaERC725A vinculada **con restricciones**.
 
-1. to specific addresses (EOAs or contracts).
-2. to contracts implementing specific type of _interfaces standards_, that can be detected using ERC165 interfaces IDs.
+1. a direcciones específicas (EOAs o contratos).
+2. a contratos que apliquen un tipo específico de _estándares de interfaz_, que puedan detectarse utilizando los ID de interfaz ERC165.
 
-Such restrictions can be applied using the LSP6 data `AddressPermissions:AllowedCalls:<address>`, where `<address>` is the address of the controller that has the `TRANSFERVALUE` permission.
+Estas restricciones pueden aplicarse utilizando los datos LSP6 `AddressPermissions:AllowedCalls:<address>`, donde `<address>` es la dirección del controlador que tiene el permiso `TRANSFERVALUE`.
 
 <br/>
 
-> **Note:** For simple native token transfers, no data (`""`) should be passed to the fourth parameter of the [`execute`](../smart-contracts/lsp0-erc725-account.md#execute) function of the Account contract. For instance: `account.execute(operationCall, recipient, amount, "")`
+> **Nota:** Para las transferencias simples de tokens nativos, no deben pasarse datos (`""`) al cuarto parámetro de la función [`execute`](../smart-contracts/lsp0-erc725-account.md#execute) del contrato Account. Por ejemplo: `account.execute(operationCall, recipient, amount, "")`.
 >
-> The caller will need the permission `CALL` to send any data along the LYX transfer.
+> El emisor de la llamada necesitará el permiso `CALL` para enviar cualquier dato a lo largo de la transferencia LYX.
 
 </details>
 
 <details>
-    <summary><code>CALL</code> - Allows to use the linked ERC725Account to interact with contracts <strong>with restrictions</strong>.</summary>
+    <summary><code>CALL</code> - Permite utilizar la CuentaERC725A vinculada para interactuar con contratos <strong>con restricciones</strong>.</summary>
     <p style={{marginBottom: '3%', marginTop: '2%', textAlign: 'center'}}>
         <b>value = </b><code>0x0000000000000000000000000000000000000000000000000000000000000800</code><br/>
     </p>
 
-The `CALL` permission enables to use the linked ERC725Account to call functions on contracts deployed on the network **with restrictions**.
+El permiso `CALL` permite utilizar la CuentaERC725 vinculada para llamar a funciones de contratos desplegados en la red **con restricciones**.
 
-1. to specific contract addresses (contracts).
-2. to contracts implementing specific type of _interfaces standards_, that can be detected using ERC165 interfaces IDs.
+1. a direcciones de contratos específicos (contratos).
+2. a contratos que apliquen un tipo específico de _estándares de interfaces_, que puedan detectarse utilizando los ID de interfaces ERC165.
 
-It uses the underlying opcode `CALL` which allows to change states on the called contract.
+Utiliza el opcode subyacente `CALL` que permite cambiar estados en el contrato llamado.
 
 </details>
 
 <details>
-    <summary><code>STATICCALL</code> - Allows calling other contracts through the controlled contract</summary>
+    <summary><code>STATICCALL</code> - Permite llamar a otros contratos a través del contrato controlado</summary>
     <p style={{marginBottom: '3%', marginTop: '2%', textAlign: 'center'}}>
         <b>value = </b><code>0x0000000000000000000000000000000000000000000000000000000000002000</code><br/>
     </p>
 
-This permission enables the ERC725Account linked to Key Manager to make external calls to contracts while disallowing state changes at the address being called.
-It uses the [STATICCALL](https://eips.ethereum.org/EIPS/eip-214) opcode when performing the external call.
+Este permiso permite a la CuentaERC725 vinculada al Gestor de Claves realizar llamadas externas a contratos mientras se desautorizan los cambios de estado en la dirección a la que se llama.
+Utiliza el opcode [STATICCALL](https://eips.ethereum.org/EIPS/eip-214) al realizar la llamada externa.
 
-> **NB:** If any state is changed at a target contract through a `STATICCALL`, the call will **revert silently**.
+> **NB:** Si se cambia algún estado en un contrato de destino a través de una `STATICCALL`, la llamada se **revertirá silenciosamente**.
 
 </details>
 
 <details>
-    <summary><code>DELEGATECALL</code> - Allows delegate calling other contracts through the controlled contract</summary>
+    <summary><code>DELEGATECALL</code> - Permite delegar la llamada a otros contratos a través del contrato controlado</summary>
     <p style={{marginBottom: '3%', marginTop: '2%', textAlign: 'center'}}>
         <b>value = </b><code>0x0000000000000000000000000000000000000000000000000000000000008000</code>
     </p>
@@ -229,75 +233,75 @@ This permission allows executing code and functions from other contracts in the 
 
 :::danger
 
-**`DELEGATECALL`** is currently disallowed (even if set on the KeyManager) because of its dangerous nature, as vicious developers can execute some malicious code in the linked Account contract.
+**`DELEGATECALL`** está actualmente deshabilitado (incluso si está establecido en el GestordeClaves) debido a su naturaleza peligrosa, ya que los desarrolladores viciosos pueden ejecutar algún código malicioso en el contrato de Cuenta vinculado.
 
 :::
 
 </details>
 
 <details>
-    <summary><code>DEPLOY</code> - Allows deploying other contracts through the controlled contract</summary>
+    <summary><code>DEPLOY</code> - Permite desplegar otros contratos a través del contrato controlado</summary>
     <p style={{marginBottom: '3%', marginTop: '2%', textAlign: 'center'}}>
         <b>value = </b><code>0x0000000000000000000000000000000000000000000000000000000000010000</code>
     </p>
 
-Enables the caller to deploy a smart contract, using the linked ERC725Account as a deployer. Developers should provide the contract's bytecode to be deployed in the payload (ABI-encoded) passed to the Key Manager.
+Permite a la persona que llama desplegar un contrato inteligente, utilizando la CuentaERC725 vinculada como desplegador. Los desarrolladores deben proporcionar el código de bytes del contrato a desplegar en la carga útil (codificada ABI) pasada al Gestor de Claves.
 
-> Both the `CREATE` or [`CREATE2`](https://eips.ethereum.org/EIPS/eip-1014) opcodes can be used to deploy a contract.
+> Para desplegar un contrato pueden utilizarse tanto el opcode `CREATE` como [`CREATE2`](https://eips.ethereum.org/EIPS/eip-1014).
 
 </details>
 
 <details>
-    <summary><code>SETDATA</code> - Allows setting data on the controlled contract</summary>
+    <summary><code>SETDATA</code> - Permite fijar datos sobre el contrato controlado</summary>
     <p style={{marginBottom: '3%', marginTop: '2%', textAlign: 'center'}}>
         <b>value = </b><code>0x0000000000000000000000000000000000000000000000000000000000040000</code>
     </p>
 
-Allows an address to write any form of data in the [ERC725Y](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-725.md#erc725y) data key - value store of the linked `ERC725Account` (except permissions, which require the permissions `CHANGEPERMISSIONS`).
+Permite a una dirección escribir cualquier forma de datos en el almacén de claves de datos - valores [ERC725Y](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-725.md#erc725y) de la `CuentaERC725` vinculada (excepto permisos, que requieren los permisos `CHANGEPERMISSIONS`).
 
-> **NB:** an `address` can be restricted to set only specific data keys via **[allowed ERC725Y Data Keys](#allowed-erc725y-keys)**
+> **NB:** una `dirección` puede restringirse para establecer sólo claves de datos específicas mediante **[Claves de Datos ERC725Y permitidas](#allowed-erc725y-keys)**.
 
 </details>
 
 <details>
-    <summary><code>ENCRYPT</code>: Allows encrypting data or messages on behalf of the controlled account</summary>
+    <summary><code>ENCRYPT</code>: Permite cifrar datos o mensajes en nombre de la cuenta controlada</summary>
     <p style={{marginBottom: '3%', marginTop: '2%', textAlign: 'center'}}>
         <b>value = </b><code>0x0000000000000000000000000000000000000000000000000000000000080000</code>
     </p>
 
-Developers can use the `ENCRYPT` permission to encrypt data or messages, for instance for private messaging.
+Los desarrolladores pueden utilizar el permiso `ENCRYPT` para cifrar datos o mensajes, por ejemplo para mensajería privada.
 
 </details>
 
 <details>
-    <summary><code>DECRYPT</code>: Allows decrypting data or messages on behalf of the controlled account</summary>
+    <summary><code>DECRYPT</code>: Permite descifrar datos o mensajes en nombre de la cuenta controlada</summary>
     <p style={{marginBottom: '3%', marginTop: '2%', textAlign: 'center'}}>
         <b>value = </b><code>0x0000000000000000000000000000000000000000000000000000000000100000</code>
     </p>
 
-Developers can use the `DECRYPT` permission to decrypt data or messages, for instance for private messaging.
+Los desarrolladores pueden utilizar el permiso `DECRYPT` para descifrar datos o mensajes, por ejemplo para mensajería privada.
 
 </details>
 
 <details>
-    <summary><code>SIGN</code>: Allows signing on behalf of the controlled account, for example for login purposes</summary>
+    <summary><code>SIGN</code>: Permite firmar en nombre de la cuenta controlada, por ejemplo para iniciar sesión.</summary>
     <p style={{marginBottom: '3%', marginTop: '2%', textAlign: 'center'}}>
         <b>value = </b><code>0x0000000000000000000000000000000000000000000000000000000000200000</code>
     </p>
 
-The permission `SIGN` enables an address to authenticate on behalf of the UP. It can be used primarily in web2.0 apps to [sign login messages](../../guides/browser-extension/sign-in-with-ethereum).
+El permiso `SIGN` permite a una dirección autenticarse en nombre de la UP. Se puede utilizar principalmente en aplicaciones web2.0 para [firmar mensajes de inicio de sesión](../../guides/browser-extension/sign-in-with-ethereum).
 
 </details>
 
 :::note
 
-When deployed with our [**lsp-factory.js** tool](https://docs.lukso.tech/tools/lsp-factoryjs/getting-started), the Universal Profile owner will have all the permissions above set by default.
+Cuando se despliega con nuestra herramienta [**lsp-factory.js**](https://docs.lukso.tech/tools/lsp-factoryjs/getting-started), el propietario del Perfil Universal tendrá todos los permisos anteriores establecidos por defecto.
 
 :::
 
-### SUPER Permissions
+### SUPER Permisos
 
-The super permissions grants the same permissions as their non-super counter parts, with the difference being that the checks on restrictions for [**Allowed Calls**](#allowed-calls) and [**Allowed ERC725Y Data Keys**](#allowed-erc725y-data-keys) are _skipped_. This allows for cheaper transactions whether these restrictions are set or not.
+Los superpermisos conceden los mismos permisos que sus homólogos no super, con la diferencia de que las comprobaciones de las restricciones para [**Llamadas Permitidas**](#allowed-calls) y [**Claves de Datos ERC725Y Permitidas**](#allowed-erc725y-data-keys) se _saltan_. Esto permite transacciones más baratas tanto si estas restricciones están establecidas como si no.
 
 <details>
     <summary><code>SUPER_TRANSFERVALUE</code></summary>
@@ -305,7 +309,7 @@ The super permissions grants the same permissions as their non-super counter par
         <b>value = </b><code>0x0000000000000000000000000000000000000000000000000000000000000100</code>
     </p>
 
-Same as `TRANSFERVALUE`, but allowing to send native tokens to any `address` (EOA or contract). This will also not check for [**Allowed Calls**](#allowed-calls) when transferring value to contracts.
+Igual que `TRANSFERVALUE`, pero permitiendo enviar tokens nativos a cualquier `dirección` (EOA o contrato). Esto tampoco comprobará [**Llamadas permitidas**](#llamadas-permitidas) al transferir valor a contratos.
 
 </details>
 
@@ -315,7 +319,7 @@ Same as `TRANSFERVALUE`, but allowing to send native tokens to any `address` (EO
         <b>value = </b><code>0x0000000000000000000000000000000000000000000000000000000000000400</code>
     </p>
 
-Same as `CALL`, but allowing to interact with any contract. This will not check for [**Allowed Calls**](#allowed-calls) if the caller has any of these restrictions set.
+Igual que `CALL`, pero permitiendo interactuar con cualquier contrato. Esto no comprobará [**Llamadas permitidas**]( #allowed-calls) si el llamante tiene alguna de estas restricciones establecidas.
 
 </details>
 
@@ -325,7 +329,7 @@ Same as `CALL`, but allowing to interact with any contract. This will not check 
         <b>value = </b><code>0x0000000000000000000000000000000000000000000000000000000000001000</code>
     </p>
 
-Same as `STATICCALL`, but allowing to interact with any contract. This will not check for [**Allowed Calls**](#allowed-calls) if the caller has any of these restrictions set.
+Igual que `STATICCALL`, pero permitiendo interactuar con cualquier contrato. No comprobará [**Llamadas permitidas**]( #allowed-calls) si el llamante tiene alguna de estas restricciones establecidas.
 
 </details>
 
@@ -335,7 +339,7 @@ Same as `STATICCALL`, but allowing to interact with any contract. This will not 
         <b>value = </b><code>0x0000000000000000000000000000000000000000000000000000000000004000</code>
     </p>
 
-Same as `DELEGATECALL`, but allowing to interact with any contract. This will not check for [**Allowed Calls**](#allowed-calls) if the caller has any of these restrictions set.
+Igual que `DELEGATECALL`, pero permitiendo interactuar con cualquier contrato. Esto no comprobará [**Llamadas permitidas**](#allowed-calls) si el llamante tiene alguna de estas restricciones establecidas.
 
 </details>
 
@@ -345,25 +349,25 @@ Same as `DELEGATECALL`, but allowing to interact with any contract. This will no
         <b>value = </b><code>0x0000000000000000000000000000000000000000000000000000000000020000</code>
     </p>
 
-Same as `SETDATA`, but allowing to set any ERC725Y data keys. This will not check for [**Allowed ERC725Y Data Keys**](#allowed-erc725y-data-keys) if caller has any restrictions.
+Igual que `SETDATA`, pero permitiendo establecer cualquier clave de datos ERC725Y. Esto no comprobará [**Claves de datos ERC725Y permitidas**](#allowed-erc725y-data-keys) si la persona que llama tiene alguna restricción.
 
 </details>
 
 :::caution
 
-Use with caution, as even if restrictions to certain [**Allowed Calls**](#allowed-calls) or [**Allowed ERC725Y Data Keys**](#allowed-erc725y-data-keys) are set for an controller address, they will be ignored.
+Se debe utilizar con precaución, ya que incluso si se establecen restricciones a ciertas [**Llamadas permitidas**](#allowed-calls) o [**Claves de datos ERC725Y permitidas**](#allowed-erc725y-data-keys) para una dirección de controlador, se ignorarán.
 
 :::
 
-### Combining Permissions
+### Combinar permisos
 
-Permissions can be combined if an `address` needs to hold more than one permission. To do so:
+Los permisos pueden combinarse si una `dirección` necesita más de un permiso. Para ello
 
-1. calculate the sum of the decimal value of each permission.
-2. convert the result back into hexadecimal.
+1. calcula la suma del valor decimal de cada permiso.
+2. convierte el resultado a hexadecimal.
 
 <details>
-    <summary>Example</summary>
+    <summary>Ejemplo</summary>
 
 <Tabs>
 <TabItem value="example1" label="Example 1" default>
@@ -397,20 +401,20 @@ permissions: CHANGEPERMISSIONS + SETDATA
 
 ---
 
-### Retrieving addresses with permissions
+### Consultar las direcciones con permisos
 
 :::tip
 
-The convenience function [`getData(...)`](../../tools/erc725js/classes/ERC725.md#getdata) from [_erc725.js_](../../../../../../../tools/erc725js/getting-started) will return you the whole list of addresses with permissions, when providing the `AddressPermission[]` array data key as a parameter.
+La función de conveniencia [`getData(...)`](../../tools/erc725js/classes/ERC725.md#getdata) de [_erc725.js_](../../../../../../../tools/erc725js/getting-started) te devolverá la lista completa de direcciones con permisos, al proporcionar la clave de datos del conjunto `AddressPermission[]` como parámetro.
 
 :::
 
-You can obtain the list of `address` that have some permissions set on the linked ERC725Account by querying the `AddressPermission[]` data key, on the ERC725Y storage via [`getData(...)`](../smart-contracts/erc725-contract.md#getdata---erc725y).
+Puedes obtener la lista de `direcciones` que tienen algún permiso establecido en la CuentaERC725 vinculada consultando la clave de datos `AddressPermission[]`, en el almacenamiento ERC725Y a través de [`getData(...)`](../smart-contracts/erc725-contract.md#getdata---erc725y).
 
 - **key:** `0xdf30dba06db6a30e65354d9a64c609861f089545ca58c6b4dbe31a5f338cb0e3`
-- **value return:** the total number of address that have some permissions set (= array length)
+- **valor devuelto:** el número total de direcciones que tienen algún permiso establecido (= longitud del conjunto)
 
-Each `address` can be retrieved by accessing each index in the array (see [LSP2 > Array docs](../generic-standards/lsp2-json-schema.md#array) and [LSP2 > Array Standard specs](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#array) for more detailed instructions).
+Cada `dirección` puede ser recuperada accediendo a cada índice del conjunto (ver [LSP2 > Conjuntos docs](../generic-standards/lsp2-json-schema.md#array) y [LSP2 > Especificaciones estándar de conjuntos](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#array) para instrucciones más detalladas).
 
 ```json
 {
@@ -424,49 +428,49 @@ Each `address` can be retrieved by accessing each index in the array (see [LSP2 
 
 ![AddressPermissions array - list of addresses with permissions](/img/standards/lsp6/lsp6-address-permissions-array.jpeg)
 
-_example:_
+_ejemplo:_
 
-_if the `AddressPermission[]` array data key returns `0x0000000000000000000000000000000000000000000000000000000000000004` (array length = 4), each `address` can be obtained by querying the following data keys:_
+_si la clave de datos del conjunto `AddressPermission[]` devuelve `0x00000000000000000000000000000000000000000000000000000000000000000004` (longitud del conjunto = 4), cada `dirección` puede obtenerse consultando las siguientes claves de datos:_
 
-- _`0xdf30dba06db6a30e65354d9a64c6098600000000000000000000000000000000`: 1st `address`(array index 0 = `AddressPermissions[0]`)_
-- _`0xdf30dba06db6a30e65354d9a64c6098600000000000000000000000000000001`: 2nd `address` (array index 1 = `AddressPermissions[1]`)_
-- _`0xdf30dba06db6a30e65354d9a64c6098600000000000000000000000000000002`: 3rd `address` (array index 2 = `AddressPermissions[2]`)_
-- _`0xdf30dba06db6a30e65354d9a64c6098600000000000000000000000000000003`: 4th `address` (array index 3 = `AddressPermissions[3]`)_
+- _`0xdf30dba06db6a30e65354d9a64c6098600000000000000000000000000000000`: 1ª `dirección`( índice 0 del conjunto = `AddressPermissions[0]`)_
+- _`0xdf30dba06db6a30e65354d9a64c6098600000000000000000000000000000001`: 2ª `dirección`( índice 1 del conjunto = `AddressPermissions[1]`)_
+- _`0xdf30dba06db6a30e65354d9a64c6098600000000000000000000000000000002`: 3ª `dirección`( índice 2 del conjunto = `AddressPermissions[2]`)_
+- _`0xdf30dba06db6a30e65354d9a64c6098600000000000000000000000000000003`: 4ª `dirección`( índice 3 del conjunto = `AddressPermissions[3]`)_
 
-## Types of permissions
+## Tipos de permisos
 
-| Permission Type                                        | Description                                                                                                                                                                        | `bytes32` data key                    |
+| Tipo de Permiso                                        | Descripción                                                                                                                                                                        | clave de datos `bytes32`              |
 | ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
-| [**Address Permissions**](#address-permissions)        | defines a set of [**permissions**](#permissions) for an `address`.                                                                                                                 | `0x4b80742de2bf82acb3630000<address>` |
-| [**Allowed Calls**](#allowed-calls)                    | defines a set of interactions (function + address + standard) allowed for a controller address.                                                                                    | `0x4b80742de2bf393a64c70000<address>` |
-| [**Allowed ERC725Y Data Keys**](#allowed-erc725y-keys) | defines a list of ERC725Y Data Keys an `address` is only allowed to set via [`setData(...)`](../smart-contracts/lsp0-erc725-account.md#setdata-array) on the linked ERC725Account. | `0x4b80742de2bf866c29110000<address>` |
+| [**Address Permissions**](#address-permissions)        | define un conjunto de [**permisos**](#permissions) para una `dirección`.                                                                                                                 | `0x4b80742de2bf82acb3630000<address>` |
+| [**Allowed Calls**](#allowed-calls)                    | define un conjunto de interacciones (función + dirección + estándar) permitidas para una dirección de controlador.                                                                                    | `0x4b80742de2bf393a64c70000<address>` |
+| [**Allowed ERC725Y Data Keys**](#allowed-erc725y-keys) | define una lista de claves de datos ERC725Y que una "dirección" sólo puede establecer mediante [`setData(...)`](../smart-contracts/lsp0-erc725-account.md#setdata-array) en la CuentaERC725 vinculada. | `0x4b80742de2bf866c29110000<address>` |
 
-> [See LSP6 for more details](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-6-KeyManager.md#erc725y-data-keys)
+> [Para más información, ver LSP6](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-6-KeyManager.md#erc725y-data-keys)
 
-The values set under these permission data keys **MUST be of the following format** to ensure correct behavior of these functionalities.
+Los valores establecidos bajo estas claves de datos de permiso **DEBEN tener el siguiente formato** para garantizar el correcto comportamiento de sus funciones.
 
-- **Address Permissions**: a `bytes32` value.
-- **Allowed Calls**: a [CompactBytesArray](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#bytescompactbytesarray) of the tuple `(bytes4,address,bytes4)`.
-- **Allowed ERC725Y Data Keys**: a [CompactBytesArray](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#bytescompactbytesarray) of bytes, containing values from `bytes1` to `bytes32`.
+- **Address Permissions**: un valor `bytes32`.
+- **Allowed Calls**: un [CompactBytesArray](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#bytescompactbytesarray) de la tupla `(bytes4,address,bytes4)`.
+- **Allowed ERC725Y Data Keys**: un [CompactBytesArray](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#bytescompactbytesarray) de bytes, que contiene valores de `bytes1` a `bytes32`.
 
 :::caution
 
-To **add / remove entries in the list of allowed calls or ERC725Y Data Keys**, the **whole compact bytes array** should be encoded again and reset. Each update **overrides the entire previous state**.
+Para **añadir/eliminar entradas en la lista de llamadas permitidas o Claves de Datos ERC725Y**, el **conjunto completo de bytes compactos** debe ser cifrado de nuevo y restablecido. Cada actualización **anula todo el estado anterior**.
 
-Note that this process is expensive since the data being set is a **CompactBytesArray**.
+Ten en cuenta que este proceso es costoso, ya que los datos que se establecen son un **CompactBytesArray**.
 
 :::
 
-### Address Permissions
+### Permisos de dirección
 
-An address can hold one (or more) permissions, enabling it to perform multiple _"actions"_ on an ERC725Account. Such _"actions"_ include **setting data** on the ERC725Account, **calling other contracts**, **transferring native tokens**, etc.
+Una dirección puede tener uno (o más) permisos, lo que le permite realizar múltiples _"acciones"_ en una CuentaERC725. Dichas _"acciones"_ incluyen **establecer datos** en la CuentaERC725, **llamar a otros contratos**, **transferir tokens nativos**, etc.
 
-To grant permission(s) to an `<address>`, set the following data key - value pair below in the [ERC725Y](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-725.md#erc725y) storage of the ERC725Account linked to the Key Manager.
+Para conceder permiso(s) a una `<address>`, establezca el siguiente par de datos clave - valor en el almacenamiento [ERC725Y](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-725.md#erc725y) de la ERC725Account vinculada al Gestor de Claves.
 
-- **key:** `0x4b80742de2bf82acb3630000<address>`
-- **value:** one of the available permission below. To give multiple permission, see the Combining permissions section.
+- **key:** `0x4b80742de2bf82acb3630000<address>`.
+- **value:** uno de los permisos disponibles a continuación. Para conceder varios permisos, consulte la sección Combinación de permisos.
 
-> **NB:** remember to remove the `0x` prefix in the `<address>` field above.
+> **NB:** recuerda eliminar el prefijo `0x` del campo `<address>` anterior.
 
 ```json
 {
@@ -482,78 +486,78 @@ To grant permission(s) to an `<address>`, set the following data key - value pai
 
 :::danger
 
-**Granting permissions to the linked ERC725Account itself is dangerous! **
+** ¡Otorgar permisos a la propia CuentaERC725 vinculada es peligroso! **
 
-A caller can craft a payload via `ERC725X.execute(...)` to be sent back to the KeyManager, leading to potential re-entrancy attacks.
+Un usuario puede crear una carga útil a través de `ERC725X.execute(...)` para enviarla de vuelta al GestordeClaves, lo que puede dar lugar a un potencial ataque de reentrada.
 
-Such transaction flow can lead an initial caller to use more permissions than allowed initially by using the permissions granted to the linked ERC725Account's address.
+Tal flujo de transacciones puede llevar a un llamador inicial a utilizar más permisos de los permitidos inicialmente mediante el uso de los permisos concedidos a la dirección de la CuentaERC725 vinculada.
 
 :::
 
 :::caution
 
-Each permission MUST be **exactly 32 bytes long** and **zero left-padded**:
+Cada permiso DEBE tener **exactamente 32 bytes** y **relleno de ceros a la izquierda**:
 
 - `0x0000000000000000000000000000000000000000000000000000000000000008` ✅
 - `0x0800000000000000000000000000000000000000000000000000000000000000` ❌
 
-For instance, if you try to set the permission TRANSFERVALUE for an address as `0x08`, this will be stored internally as `0x0800000000000000000000000000000000000000000000000000000000000000`.
+Por ejemplo, si intentas establecer el permiso TRANSFERVALUE para una dirección como `0x08`, esto se almacenará internamente como  `0x0800000000000000000000000000000000000000000000000000000000000000`.
 
-Ensure the `bytes32` value set under the permissions are correct according to these rules, to prevent incorrect or unexpected behaviour and errors.
+Asegúrate de que el valor `bytes32` establecido en los permisos es correcto según estas reglas, para evitar comportamientos incorrectos o inesperados y errores.
 
 :::
 
 ---
 
-### Allowed Calls
+### Llamadas Permitidas
 
-You can restrict an address to interact with:
+Puedes restringir una dirección con la que interactuar:
 
 <details>
-    <summary>Standards</summary>
+    <summary>Estándares</summary>
 
-These contracts MUST implement the [ERC165](https://eips.ethereum.org/EIPS/eip-165) standard to be able to detect their interfaces.
+Estos contratos DEBEN implementar el estándar [ERC165](https://eips.ethereum.org/EIPS/eip-165) para poder detectar sus interfaces.
 
-|    Interface ID     |                     Meaning                      |
-| :-----------------: | :----------------------------------------------: |
-|    `0xffffffff`     |    Interaction with any standard is allowed.     |
-| Specific interfaces | Interaction with a specific standard is allowed. |
+|    ID de Interfaz     |                     Significado                      |
+| :-------------------: | :--------------------------------------------------: |
+|     `0xffffffff`      |     Se permite interactuar con cualquier norma.      |
+| Interfaces específicas | Se permite la interacción con una norma específica. |
 
 </details>
 
 <details>
-    <summary>Addresses</summary>
+    <summary>Direcciones</summary>
 
-|                   Address                    |                     Meaning                     |
-| :------------------------------------------: | :---------------------------------------------: |
-| `0xffffffffffffffffffffffffffffffffffffffff` |    Interaction with any address is allowed.     |
-|               Other addresses                | Interaction with a specific address is allowed. |
+|                 Direcciones                  |                     Significado                     |
+| :------------------------------------------: | :-------------------------------------------------: |
+| `0xffffffffffffffffffffffffffffffffffffffff` |    Se permite interactuar con cualquier norma.      |
+|              Otras direcciones               | Se permite la interacción con una norma específica. |
 
 </details>
 
 <details>
-    <summary>Functions</summary>
+    <summary>Funciones</summary>
 
-|    Function Selector     |                     Meaning                      |
-| :----------------------: | :----------------------------------------------: |
-|       `0xffffffff`       |    Interaction with any function is allowed.     |
-| Other function selectors | Interaction with a specific function is allowed. |
+|    Selector de Función      |                     Significado                     |
+| :-------------------------: | :-------------------------------------------------: |
+|        `0xffffffff`         |    Se permite interactuar con cualquier norma.      |
+| Otros selectores de función | Se permite la interacción con una norma específica. |
 
 </details>
 
-To allow an `<address>` to execute any function on a LSP0ERC725Account (interface ID `0x66767497`) deployed at address `0xCA41e4ea94c8fA99889c8EA2c8948768cBaf4bc0`, the data key - value pair below can be set in the ERC725Y contract storage.
+Para permitir que una `<dirección>` ejecute cualquier función en una LSP0ERC725Account (ID de interfaz `0x66767497`) desplegada en la dirección `0xCA41e4ea94c8fA99889c8EA2c8948768cBaf4bc0`, puede establecerse el par de datos clave - valor que figura a continuación en el almacenamiento del contrato ERC725Y.
 
 - **key:** `0x4b80742de2bf393a64c70000<address>`
-- **possible values:**
-  - `(bytes4,address,bytes4)[CompactBytesArray]`: an [**CompactBytesArray**](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#bytescompactbytesarray) of tuple `(bytes4,address,bytes4)` which is created by concatenating the chosen _function selector_, _address_ and _standard_. E.g. `0x001c66767497CA41e4ea94c8fA99889c8EA2c8948768cBaf4bc0ffffffff`
-  - `0x` (empty): if the value is an **empty byte** (= `0x`), the caller `<address>` is not allowed to interact with any functions, address or standards (**= all calls are disallowed**).
+- **valores posibles:**
+  - `(bytes4,address,bytes4)[CompactBytesArray]`: un [**CompactBytesArray**](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#bytescompactbytesarray) de tupla `(bytes4,address,bytes4)` que se crea concatenando el _selector de función_, la _dirección_ y el _estándar_ elegidos. Por ejemplo: `0x001c66767497CA41e4ea94c8fA99889c8EA2c8948768cBaf4bc0ffffffff`
+  - `0x` (vacío): si el valor es un **byte vacío** (= `0x`), el llamante `<dirección>` no puede interactuar con ninguna función, dirección o estándar (**= todas las llamadas están prohibidas**).
 
 <details>
     <summary>Combining multiple interactions</summary>
 
-If you want to have multiple different interactions, you MUST add each of the desired interaction to a [**CompactBytesArray**](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#bytescompactbytesarray). Keep in mind that the length for each element in the [**CompactBytesArray**](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#bytescompactbytesarray) must be **28** = **`0x001c`**, because a _standard_ uses **4 bytes**, an _address_ uses **20 bytes** and a _function_ uses **4 bytes**.
+Si quieres tener varias interacciones diferentes, DEBES añadir cada una de las interacciones deseadas a un [**CompactBytesArray**](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#bytescompactbytesarray). Ten en cuenta que la longitud de cada elemento en el [**CompactBytesArray**](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#bytescompactbytesarray) debe ser **28** = **`0x001c`**, porque un _standard_ usa **4 bytes**, una _address_ usa **20 bytes** y una _function_ usa **4 bytes**.
 
-E.g.:
+Ej:
 
 - _Standard_: **LSP0, `0x66767497`**;  
   _Address_: **`0xCA41e4ea94c8fA99889c8EA2c8948768cBaf4bc0`**;  
@@ -568,7 +572,7 @@ E.g.:
   _Function_: **any**;  
   _CompactBytesArray_: **`0x001cffffffffd3236aa1B8A4dDe5eA375fd1F2Fb5c354e686c9fffffffff`**
 
-A _CompactBytesArray_ for these 3 interactions would look like this:
+Un _CompactBytesArray_ para estas 3 interacciones tendría el siguiente aspecto:
 `0x`**`001c`**`66767497CA41e4ea94c8fA99889c8EA2c8948768cBaf4bc0ffffffff`**`001c`**`ffffffffF70Ce3b58f275A4c28d06C98615760dDe774DE57760d9bba`**`001c`**`ffffffffd3236aa1B8A4dDe5eA375fd1F2Fb5c354e686c9fffffffff`
 
 </details>
@@ -587,54 +591,54 @@ A _CompactBytesArray_ for these 3 interactions would look like this:
 
 :::warning
 
-Allowing a specific standard does not offer security over the inner workings or the correctness of a smart contract. It should be used more as a "mistake prevention" mechanism than a security measure.
+Permitir un estándar específico no ofrece seguridad sobre el funcionamiento interno o la corrección de un contrato inteligente. Debería utilizarse más como un mecanismo de "prevención de errores" que como una medida de seguridad.
 
 :::
 
 :::info
 
-**If no Allowed Calls are set (`0x`), a controller cannot interact with any address nor transfer any value (Contract or EOA).**
+**Si no se establecen llamadas permitidas (`0x`), un controlador no puede interactuar con ninguna dirección ni transferir ningún valor (Contrato o EOA).**
 
 :::
 
 ---
 
-### Allowed ERC725Y Data Keys
+### Claves de datos ERC725Y permitidas
 
-If an address is allowed to [`SETDATA`](#permissions) on an ERC725Account, it is possible to restrict which data keys this address can set or update.
+Si a una dirección se le permite [`SETDATA`]( #permissions) en una CuentaERC725, es posible restringir qué claves de datos puede establecer o actualizar esta dirección.
 
-To restrict an `<address>` to only be allowed to set the key `LSP3Profile` (`0x5ef83ad9559033e6e941db7d7c495acdce616347d28e90c7ce47cbfcfcad3bc5`), the following data key - value pair can be set in the ERC725Y contract storage. Encode data as a [**CompactBytesArray**](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#bytescompactbytesarray).
+Para restringir que una `<dirección>` sólo pueda establecer la clave `LSP3Profile` (`0x5ef83ad9559033e6e941db7d7c495acdce616347d28e90c7ce47cbfcfcad3bc5`), puede establecerse el siguiente par clave-valor de datos en el almacenamiento del contrato ERC725Y. Cifrar los datos como [**CompactBytesArray**](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#bytescompactbytesarray).
 
 - **key:** `0x4b80742de2bf866c29110000<address>`
 - **value(s):** `0x00205ef83ad9559033e6e941db7d7c495acdce616347d28e90c7ce47cbfcfcad3bc5`
 
 <details>
-    <summary>ERC725Y Data Keys: fixed-size vs dynamic-size</summary>
+    <summary>Claves de datos ERC725Y: tamaño fijo vs tamaño dinámico</summary>
 
-Introduction (summary)
-You can set 2 types of **ERC725Y Data Keys**:
+Introducción (resumen)
+Puedes configurar 2 tipos de **Claves de datos ERC725Y**:
 
-- _Fixed-size Data Keys_
+- _Claves de Datos de Tamaño Fijo_
 
-A **fixed-size Data Key** is a data key that has a fixed length of 32 bytes. If a _controller address_ has a fixed-size allowed ERC725Y data key set, then that _controller address_ can only change the value of that specific fixed-size data key.
+Una **Clave de Datos de tamaño fijo** es una clave de datos que tiene una longitud fija de 32 bytes. Si una _dirección de controlador_ tiene una clave de datos ERC725Y de tamaño fijo permitida, entonces esa _dirección de controlador_ sólo puede cambiar el valor de esa clave de datos de tamaño fijo específica.
 
-- _Dynamic-size Data Keys_
+- _Claves de Datos de Tamaño Dinámico_
 
-A **dynamic-size Data Key** is a data key that can have a length from 1 byte to 31 bytes. If a _controller address_ has a dynamic-size allowed ERC725Y data key set, then that _controller address_ can change any data key that starts with the _dynamic-size data key_.
+Una **Clave de Datos de tamaño dinámico** es una clave de datos que puede tener una longitud de 1 byte a 31 bytes. Si una _dirección de controlador_ tiene un conjunto de claves de datos ERC725Y de tamaño dinámico permitido, entonces esa _dirección de controlador_ puede cambiar cualquier clave de datos que comience con la _clave de datos de tamaño dinámico_.
 
-_**Examples:**_
+_**Ejemplos:**_
 
-- _Fixed-size Data Keys_
+- _Claves de Datos de Tamaño Fijo_
 
-Let's imagine the following situation, you set an **Allowed ERC725Y fixed-size Data Key** (e.g. `0x5ef83ad9559033e6e941db7d7c495acdce616347d28e90c7ce47cbfcfcad3bc5`) for a controller address (e.g. Alice).
-With that setup you allowed Alice to update only the value of the **Allowed ERC725Y Data Key**.
+Imaginemos la siguiente situación: has establecido una **Clave de datos ERC725Y permitida de tamaño fijo** (por ejemplo, `0x5ef83ad9559033e6e941db7d7c495acdce616347d28e90c7ce47cbfcfcad3bc5`) para una dirección de controlador (por ejemplo, Alice).
+Con esa Configuración permitiste a Alice actualizar sólo el valor de la **Clave de Datos ERC725Y Permitida**.
 
-![LSP6 Allowed ERC725Y Data Keys, Fixed-Size Key](/img/standards/lsp6/lsp6_allowed_erc725y_data_keys_fixed_key.jpeg)
+![Claves de datos ERC725Y permitidas en LSP6, clave de tamaño fijo](/img/standards/lsp6/lsp6_allowed_erc725y_data_keys_fixed_key.jpeg)
 
-- _Dynamic-size Data Keys_
+- _Claves de Datos de Tamaño Dinámico_
 
-Let's imagine the following situation, you set an **Allowed ERC725Y dynamic-size Data Key** (e.g. `0xbeefbeefbeefbeef`) for a controller address (e.g. Bob).
-With that setup you allowed Bob to set any **Data Key** that starts with `0xbeefbeefbeefbeef`.
+Imaginemos la siguiente situación, estableces una **Clave de datos de tamaño dinámico ERC725Y permitida** (por ejemplo, `0xbeefbeefbeefbeef`) para una dirección de controlador (por ejemplo, Bob).
+Con esta configuración, permites a Bob establecer cualquier **clave de datos** que empiece por `0xbeefbeefbeef`.
 
 E.g:
 
@@ -647,17 +651,17 @@ E.g:
 </details>
 
 <details>
-    <summary>Combining multiple ERC725Y Data Keys</summary>
+    <summary>Combinar varias Claves de Datos ERC725Y</summary>
 
-If you want to have multiple different ERC725Y data keys allowed, you MUST add each of the desired data keys to a [**CompactBytesArray**](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#bytescompactbytesarray).
+Si quieres tener múltiples claves de datos ERC725Y diferentes permitidas, DEBES añadir cada una de las claves de datos deseadas a un [**CompactBytesArray**](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#bytescompactbytesarray).
 
-E.g.:
+Ej.:
 
-- `0x5ef83ad9559033e6e941db7d7c495acdce616347d28e90c7ce47cbfcfcad3bc5` (**length: 32 bytes** = `0x0020`)
-- `0x5ef83ad9559033e6e941db7d7c495acd` (**length: 16 bytes** = `0x0010`)
-- `0xbeefbeef` (**length: 4 bytes** = `0x0004`)
+- `0x5ef83ad9559033e6e941db7d7c495acdce616347d28e90c7ce47cbfcfcad3bc5` (**longitud: 32 bytes** = `0x0020`)
+- `0x5ef83ad9559033e6e941db7d7c495acd` (**longitud: 16 bytes** = `0x0010`)
+- `0xbeefbeef` (**longitud: 4 bytes** = `0x0004`)
 
-A CompactBytesArray for these 3 ERC725Y Data Keys would look like this:
+Un CompactBytesArray para estas 3 claves de datos ERC725Y tendría el siguiente aspecto:
 `0x`**`0020`**`5ef83ad9559033e6e941db7d7c495acdce616347d28e90c7ce47cbfcfcad3bc5`**`0010`**`5ef83ad9559033e6e941db7d7c495acd`**`0004`**`beefbeef`
 
 </details>
@@ -672,11 +676,11 @@ A CompactBytesArray for these 3 ERC725Y Data Keys would look like this:
 }
 ```
 
-Below is an example use case. An ERC725Account can allow some applications to add/edit informations on its storage via `setData(...)`. The account can restrict such Dapps and protocols to edit the data keys that are only relevant to the logic of their applications.
+A continuación se muestra un caso práctico de ejemplo. Una CuentaERC725 puede permitir que algunas aplicaciones añadan/editen información en su almacenamiento a través de `setData(...)`. La cuenta puede restringir tales dApps y protocolos para editar las claves de datos que sólo son relevantes para la lógica de sus aplicaciones.
 
-![LSP6 Allowed ERC725YDataKeys overview](/img/standards/lsp6/lsp6-allowed-erc725ydatakeys-overview.jpeg)
+![Vista general de las claves de datos ERC725Y permitidas en LSP6](/img/standards/lsp6/lsp6-allowed-erc725ydatakeys-overview.jpeg)
 
-As a result, this provide context for the Dapp on which data they can operate on the account, while preventing them to edit other information, such as the account metadata, or data relevant to other dapps.
+Como resultado, esto proporciona contexto para la dApp sobre qué datos pueden operar en la cuenta, mientras que les impide editar otra información, como los metadatos de la cuenta, o datos relevantes para otras dapps.
 
 ![LSP6 Allowed ERC725YDataKeys overview](/img/standards/lsp6/lsp6-allowed-erc725ydatakeys-example-allowed.jpeg)
 
@@ -686,7 +690,7 @@ As a result, this provide context for the Dapp on which data they can operate on
 
 :::info
 
-**If no Allowed ERC725Y Data Keys are set, then the controller address cannot set any value for any key.**
+**Si no se establecen claves de datos ERC725Y permitidas, la dirección del controlador no puede establecer ningún valor para ninguna clave.**
 
 :::
 
@@ -694,67 +698,69 @@ As a result, this provide context for the Dapp on which data they can operate on
 
 ## Types of Execution
 
-There are 2 ways to interact with the ERC725Account linked with the Key Manager.
+Tipos de Ejecución
 
-- **direct execution**, where the caller `address` directly sends a **payload** to the Key Manager (= abi-encoded function call on the linked ERC725Account) to the KeyManager via `execute(...)`.
-- **relay execution**, where a signer `address` **A** signs a payload and an executor `address` **B** (_e.g. a relay service_) executes the payload on behalf of the signer via `executeRelayCall(...)`.
+Existen 2 formas de interactuar con la CuentaERC725 vinculada al Gestor de Claves.
 
-The main difference between direct _vs_ relay execution is that with direct execution, the caller `address` is the actual address making the request + paying the gas cost of the execution. With relay execution, a signer `address` can interact with the ERC725Account without having to pay for gas fee.
+- **ejecución directa**, en la que la `dirección` llamante envía directamente una **carga útil** al Gestor de Claves (= llamada a función cifrada en la CuentaERC725 vinculada) al Gestor de Claves a través de `execute(...)`.
+- **ejecución por retransmisión**, en la que una `dirección` **A** firmante firma una carga útil y una `dirección` **B** ejecutora (_por ejemplo, un servicio de retransmisión_) ejecuta la carga útil en nombre del firmante a través de `executeRelayCall(...)`.
+
+La principal diferencia entre la ejecución directa _vs_ la ejecución por retransmisión es que con la ejecución directa, la `dirección de llamada` es la dirección real que realiza la solicitud + el pago del coste de gas de la ejecución. Con la ejecución de retransmisión, una `dirección` firmante puede interactuar con la CuentaERC725 sin tener que pagar el coste del gas.
 
 ![Direct vs Relay Execution](/img/standards/lsp6/lsp6-direct-vs-relay-execution.jpeg)
 
-### Relay Execution
+### Ejecución por Retransmisión
 
-Relay execution enables users to interact with smart contracts on the blockchain **without needing native tokens** to pay for transaction fees. This allows a better onboarding experience for users new to cryptocurrencies and blockchain.
+La ejecución por retransmisión permite a los usuarios interactuar con contratos inteligentes en la blockchain **sin necesidad de tokens nativos** para pagar las cuotas de transacción. Esto permite una mejor experiencia de integración para los usuarios nuevos en criptomonedas y blockchain.
 
-Relay execution minimizes **UX friction** for dapps, including removing the need for users to worry about gas fee, or any complex steps needed to operate on blockchains (KYC, seedphrases, gas).
+La ejecución por retransmisión minimiza la fricción para las dApps, incluyendo la eliminación de la necesidad de que los usuarios se preocupen por la cuota de gas, o cualquier paso complejo necesario para operar en blockchains (KYC, frases de semillas, gas).
 
-Dapps can then leverage the relay execution features to create their own business model around building their own **relay service**, smart contracts solution on top of the Key Manager to pay with their tokens, or agree with users on payment methods including subscriptions, ads, etc ..
+Las dapps pueden entonces aprovechar las características de ejecución por retransmisión para crear su propio modelo de negocio en torno a la construcción de su propio **servicio de retransmisión**, solución de contratos inteligentes en la parte superior del Gestor de Claves para pagar con sus tokens, o acordar con los usuarios métodos de pago, incluyendo suscripciones, anuncios, etc...
 
 ![LSP6 Key Manager Relay Service](/img/standards/lsp6/lsp6-relay-execution.jpeg)
 
-### How to sign relay transactions?
+### ¿Cómo se firman las transacciones por retransmisión?
 
-The relay transactions are signed using the [**version 0 of EIP191**](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-191.md#version-0x00). The relay call data that you want to sign **MUST** be the _keccak256 hash digest_ of the following elements _(bytes values)_ concatenated together.
+Las transacciones de retransmisión se firman utilizando la [**versión 0 de EIP191**](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-191.md#version-0x00). Los datos de la llamada de retransmisión que desea firmar **DEBEN** ser el _keccak256 hash digest_ de los siguientes elementos _(valores de bytes)_ concatenados.
 
 ```javascript
 0x19 <0x00> <KeyManager address> <LSP6_VERSION> <chainId> <nonce> <value> <payload>
 ```
 
-| Message elements     | Details                                                                                                                                                                                                                       |
-| :------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `0x19`               | Byte used to ensure that the _relay call signed data_ is not a valid RLP.                                                                                                                                                     |
-| `0x00`               | The [**version 0 of EIP191**](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-191.md#version-0x00).                                                                                                                     |
-| `KeyManager address` | The address of the Key Manager that will execute the relay call.                                                                                                                                                              |
-| `LSP6_VERSION`       | The varsion of the Key Manager that will execute the relay call, as a `uint256`. (Current version of LSP6 Key Manager is **6**)                                                                                               |
-| `chainId`            | The chain id of the blockchain where the Key Manager is deployed, as `uint256`.                                                                                                                                               |
-| `nonce`              | The unique [**nonce**](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-6-KeyManager.md#getnonce) for the payload.                                                                                                    |
-| `value`              | The amount of **native tokens** that will be transferred to the [**ERC725 Account**](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-0-ERC725Account.md) linked to the Key Manager that will execute the relay call. |
-| `payload`            | The payload that will be exeuted.                                                                                                                                                                                             |
+| Elementos del mensaje | Detalles                                                                                                                                                                                                                       |
+| :-------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `0x19`                | Byte utilizado para garantizar que el _relay call signed data_ no es un RLP válido.                                                                                                                                                     |
+| `0x00`                | La [**versión 0 de EIP191**](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-191.md#version-0x00).                                                                                                                     |
+| `KeyManager address`  | La dirección del Gestor de Claves que ejecutará la llamada de retransmisión.                                                                                                                                               |
+| `LSP6_VERSION`        | La versión del Gestor de Claves que ejecutará la llamada de retransmisión, como `uint256`. (La versión actual del Gestor de Claves de LSP6 es **6**)                                                                                               |
+| `chainId`             | El id de cadena de la blockchain donde está desplegado el Gestor de Claves, como `uint256`.                                                                                                                                               |
+| `nonce`               | El [**nonce**](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-6-KeyManager.md#getnonce) único para la carga útil.                                                                                                    |
+| `value`               | La cantidad de **tokens nativos** que se transferirán a la [**Cuenta ERC725**](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-0-ERC725Account.md) vinculada al Gestor de Claves que ejecutará la llamada de retransmisión. |
+| `payload`             | La carga útil que se va a ejecutar.                                                                                                                                                                                             |
 
 :::info
 
-If you want to sign an _EIP191 Execute Relay Call transaction_ you can use our library, [**eip191-signer.js**](https://github.com/lukso-network/tools-eip191-signer).
+Si quieres firmar una transacción _EIP191 de Llamada Ejecutada por Retransmisión_ puedes utilizar nuestra librería, [**eip191-signer.js**](https://github.com/lukso-network/tools-eip191-signer).
 
 :::
 
-### Out of order execution
+### Ejecución fuera de orden
 
-Since the Key Manager offers **relay execution** via signed message, it's important to provide security measurements to ensure that the signed message can't be repeated once executed. **[Nonces](https://www.techtarget.com/searchsecurity/definition/nonce#:~:text=A%20nonce%20is%20a%20random,to%20as%20a%20cryptographic%20nonce.)** existed to solve this problem, but with the following drawback:
+Dado que el Gestor de Claves ofrece **ejecución de retransmisión** mediante mensaje firmado, es importante proporcionar medidas de seguridad para garantizar que el mensaje firmado no pueda repetirse una vez ejecutado. **[Nonces](https://www.techtarget.com/searchsecurity/definition/nonce#:~:text=A%20nonce%20is%20a%20random,to%20as%20a%20cryptographic%20nonce.)** existían para resolver este problema, pero con el siguiente inconveniente:
 
-- Signed messages with sequential nonces should be **executed in order**, meaning a signed message with nonce 4 can't be executed before the signed message with nonce 3. This is a critical problem which can limit the usage of relay execution.
+- Los mensajes firmados con nonces secuenciales deben ser **ejecutados en orden**, lo que significa que un mensaje firmado con nonce 4 no puede ser ejecutado antes que el mensaje firmado con nonce 3. Este es un problema crítico que puede limitar el uso de la ejecución por retransmisión.
 
-Here comes the **Multi-channel** nonces which provide the ability to execute signed message **with**/**without** a specific order depending on the signer choice.
+Aquí vienen los **nonces multicanal** que proporcionan la capacidad de ejecutar mensajes firmados **con**/sin** un orden específico dependiendo de la elección del firmante.
 
-Signed messages should be executed sequentially if signed on the same channel and should be executed independently if signed on different channel.
+Los mensajes firmados deben ejecutarse secuencialmente si se firman en el mismo canal y deben ejecutarse independientemente si se firman en canales diferentes.
 
-- Message signed with nonce 4 on channel 1 can't be executed before the message signed with nonce 3 on channel 1 but can be executed before the message signed with nonce 3 on channel 2.
+- El mensaje firmado con el nonce 4 en el canal 1 no puede ejecutarse antes que el mensaje firmado con el nonce 3 en el canal 1, pero puede ejecutarse antes que el mensaje firmado con el nonce 3 en el canal 2.
 
 ![LSP6 Key Manager Relay Service](/img/standards/lsp6/lsp6-multi-channel-nonce.jpeg)
 
-Learn more about **[Multi-channel nonces](../faq/channel-nonce.md)** usecases and its internal construction.
+Más información sobre **[Nonces multicanal](../faq/channel-nonce.md)** casos de uso y su construcción interna.
 
-## References
+## Referencias
 
-- [LUKSO Standards Proposals: LSP6 - Key Manager (Standard Specification, GitHub)](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-6-KeyManager.md)
-- [LSP6 KeyManager: Solidity implementations (GitHub)](https://github.com/lukso-network/lsp-universalprofile-smart-contracts/tree/develop/contracts/LSP6KeyManager)
+- [Propuestas de Estándares LUKSO: LSP6 - Gestor de Claves (Especificación estándar, GitHub)](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-6-KeyManager.md)
+- [LSP6 Gestor de Claves: implementaciones de Solidity (GitHub)](https://github.com/lukso-network/lsp-universalprofile-smart-contracts/tree/develop/contracts/LSP6KeyManager)

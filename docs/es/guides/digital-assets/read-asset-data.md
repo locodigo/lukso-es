@@ -30,7 +30,7 @@ Utilizaremos:
 
 - [web3.js](https://web3js.readthedocs.io/en/v1.7.0/) para la utilidad así como la conexión a la red LUKSO L14 o L16.
 - librería [erc725.js](../../tools/erc725js/getting-started/) para obtener los metadatos de los activos.
-- lsp-smart-contracts](https://github.com/lukso-network/lsp-smart-contracts) para integrar las ABI de los estándares LUKSO.
+- [lsp-smart-contracts](https://github.com/lukso-network/lsp-smart-contracts) para integrar las ABI de los estándares LUKSO.
 
 ## Configuración
 

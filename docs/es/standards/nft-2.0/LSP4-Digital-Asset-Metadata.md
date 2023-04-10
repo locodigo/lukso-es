@@ -1,29 +1,29 @@
 ---
-sidebar_label: 'LSP4 - Digital Asset Metadata'
+sidebar_label: 'LSP4 - Metadatos Activo Digital'
 sidebar_position: 2
 ---
 
-# LSP4 - Digital Asset Metadata
+# LSP4 - Metadatos Activo Digital
 
-:::info Standard Document
+:::info Documento Estándard
 
-[LSP4 - Digital Asset Metadata](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-4-DigitalAsset-Metadata.md)
+[LSP4 - Metadatos Activo Digital](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-4-DigitalAsset-Metadata.md)
 
 :::
 
-## Introduction
+## Introducción
 
-The existing tokens and NFTs standards offer limited functionalities to attach information to the contracts themselves. As an example, the ERC20 and ERC721 standards only define a **`name()`**, **`symbol()`**, and **`tokenURI()`** functions. This makes it difficult to add information more specific to the asset (_e.g., an icon, the asset creator(s) , the utility or motive of the token, the community behind it, etc...). Such information is crucial to make each token or NFT descriptive and customised.
+Los estándares existentes de tokens y NFTs ofrecen funcionalidades limitadas para adjuntar información a los propios contratos. Por ejemplo, las normas ERC20 y ERC721 sólo definen las funciones **`name()`**, **`symbol()`** y **`tokenURI()`**. Esto dificulta añadir información más específica sobre el activo (por ejemplo, un icono, el creador o creadores del activo, la utilidad o motivo del token, la comunidad que lo respalda, etc.). Dicha información es crucial para que cada token o NFT sea descriptivo y personalizado.
 
-**LSP4-DigitalAsset-Metadata** solves this problem by defining a set of data keys to describe a **Digital Asset** using [ERC725Y](https://github.com/ERC725Alliance/ERC725/blob/main/docs/ERC-725.md#erc725y) as a backbone. ERC725Y enables smart contracts to have very flexible and extensible storage. With ERC725Y, any information or metadata can be attached to the token or NFT.
+**LSP4-Metadatos-ActivoDigital** resuelve este problema definiendo un conjunto de claves de datos para describir un **Activo Digital** utilizando [ERC725Y](https://github.com/ERC725Alliance/ERC725/blob/main/docs/ERC-725.md#erc725y) como columna vertebral. ERC725Y permite que los contratos inteligentes tengan un almacenamiento muy flexible y extensible. Con ERC725Y, se puede adjuntar cualquier información o metadatos al token o NFT.
 
-![LSP4 Digital Asset Metadata diagram](/img/standards/lsp4/lsp4-digital-asset-metadata-diagram.png)
+![Diagrama de metadatos de activos digitales LSP4](/img/standards/lsp4/lsp4-digital-asset-metadata-diagram.png)
 
-## ERC725Y Data Keys
+## Claves de datos ERC725Y
 
-:::tip Recommendation
+:::tip Sugerencia
 
-Make sure to understand the **[ERC725Y Generic Key/Value Store](../lsp-background/erc725.md#erc725y---generic-data-keyvalue-store)** and **[LSP2 - ERC725YJSONSchema](../generic-standards/lsp2-json-schema.md)** Standards before going through the ERC725Y Data Keys.
+Asegúrate de comprender los estándares **[ERC725Y Almacenamiento Genérico de Claves/Valores](../lsp-background/erc725.md#erc725y---generic-data-keyvalue-store)** y **[LSP2 - EsquemaJSONERC725Y](../generic-standards/lsp2-json-schema.md)** antes de revisar las Claves de Datos ERC725Y.
 
 :::
 
@@ -39,7 +39,7 @@ Make sure to understand the **[ERC725Y Generic Key/Value Store](../lsp-backgroun
 }
 ```
 
-This key is used to know if the contract represents a **Digital Asset**.
+Esta clave se utiliza para saber si el contrato representa un **Activo Digital**.
 
 ### `LSP4TokenName`
 
@@ -53,7 +53,7 @@ This key is used to know if the contract represents a **Digital Asset**.
 }
 ```
 
-The value attached to this data key represents the name of the digital asset.
+El valor asociado a esta clave de datos representa el nombre del activo digital.
 
 ### `LSP4TokenSymbol`
 
@@ -67,7 +67,7 @@ The value attached to this data key represents the name of the digital asset.
 }
 ```
 
-The value attached to this data key represents the symbol of the digital asset.
+El valor asociado a esta clave de datos representa el símbolo del activo digital.
 
 ### `LSP4Metadata`
 
@@ -81,11 +81,11 @@ The value attached to this data key represents the symbol of the digital asset.
 }
 ```
 
-The value attached to this data key is a [`JSONURL`](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#jsonurl). It represents a reference to a [JSON file describing the **Digital Asset**](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-4-DigitalAsset-Metadata.md#lsp4metadata). The file can be stored on centralized or decentralized storage.
+El valor asociado a esta clave de datos es un [`JSONURL`](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md#jsonurl). Representa una referencia a un [archivo JSON que describe el **activo digital**](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-4-DigitalAsset-Metadata.md#lsp4metadata). El archivo puede almacenarse de forma centralizada o descentralizada.
 
 ### `LSP4Creators`
 
-This data key refers to the **address(es)** of the **creator(s)** of the digital asset. It can help to check the **asset authenticity** when combined with **[LSP12-IssuedAssets](../universal-profile/lsp12-issued-assets.md)**.
+Esta clave de datos se refiere a la(s) **dirección(es)** del (de los) **creador(es)** del activo digital. Puede ayudar a comprobar la **autenticidad del activo** cuando se combina con **[LSP12-ActivosEmitidos](../universal-profile/lsp12-issued-assets.md)**.
 
 ```json
 {
@@ -107,6 +107,6 @@ This data key refers to the **address(es)** of the **creator(s)** of the digital
 }
 ```
 
-## References
+## Referencias
 
-- [LUKSO Standards Proposals: LSP4 - Digital Asset Metadata (Standard Specification, GitHub)](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-4-DigitalAsset-Metadata.md)
+- [Propuestas de Estándares LUKSO: LSP4 - Metadatos de activos digitales (Especificación Estándar, GitHub)](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-4-DigitalAsset-Metadata.md)

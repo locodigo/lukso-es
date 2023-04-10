@@ -1,57 +1,57 @@
 ---
-sidebar_label: 'LSP2 - ERC725Y JSON Schema'
+sidebar_label: 'LSP2 - Esquema JSON ERC725Y'
 sidebar_position: 3
 ---
 
-# LSP2 - ERC725Y JSON Schema
+# LSP2 - Esquema JSON ERC725Y
 
-:::info Standard Document
+:::info Documento Estándard
 
-[LSP2 - ERC725Y JSON Schema](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md)
+[LSP2 - Esquema JSON ERC725Y](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-2-ERC725YJSONSchema.md)
 
 :::
 
-:::success Recommendation
+:::success Sugerencia
 
 Our [JavaScript library **erc725.js**](../../tools/erc725js/getting-started.md) makes it easy to read + write data encoded according to the LSP2 Schema without manually going through all the encoding complexity.
 
 :::
 
-## Introduction
+## Introducción
 
-The storage of a smart contract consists of multiple **storage slots**. These slots are referenced by a **slot number** (as an **integer**) starting from slot 0. Each piece of data (= contract state) in a smart contract is stored as raw **bytes** under a specific storage slot.
+El almacenamiento de un contrato inteligente consiste en múltiples **ranuras de almacenamiento**. Estas ranuras están referenciadas por un **número de ranura** (como un **entero**) empezando por la ranura 0. Cada pieza de datos (= estado del contrato) en un contrato inteligente se almacena como **bytes en bruto** en una ranura de almacenamiento específica.
 
-> In summary, smart contracts understand only two languages: bytes and uint256.
-> Take the following key-value pair, for instance. It is not easy to infer the meaning of these data keys by reading them as **bytes**.
+> En resumen, los contratos inteligentes sólo entienden dos lenguajes: bytes y uint256.
+> Tomemos el siguiente par clave-valor, por ejemplo. No es fácil inferir el significado de estas claves de datos leyéndolas como **bytes**.
 
 ```
-(key)                                                              => (value)
+(clave)                                                              => (valor)
 0xdeba1e292f8ba88238e10ab3c7f88bd4be4fac56cad5194b6ecceaf653468af1 => 0x4d7920546f6b656e20322e30
 ```
 
-Using **slot numbers** and **raw bytes** makes the contract storage very hard to handle. [ERC725Y](../universal-profile/lsp0-erc725account.md#erc725y---generic-key-value-store) solves part of the problem through a more flexible storage layout, where data is addressed via `bytes32` keys. However, with such low-level languages, it is difficult for humans to understand the data in the storage.
+El uso de **números de ranura** y **bytes crudos** hace que el almacenamiento de contratos sea muy difícil de manejar. [ERC725Y](../universal-profile/lsp0-erc725account.md#erc725y---generic-key-value-store) resuelve parte del problema mediante una disposición de almacenamiento más flexible, en la que los datos se direccionan mediante claves `bytes32`. Sin embargo, con lenguajes de tan bajo nivel, es difícil para los humanos entender los datos del almacenamiento.
 
-The main problem around smart contract storage also arises when data is stored differently, depending on individual use cases and application needs. No standard schema defines "what the data stored under a specific data key represents".
+El principal problema en torno al almacenamiento de contratos inteligentes también surge cuando los datos se almacenan de forma diferente, dependiendo de los casos de uso individuales y de las necesidades de la aplicación. Ningún esquema estándar define "qué representan los datos almacenados bajo una clave de datos específica".
 
-These two issues make it very hard for smart contracts to interact with each other and for external services to interact with contracts' storage.
+Estos dos problemas hacen que sea muy difícil para los contratos inteligentes interactuar entre sí y para los servicios externos interactuar con el almacenamiento de los contratos.
 
-## What does this standard represent?
+## ¿Qué representa este estándar?
 
-### Specification
+### Especificación
 
-The LSP2 Standard aims to offer a better abstraction on top of the storage of a smart contract.
+El estándar LSP2 pretende ofrecer una mejor abstracción sobre el almacenamiento de un contrato inteligente.
 
-This standard introduces a JSON schema that enables to represent the storage of a smart contract through more understandable data keys. It makes the data stored in a smart contract more organized.
+Este estándar introduce un esquema JSON que permite representar el almacenamiento de un contrato inteligente a través de claves de datos más comprensibles. Hace que los datos almacenados en un contrato inteligente estén mejor organizados.
 
 ![Universal Profile + ERC725Y JSON schema (diagram)](/img/standards/lsp2/ERC725Y-JSON-Schema-explained.jpeg)
 
-By introducing a schema, we can represent contract storage in the same way across contracts in the network. Everyone has a unified view of the data stored between smart contracts. Developers can quickly parse data, and contracts or interfaces can read or write data from or to the contract storage in the same manner. The standardization makes smart contracts **more interoperable with each other**.
+Al introducir un esquema, podemos representar el almacenamiento de contratos de la misma forma en todos los contratos de la red. Todo el mundo tiene una visión unificada de los datos almacenados entre los contratos inteligentes. Los desarrolladores pueden analizar rápidamente los datos, y los contratos o interfaces pueden leer o escribir datos desde o hacia el almacenamiento de contratos de la misma manera. La estandarización hace que los contratos inteligentes sean **más interoperables entre sí**.
 
-### How does LSP2 work?
+### ¿Cómo funciona LSP2?
 
-LSP2 introduces new ways to encode data, depending on its type. From a single entry to multiple entries (like arrays or maps).
+LSP2 introduce nuevas formas de cifrar datos, dependiendo de su tipo. Desde una única entrada hasta múltiples entradas (como arrays o mapas).
 
-A data key in the contract storage can be defined as a JSON object with properties that describe the key.
+Una clave de datos en el almacenamiento de contratos puede definirse como un objeto JSON con propiedades que describen la clave.
 
 ```json
 {
@@ -63,22 +63,22 @@ A data key in the contract storage can be defined as a JSON object with properti
 }
 ```
 
-## Data Key Types
+## Tipos de Clave de Datos
 
-A Data Key Type defines **HOW** a 32 bytes data key is constructed, representing how a particular data key type is described in 32 bytes. For example, `Singleton` data keys are simple keccak256 hashes of the key name string. Other Data Key Types are constructed of slices of hashes to group different key name parts or define array element keys.
+Un tipo de clave de datos define **CÓMO** se construye una clave de datos de 32 bytes, representando cómo se describe un tipo de clave de datos particular en 32 bytes. Por ejemplo, las claves de datos `Singleton` son simples hashes keccak256 de la cadena de nombre de la clave. Otros tipos de claves de datos se construyen a partir de trozos de hashes para agrupar diferentes partes del nombre de la clave o definir claves de elementos de array.
 
-The LSP2 Standard defines several **data key types**:
+El Estándar LSP2 define varios **tipos de claves de datos**:
 
 - [Singleton](#singleton)
 - [Array](#array)
 - [Mapping](#mapping)
-- [MappingWithGrouping](#mappingwithgrouping)
+- [MappingWithGrouping](#mappingconagrupación)
 
 ### Singleton
 
-A **Singleton** data key is helpful to store a unique single value under a single data key.
+Una clave de datos **Singleton** es útil para almacenar un único valor bajo una única clave de datos.
 
-Below is an example of a **Singleton** data key.
+A continuación se muestra un ejemplo de una clave de datos **Singleton**.
 
 ```json
 {
@@ -94,16 +94,16 @@ Below is an example of a **Singleton** data key.
 
 ### Array
 
-Developers can use a data key of the type Array to store a list of elements of the same data type. They are accessed by an _index_ that defines their position within it.
+Los desarrolladores pueden utilizar una clave de datos de tipo Array para almacenar un conjunto de elementos del mismo tipo de datos. Se accede a ellos mediante un _índice_ que define su posición dentro del mismo.
 
-The Array elements are arranged systematically, in the order they are added or removed to or from it.
+Los elementos del conjunto se ordenan sistemáticamente, en el orden en que se añaden o eliminan de él.
 
-The **main properties** of the LSP2 Array data key type are:
+Las **principales propiedades** del tipo de clave de datos Array de LSP2 son:
 
-- _ordering matters_ :exclamation:
-- _duplicates are permitted_ :white_check_mark:
+- _el orden importa_ :exclamación:
+- _se permiten duplicados_ :white_check_mark:
 
-A data key type Array can be useful when there is the need to store a large group of similar data items under the same data key. For instance, a list of tokens or NFTs that an address has received. Below is an example of an Array data key:
+Un tipo de clave de datos Array puede ser útil cuando existe la necesidad de almacenar un gran grupo de elementos de datos similares bajo la misma clave de datos. Por ejemplo, una lista de tokens o NFTs que ha recibido una dirección. A continuación se muestra un ejemplo de una clave de datos Array:
 
 ```json
 {
@@ -123,25 +123,25 @@ A data key type Array can be useful when there is the need to store a large grou
 
 ### Mapping
 
-The Mapping data key type is similar to the concept of lookup tables. It can be used to map data that have a shared significance (such as items derived from a common ancestor), and search or query specific elements efficiently.
+El tipo de clave de datos Mapping es similar al concepto de tablas de consulta. Puede utilizarse para asignar datos que tienen un significado compartido (como elementos derivados de un antepasado común), y buscar o consultar elementos específicos de forma eficaz.
 
-The **main properties** of the LSP2 Mapping data key type are:
+Las **principales propiedades** del tipo de clave de datos LSP2 Mapping son:
 
-- _ordering does not matter_ :white_check_mark:
-- _duplicates are not permitted_ :x:
+- _el orden no importa_ :white_check_mark:
+- _no se permiten duplicados_ :x:
 
-The data being mapped can be words that have a specific meaning for the protocol or application implementation, or underlying data types (= `<mixed type>`) like `address`, `bytesN`, `uintN`, etc. For `<mixed type>`, all the data types are left padded. If the type is larger than 20 bytes, the second part of the key is:
+Los datos a mapear pueden ser palabras que tengan un significado específico para el protocolo o la implementación de la aplicación, o tipos de datos subyacentes (= `<mixed type>`) como `address`, `bytesN`, `uintN`, etc. Para `<mixed type>`, todos los tipos de datos se rellenan a la izquierda. Si el tipo es superior a 20 bytes, la segunda parte de la clave se
 
-- left-cut for `uint<M>`, `int<M>` and `bool`
-- right cut for `bytes<M>` and `address`
+- corte a la izquierda para `uint<M>`, `int<M>` y `bool`.
+- corte a la derecha para `bytes<M>` y `address`.
 
-Below are some examples of the **Mapping** key type.
+A continuación se muestran algunos ejemplos del tipo de clave **Mapping**.
 
-- mapping to **words:** `SupportedStandards:LSP3UniversalProfile`, `SupportedStandards:LSP4DigitalAsset`, `SupportedStandards:LSP{N}{StandardName}`, etc...
-- mapping to **`<mixed type>`**, like an `address`: `LSP5ReceivedAssetsMap:<address>`
-- mapping to **`<mixed type>`**, like a `bytes32`: `LSP8MetadataAddress:<bytes32>`
+- mapping a **palabras:** `SupportedStandards:LSP3UniversalProfile`, `SupportedStandards:LSP4DigitalAsset`, `SupportedStandards:LSP{N}{StandardName}`, etc...
+- mapping a **`<tipo mixto>`**, como una `dirección`: `LSP5ReceivedAssetsMap:<dirección>`.
+- mapping a **`<tipo mixto>`**, como un `bytes32`: `LSP8MetadataAddress:<bytes32>`
 
-#### Example 1: Mapping as `FirstWord:SecondWord`
+#### Ejemplo 1: Asignación como `primeraPalabra:segundaPalabra`.
 
 ```json
 {
@@ -155,9 +155,9 @@ Below are some examples of the **Mapping** key type.
 
 ![LSP2 Mapping key type to word](/img/standards/lsp2/lsp2-key-type-mapping-to-word.jpeg)
 
-#### Example 2: Mapping as `FirstWord:<address>` (`<mixed type>`)
+#### Ejemplo 2: Mapping como `primeraPalabra:<address>` (`<mixed type>`)
 
-`address` value = `0xcafecafecafecafecafecafecafecafecafecafe`
+`address` valor = `0xcafecafecafecafecafecafecafecafecafecafe`
 
 ```json
 {
@@ -171,11 +171,11 @@ Below are some examples of the **Mapping** key type.
 
 ![LSP2 Mapping key type to address](/img/standards/lsp2/lsp2-key-type-mapping-to-address.jpeg)
 
-#### Example 3: Mapping as `FirstWord:<bytes32>` (`<mixed type>`)
+#### Ejemplo 3: Mapping como `primeraPalabra:<bytes32>` (`<mixed type>`)
 
-`bytes32` value = `0xaaaabbbbccccddddeeeeffff111122223333444455556666777788889999aaaa`.
+`bytes32` valor = `0xaaaabbbbccccddddeeeeffff111122223333444455556666777788889999aaaa`.
 
-The `bytes32` value is **right-cut**.
+El valor `bytes32` se **corta a la derecha**.
 
 ```json
 {
@@ -193,17 +193,17 @@ The `bytes32` value is **right-cut**.
 
 :::warning
 
-`<firstWordHash>:<secondWordHash>:<bytes2(0)>:<thirdWordHash>`
+`<HashprimeraPalabra>:<HashsegundaPalabra>:<bytes2(0)>:<HashterceraPalabra>`
 
-You must take into consideration the fact that if you choose the same value to hash for `firstWord` and `thirdWord` there is a 0.0000000233% chance that two random values for the `secondWord` will result in the same data key.
+Debes tener en cuenta que si eliges el mismo valor de hash para `primeraPalabra` y `terceraPalabra` hay un 0.0000000233% de posibilidades de que dos valores aleatorios para la `segundaPalabra` den como resultado la misma clave de datos.
 
 :::
 
-A data key of type **MappingWithGrouping** is similar to the **[Mapping](#mapping)** data key type, except that sub-types can be added to the main mapping data key.
+Una clave de datos de tipo **MappingWithGrouping** es similar al tipo de clave de datos **[Mapping](#mapping)**, excepto que se pueden añadir subtipos a la clave de datos de mapeo principal.
 
-For instance, it can be used to differentiate various types from the primary mapping data key, like different types of permissions (see [LSP6 - Key Manager](../universal-profile/lsp6-key-manager.md)).
+Por ejemplo, puede utilizarse para diferenciar varios tipos de la clave de datos de asignación principal, como diferentes tipos de permisos (véase [LSP6 - Gestor de Claves](../universal-profile/lsp6-key-manager.md)).
 
-Below is an example of a MappingWithGrouping data key:
+A continuación se muestra un ejemplo de una clave de datos MappingWithGrouping:
 
 ```json
 {
@@ -218,9 +218,9 @@ Below is an example of a MappingWithGrouping data key:
 ![LSP2 mappingWithGrouping key type](/img/standards/lsp2/lsp2-key-type-mapping-with-grouping.jpeg)
 
 <details>
-    <summary>Solidity Example</summary>
+    <summary>Ejemlpo de Solidity</summary>
 
-Whenever you want to generate a data key of `keyType` **MappingWithGrouping**:
+Siempre que quieras generar una clave de datos de `keyType` **MappingWithGrouping**:
 
 ```solidity
 bytes32 dataKey = bytes32(

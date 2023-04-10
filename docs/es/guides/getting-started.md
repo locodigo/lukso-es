@@ -9,7 +9,7 @@ Aquí encontrarás tutoriales y herramientas que te ayudarán a construir en LUK
 A diferencia de la mayoría de las cadenas EVM, en LUKSO se te anima a utilizar principalmente [Perfiles Universales](../standards/universal-profile/introduction.md) como solución para crear cuentas para las dApps y como puerta de entrada para tus usuarios a la Blockchain de LUKSO. NO se aconseja el uso de simples EOAs como cuentas, ya que son inseguras, inflexibles y no rastrean los activos entrantes. Si necesitas una comprensión más general de por qué construimos nuestras cuentas a nivel de contrato inteligente, te aconsejamos que leas sobre el concepto de [Ecosistema LUKSO](https://medium.com/lukso/lukso-ecosystem-part-1-4c3f5d67b081).
 
 :::tip
-Todas las guías de esta sección incluyen fragmentos de código que pueden consultarse en [`lukso-playground`](https://github.com/lukso-network/lukso-playground) para facilitar el aprendizaje. Puedes ejecutar el código como archivos JavaScript independientes en la terminal o en el navegador utilizando la página correspondiente de [StackBlitz](https://stackblitz.com/github/lukso-network/lukso-playground).
+Todas las guías de esta sección incluyen fragmentos de código que pueden consultarse en [`área-de-pruebas-Lukso`](https://github.com/lukso-network/lukso-playground) para facilitar el aprendizaje. Puedes ejecutar el código como archivos JavaScript independientes en la terminal o en el navegador utilizando la página correspondiente de [StackBlitz](https://stackblitz.com/github/lukso-network/lukso-playground).
 
 
 ## UP en 1-2-3

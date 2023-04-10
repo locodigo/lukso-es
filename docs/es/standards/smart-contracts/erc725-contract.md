@@ -5,20 +5,20 @@ sidebar_position: 3
 
 # ERC725
 
-:::info Solidity contract
+:::info Conrtato Solidity
 
 [`ERC725.sol`](https://github.com/ERC725Alliance/ERC725/blob/develop/implementations/contracts/ERC725.sol)
 
 :::
 
-The **ERC725** is the contract combining:
+El **ERC725** es el contrato que combina:
 
-- **ERC725X**: contract that allow a generic execution using different types of operations.
+- **ERC725X**: contrato que permite una ejecución genérica utilizando diferentes tipos de operaciones.
 
-- **ERC725Y**: contract that allow for a generic data storage in a smart contract.
+- **ERC725Y**: contrato que permite un almacenamiento genérico de datos en un contrato inteligente.
 
 :::note
-ERC725 contract also contains the method from [ERC165](https://eips.ethereum.org/EIPS/eip-165):
+El contrato ERC725 también contiene el método de [ERC165](https://eips.ethereum.org/EIPS/eip-165):
 
 ```solidity
 function supportsInterface(bytes4 interfaceId) public view returns (bool)
@@ -28,7 +28,7 @@ function supportsInterface(bytes4 interfaceId) public view returns (bool)
 
 ---
 
-## Functions
+## Funciones
 
 ### constructor
 
@@ -36,13 +36,13 @@ function supportsInterface(bytes4 interfaceId) public view returns (bool)
 constructor(address initialOwner)
 ```
 
-Sets the **initial owner** of the contract.
+Establece el **propietario inicial** del contrato.
 
-#### Parameters:
+#### Parámetros:
 
-| Name           | Type      | Description                                      |
-| :------------- | :-------- | :----------------------------------------------- |
-| `initialOwner` | `address` | The address to set as the owner of the contract. |
+| Nombre         | Tipo      | Descripción                                              |
+| :------------- | :-------- | :------------------------------------------------------- |
+| `initialOwner` | `address` | La dirección a establecer como propietaria del contrato. |
 
 ### owner
 
@@ -50,13 +50,15 @@ Sets the **initial owner** of the contract.
 function owner() public view returns (address owner)
 ```
 
-Returns the address of the current owner of the smart contract.
+Devuelve la dirección del propietario actual del contrato inteligente.
 
-#### Return Values:
+#### Devuelve la dirección del propietario actual del contrato inteligente.
 
-| Name    | Type      | Description                        |
-| :------ | :-------- | :--------------------------------- |
-| `owner` | `address` | The current owner of the contract. |
+#### Valores Devueltos::
+
+| Nombre  | Tipo      | Descripción                         |
+| :------ | :-------- | :---------------------------------- |
+| `owner` | `address` | El actual propietario del contrato. |
 
 ### transferOwnership
 
@@ -64,15 +66,15 @@ Returns the address of the current owner of the smart contract.
 function transferOwnership(address newOwner) public {
 ```
 
-Transfers the ownership of the contract to the `newOwner` address.
+Transfiere la propiedad del contrato a la dirección `newOwner`.
 
-_Triggers the **[OwnershipTransferred](#ownershiptransferred)** event when ownership is transferred._
+_Cuando se transfiere la propiedad, se activa el evento **[OwnershipTransferred](#ownershiptransferred)**._
 
-#### Parameters:
+#### Parámetros:
 
-| Name       | Type      | Description                                      |
-| :--------- | :-------- | :----------------------------------------------- |
-| `newOwner` | `address` | The address to set as the owner of the contract. |
+| Nombre     | Tipo      | Descripción                                              |
+| :--------- | :-------- | :------------------------------------------------------- |
+| `newOwner` | `address` | La dirección a establecer como propietaria del contrato. |
 
 ### execute - ERC725X
 
@@ -85,40 +87,40 @@ function execute(
 ) public payable returns (bytes memory result)
 ```
 
-Executes a call on any other smart contracts, transfers value, or deploys a new smart contract.
+Ejecuta una llamada en cualquier otro contrato inteligente, transfiere valor o despliega un nuevo contrato inteligente.
 
-The `operationType` can be the following:
+El `operationType` puede ser el siguiente:
 
-- `0` for `CALL`
-- `1` for `CREATE`
-- `2` for `CREATE2`
-- `3` for `STATICCALL`
-- `4` for `DELEGATECALL`
+- `0` para `CALL`
+- `1` para `CREATE`
+- `2` para `CREATE2`
+- `3` para `STATICCALL`
+- `4` para `DELEGATECALL`
 
-_Triggers the **[Executed](#executed)** event when a call is successfully executed using `CALL/STATICCALL/DELEGATECALL` operations._
+_Cuando una llamada se ejecuta con éxito mediante las operaciones `CALL/STATICCALL/DELEGATECALL`, se activa el evento **[Executed](#executed)**._
 
-_Triggers the **[ContractCreated](#contractcreated)** event when a smart contract is created using `CREATE/CREATE2` operations._
+_Cuando se crea un contrato inteligente mediante las operaciones `CREATE/CREATE2` se activa el evento **[ContractCreated](#contractcreated)**._
 
 :::note
-The `execute(...)` function can only be called by the current owner of the contract.
+La función `execute(...)` sólo puede ser invocada por el propietario actual del contrato.
 
-The operation types `staticcall` (`3`) and `delegatecall` (`4`) do not allow to transfer value.
+Los tipos de operación `staticcall` (`3`) y `delegatecall` (`4`) no permiten transferir valor.
 :::
 
-#### Parameters:
+#### Parámetros:
 
-| Name            | Type      | Description                                                                                                              |
-| :-------------- | :-------- | :----------------------------------------------------------------------------------------------------------------------- |
-| `operationType` | `uint256` | The type of operation that needs to be executed.                                                                         |
-| `target`        | `address` | The address to interact with. The address `to` will be unused if a contract is created (operations 1 & 2).               |
-| `value`         | `uint256` | The amount of native tokens to transfer with the transaction (in Wei).                                                   |
-| `data`          | `bytes`   | The calldata (ABI-encoded payload of a function to run on an other contract), or the bytecode of the contract to deploy. |
+| Nombre          | Tipo      | Descripción                                                                                                                     |
+| :-------------- | :-------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| `operationType` | `uint256` | El tipo de operación que debe ejecutarse.                                                                                       |
+| `target`        | `address` | La dirección con la que interactuar. La dirección `to` no se utilizará si se crea un contrato (operaciones 1 y 2).              |
+| `value`         | `uint256` | La cantidad de tokens nativos a transferir con la transacción (en Wei).                                                         |
+| `data`          | `bytes`   | Los calldata (carga útil codificada ABI de una función para ejecutar en otro contrato), o el bytecode del contrato a desplegar. |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name     | Type    | Description                                                                                                                            |
-| :------- | :------ | :------------------------------------------------------------------------------------------------------------------------------------- |
-| `result` | `bytes` | The data that was returned by the function called on the external contract, or the address of the contract created (operations 1 & 2). |
+| Nombre   | Tipo    | Descripción                                                                                                                |
+| :------- | :------ | :------------------------------------------------------------------------------------------------------------------------- |
+| `result` | `bytes` | Los datos devueltos por la función llamada en el contrato externo, o la dirección del contrato creado (operaciones 1 y 2). |
 
 ### execute (Array) - ERC725X
 
@@ -131,30 +133,30 @@ function execute(
 ) public payable returns (bytes[] memory results)
 ```
 
-Executes batch of calls on any other smart contracts, transfers value, or deploys a new smart contract.
+Ejecuta lotes de llamadas en cualquier otro contrato inteligente, transfiere valor o despliega un nuevo contrato inteligente.
 
-_Triggers the **[Executed](#executed)** event on each call iteration when a call is successfully executed using `CALL/STATICCALL/DELEGATECALL` operations._
+_Cuando una llamada se ejecuta con éxito mediante las operaciones `CALL/STATICCALL/DELEGATECALL`, se activa el evento **[Executed](#executed)** en cada iteración de llamada._ 
 
-_Triggers the **[ContractCreated](#contractcreated)** event on each contract creation iteration when a smart contract is created using `CREATE/CREATE2` operations._
+_Cuando se crea un contrato inteligente mediante las operaciones `CREATE/CREATE2`, se activa el evento **[ContractCreated](#contractcreated)** en cada iteración de creación de contrato._
 
 :::note
-The `execute(...)` function can only be called by the current owner of the contract.
+La función `execute(...)` sólo puede ser invocada por el propietario actual del contrato.
 :::
 
-#### Parameters:
+#### Parámetros:
 
-| Name             | Type        | Description                                                                                                                                |
-| :--------------- | :---------- | :----------------------------------------------------------------------------------------------------------------------------------------- |
-| `operationsType` | `uint256[]` | The list of operation that needs to be executed.                                                                                           |
-| `targets`        | `address[]` | The list of addresses to interact with. The addresses `targets` will be unused if a contract is created (operations 1 & 2).                |
-| `values`         | `uint256[]` | The list of amount of native tokens to transfer with the transaction (in Wei).                                                             |
-| `datas`          | `bytes[]`   | The list of calldata (ABI-encoded payload of a function to run on an other contract), or the list of bytecodes of the contracts to deploy. |
+| Nombre           | Tipo        | Descripción                                                                                                                                       |
+| :--------------- | :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `operationsType` | `uint256[]` | La lista de operaciones que deben ejecutarse.                                                                                                     |
+| `targets`        | `address[]` | La lista de direcciones con las que interactuar. Las direcciones `targets` no se utilizarán si se crea un contrato (operaciones 1 y 2).           |
+| `values`         | `uint256[]` | La lista de la cantidad de tokens nativos a transferir con la transacción (en Wei).                                                               |
+| `datas`          | `bytes[]`   | La lista de calldata (carga útil codificada ABI de una función para ejecutar en otro contrato), o la lista de bytecodes de contratos a desplegar. |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name     | Type      | Description                                                                                                                                         |
-| :------- | :-------- | :-------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `result` | `bytes[]` | The array of data that was returned by the functions called on the external contract, or the addresses of the contracts created (operations 1 & 2). |
+| Nombre   | Tipo      | Descripción                                                                                                                                     |
+| :------- | :-------- | :---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `result` | `bytes[]` | La matriz de datos devuelta por las funciones invocadas en el contrato externo, o las direcciones de los contratos creados (operaciones 1 y 2). |
 
 ### setData - ERC725Y
 
@@ -165,20 +167,20 @@ function setData(
 ) public
 ```
 
-Sets a value in the account storage for a particular data key.
+Establece un valor en el almacenamiento de la cuenta para una clave de datos concreta.
 
-_Triggers the **[DataChanged](#datachanged)** event when successfully setting the data._
+_Cuando los datos se establecen correctamente, se activa el evento **[DataChanged](#datachanged)**._
 
 :::note
-The `setData(...)` function can only be called by the current owner of the contract.
+La función `setData(...)` sólo puede ser invocada por el propietario actual del contrato.
 :::
 
-#### Parameters:
+#### Parámetros:
 
-| Name        | Type      | Description                                  |
-| :---------- | :-------- | :------------------------------------------- |
-| `dataKey`   | `bytes32` | The data key for which the data will be set. |
-| `dataValue` | `bytes`   | The data to be set.                          |
+| Nombre      | Tipo      | Descripción                                              |
+| :---------- | :-------- | :------------------------------------------------------- |
+| `dataKey`   | `bytes32` | La clave de datos para la que se establecerán los datos. |
+| `dataValue` | `bytes`   | Los datos a establecer.                                  |
 
 ### getData - ERC725Y
 
@@ -186,19 +188,19 @@ The `setData(...)` function can only be called by the current owner of the contr
 function getData(bytes32 dataKey) public view returns (bytes memory dataValue)
 ```
 
-Retrieves the value set for the given data key.
+Recupera el conjunto de valores para la clave de datos dada.
 
-#### Parameters:
+#### Parámetros:
 
-| Name      | Type      | Description                         |
-| :-------- | :-------- | :---------------------------------- |
-| `dataKey` | `bytes32` | The data key to retrieve data from. |
+| Nombre    | Tipo      | Descripción                                      |
+| :-------- | :-------- | :----------------------------------------------- |
+| `dataKey` | `bytes32` | La clave de datos de la que recuperar los datos. |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name        | Type    | Description                          |
-| :---------- | :------ | :----------------------------------- |
-| `dataValue` | `bytes` | The data for the requested data key. |
+| Nombre      | Tipo    | Descripción                       |
+| :---------- | :------ | :-------------------------------- |
+| `dataValue` | `bytes` | Los datos de la clave solicitada. |
 
 ### setData (Array) - ERC725Y
 
@@ -209,20 +211,20 @@ function setData(
 ) public
 ```
 
-Sets an array of data at multiple data keys in the account storage.
+Establece un conjunto de datos en múltiples claves de datos en el almacenamiento de la cuenta.
 
-_Triggers the **[DataChanged](#datachanged)** event when successfully setting each data key/value pair._
+_Cuando se establece correctamente cada par clave/valor de datos, se activa el evento **[DataChanged](#datachanged)**._
 
 :::note
-The `setData(...)` function can only be called by the current owner of the contract.
+La función `setData(...)` sólo puede ser invocada por el propietario actual del contrato.
 :::
 
-#### Parameters:
+#### Parámetros:
 
-| Name         | Type        | Description                          |
-| :----------- | :---------- | :----------------------------------- |
-| `dataKeys`   | `bytes32[]` | The data keys for which to set data. |
-| `dataValues` | `bytes[]`   | The array of data to set.            |
+| Nombre       | Tipo        | Descripción                                        |
+| :----------- | :---------- | :------------------------------------------------- |
+| `dataKeys`   | `bytes32[]` | Las claves de datos para las que establecer datos. |
+| `dataValues` | `bytes[]`   | El conjunto de datos a establecer.                 |
 
 ### getData (Array) - ERC725Y
 
@@ -230,19 +232,19 @@ The `setData(...)` function can only be called by the current owner of the contr
 function getData(bytes32[] memory dataKeys) public view returns (bytes[] memory dataValues)
 ```
 
-Retrieves an array of values for multiple given data keys.
+Recupera un conjunto de valores para múltiples claves de datos dadas.
 
-#### Parameters:
+#### Parámetros:
 
-| Name       | Type        | Description                          |
-| :--------- | :---------- | :----------------------------------- |
-| `dataKeys` | `bytes32[]` | The data keys to retrieve data from. |
+| Nombre     | Tipo        | Descripción                                     |
+| :--------- | :---------- | :---------------------------------------------- |
+| `dataKeys` | `bytes32[]` | Las claves de datos de las que recuperar datos. |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name         | Type      | Description                                       |
-| :----------- | :-------- | :------------------------------------------------ |
-| `dataValues` | `bytes[]` | An array of the data for the requested data keys. |
+| Nombre       | Tipo      | Descripción                                                |
+| :----------- | :-------- | :--------------------------------------------------------- |
+| `dataValues` | `bytes[]` | Un conjunto de datos para las claves de datos solicitadas. |
 
 ## Events
 
@@ -255,14 +257,14 @@ event OwnershipTransferred(
 )
 ```
 
-_**MUST** be fired when **[transferOwnership(...)](#transferownership)** function is successfully executed._
+_**DEBE** dispararse cuando la función **[transferOwnership(...)](#transferownership)** se ejecute correctamente._
 
-#### Values:
+#### Valores:
 
-| Name            | Type      | Description                         |
-| :-------------- | :-------- | :---------------------------------- |
-| `previousOwner` | `address` | The previous owner of the contract. |
-| `newOwner`      | `address` | The new owner of the contract.      |
+| Nombre          | Tipo      | Descripción                           |
+| :-------------- | :-------- | :------------------------------------ |
+| `previousOwner` | `address` | El propietario anterior del contrato. |
+| `newOwner`      | `address` | El nuevo propietario del contrato.    |
 
 ### Executed
 
@@ -275,16 +277,16 @@ event Executed(
 )
 ```
 
-_**MUST** be fired when **[`execute(...)`](#execute)** function creates a new call using the `CALL`, `STATICCALL`, or `DELEGATECALL` operation._
+_**DEBE** dispararse cuando la función **[`execute(...)`](#execute)** crea una nueva llamada utilizando la operación `CALL`, `STATICCALL`, o `DELEGATECALL`._
 
-#### Values:
+#### Valores:
 
-| Name            | Type      | Description                                                                        |
-| :-------------- | :-------- | :--------------------------------------------------------------------------------- |
-| `operationType` | `uint256` | Either **0** (for `CALL`), **3** (for `STATICCALL`) or **3** (for `DELEGATECALL`). |
-| `target`        | `address` | The smart contract or address that was called.                                     |
-| `value`         | `uint256` | The value transferred.                                                             |
-| `selector`      | `bytes4`  | The bytes4 selector of the function called on the `target` address.                |
+| Nombre          | Tipo      | Descripción                                                                            |
+| :-------------- | :-------- | :------------------------------------------------------------------------------------- |
+| `operationType` | `uint256` | Un **0** (para `CALL`), un **3** (para `STATICCALL`) o un **3** (para `DELEGATECALL`). |
+| `target`        | `address` | El contrato inteligente o la dirección a la que se ha llamado.                         |
+| `value`         | `uint256` | El valor que se transfiere.                                                            |
+| `selector`      | `bytes4`  | El selector bytes4 de la función llamada en la dirección `target`.                     |
 
 ### ContractCreated
 
@@ -297,16 +299,16 @@ event ContractCreated(
 )
 ```
 
-_**MUST** be fired when the **[`execute(...)`](#execute)** function creates a new contract using the `CREATE` or `CREATE2` operation._
+_**DEBE** dispararse cuando la función **[`execute(...)`](#execute)** crea un nuevo contrato utilizando la operación `CREATE` o `CREATE2`._
 
-#### Values:
+#### Valores:
 
-| Name            | Type      | Description                                                                               |
-| :-------------- | :-------- | :---------------------------------------------------------------------------------------- |
-| `operationType` | `uint256` | Either **1** (for `CREATE`) or **2** (for `CREATE2`).                                     |
-| `to`            | `address` | The address of the created contract.                                                      |
-| `value`         | `uint256` | The value sent to the contract.                                                           |
-| `salt`          | `bytes32` | The salt used in `CREATE2` operation. Will be `bytes32(0)` in case of `CREATE` operation. |
+| Nombre          | Tipo      | Descripción                                                                                        |
+| :-------------- | :-------- | :------------------------------------------------------------------------------------------------- |
+| `operationType` | `uint256` | Un **1** (para `CREATE`) o un **2** (para `CREATE2`).                                              |
+| `to`            | `address` | La dirección del contrato creado.                                                                  |
+| `value`         | `uint256` | El valor enviado al contrato.                                                                      |
+| `salt`          | `bytes32` | La sal utilizada en la operación `CREATE2`. Será `bytes32(0)` en el caso de la operación `CREATE`. |
 
 ### DataChanged
 
@@ -314,16 +316,16 @@ _**MUST** be fired when the **[`execute(...)`](#execute)** function creates a ne
 event DataChanged(bytes32 dataKey, bytes dataValue)
 ```
 
-_**MUST** be fired when the **[`setData(...)`](#setdata)** function is successfully executed._
+_**DEBE** dispararse cuando la función **[`setData(...)`](#setdata)** se ejecuta con éxito._
 
-#### Values:
+#### Valores:
 
-| Name        | Type      | Description                           |
-| :---------- | :-------- | :------------------------------------ |
-| `dataKey`   | `bytes32` | The data key which data value is set. |
-| `dataValue` | `bytes`   | The data value to set.                |
+| Nombre      | Tipo      | Descripción                                |
+| :---------- | :-------- | :----------------------------------------- |
+| `dataKey`   | `bytes32` | La clave de datos cuyo valor se establece. |
+| `dataValue` | `bytes`   | El valor de los datos a establecer.        |
 
-## References
+## Referencias
 
-- [ERC725 (Standard Specification, GitHub)](https://github.com/ERC725Alliance/ERC725/blob/develop/docs/ERC-725.md)
-- [Solidity implementations (GitHub)](https://github.com/ERC725Alliance/ERC725/tree/develop/implementations)
+- [ERC725 (Especificación estándar, GitHub)](https://github.com/ERC725Alliance/ERC725/blob/develop/docs/ERC-725.md)
+- [Implementaciones de Solidity (GitHub)](https://github.com/ERC725Alliance/ERC725/tree/develop/implementations)

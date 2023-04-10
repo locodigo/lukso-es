@@ -1,107 +1,107 @@
 ---
-sidebar_label: 'LSP7 - Digital Asset (Token)'
+sidebar_label: 'LSP7 - Activo Digital (Token)'
 sidebar_position: 3
 ---
 
-# LSP7 - Digital Asset
+# LSP7 - Activo Digital
 
-:::info Standard Document
+:::info Documento Estándard
 
-[LSP7 - Digital Asset](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-7-DigitalAsset.md)
+[LSP7 - Activo Digital](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-7-DigitalAsset.md)
 
 :::
 
-## Introduction
+## Introducción
 
-Fungible assets such as **[ERC20](https://eips.ethereum.org/EIPS/eip-20)**, **[ERC223](https://eips.ethereum.org/EIPS/eip-223)** or **[ERC777](https://eips.ethereum.org/EIPS/eip-777)** tokens have a lot of limitations in terms of metadata, secure transfers, and asset interaction. This causes problems for users seeking, **full control** over which assets they accept or not, and a **simple user experience** while creating, buying, and exchanging assets.
+Los activos fungibles como **[ERC20](https://eips.ethereum.org/EIPS/eip-20)**, **[ERC223](https://eips.ethereum.org/EIPS/eip-223)** o **[ERC777](https://eips.ethereum.org/EIPS/eip-777)** tienen muchas limitaciones en términos de metadatos, transferencias seguras e interacción de activos. Esto causa problemas a los usuarios que buscan, **control total** sobre qué activos aceptan o no, y una **experiencia de usuario sencilla** mientras crean, compran e intercambian activos.
 
-**[LSP7-DigitalAsset](#)** is the standard that aims to solve all problems mentioned above by:
+**[LSP7-ActivoDigital](#)** es el estándar que pretende resolver todos los problemas mencionados anteriormente mediante:
 
-- Allowing more secure transfers via **force boolean parameter**.
-- More asset metadata **via [LSP4-DigitalAssetMetadata](./LSP4-Digital-Asset-Metadata.md)**.
-- More interaction between the asset contract and the asset _sender/recipient_ **via token hooks**.
+- Permitir transferencias más seguras a través del **parámetro booleano de fuerza**.
+- Más metadatos de activos **mediante [LSP4-MetadatosActivoDigital](./LSP4-Digital-Asset-Metadata.md)**.
+- Más interacción entre el contrato de activos y el _emisor/receptor_ de activos **mediante ganchos de token**.
 
-![LSP7DigitalAsset features Introduction](/img/standards/lsp7/lsp7-intro.jpeg)
+![Características de LSP7DigitalAsset Introducción](/img/standards/lsp7/lsp7-intro.jpeg)
 
-## What does this Standard represent?
+## ¿Qué representa esta Norma?
 
-### Specification
+### Especificación
 
-**[LSP7-DigitalAsset](#)** is a standard that aims to describe fungible assets. The term _fungible_ means that these assets are **mutually interchangeable** (*e.g., *one token has the same value as another token).
+**[LSP7-ActivoDigital](#)** es un estándar que pretende describir activos fungibles. El término _fungible_ significa que estos activos son **mutuamente intercambiables** (*por ejemplo, *un token tiene el mismo valor que otro token).
 
-LSP7-DigitalAsset is an interface standard which describes a set of methods that fungible asset contracts should implement which other contracts and clients can call.
+LSP7-ActivoDigital es un estándar de interfaz que describe un conjunto de métodos que los contratos de activos fungibles deben implementar y que otros contratos y clientes pueden llamar.
 
-This standard was based on **[ERC20](https://eips.ethereum.org/EIPS/eip-20)** and **[ERC777](https://eips.ethereum.org/EIPS/eip-777)** with additional features mentioned below:
+Este estándar se basa en **[ERC20](https://eips.ethereum.org/EIPS/eip-20)** y **[ERC777](https://eips.ethereum.org/EIPS/eip-777)** con las características adicionales que se mencionan a continuación:
 
-### Divisible _vs_ Non-Divisible
+### Divisible _vs_ No Divisible
 
-When creating assets compliant with **LSP7-DigitalAsset** standard, it is possible to define the token as **divisible** or **non-divisible** in the constructor.
+Al crear activos conformes con el estándar **LSP7-DigitalAsset**, es posible definir el token como **divisible** o **no divisible** en el constructor.
 
-- **Divisible** asset can have decimals (up to 18) and token amounts can be fractional. For instance, it is possible to mint or transfer less than one token (_e.g., 0.3 tokens_).
-- **Non-divisible** asset means that a token cannot be divided into fractional parts. For instance, you cannot transfer **1/10th** of a token, or 0.3 tokens, but only a whole token unit.
+- Los activos **divisibles** pueden tener decimales (hasta 18) y los importes de los token pueden ser fraccionarios. Por ejemplo, es posible acuñar o transferir menos de una ficha (_e.g., 0.3 fichas_).
+- **Activo no divisible** significa que una ficha no puede dividirse en partes fraccionarias. Por ejemplo, no se puede transferir **1/10** de una ficha, o 0,3 fichas, sino sólo una unidad entera de fichas.
 
-**Tickets created as tokens** are a great example of a use case of **LSP7-DigitalAsset**. All tickets look the same, are **interchangeable** and have the same utility. Moreover, such tickets can be made as **non-divisible** as it is only possible to sell or give away a whole ticket.
+Los **billetes creados como tokens** son un buen ejemplo de un caso de uso de **LSP7-ActivoDigital**. Todos los billetes tienen el mismo aspecto, son **intercambiables** y tienen la misma utilidad. Además, estos billetes pueden hacerse **no divisibles**, ya que sólo es posible vender o regalar un billete entero.
 
 ![LSP7DigitalAsset Non Divisible Assets](/img/standards/lsp7/lsp7-non-divisible.jpeg)
 
-### Unlimited Metadata
+### Metadatos Ilimitados
 
-:::tip Recommendation
+:::tip Sugerencia
 
-To mark the **asset authenticity**, it's advised to use a combination between **[LSP4-DigitalAssetMetadata](./LSP4-Digital-Asset-Metadata.md)** and **[LSP12-IssuedAssets](../universal-profile/lsp12-issued-assets.md)**.
+Para marcar la **autenticidad de los activos**, se aconseja utilizar una combinación entre **[LSP4-MetadatosActivoDigital](./LSP4-Digital-Asset-Metadata.md)** y **[LSP12-ActivosEmitidos](../universal-profile/lsp12-issued-assets.md)**.
 
 :::
 
-The current token standards don't enable attaching metadata to the contract in a generic and flexible way, they set the **name**, **symbol**, and **tokenURI**. This is limiting for a digital asset that may want to list the creators, the community behind it, and to have the ability to update the metadata of the token and the tokenIds over time depending on a certain logic (Evolving tokens).
+Los estándares de token actuales no permiten adjuntar metadatos al contrato de forma genérica y flexible, establecen el **nombre**, el **símbolo** y el **tokenURI**. Esto es limitante para un activo digital que puede querer listar los creadores, la comunidad detrás de él, y tener la capacidad de actualizar los metadatos del token y los tokenIds con el tiempo dependiendo de una cierta lógica (Evolving tokens).
 
-To ensure a flexible and generic asset representation, the token contract should use the **[LSP4-DigitalAsset-Metadata](./LSP4-Digital-Asset-Metadata.md)**. In this way, any information could be attached to the token contract.
+Para garantizar una representación flexible y genérica de los activos, el contrato de tokens debería utilizar los **[LSP4-Metadados-ActivoDigital](./LSP4-Digital-Asset-Metadata.md)**. De este modo, podría adjuntarse cualquier información al contrato de token.
 
 ### Force Boolean
 
-It is expected in the LUKSO's ecosystem to use **[smart contract-based accounts](../universal-profile/lsp0-erc725account.md)** to operate on the blockchain, which includes receiving and sending tokens. EOAs can receive tokens, but they will be used mainly to control these accounts and not to hold them.
+Se espera que en el ecosistema de LUKSO se utilicen **[cuentas basadas en contratos inteligentes](../universal-profile/lsp0-erc725account.md)** para operar en la blockchain, lo que incluye la recepción y el envío de tokens. Las EOA pueden recibir tokens, pero se utilizarán principalmente para controlar estas cuentas y no para mantenerlos.
 
-To ensure a **safe asset transfer**, an additional boolean parameter was added to the [transfer](../smart-contracts/lsp7-digital-asset.md#transfer) and mint functions:
+Para garantizar una **transferencia de activos segura**, se ha añadido un parámetro booleano adicional a las funciones [transfer](../smart-contracts/lsp7-digital-asset.md#transfer) y mint:
 
-- If set to **False**, the transfer will only pass if the recipient is a smart contract that implements the **[LSP1-UniversalReceiver](../generic-standards/lsp1-universal-receiver.md)** standard.
+- Si se establece en **False**, la transferencia sólo pasará si el destinatario es un contrato inteligente que implemente el estándar **[LSP1-ReceptorUniversal](../generic-standards/lsp1-universal-receiver.md)**.
 
 ![Token Force Boolean False](/img/standards/lsp7/tokens-force-false.jpeg)
 
 :::note
 
-It's advised to set the **force** bool as **False** when transferring or minting tokens to avoid sending them to the wrong address.
+Se recomienda establecer la bool **force** como **False** al transferir o acuñar fichas para evitar enviarlas a una dirección incorrecta.
 
 :::
 
-- If set to **TRUE**, the transfer will not be dependent on the recipient, meaning **smart contracts** not implementing the **[LSP1-UniversalReceiver](../generic-standards/lsp1-universal-receiver.md)** standard and **EOAs** will be able to receive the tokens.
+- Si se establece en **TRUE**, la transferencia no dependerá del destinatario, lo que significa que los **contratos inteligentes** que no implementen el estándar **[LSP1-ReceptorUniversal](../generic-standards/lsp1-universal-receiver.md)** y los **EOAs** podrán recibir los tokens.
 
 ![Token Force Boolean True](/img/standards/lsp7/tokens-force-true.jpeg)
 
-Implementing the **[LSP1-UniversalReceiver](../generic-standards/lsp1-universal-receiver.md)** standard will give a sign that the contract knows how to handle the tokens received.
+Implementar el estándar **[LSP1-UniversalReceiver](../generic-standards/lsp1-universal-receiver.md)** dará una señal de que el contrato sabe cómo manejar los tokens recibidos.
 
-### Token Hooks
+### Ganchos de Tokens
 
 :::caution
 
-When LSP7 assets are transfered, the LSP7 contract will notify the token sender and recipient using [`_notifyTokenSender(...)`](../smart-contracts/lsp7-digital-asset.md#_notifytokensender) and [`_notifyTokenReceiver(...)`](../smart-contracts/lsp7-digital-asset.md#_notifytokenreceiver).
+Cuando se transfieren activos LSP7, el contrato LSP7 notificará al emisor y al receptor del token utilizando [`_notifyTokenSender(...)`](../smart-contracts/lsp7-digital-asset.md#_notifytokensender) y [`_notifyTokenReceiver(...)`](../smart-contracts/lsp7-digital-asset.md#_notifytokenreceiver).
 
-**These methods will make external calls** to the [`universalReceiver(...)`](../smart-contracts/lsp0-erc725-account.md#universalreceiver) functions of both the sender and recipient.
+**Estos métodos realizarán llamadas externas** a las funciones [`universalReceiver(...)`](../smart-contracts/lsp0-erc725-account.md#universalreceiver) tanto del remitente como del destinatario.
 
-This function could perform more complex logic, like delegating the call to the `LSP1UniversalReceiverDelegate` contract. This contract can contain custom logic for each user. For instance, a user could decide to re-transfer the tokens to another address once they are transferred to his UP.
+Esta función podría realizar una lógica más compleja, como delegar la llamada al contrato `LSP1ReceptorDelegadoUniversal`. Este contrato puede contener lógica personalizada para cada usuario. Por ejemplo, un usuario podría decidir volver a transferir los tokens a otra dirección una vez transferidos a su UP.
 
 :::
 
-The current token standards act as **registry contracts** that keep track of each address's balance. They do not implement functionalities to **notify the recipient** that it has received some tokens or to **notify the sender** that it has sent some tokens.
+Los estándares de tokens actuales actúan como **contratos de registro** que mantienen un seguimiento del saldo de cada dirección. No implementan funcionalidades para **notificar al receptor** que ha recibido unos tokens o para **notificar al emisor** que ha enviado unos tokens.
 
-During an **ERC20 token transfer**, the sender's balance is decreased, and the recipient's balance is increased without further interaction.
+Durante una **transferencia de fichas ERC20**, el saldo del remitente disminuye y el del destinatario aumenta sin más interacción.
 
 ![ERC20 Transfer](/img/standards/lsp7/erc20-transfer.jpeg)
 
-During an **LSP7 token transfer**, as well as updating the balances, both the sender and recipient are informed of the transfer by calling the **[`universalReceiever(...)`](../generic-standards/lsp1-universal-receiver.md#lsp1---universal-receiver)** function on their profiles.
+Durante una **transferencia de tokens LSP7**, además de actualizar los saldos, tanto el emisor como el receptor son informados de la transferencia llamando a la función **[`universalReceiver(...)`](../generic-standards/lsp1-universal-receiver.md#lsp1---universal-receiver)** en sus perfiles.
 
 ![LSP7DigitalAsset Transfer](/img/standards/lsp7/lsp7-transfer.jpeg)
 
-In this way, users are **informed** about the token transfers and can decide how to **react on the transfer**, either by accepting or rejecting the tokens, or implementing a custom logic to run on each transfer with the help of **[LSP1-UniversalReceiverDelegate](../generic-standards/lsp1-universal-receiver-delegate.md)**.
+De este modo, los usuarios están **informados** sobre las transferencias de tokens y pueden decidir cómo **reaccionar ante la transferencia**, ya sea aceptando o rechazando los tokens, o implementando una lógica personalizada para ejecutar en cada transferencia con la ayuda de **[LSP1-ReceptorDelegadoUniversal](../generic-standards/lsp1-universal-receiver-delegate.md)**.
 
-## References
+## Referencias
 
-- [LUKSO Standards Proposals: LSP7 - Digital Asset (Standard Specification, GitHub)](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-7-DigitalAsset.md)
+- [Propuestas de Estándares LUKSO: LSP7 - Activo Digital (Especificación estándar, GitHub)](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-7-DigitalAsset.md)

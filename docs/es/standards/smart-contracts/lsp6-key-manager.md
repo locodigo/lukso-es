@@ -1,26 +1,26 @@
 ---
-title: LSP6KeyManager
+title: LSP6GestordeClaves
 sidebar_position: 8
 ---
 
-# LSP6KeyManager
+# LSP6GestordeClaves
 
-:::info Solidity contract
+:::info Contrato Solidity
 
-[`LSP6KeyManager.sol`](https://github.com/lukso-network/lsp-smart-contracts/blob/main/contracts/LSP6KeyManager/LSP6KeyManager.sol)
+[`LSP6GestordeClaves.sol`](https://github.com/lukso-network/lsp-smart-contracts/blob/main/contracts/LSP6KeyManager/LSP6KeyManager.sol)
 
 :::
 
-The **LSP6KeyManager** is a contract that controls the **[LSP0ERC725Account](./lsp0-erc725-account.md)** contract. It comes with pre-defined permissions for addresses that could range from setting data, executing, changing owner, etc., as written in the [Permissions Section](../universal-profile/lsp6-key-manager.md#-types-of-permissions)\*\* of the [LSP6-KeyManager Standard](../universal-profile/lsp6-key-manager.md).
+El **LSP6GestordeClaves** es un contrato que controla el contrato **[LSP0CuentaERC725](./lsp0-erc725-account.md)**. Viene con permisos predefinidos para las direcciones que podrían ir desde establecer datos, ejecutar, cambiar de propietario, etc., tal y como está escrito en la [Sección de permisos](../universal-profile/lsp6-key-manager.md#-types-of-permissions)\* del [Estándar LSP6-GestordeClaves](../universal-profile/lsp6-key-manager.md).
 
 :::warning
 
-The current implementation of the Key Manager disallows the **[DELEGATECALL](../universal-profile/lsp6-key-manager.md#permissions-value)** operation on the `execute(...)` function of the linked ERC725Account, because of its potential malicious impact on the account contract.
+La implementación actual del gestor de claves no permite la operación **[DELEGATECALL](../universal-profile/lsp6-key-manager.md#permissions-value)** en la función `execute(...)` de la CuentaERC725 vinculada, debido a su potencial impacto malicioso en el contrato de la cuenta.
 
 :::
 
 :::note
-_LSP6KeyManager contract also contains the methods from the [ERC165 Standard](https://eips.ethereum.org/EIPS/eip-165):_
+_El contrato LSP6GestordeClaves también contiene los métodos del [Estándar ERC165].(https://eips.ethereum.org/EIPS/eip-165):_
 
 ```solidity
 function supportsInterface(bytes4 interfaceId) public view returns (bool)
@@ -28,7 +28,7 @@ function supportsInterface(bytes4 interfaceId) public view returns (bool)
 
 :::
 
-## Functions
+## Funciones
 
 ### constructor
 
@@ -36,13 +36,13 @@ function supportsInterface(bytes4 interfaceId) public view returns (bool)
 constructor(address target)
 ```
 
-Links the KeyManager to the address of an **ERC725** contract.
+Vincula el GestordeClaves a la dirección de un contrato **ERC725**.
 
-#### Parameters:
+#### Parámetros:
 
-| Name     | Type      | Description                                        |
-| :------- | :-------- | :------------------------------------------------- |
-| `target` | `address` | The address of the **ERC725** contract to control. |
+| Nombre   | Tipo      | Descripción                                       |
+| :------- | :-------- | :------------------------------------------------ |
+| `target` | `address` | La dirección del contrato **ERC725** a controlar. |
 
 ### target
 
@@ -50,19 +50,19 @@ Links the KeyManager to the address of an **ERC725** contract.
 function target() external view returns (address)
 ```
 
-Returns the address of the account linked to this KeyManager.
+Devuelve la dirección de la cuenta vinculada a este KeyManager.
 
-This can be a contract that implements:
+Puede ser un contrato que implemente
 
-- [ERC725X](https://github.com/ERC725Alliance/ERC725/blob/main/docs/ERC-725.md#erc725x) only.
-- [ERC725Y](https://github.com/ERC725Alliance/ERC725/blob/main/docs/ERC-725.md#erc725y) only.
-- any ERC725 based contract (implementing both ERC725X and ERC725Y), like a [ERC725Account](../smart-contracts/lsp0-erc725-account.md).
+- [ERC725X](https://github.com/ERC725Alliance/ERC725/blob/main/docs/ERC-725.md#erc725x) solamente.
+- Sólo [ERC725Y](https://github.com/ERC725Alliance/ERC725/blob/main/docs/ERC-725.md#erc725y).
+- cualquier contrato basado en ERC725 (que implemente tanto ERC725X como ERC725Y), como una [Cuenta ERC725](../smart-contracts/lsp0-erc725-account.md).
 
-#### Returns
+#### Devuelve
 
-| Name     | Type      | Description                       |
-| -------- | --------- | --------------------------------- |
-| `target` | `address` | the address of the linked account |
+| Nombre   | Tipo      | Descripción                         |
+| -------- | --------- | ----------------------------------- |
+| `target` | `address` | la dirección de la cuenta vinculada |
 
 ### execute
 
@@ -70,9 +70,9 @@ This can be a contract that implements:
 function execute(bytes memory payload) public payable returns (bytes memory result)
 ```
 
-Executes a payload on the linked **LSP0ERC725Account**.
+Igual que `execute(bytes)` pero ejecuta un lote de cargas útiles en la **LSP0CuentaERC725** vinculada.
 
-This payload must represent the abi-encoded function call of one of the functions on the linked **LSP0ERC725Account**:
+Las cargas útiles deben representar las llamadas a funciones codificadas abi de una de las funciones contractuales **LSP0CuentaERC725**:
 
 - **[`setData(bytes32,bytes)`](./lsp0-erc725-account.md#setdata)**.
 - **[`setData(bytes32[],bytes[])`](./lsp0-erc725-account.md#setdata-array)**.
@@ -80,19 +80,19 @@ This payload must represent the abi-encoded function call of one of the function
 - **[`transferOwnership(address)`](./lsp0-erc725-account.md#transferownership)**.
 - **[`acceptOwnership()`](./lsp0-erc725-account.md#acceptownership)**.
 
-_Triggers the **[Executed](#executed)** event when a call is successfully executed._
+_Cuando una llamada se ejecuta correctamente, se activa el evento **[Executed](#executed)**._
 
-#### Parameters:
+#### Parámetros:
 
-| Name      | Type    | Description                 |
-| :-------- | :------ | :-------------------------- |
-| `payload` | `bytes` | The payload to be executed. |
+| Nombre    | Tipo    | Descripción               |
+| :-------- | :------ | :------------------------ |
+| `payload` | `bytes` | La carga útil a ejecutar. |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name     | Type    | Description                                                                  |
-| :------- | :------ | :--------------------------------------------------------------------------- |
-| `result` | `bytes` | The returned data as ABI-encoded bytes if the call on the account succeeded. |
+| Nombre   | Tipo    | Descripción                                                                          |
+| :------- | :------ | :----------------------------------------------------------------------------------- |
+| `result` | `bytes` | Los datos devueltos como bytes codificados ABI si la llamada a la cuenta tuvo éxito. |
 
 ### execute (Array)
 
@@ -100,9 +100,9 @@ _Triggers the **[Executed](#executed)** event when a call is successfully execut
 function execute(uint256[] calldata values, bytes[] calldata payloads) public payable returns (bytes memory result)
 ```
 
-Same than `execute(bytes)` but executes a batch of payloads on the linked **LSP0ERC725Account**.
+Igual que `execute(bytes)` pero ejecuta un lote de cargas útiles en la **LSP0CuentaERC725** vinculada.
 
-The payloads must represent the abi-encoded function calls of one of the **LSP0ERC725Account** contract functions:
+Las cargas útiles deben representar las llamadas a funciones codificadas abi de una de las funciones contractuales **LSP0CuentaERC725**:
 
 - **[`setData(bytes32,bytes)`](./lsp0-erc725-account.md#setdata)**.
 - **[`setData(bytes32[],bytes[])`](./lsp0-erc725-account.md#setdata-array)**.
@@ -110,20 +110,20 @@ The payloads must represent the abi-encoded function calls of one of the **LSP0E
 - **[`transferOwnership(address)`](./lsp0-erc725-account.md#transferownership)**.
 - **[`acceptOwnership()`](./lsp0-erc725-account.md#acceptownership)**.
 
-_Triggers the **[Executed](#executed)** event when a call is successfully executed._
+_Activa el evento **[Executed](#executed)** cuando una llamada se ejecuta correctamente._
 
-#### Parameters:
+#### Parámetros:
 
-| Name       | Type        | Description                                        |
-| :--------- | :---------- | :------------------------------------------------- |
-| `values`   | `uint256[]` | The `msg.value` to be sent for a specific payload. |
-| `payloads` | `bytes[]`   | The payloads to be executed.                       |
+| Nombre     | Tipo        | Descripción                                                   |
+| :--------- | :---------- | :------------------------------------------------------------ |
+| `values`   | `uint256[]` | El `msg.value` que se enviará para una carga útil específica. |
+| `payloads` | `bytes[]`   | Las cargas útiles que deben ejecutarse.                       |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name      | Type      | Description                                                                      |
-| :-------- | :-------- | :------------------------------------------------------------------------------- |
-| `results` | `bytes[]` | The returned datas as ABI-encoded bytes[] if the calls on the account succeeded. |
+| Nombre    | Tipo      | Descripción                                                                                  |
+| :-------- | :-------- | :------------------------------------------------------------------------------------------- |
+| `results` | `bytes[]` | Los datos devueltos como bytes[] codificados ABI si las llamadas a la cuenta tuvieron éxito. |
 
 ### getNonce
 
@@ -134,24 +134,24 @@ function getNonce(
 ) public view returns (uint256 nonce)
 ```
 
-Returns the **nonce** that needs to be signed by an allowed key to be passed into the **[`executeRelayCall(...)`](#executerelaycall)** function. A signer can choose his channel number arbitrarily.
+Devuelve el **nonce** que necesita ser firmado por una clave permitida para ser pasado a la función **[`executeRelayCall(...)`](#executerelaycall)**. Un firmante puede elegir su número de canal arbitrariamente.
 
 :::note
-More info about **channel** can be found here: **[What are multi-channel nonces](../faq/channel-nonce.md)**\_
+Puede encontrar más información sobre **canales** aquí: **[Qué son los nonces multicanal](../faq/channel-nonce.md)**\_
 :::
 
-#### Parameters:
+#### Parámetros:
 
-| Name      | Type      | Description                                                              |
-| :-------- | :-------- | :----------------------------------------------------------------------- |
-| `signer`  | `address` | The address of the signer of the transaction.                            |
-| `channel` | `uint256` | The channel which the signer wants to use for executing the transaction. |
+| Nombre    | Tipo      | Descripción                                                           |
+| :-------- | :-------- | :-------------------------------------------------------------------- |
+| `signer`  | `address` | Dirección del firmante de la transacción.                             |
+| `channel` | `uint256` | El canal que el firmante desea utilizar para ejecutar la transacción. |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name    | Type      | Description        |
-| :------ | :-------- | :----------------- |
-| `nonce` | `uint256` | The current nonce. |
+| Nombre  | Tipo      | Descripción   |
+| :------ | :-------- | :------------ |
+| `nonce` | `uint256` | Nonce actual. |
 
 ### executeRelayCall
 
@@ -163,11 +163,11 @@ function executeRelayCall(
 ) public
 ```
 
-Allows anybody to execute a payload on the linked **LSP0ERC725Account**, if they have a signed message from an address with some permissions.
+Permite a cualquiera ejecutar una carga útil en la **LSP0CuentaERC725** vinculada, si dispone de un mensaje firmado de una dirección con ciertos permisos.
 
-To obtain a valid signature you must do the following:
+Para obtener una firma válida hay que hacer lo siguiente:
 
-1. Gather 4 things:
+1. Reunir 4 cosas:
 
 ```solidity
 bytes memory payload = abi.encodeWithSignature(
@@ -175,16 +175,16 @@ bytes memory payload = abi.encodeWithSignature(
     ...[<A comma-separated list of parameters that will be passed to the methods>]
 );
 
-// The chain id of the blockchain where the `payload` will be executed
-uint256 chainId = block.chainid; // or <The chain id of the blockchain where you will interact with the key manager>
+// El id de cadena de la blockchain donde se ejecutará el `payload`.
+uint256 chainId = block.chainid; // o <ID de la cadena del blockchain donde interactuará con el gestor de claves>.
 
-// The address of the key manager (the smart contract where the `payload` will be executed)
+// La dirección del gestor de claves (el contrato inteligente donde se ejecutará el `payload`)
 address keyManagerAddress = '0x...';
 
 uint256 nonce = ILSP6KeyManager(keyManagerAddress).getNonce(...);
 ```
 
-2. Once you have gathered these 4 informations, you must encode them using `abi.encodePacked(...)`:
+2. Una vez reunidas estas 4 informaciones, debes codificarlas utilizando `abi.encodePacked(...)`:
 
 ```solidity
 bytes memory encodedMessage = abi.encodePacked(
@@ -198,15 +198,15 @@ bytes memory encodedMessage = abi.encodePacked(
 );
 ```
 
-3. Then you must get the hash of the `encodedMessage`:
+3. A continuación, debes obtener el hash del `encodedMessage`:
 
 ```solidity
 bytes32 encodedMessageHash = keccak256(encodedMessage);
 ```
 
-4. After that you can sign the encodedMessageHash and voila, you have the signature ready.
+4. Después puedes firmar el encodedMessageHash y voilá, ya tienes la firma lista.
 
-5. To execute the `payload` you would have to do the following:
+5. Para ejecutar el `payload` tendrías que hacer lo siguiente:
 
 ```solidity
 ILSP6KeyManager(keyManagerAddress).executeRelayCall(
@@ -216,21 +216,21 @@ ILSP6KeyManager(keyManagerAddress).executeRelayCall(
 );
 ```
 
-_Triggers the **[Executed](#executed)** event when a call is successfully executed._
+_Cuando una llamada se ejecuta correctamente, se activa el evento **[Executed](#executed)**._
 
-#### Parameters:
+#### Parámetros:
 
-| Name        | Type      | Description                                       |
-| :---------- | :-------- | :------------------------------------------------ |
-| `signature` | `bytes`   | The bytes65 EIP191 signature.                     |
-| `nonce`     | `uint256` | The nonce of the address that signed the message. |
-| `_calldata` | `bytes`   | The payload to be executed.                       |
+| Nombre      | Tipo      | Descripción                                    |
+| :---------- | :-------- | :--------------------------------------------- |
+| `signature` | `bytes`   | La firma EIP191 de bytes65.                    |
+| `nonce`     | `uint256` | El nonce de la dirección que firmó el mensaje. |
+| `_calldata` | `bytes`   | La carga útil que se va a ejecutar.            |
 
-#### Return Value:
+#### Valor Devuelto:
 
-| Name     | Type    | Description                                                                                                                      |
-| :------- | :------ | :------------------------------------------------------------------------------------------------------------------------------- |
-| `result` | `bytes` | If the payload on the linked **LSP0ERC725Account** was `ERC725X.execute(...)`, the data returned by the external made by the UP. |
+| Nombre   | Tipo    | Descripción                                                                                                                               |
+| :------- | :------ | :---------------------------------------------------------------------------------------------------------------------------------------- |
+| `result` | `bytes` | Si la carga útil en el **LSP0CuentaERC725** vinculado era `ERC725X.execute(...)`, los datos devueltos por el externo realizado por la UP. |
 
 ### executeRelayCall (Array)
 
@@ -243,22 +243,22 @@ function executeRelayCall(
 ) public
 ```
 
-Same as [`executeRelayCall(bytes,uint256,bytes)`](#executerelaycall), but allows anybody to execute a **batch of payloads** on the linked **LSP0ERC725Account** on behalf of other addresses, as long as the addresses that signed the `payloads` have some permissions.
+Igual que [`executeRelayCall(bytes,uint256,bytes)`](#executerelaycall), pero permite a cualquiera ejecutar un **lote de cargas útiles** en la **LSP0CuentaERC725** vinculada en nombre de otras direcciones, siempre que las direcciones que firmaron las `cargas útiles` tengan algunos permisos.
 
-#### Parameters:
+#### Parámetros:
 
-| Name         | Type        | Description                                                   |
-| :----------- | :---------- | :------------------------------------------------------------ |
-| `signatures` | `bytes[]`   | An array of bytes65 EIP191 signatures.                        |
-| `nonces`     | `uint256[]` | An array of nonces of the addresses that signed the messages. |
-| `values`     | `uint256[]` | An array of values to be sent sent for each payload.          |
-| `payloads`   | `bytes[]`   | An array of payloads to be executed.                          |
+| Nombre       | Tipo        | Descripción                                                         |
+| :----------- | :---------- | :------------------------------------------------------------------ |
+| `signatures` | `bytes[]`   | Un conjunto de bytes65 firmas EIP191.                               |
+| `nonces`     | `uint256[]` | Un conjunto de nonces de las direcciones que firmaron los mensajes. |
+| `values`     | `uint256[]` | Un conjunto de valores que se enviarán para cada carga útil.        |
+| `payloads`   | `bytes[]`   | Un conjunto de cargas útiles a ejecutar.                            |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name      | Type      | Description                                                                                                                             |
-| :-------- | :-------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
-| `results` | `bytes[]` | For each payload on the linked **LSP0ERC725Account** that was `ERC725X.execute(...)`, the data returned by the external made by the UP. |
+| Nombre    | Tipo      | Descripción                                                                                                                                       |
+| :-------- | :-------- | :------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `results` | `bytes[]` | Para cada carga útil en el **LSP0CuentaERC725** vinculado que fue `ERC725X.execute(...)`, los datos devueltos por el externo realizado por la UP. |
 
 ### isValidSignature
 
@@ -269,20 +269,20 @@ function isValidSignature(
 ) public view returns (bytes4 magicValue)
 ```
 
-Checks if a signature was signed by an address having at least the **[SIGN](../universal-profile/lsp6-key-manager.md/#permission-values)** permission for this KeyManager, otherwise it will return the failure value.
+Comprueba si una firma fue suscrita por una dirección que tenga al menos el permiso **[SIGN](../universal-profile/lsp6-key-manager.md/#permission-values)** para este GestordeClaves; en caso contrario, devolverá el valor de error.
 
-#### Parameters:
+#### Parámetros:
 
-| Name        | Type      | Description                                           |
-| :---------- | :-------- | :---------------------------------------------------- |
-| `hash`      | `bytes32` | The hash of the data signed on the behalf of address. |
-| `signature` | `bytes`   | The Owner's signature(s) of the data.                 |
+| Nombre      | Tipo      | Descripción                                              |
+| :---------- | :-------- | :------------------------------------------------------- |
+| `hash`      | `bytes32` | El hash de los datos firmados en nombre de la dirección. |
+| `signature` | `bytes`   | La(s) firma(s) del propietario de los datos.             |
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name         | Type     | Description                                                            |
-| :----------- | :------- | :--------------------------------------------------------------------- |
-| `magicValue` | `bytes4` | The magicValue either `0x1626ba7e` on success or `0xffffffff` failure. |
+| Nombre       | Tipo     | Descripción                                                                            |
+| :----------- | :------- | :------------------------------------------------------------------------------------- |
+| `magicValue` | `bytes4` | El magicValue puede ser `0x1626ba7e` en caso de éxito o `0xffffffff` en caso de fallo. |
 
 ## Events
 
@@ -295,16 +295,16 @@ event Executed(
 )
 ```
 
-_**MUST** be fired when a transaction was successfully executed from the **[execute](#execute)** or **[executeRelayCall](#executerelaycall)** function._
+_**DEBE** dispararse cuando una transacción se ha ejecutado correctamente desde la función **[execute](#execute)** o **[executeRelayCall](#executerelaycall)**._
 
-#### Values:
+#### Valores:
 
-| Name       | Type      | Description                                                                       |
-| :--------- | :-------- | :-------------------------------------------------------------------------------- |
-| `value`    | `uint256` | The amount to be sent with the payload.                                           |
-| `selector` | `bytes4`  | The bytes4 selector of the function executed on the linked [`target()`](#target). |
+| Nombre     | Tipo      | Descripción                                                                    |
+| :--------- | :-------- | :----------------------------------------------------------------------------- |
+| `value`    | `uint256` | La cantidad que se enviará con la carga útil.                                  |
+| `selector` | `bytes4`  | El selector bytes4 de la función ejecutada en el enlace [`target()`](#target). |
 
-## References
+## Referencias
 
-- [LUKSO Standards Proposals: LSP6 - Key Manager (Standard Specification, GitHub)](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-6-KeyManager.md)
-- [LSP6 KeyManager: Solidity implementations (GitHub)](https://github.com/lukso-network/lsp-universalprofile-smart-contracts/tree/develop/contracts/LSP6KeyManager)
+- [Propuestas de Estándares LUKSO: LSP6 - Gestor de Claves (Especificación estándar, GitHub)](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-6-KeyManager.md)
+- [LSP6 GestordeClaves: implementaciones de Solidity (GitHub)](https://github.com/lukso-network/lsp-universalprofile-smart-contracts/tree/develop/contracts/LSP6KeyManager)

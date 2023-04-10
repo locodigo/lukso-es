@@ -1,71 +1,71 @@
 ---
-title: Multi-channel nonces
+title: Nonces multicanales
 sidebar_position: 1
 ---
 
-# Frequently Asked Questions
+# Preguntas más frecuentes
 
-## What are multi-channel nonces?
+## ¿Qué son los nonces multicanal?
 
 :::note
-Developers took this concept from [Out of order execution](https://github.com/amxx/permit#out-of-order-execution).
+Los desarrolladores tomaron este concepto de [Ejecución fuera de orden](https://github.com/amxx/permit#out-of-order-execution).
 :::
 
-Using nonces prevents old signed transactions from replaying again (replay attacks). A nonce is an arbitrary number that builders can use just once in a transaction.
+El uso de nonces evita que las transacciones firmadas antiguas vuelvan a reproducirse (ataques de repetición). Un nonce es un número arbitrario que los constructores pueden usar sólo una vez en una transacción.
 
-### Problem of Sequential Nonces.
+### Problema de los Nonces Secuenciales.
 
-With native transactions, nonces are strictly sequential. Sequentialness means that message nonces must be executed in order. For instance, for message number 4 to be performed, it must wait for message number 3 to complete.
+Con transacciones nativas, los nonces son estrictamente secuenciales. La secuencialidad significa que los nonces de los mensajes deben ejecutarse en orden. Por ejemplo, para que el mensaje número 4 se ejecute, debe esperar a que el mensaje número 3 se complete.
 
-However, **sequential nonces come with the following limitation**:
+Sin embargo, los **nonces secuenciales tienen la siguiente limitación**:
 
-Some users may want to sign multiple messages, allowing the transfer of different assets to different recipients. In that case, the recipient wants to be able to use or transfer their assets whenever they want and will certainly not want to wait on anyone before signing another transaction.
+Algunos usuarios pueden querer firmar múltiples mensajes, permitiendo la transferencia de diferentes activos a diferentes destinatarios. En ese caso, el destinatario querrá poder utilizar o transferir sus activos cuando quiera y seguramente no querrá esperar a nadie antes de firmar otra transacción.
 
-When facing this problem, **out-of-order execution** comes in handy.
+Ante este problema, resulta útil la **ejecución fuera de orden**.
 
-### Multi-Channel Nonces
+### Nonces multicanal
 
-Out-of-order execution is achieved by using multiple independent channels. Each channel's nonce behaves as expected, but different channels are independent. The subdivision means that messages 2, 3, and 4 of channel 0 must be executed sequentially, but message 3 of `channel 1` is separate and only depends on message 2 of `channel 1`.
+La ejecución fuera de orden se consigue utilizando varios canales independientes. El nonce de cada canal se comporta como se espera, pero los diferentes canales son independientes. La subdivisión significa que los mensajes 2, 3 y 4 del canal 0 deben ejecutarse secuencialmente, pero el mensaje 3 del `channel 1` es independiente y sólo depende del mensaje 2 del `channel 1`.
 
-The benefit is that the signer key can determine which channel to sign the nonces. Relay services will have to understand the channel the signer chooses and execute each channel's transactions in the correct order to prevent failing transactions.
+La ventaja es que la clave del firmante puede determinar en qué canal firmar los nonces. Los servicios de retransmisión tendrán que entender el canal que elige el firmante y ejecutar las transacciones de cada canal en el orden correcto para evitar transacciones fallidas.
 
-### Nonces in the Key Manager
+### Nonces en el Gestor de Claves
 
-The Key Manager allows out-of-order execution of messages by using nonces through multiple channels.
+El Gestor de Claves permite la ejecución fuera de orden de los mensajes mediante el uso de nonces a través de múltiples canales.
 
-Nonces are represented as `uint256` from the concatenation of two `uint128` : the `channelId` and the `nonceId`.
+Los nonces se representan como `uint256` a partir de la concatenación de dos `uint128`: el `channelId` y el `nonceId`.
 
-- left most 128 bits : `channelId`
-- right most 128 bits: `nonceId`
+- más 128 bits a la izquierda: `channelId`
+- más 128 bits a la derecha: `nonceId`
 
 ![multi-channel-nonce](/img/standards/faq/multi-channel-nonce.jpg)
 
 <p align="center">
-<i>Example of multi channel nonce, where channelId == 5 and nonceId == 1</i>
+<i>Ejemplo de nonce multicanal, donde channelId == 5 y nonceId == 1</i>
 </p>
 
-The current nonce can be queried using:
+El nonce actual puede ser consultado usando:
 
 ```solidity
 function getNonce(address _address, uint256 _channel) public view returns (uint256)
 ```
 
-Since the `channelId` represents the left-most 128 bits, a minimal value like `1` will return a huge `nonce` number: `2**128` equal to:
+Como el `channelId` representa los 128 bits más a la izquierda, un valor mínimo como `1` devolverá un número `nonce` enorme: `2**128` igual a:
 
 `340282366920938463463374607431768211456`.
 
-After the signed transaction is executed the `nonceId` will be incremented by `1`, this will increment the `nonce` by `1` because the nonceId represents the first 128 bits of the nonce, so that it will be
+Después de que se ejecute la transacción firmada el `nonceId` se incrementará en `1`, esto incrementará el `nonce` en `1` porque el nonceId representa los primeros 128 bits del nonce, por lo que será
 
 `340282366920938463463374607431768211457`.
 
-### Solidity Code Example
+### Ejemplo de código solidity
 
 ```solidity
 _nonces[signer][nonce >> 128]++
 ```
 
-The expression `nonce >> 128` represents the channel which the signer chose for executing the transaction. After looking up the nonce of the signer at that specific channel, it will be incremented by one using `++`.
+La expresión `nonce >> 128` representa el canal que el firmante eligió para ejecutar la transacción. Después de buscar el nonce del firmante en ese canal específico, se incrementará en uno utilizando `++`.
 
-For sequential messages, users could use channel `0`, and for out-of-order messages, they could use channel `n`.
+Para mensajes secuenciales, los usuarios pueden usar el canal `0`, y para mensajes fuera de orden, pueden usar el canal `n`.
 
-**Important:** It's up to the user to choose the channel that he wants to sign multiple sequential orders on, not necessary `channel 0`.
+**Importante:** Es decisión del usuario elegir el canal en el que quiere firmar múltiples órdenes secuenciales, no es necesario el `canal 0`.

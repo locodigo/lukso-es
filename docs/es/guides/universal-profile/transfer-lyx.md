@@ -114,7 +114,7 @@ Para poder enviar LYX desde nuestro Perfil Universal, primero solicitaremos algu
 1. Visita la página :arrow_right: **[Sitio web del grifo LUKSO L16](https://faucet.l16.lukso.network/)**.
 2. Haz un **[tweet](https://twitter.com)** con tu dirección UP y pega la url del tweet en el formulario y haz clic en el botón _"Give me LYX"_.
 
-[Captura de pantalla del grifo L16](./img/L16-faucet.png)
+![Captura de pantalla del grifo L16](./img/L16-faucet.png)
 
 3. Comprueba el saldo de tu Perfil Universal en el **[Explorador de Bloques LUKSO L16](https://explorer.execution.l16.lukso.network/)** :arrow_down:
 
@@ -122,7 +122,7 @@ Pega la dirección del Perfil Universal en el campo de dirección de la esquina 
 
 Si todo ha ido bien, deberías ver que el campo _"Balance"_ de tu Perfil Universal se ha actualizado.
 
-[Explorador de bloques de red LUKSO L16 (captura de pantalla)](./img/explorer-balance.png)
+![Explorador de bloques de red LUKSO L16 (captura de pantalla)](./img/explorer-balance.png)
 
 ## Paso 2 - Crear las instancias de los contratos
 

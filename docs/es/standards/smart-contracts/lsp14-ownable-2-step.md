@@ -1,9 +1,9 @@
 ---
-title: LSP14Ownable2Step
+title: LSP14Propiedad 2-Pasos
 sidebar_position: 12
 ---
 
-# LSP14Ownable2Step
+# LSP14Propiedad 2-Pasos
 
 :::info Solidity contract
 

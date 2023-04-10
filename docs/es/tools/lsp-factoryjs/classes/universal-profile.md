@@ -310,7 +310,7 @@ Deployment Complete
 lspFactory.UniversalProfile.uploadProfileData(profileData [, options]);
 ```
 
-Procesa y carga los [LSP3Profile Metadata](../../../standards/universal-profile/lsp3-universal-profile-metadata) a IPFS. La puerta de enlace IPFS puede establecerse dentro del objeto `options`.
+Procesa y carga los [LSP3Metadatos Perfil](../../../standards/universal-profile/lsp3-universal-profile-metadata) a IPFS. La puerta de enlace IPFS puede establecerse dentro del objeto `options`.
 
 Redimensionará y cargará las imágenes pasadas.
 

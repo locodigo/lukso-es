@@ -56,7 +56,7 @@ Para más detalles, consulta [LSP6 - Estándar de Gestor de Claves].(../../stand
 
 ### Visión general de los contratos
 
-[Perfil Universal: visión general de los contratos desplegados](./img/universal-profile-overview.jpeg)
+![Perfil Universal: visión general de los contratos desplegados](./img/universal-profile-overview.jpeg)
 
 La librería [lsp-factory.js](../../tools/lsp-factoryjs/getting-started.md) nos ayudará a desplegar y configurar rápidamente un Perfil Universal con unas pocas líneas de código.
 

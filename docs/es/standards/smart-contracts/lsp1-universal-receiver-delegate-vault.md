@@ -1,24 +1,24 @@
 ---
-title: LSP1UniversalReceiverDelegateVault
+title: LSP1ReceptorDelegadoUniversalBóveda
 sidebar_position: 6
 ---
 
-# LSP1UniversalReceiverDelegateVault
+# LSP1ReceptorDelegadoUniversalBóveda
 
-:::info Solidity contract
+:::info Contrato Solidity
 
-[`LSP1UniversalReceiverDelegateVault.sol`](https://github.com/lukso-network/lsp-smart-contracts/blob/main/contracts/LSP1UniversalReceiver/LSP1UniversalReceiverDelegateVault/LSP1UniversalReceiverDelegateVault.sol)
+[`LSP1ReceptorDelegadoUniversalBóveda.sol`](https://github.com/lukso-network/lsp-smart-contracts/blob/main/contracts/LSP1UniversalReceiver/LSP1UniversalReceiverDelegateVault/LSP1UniversalReceiverDelegateVault.sol)
 
 :::
 
-The **LSP1UniversalReceiverDelegateVault** is a contract called by the **[`universalReceiver(...)`](./lsp9-vault.md#universalreceiver)** function of the **[LSP9Vault](./lsp9-vault.md)** contract that:
+El **LSP1ReceptorDelegadoUniversalBóveda** es un contrato llamado por la función **[`universalReceiver(...)`](./lsp9-vault.md#universalreceiver)** del contrato **[LSP9Bóveda](./lsp9-vault.md)** que:
 
-- Writes the data keys representing assets received from type **[LSP7-DigitalAsset](./lsp7-digital-asset.md)** and **[LSP8-IdentifiableDigitalAsset](./lsp8-identifiable-digital-asset.md)** into the account storage, and removes them when the balance is zero according to the **[LSP5-ReceivedAssets Standard](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-5-ReceivedAssets.md)**.
+- Escribe las claves de datos que representan activos recibidos de tipo **[LSP7-ActivoDigital](./lsp7-activo-digital.md)** y **[LSP8-ActivoDigitalIdentificable](./lsp8-activo-digital-identificable.md)** en el almacenamiento de la cuenta, y las elimina cuando el saldo es cero de acuerdo con el **[Estándar LSP5-ActivosRecibidos](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-5-ReceivedAssets.md)**.
 
-The requirements stated in the **[LSP1UniversalReceiverDelegateUP](./lsp1-universal-receiver-delegate-up.md)** contract doesn't apply in this contract to execute the logic above correctly, as the address registred under the [LSP1UniversalReceiverDelegate](../generic-standards/lsp1-universal-receiver.md/#extension) data key has write access to the storage.
+Los requisitos establecidos en el contrato **[LSP1ReceptorDelegadoUniversalUP](./lsp1-universal-receiver-delegate-up.md)** no se aplican en este contrato para ejecutar la lógica anterior correctamente, ya que la dirección registrada en la clave de datos [LSP1ReceptorDelegadoUniversal](../generic-standards/lsp1-universal-receiver.md/#extension) tiene acceso de escritura al almacenamiento.
 
 :::note
-_LSP1UniversalReceiverDelegateVault contract also contains the methods from the [ERC165 Standard](https://eips.ethereum.org/EIPS/eip-165):_
+_El contrato LSP1ReceptorDelegadoUniversalBóveda también contiene los métodos del [Estándar ERC165](https://eips.ethereum.org/EIPS/eip-165):_
 
 ```solidity
 function supportsInterface(bytes4 interfaceId) public view returns (bool)
@@ -26,7 +26,7 @@ function supportsInterface(bytes4 interfaceId) public view returns (bool)
 
 :::
 
-## Functions
+## Funciones
 
 ### universalReceiverDelegate
 
@@ -37,31 +37,31 @@ function universalReceiver(
 ) public payable returns (bytes memory result)
 ```
 
-Writes the received **LSP7-DigitalAsset** or **LSP8-IdentifiableDigitalAsset** assets into the vault storage according to the **LSP5-ReceivedAssets** standard.
+Escribe los activos **LSP7-ActivoDigital** o **LSP8-ActivoDigitalIdentificable** recibidos en el almacenamiento de la cámara acorazada de acuerdo con el estándar **LSP5-ActivosRecibidos**.
 
 :::note
-The data key representing an **asset** is cleared when the asset is not owned by the vault anymore.
+La clave de datos que representa un **activo** se borra cuando el activo deja de pertenecer a la bóveda.
 :::
 
-#### Parameters:
+#### Parámetros:
 
-| Name     | Type      | Description                                                                  |
-| :------- | :-------- | :--------------------------------------------------------------------------- |
-| `typeId` | `bytes32` | The token hooks of the contract.                                             |
-| `data`   | `bytes`   | The data that is associated with the asset or vault transfer (concatenated). |
+| Nombre   | Tipo      | Descripción                                                                      |
+| :------- | :-------- | :------------------------------------------------------------------------------- |
+| `typeId` | `bytes32` | Los ganchos de token del contrato.                                               |
+| `data`   | `bytes`   | Los datos que se asocian a la transferencia de activos o bóvedas (concatenados). |
 
-> **Note:** if the function is called by LSP9's [`universalReceiver(...)`](./lsp9-vault.md#universalReceiver) function, it will receives the following **extra calldata**:
+> **Nota:** si la función es llamada por la función [`universalReceiver(...)`](./lsp9-vault.md#universalReceiver) de LSP9, recibirá los siguientes **datos de llamada adicionales**:
 >
-> - `bytes20 caller`: The token's or vault's smart contract address.
-> - `bytes32 value`: The amount of value sent to the universalReceiver function.
+> - `bytes20 caller`: La dirección del contrato inteligente del token o de la bóveda.
+> - `bytes32 value`: La cantidad de valor enviada a la función universalReceiver.
 
-#### Return Values:
+#### Valores Devueltos:
 
-| Name     | Type  | Description |
-| :------- | :---- | :---------- |
-| `result` | bytes | Empty bytes |
+| Nombre   | Tipo  | Descripción  |
+| :------- | :---- | :----------- |
+| `result` | bytes | Bytes vacíos |
 
-## References
+## Referencias
 
-- [LUKSO Standards Proposals: LSP1 - Universal Receiver (Standard Specification, GitHub)](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-1-UniversalReceiver.md)
-- [LSP1 Universal Receiver: Solidity implementations (GitHub)](https://github.com/lukso-network/lsp-universalprofile-smart-contracts/tree/develop/contracts/LSP1UniversalReceiver)
+- [Propuestas de Estándares LUKSO: LSP1 - Receptor Universal (Especificación estándar, GitHub)](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-1-UniversalReceiver.md)
+- [LSP1 Receptor Universal: implementaciones de Solidity (GitHub)](https://github.com/lukso-network/lsp-universalprofile-smart-contracts/tree/develop/contracts/LSP1UniversalReceiver)

@@ -1,127 +1,127 @@
 ---
-sidebar_label: 'LSP8 - Identifiable Digital Asset (NFT)'
+sidebar_label: 'LSP8 - Activo Digital Identificable (NFT)'
 sidebar_position: 4
 ---
 
-# LSP8 - Identifiable Digital Asset
+# LSP8 - Activo Digital Identificable
 
-:::info Standard Document
+:::info Documento Estándard
 
-[LSP8 - Identifiable Digital Asset](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-8-IdentifiableDigitalAsset.md)
+[LSP8 - Activo Digital Identificable](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-8-IdentifiableDigitalAsset.md)
 
 :::
 
-## Introduction
+## Introducción
 
-Non-Fungible assets such as **[ERC721](https://eips.ethereum.org/EIPS/eip-721)** and **[ERC1155](https://eips.ethereum.org/EIPS/eip-1155)** tokens have a lot of limitations in terms of metadata, secure transfers, asset representation, and asset interaction. This causes problems for users seeking, **full control** over which assets they accept or not, **more complex NFT functionality**, and a **simple user experience** while creating, buying, and exchanging assets.
+Los activos no fungibles como **[ERC721](https://eips.ethereum.org/EIPS/eip-721)** y **[ERC1155](https://eips.ethereum.org/EIPS/eip-1155)** tienen muchas limitaciones en términos de metadatos, transferencias seguras, representación de activos e interacción de activos. Esto causa problemas a los usuarios que buscan, **control total** sobre qué activos aceptan o no, **funcionalidad NFT más compleja**, y una **experiencia de usuario sencilla** mientras crean, compran e intercambian activos.
 
-**[LSP8-IdentifiableDigitalAsset](#)** is the standard that aims to solve all problems mentioned above by:
+**[LSP8-ActivoDigitalIdentificable](#)** es el estándar que pretende resolver todos los problemas mencionados anteriormente mediante:
 
-- Allowing more secure transfers via **force boolean parameter**.
-- More asset metadata **via [LSP4-DigitalAssetMetadata](./LSP4-Digital-Asset-Metadata.md)**.
-- More asset representation **via bytes32 tokenIds**.
-- More interaction between the asset contract and the asset _sender/recipient_ **via token hooks**.
+- Permitiendo transferencias más seguras mediante **parámetro booleano de fuerza**.
+- Más metadatos de activos **mediante [LSP4-Metadados-ActivoDigital](./LSP4-Digital-Asset-Metadata.md)**.
+- Más representación de activos **a través de bytes32 tokenIds**.
+- Más interacción entre el contrato de activos y el _emisor/receptor_ de activos **mediante ganchos de token**.
 
 ![LSP8IdentifiableDigitalAsset features Introduction](/img/standards/lsp8/lsp8-intro.jpeg)
 
-## What does this Standard represent?
+## ¿Qué representa esta Norma?
 
-### Specification
+### Especificación
 
-**[LSP8-IdentifiableDigitalAsset](#)** is a standard that aims to describe _non-fungible_ assets. The term _Non-fungible_ means that each asset is **unique and different**. They are distinguishable from each other and therefore **not interchangeable**.
+**[LSP8-ActivoDigitalIdentificable](#)** es un estándar cuyo objetivo es describir activos _no fungibles_. El término _no fungible_ significa que cada activo es **único y diferente**. Se distinguen unos de otros y, por tanto, no son intercambiables.
 
-This standard was based on **[ERC721](https://eips.ethereum.org/EIPS/eip-20)** and **[ERC1155](https://eips.ethereum.org/EIPS/eip-777)** with additional features mentioned below:
+Este estándar se basa en **[ERC721](https://eips.ethereum.org/EIPS/eip-20)** y **[ERC1155](https://eips.ethereum.org/EIPS/eip-777)** con las características adicionales que se mencionan a continuación:
 
 ### Bytes32 TokenId
 
-The current NFT standards such as **[ERC721](https://eips.ethereum.org/EIPS/eip-721)** and **[ERC1155](https://eips.ethereum.org/EIPS/eip-1155)** **lack asset representation** as they define the tokenIds **as Numbers** `(uint256)`. Each token from the NFT collection will be defined and queried based on this tokenId, which is normally incremental.
+Los estándares NFT actuales como **[ERC721](https://eips.ethereum.org/EIPS/eip-721)** y **[ERC1155](https://eips.ethereum.org/EIPS/eip-1155)** ** carecen de representación de activos** ya que definen los tokenIds **como Números** `(uint256)`. Cada token de la colección NFT se definirá y consultará en función de este tokenId, que normalmente es incremental.
 
 ![ERC721 TokenIds Representation](/img/standards/lsp8/erc721-tokenIds.jpeg)
 
-**[LSP8-IdentifiableDigitalAsset](#)** define the tokenIds as **bytes32**. The choice of **bytes32 tokenIds** allows a wide variety of applications including numbers, contract addresses, and hashed values (ie. serial numbers).
+**[LSP8-ActivoDigitalIdentificable](#)** define los tokenIds como **bytes32**. La elección de **bytes32 tokenIds** permite una amplia variedad de aplicaciones, incluidos números, direcciones de contratos y valores hash (es decir, números de serie).
 
-The **bytes32 tokenId** can be interpreted as a:
+El **bytes32 tokenId** puede interpretarse como un:
 
-- <u><b>Number:</b></u>
+- <u><b>Número:</b></u>
 
 ![LSP8 Number TokenIds Representation](/img/standards/lsp8/lsp8-tokenId-number.jpeg)
 
-- <u><b>Hashed Value:</b></u>:
+- <u><b>Valor Hasheado:</b></u>:
 
 ![LSP8 Hashed Value TokenIds Representation](/img/standards/lsp8/lsp8-tokenId-hashed.jpeg)
 
-- <u><b>Contract Address:</b></u>
+- <u><b>Dirección de Contrato:</b></u>
 
 ![LSP8 Address TokenIds Representation](/img/standards/lsp8/lsp8-tokenId-address.jpeg)
 
-TokenIds represented as **smart contract address** allow the creation of more **complex NFTs**. When each tokenId is a contract that have its own **[ERC725Y](../lsp-background//erc725.md#erc725y---generic-data-keyvalue-store)** storage. For instance in a video game, by changing the features and metadata of the tokenId based on the **game rules**.
+Los TokenIds representados como **dirección de contrato inteligente** permiten la creación de NFT más **complejas**. Cuando cada tokenId es un contrato que tiene su propio **[ERC725Y](../lsp-background//erc725.md#erc725y---generic-data-keyvalue-store)** almacenamiento. Por ejemplo, en un videojuego, cambiando las características y metadatos del tokenId en función de las **reglas del juego**.
 
 ![LSP8 Game Nested NFTs TokenIds Representation](/img/standards/lsp8/lsp8-game.jpeg)
 
-### Unlimited Metadata
+### Metadatos ilimitados
 
 :::tip Recommendation
 
-To mark the **asset authenticity**, it's advised to use a combination between **[LSP4-DigitalAssetMetadata](./LSP4-Digital-Asset-Metadata.md)** and **[LSP12-IssuedAssets](../universal-profile/lsp12-issued-assets.md)**.
+Para marcar la **autenticidad de los activos**, se aconseja utilizar una combinación entre **[LSP4-Metadatos-ActivoDigital](./LSP4-Digital-Asset-Metadata.md)** y **[LSP12-ActivosEmitidos](../universal-profile/lsp12-issued-assets.md)**.
 
 :::
 
-The current token standards don't enable attaching metadata to the contract in a generic and flexible way, they set the **name**, **symbol**, and **tokenURI**. This is limiting for a digital asset that may want to list the creators, the community behind it, and to have the ability to update the metadata of the token and the tokenIds over time depending on a certain logic (Evolving tokens).
+Los estándares de token actuales no permiten adjuntar metadatos al contrato de forma genérica y flexible, establecen el **nombre**, el **símbolo** y el **tokenURI**. Esto es limitante para un activo digital que puede querer listar los creadores, la comunidad detrás de él, y tener la capacidad de actualizar los metadatos del token y los tokenIds con el tiempo dependiendo de una cierta lógica (Evolving tokens).
 
-To ensure a flexible and generic asset representation, the token contract should use the **[LSP4-DigitalAsset-Metadata](./LSP4-Digital-Asset-Metadata.md)**. In this way, any information could be attached to the token contract.
+Para garantizar una representación flexible y genérica de los activos, el contrato de tokens debería utilizar los **[LSP4-Metadatos-ActivoDigital](./LSP4-Digital-Asset-Metadata.md)**. De este modo, podrá adjuntarse cualquier información al contrato de tokens.
 
-:::note Notice
+:::note Aviso
 
-The Metadata defined by the **ERC725Y Data Keys** can be set for **each tokenId**, not just for the whole NFT collection. Check **[LSP8 ERC725Y Data Keys](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-8-IdentifiableDigitalAsset.md#erc725y-data-keys)** in the LSP8 Standard Document.
+Los metadatos definidos por las **Claves de Datos ERC725Y** pueden establecerse para **cada tokenId**, no sólo para toda la colección NFT. Consulte **[LSP8 Claves de Datos ERC725Y](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-8-IdentifiableDigitalAsset.md#erc725y-data-keys)** en el Documento del Estándar LSP8.
 
 :::
 
 ### Force Boolean
 
-It is expected in the LUKSO's ecosystem to use **smart contract based accounts** to operate on the blockchain, which includes receiving and sending tokens. EOAs can receive tokens but they will be mainly used to control these accounts and not to hold tokens.
+En el ecosistema de LUKSO se espera utilizar **cuentas basadas en contratos inteligentes** para operar en la blockchain, lo que incluye recibir y enviar tokens. Las EOA pueden recibir tokens, pero se utilizarán principalmente para controlar estas cuentas y no para mantener tokens.
 
-To ensure a **safe asset transfer**, an additional boolean parameter was added to the [transfer](../smart-contracts//lsp8-identifiable-digital-asset.md#transfer) and mint functions:
+Para garantizar una **transferencia de activos segura**, se ha añadido un parámetro booleano adicional a las funciones [transfer](../smart-contracts//lsp8-identifiable-digital-asset.md#transfer) y mint:
 
-- If set to **False**, the transfer will only pass if the recipient is a smart contract that implements the **[LSP1-UniversalReceiver](../generic-standards/lsp1-universal-receiver.md)** standard.
+- Si se establece en **False**, la transferencia sólo pasará si el destinatario es un contrato inteligente que implemente el estándar **[LSP1-ReceptorUniversal](../generic-standards/lsp1-universal-receiver.md)**.
 
 ![Token Force Boolean False](/img/standards/lsp7/tokens-force-false.jpeg)
 
 :::note
 
-It's advised to set the **force** bool as **False** when transferring or minting tokens to avoid sending them to the wrong address.
+Se recomienda establecer la bool **force** como **False** al transferir o acuñar tokens para evitar enviarlos a una dirección incorrecta.
 
 :::
 
-- If set to **True**, the transfer will not be dependent on the recipient, meaning **smart contracts** not implementing the **[LSP1-UniversalReceiver](../generic-standards/lsp1-universal-receiver.md)** standard and **EOAs** will be able to receive the tokens.
+- Si se establece en **True**, la transferencia no dependerá del destinatario, lo que significa que los **contratos inteligentes** que no implementen el estándar **[LSP1-ReceptorUniversal](../generic-standards/lsp1-universal-receiver.md)** y los **EOAs** podrán recibir los tokens.
 
 ![Token Force Boolean True](/img/standards/lsp7/tokens-force-true.jpeg)
 
-Implementing the **[LSP1-UniversalReceiver](../generic-standards/lsp1-universal-receiver.md)** standard will give a sign that the contract knows how to handle the tokens received.
+Implementar el estándar **[LSP1-ReceptorUniversal](../generic-standards/lsp1-universal-receiver.md)** dará una señal de que el contrato sabe cómo manejar los tokens recibidos.
 
-### Token Hooks
+### Ganchos de Tokens
 
 :::caution
 
-When LSP8 assets are transfered, the LSP8 contract will notify the token sender and recipient using [`_notifyTokenSender(...)`](../smart-contracts/lsp8-identifiable-digital-asset.md#_notifytokensender) and [`_notifyTokenReceiver(...)`](../smart-contracts/lsp8-identifiable-digital-asset.md#_notifytokenreceiver).
+Cuando se transfieren activos LSP8, el contrato LSP8 notificará al emisor y al receptor del token utilizando [`_notifyTokenSender(...)`](../smart-contracts/lsp8-identifiable-digital-asset.md#_notifytokensender) y [`_notifyTokenReceiver(...)`](../smart-contracts/lsp8-identifiable-digital-asset.md#_notifytokenreceiver).
 
-**These methods will make external calls** to the [`universalReceiver(...)`](../smart-contracts/lsp0-erc725-account.md#universalreceiver) functions of both the sender and recipient.
+**Estos métodos realizarán llamadas externas** a las funciones [`universalReceiver(...)`](../smart-contracts/lsp0-erc725-account.md#universalreceiver) tanto del remitente como del destinatario.
 
-This function could perform more complex logic, like delegating the call to the `LSP1UniversalReceiverDelegate` contract. This contract can contain custom logic for each user. For instance, a user could decide to re-transfer the tokens to another address once they are transferred to his UP.
+Esta función podría realizar una lógica más compleja, como delegar la llamada al contrato `LSP1ReceptorDelegadoUniversal`. Este contrato puede contener lógica personalizada para cada usuario. Por ejemplo, un usuario podría decidir volver a transferir los tokens a otra dirección una vez transferidos a su UP.
 
 :::
 
-The current NFTs standards act as **registry contracts** that keep track of the ownership of each tokenId. They do not implement functionalities to **notify the recipient** that it has received some tokens or to **notify the sender** that it has sent some tokens.
+Los estándares NFT actuales actúan como **contratos de registro** que mantienen un registro de la propiedad de cada tokenId. No implementan funcionalidades para **notificar al receptor** que ha recibido unos tokens o para **notificar al emisor** que ha enviado unos tokens.
 
-During an **ERC721 token transfer**, the ownership of the tokenId is changed from the sender address to the recipient address without further interaction.
+Durante una **transferencia de tokens ERC721**, la propiedad del tokenId pasa de la dirección del remitente a la del destinatario sin más interacción.
 
 ![ERC721 Transfer](/img/standards/lsp8/erc721-transfer.jpeg)
 
-During an **LSP8 token transfer**, as well as updating the tokenId owenrship, both the sender and recipient are informed of the transfer by calling the **[`universalReceiever(...)`](../generic-standards/lsp1-universal-receiver.md#lsp1---universal-receiver)** function on their profiles.
+Durante una **transferencia de token LSP8**, además de actualizar la propiedad del tokenId, tanto el remitente como el destinatario son informados de la transferencia llamando a la función **[`universalReceiver(...)`](../generic-standards/lsp1-universal-receiver.md#lsp1---universal-receiver)** en sus perfiles.
 
 ![LSP8 Transfer](/img/standards/lsp8/lsp8-transfer.jpeg)
 
-In this way, users are **informed** about the NFT transfers and can decide how to **react on the transfer**, either by accepting or rejecting the tokens, or implementing a custom logic to run on each transfer with the help of **[LSP1-UniversalReceiverDelegate](../generic-standards/lsp1-universal-receiver-delegate.md)**.
+De este modo, los usuarios están **informados** sobre las transferencias NFT y pueden decidir cómo **reaccionar ante la transferencia**, ya sea aceptando o rechazando los tokens, o implementando una lógica personalizada para ejecutar en cada transferencia con la ayuda de **[LSP1-ReceptorDelegadoUniversal](../generic-standards/lsp1-universal-receiver-delegate.md)**.
 
-## References
+## Referencias
 
-- [LUKSO Standards Proposals: LSP8 - Identifiable Digital Asset (Standard Specification, GitHub)](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-8-IdentifiableDigitalAsset.md)
+- [Propuestas de Estándares LUKSO: LSP8 - Activo Digital Identificable (Especificación estándar, GitHub)](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-8-IdentifiableDigitalAsset.md)

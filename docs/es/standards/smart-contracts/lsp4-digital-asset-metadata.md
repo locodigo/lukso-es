@@ -1,22 +1,22 @@
 ---
-title: LSP4DigitalAssetMetadata
+title: LSP4MetadatosActivoDigital
 sidebar_position: 7
 ---
 
-# LSP4DigitalAssetMetadata
+# LSP4MetadatosActivoDigital
 
-:::info Solidity contract
+:::info Contrato Solidity
 
-[`LSP4DigitalAssetMetadata.sol`](https://github.com/lukso-network/lsp-smart-contracts/blob/main/contracts/LSP4DigitalAssetMetadata/LSP4DigitalAssetMetadata.sol)
+[`LSP4MetadatosActivoDigital.sol`](https://github.com/lukso-network/lsp-smart-contracts/blob/main/contracts/LSP4DigitalAssetMetadata/LSP4DigitalAssetMetadata.sol)
 
 :::
 
-The **LSP4DigitalAssetMetadata** is a contract that sets the **Token-Metadata** (name and symbol) for the **[LSP7DigitalAsset](./lsp7-digital-asset.md)** and **[LSP8IdentifiableDigitalAsset](./lsp8-identifiable-digital-asset.md)** token contracts.
+El **LSP4MetadatosActivoDigital** es un contrato que establece los **Token-Metadata** (nombre y símbolo) para los contratos de token **[LSP7ActivoDigital](./lsp7-activo-digital.md)** y **[LSP8ActivoDigitalIdentificable](./lsp8-activo-digital-identificable.md)**.
 
-As this contract uses **[ERC725Y General Data Key/Value Store](https://eips.ethereum.org/EIPS/eip-725)** to set the metadata, any information could be added, such as the **list of creators, JSON files**, etc.
+Como este contrato utiliza **[ERC725Y Almacén General de Claves/Valores de Datos](https://eips.ethereum.org/EIPS/eip-725)** para establecer los metadatos, podría añadirse cualquier información, como la **lista de creadores, archivos JSON**, etc.
 
 :::note
-_The LSP4DigitalAssetMetadata contract contains the methods from the [ERC725Y Standard](https://github.com/ERC725Alliance/ERC725/blob/main/docs/ERC-725.md#erc725y):_
+_El contrato LSP4MetadatosActivoDigitalcontiene los métodos del [Estándar ERC725Y](https://github.com/ERC725Alliance/ERC725/blob/main/docs/ERC-725.md#erc725y):_
 
 ```solidity
 function setData(bytes32 key, bytes memory value) public;
@@ -31,7 +31,7 @@ function getData(bytes32[] memory keys) public view returns (bytes[] memory);
 
 :::
 
-## Functions
+## Funciones
 
 ### constructor
 
@@ -43,21 +43,21 @@ constructor(
 ) ERC725Y(newOwner_)
 ```
 
-Sets the **initial owner** of the contract and the following data keys on the **[ERC725Y Data Key-Value Store](./lsp0-erc725-account#setdata)**:
+Establece el **propietario inicial** del contrato y las siguientes claves de datos en el **[ERC725Y Almacén de Datos Clave-Valor](./lsp0-erc725-account#setdata)**:
 
-- `name_`: token's name.
-- `symbol_`: token's symbol.
-- [**SupportedStandards:LSP4DigitalAsset**](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-4-DigitalAsset-Metadata.md#supportedstandardslsp4digitalasset) data key.
+- `name_`: nombre del token.
+- `symbol_`: símbolo del token.
+- Clave de datos [**Estándaresadmitidos: LSP4ActivoDigital **](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-4-DigitalAsset-Metadata.md#supportedstandardslsp4digitalasset).
 
-#### Parameters:
+#### Parámetros:
 
-| Name        | Type      | Description                |
-| :---------- | :-------- | :------------------------- |
-| `name_`     | `string`  | The name of the token.     |
-| `symbol_`   | `string`  | The symbol of the token.   |
-| `newOwner_` | `address` | The owner of the contract. |
+| Nombre      | Tipo      | Descripción                  |
+| :---------- | :-------- | :--------------------------- |
+| `name_`     | `string`  | El nombre del token.         |
+| `symbol_`   | `string`  | El símbolo del token.        |
+| `newOwner_` | `address` | El propietario del contrato. |
 
-## Events
+## Eventos
 
 ### DataChanged
 
@@ -65,20 +65,20 @@ Sets the **initial owner** of the contract and the following data keys on the **
 event DataChanged(bytes32 dataKey, bytes dataValue)
 ```
 
-_**MUST** be fired when the **[`setData(...)`](#setdata)** function is successfully executed._
+_**DEBE** dispararse cuando la función **[`setData(...)`](#setdata)** se ejecuta correctamente._
 
 #### Values:
 
-| Name        | Type      | Description                           |
-| :---------- | :-------- | :------------------------------------ |
-| `dataKey`   | `bytes32` | The data key which data value is set. |
-| `dataValue` | `bytes`   | The data value to set.                |
+| Nombre      | Tipo      | Descripción                                |
+| :---------- | :-------- | :----------------------------------------- |
+| `dataKey`   | `bytes32` | La clave de datos cuyo valor se establece. |
+| `dataValue` | `bytes`   | El valor de los datos a establecer.        |
 
 :::info
-The `DataChanged` event will emit only the first 256 bytes of `dataValue` (for large values set in the ERC725Y storage).
+El evento `DataChanged` emitirá sólo los primeros 256 bytes de `dataValue` (para valores grandes establecidos en el almacenamiento ERC725Y).
 :::
 
-## References
+## Referencias
 
-- [LUKSO Standards Proposals: LSP4 - DigitalAsset-Metadata (Standard Specification, GitHub)](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-4-DigitalAsset-Metadata.md)
-- [LSP4 - DigitalAsset-Metadata: Solidity implementations (GitHub)](https://github.com/lukso-network/lsp-universalprofile-smart-contracts/blob/develop/contracts/LSP4DigitalAssetMetadata)
+- [Propuestas de Estándares LUKSO: LSP4 - Metadatos-ActivoDigital (Especificación estándar, GitHub)](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-4-DigitalAsset-Metadata.md)
+- [LSP4 - Metadatos-ActivoDigital: Solidity implementations (GitHub)](https://github.com/lukso-network/lsp-universalprofile-smart-contracts/blob/develop/contracts/LSP4DigitalAssetMetadata)

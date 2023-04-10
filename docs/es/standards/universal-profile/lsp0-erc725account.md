@@ -1,253 +1,253 @@
 ---
-sidebar_label: 'LSP0 - ERC725 Account'
+sidebar_label: 'LSP0 - Cuenta ERC725'
 sidebar_position: 2
 ---
 
-# LSP0 - ERC725 Account
+# LSP0 - Cuenta ERC725
 
-:::info Standard Document
+:::info Documento estándard
 
-[LSP0 - ERC725Account](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-0-ERC725Account.md)
+[LSP0 - CuentaERC725](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-0-ERC725Account.md)
 
 :::
 
-## Introduction
+## Introducción
 
-[Externally Owned Accounts (EOAs)](https://ethereum.org/en/developers/docs/accounts/#externally-owned-accounts-and-key-pairs) are the primary type of **account** in Ethereum, controlled by a private key. If the private key is **compromised**, anyone can execute transactions from the account and access any assets it holds. EOAs have no built-in mechanism for attaching any information or data, making identifying the person or entity using the account challenging. They can only perform simple interactions using the **[CALL](https://www.evm.codes/#f1)** opcode and create contracts using the **[CREATE](https://www.evm.codes/#f0)** opcode.
+Las [Cuentas de Propiedad Externa ("EOAs por sus siglas en inglés")](https://ethereum.org/en/developers/docs/accounts/#externally-owned-accounts-and-key-pairs) son el tipo principal de **cuenta** en Ethereum, controlada por una clave privada. Si la clave privada se ve **comprometida**, cualquiera puede ejecutar transacciones desde la cuenta y acceder a cualquier activo que posea. Las EOA no incorporan ningún mecanismo para adjuntar información o datos, lo que dificulta la identificación de la persona o entidad que utiliza la cuenta. Sólo pueden realizar interacciones simples utilizando el opcode **[CALL](https://www.evm.codes/#f1)** y crear contratos utilizando el opcode **[CREATE](https://www.evm.codes/#f0)**.
 
-These issues can be addressed by the **[ERC725](../lsp-background/erc725.md)** standard, which provides more operations to execute and a flexible way to attach data for the contract even after it has been deployed.
+Estos problemas pueden solucionarse con el estándar **[ERC725](../lsp-background/erc725.md)**, que proporciona más operaciones para ejecutar y una forma flexible de adjuntar datos para el contrato incluso después de que se haya desplegado.
 
-However, for a smart contract-based account to be viable in the long term, it should have much more functionalities than the ability to execute and to attach data. The features that makes a smart contract an account are:
+Sin embargo, para que una cuenta basada en un contrato inteligente sea viable a largo plazo, debe tener muchas más funcionalidades que la capacidad de ejecutar y adjuntar datos. Las características que hacen de un contrato inteligente una cuenta son:
 
-- the ability to **verify signed messages**
-- be **notified of incoming tokens**, followers, and other types of transactions,
-- be able to be **extended after deployment** to support functions and standards that will be adopted in the future.
+- la capacidad de **verificar mensajes firmados**
+- ser **notificado de la entrada de tokens**, seguidores y otros tipos de transacciones,
+- ser capaz de ser **ampliado después del despliegue** para soportar funciones y estándares que se adoptarán en el futuro.
 
-Additionally, it should have a **secure ownership management** system to ensure the protection of valuable assets.
+Además, debe contar con un **sistema seguro de gestión de la propiedad** para garantizar la protección de los activos valiosos.
 
-## What does this standard represent ?
+## ¿Qué representa esta norma?
 
-An **ERC725Account** is a blockchain account system that can be utilized by individuals, machines, or other smart contracts. It is made up of various standards that enable the functionalities mentioned above. It is formed from:
+Una **CuentaERC725** es un sistema de cuenta blockchain que puede ser utilizado por individuos, máquinas u otros contratos inteligentes. Se compone de varios estándares que permiten las funcionalidades mencionadas anteriormente. Está formado por:
 
-- **[ERC165](https://eips.ethereum.org/EIPS/eip-165)** allows to register and detect the standard interfaces and standards that the contract implements, or will implement in the future.
+- **[ERC165](https://eips.ethereum.org/EIPS/eip-165)** permite registrar y detectar las interfaces y estándares que el contrato implementa, o implementará en el futuro.
 
-- **[ERC725X](../lsp-background/erc725.md#erc725x---generic-executor)** is a generic executor that enables calling external contracts with different operations such as [**CALL**](https://www.evm.codes/#f1), [**STATICCALL**](https://eips.ethereum.org/EIPS/eip-214) and [**DELEGATECALL**](https://eips.ethereum.org/EIPS/eip-7). It also allows deploying new contracts with [**CREATE**](https://www.evm.codes/#f0) or [**CREATE2**](https://eips.ethereum.org/EIPS/eip-1014), or transferring value to any address (EOA or smart contracts).
+- **[ERC725X](../lsp-background/erc725.md#erc725x---generic-executor)** es un ejecutor genérico que permite llamar a contratos externos con diferentes operaciones como [**CALL**](https://www.evm.codes/#f1), [**STATICCALL**](https://eips.ethereum.org/EIPS/eip-214) y [**DELEGATECALL**](https://eips.ethereum.org/EIPS/eip-7). También permite desplegar nuevos contratos con [**CREATE**](https://www.evm.codes/#f0) o [**CREATE2**](https://eips.ethereum.org/EIPS/eip-1014), o transferir valor a cualquier dirección (EOA o contratos inteligentes).
 
-- **[ERC725Y](../lsp-background/erc725.md#erc725y---generic-data-keyvalue-store)** is a generic key-value store that enables it to **attach any information** to the smart contract even after it's been deployed.
+- **[ERC725Y](../lsp-background/erc725.md#erc725y---generic-data-keyvalue-store)** es un almacén genérico de clave-valor que permite **adjuntar cualquier información** al contrato inteligente incluso después de que haya sido desplegado.
 
-- **[ERC1271](https://eips.ethereum.org/EIPS/eip-1271)** helps to **verify the validity** of a message and signature.
+- **[ERC1271](https://eips.ethereum.org/EIPS/eip-1271)** ayuda a **verificar la validez** de un mensaje y una firma.
 
-- **[LSP1-UniversalReceiver](../generic-standards/lsp1-universal-receiver.md)** enables **notifications about incoming or outgoing transactions** and adds custom handling and behavior based on these transactions.
+- **[LSP1-ReceptorDelegado](../generic-standards/lsp1-universal-receiver.md)** permite **notificaciones sobre transacciones entrantes o salientes** y añade un manejo y comportamiento personalizados basados en estas transacciones.
 
-- **[LSP14-Ownable2Step](../generic-standards/lsp14-ownable-2-step.md)** enables a **secure ownership management** system.
+- **[LSP14-Propiedad2-Pasos](../generic-standards/lsp14-ownable-2-step.md)** permite un **sistema seguro de gestión de la propiedad**.
 
-- **[LSP17-ContractExtension](../generic-standards/lsp17-contract-extension.md)** enables the contract to be **extended after deployment** to support new standard and functionalities.
+- **[LSP17-ExtensiondelContrato](../generic-standards/lsp17-contract-extension.md)** permite **ampliar el contrato después de su despliegue** para soportar nuevos estándares y funcionalidades.
 
-### ERC725X - Generic Executor
+### ERC725X - Ejecutor Genérico
 
 :::tip
 
-See the **[ERC725](../lsp-background//erc725.md)** standard for more information.
+Consulta el estándar **[ERC725](../lsp-background//erc725.md)** para más información.
 
-Check the [**execute functions**](../smart-contracts/lsp0-erc725-account.md#execute) provided by **ERC725X** that allows the contract to execute multiple operations.
+Consulta las [**funciones de ejecución**](../smart-contracts/lsp0-erc725-account.md#execute) proporcionadas por **ERC725X** que permiten al contrato ejecutar múltiples operaciones.
 
-Check the **javascript** guides to know [**How to Send native tokens**](../../guides/universal-profile/transfer-lyx.md) or [**How to Call other contract's function**](../../guides/universal-profile/interact-with-contracts.md) using the execute function.
+Consulta las guías de **javascript** para conocer [**Cómo enviar tokens nativos**](../../guides/universal-profile/transfer-lyx.md) o [**Cómo llamar a la función de otro contrato**](../../guides/universal-profile/interact-with-contracts.md) utilizando la función execute.
 
 :::
 
-The **ERC725X** standard enables the account to perform generic calls on other smart contracts, including transferring native tokens. External actions can be executed using the smart contract's generic `execute(...)` function and multi-calls can be done with the `execute(..)` **batch** function, but only the account owner can perform these operations.
+El estándar **ERC725X** permite a la cuenta realizar llamadas genéricas a otros contratos inteligentes, incluyendo la transferencia de tokens nativos. Las acciones externas pueden ejecutarse utilizando la función genérica `execute(...)` del contrato inteligente y las llamadas múltiples pueden realizarse con la función `execute(..)` **batch**, pero sólo el propietario de la cuenta puede realizar estas operaciones.
 
-Additionally, it also allows for the deployment of new smart contracts by providing the bytecode of the new contract to deploy as an argument to the `execute(...)` function. Contracts can be deployed using either the **CREATE** or **CREATE2** opcodes.
+Además, también permite el despliegue de nuevos contratos inteligentes proporcionando el bytecode del nuevo contrato a desplegar como argumento a la función `execute(...)`. Los contratos pueden desplegarse utilizando los opcodes **CREATE** o **CREATE2**.
 
-The following types of calls (operation types) are available:
+Están disponibles los siguientes tipos de llamadas (tipos de operación):
 
-| Operation number |                     Operation type                     | Description                                                                                                         |
-| :--------------: | :----------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------ |
-|        0         |          [`CALL`](https://www.evm.codes/#f1)           | Transfer native tokens or calls smart contract functions.                                                           |
-|        1         |         [`CREATE`](https://www.evm.codes/#f0)          | Create a new smart contract based on the contract address and nonce.                                                |
-|        2         |  [`CREATE2`](https://eips.ethereum.org/EIPS/eip-1014)  | Create a new smart contract based on the contract address, bytecode and the salt. The address can be predetermined. |
-|        3         | [`STATICCALL`](https://eips.ethereum.org/EIPS/eip-214) | Calls another smart contract while disallowing any modification to the state during the call.                       |
-|        4         | [`DELEGATECALL`](https://eips.ethereum.org/EIPS/eip-7) | Runs the function from another contract, but use the context of the current contract.                               |
+| Número de operación |                   Tipo de operación                    | Descripción                                                                                                         |
+| :-----------------: | :----------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------ |
+|        0            |          [`CALL`](https://www.evm.codes/#f1)           | Transferencia de tokens nativos o llamadas a funciones de contratos inteligentes.                                                           |
+|        1            |         [`CREATE`](https://www.evm.codes/#f0)          | Crea un nuevo contrato inteligente basado en la dirección del contrato y el nonce.                                                |
+|        2            |  [`CREATE2`](https://eips.ethereum.org/EIPS/eip-1014)  | Crea un nuevo contrato inteligente basado en la dirección del contrato, el código de bytes y la clave. La dirección puede estar predeterminada. |
+|        3            | [`STATICCALL`](https://eips.ethereum.org/EIPS/eip-214) | Llama a otro contrato inteligente sin permitir ninguna modificación del estado durante la llamada.                       |
+|        4            | [`DELEGATECALL`](https://eips.ethereum.org/EIPS/eip-7) | Ejecuta la función desde otro contrato, pero utiliza el contexto del contrato actual.                               |
 
-#### Operation 0 - CALL
+#### Operación 0 - CALL
 
-# ![ERC725X operation type CALL](/img/standards/lsp0/LSP0-CALL.jpeg)
+# ![ERC725X tipo de operación CALL](/img/standards/lsp0/LSP0-CALL.jpeg)
 
-#### Operation 1 - CREATE
+#### Operación 1 - CREATE
 
-# ![ERC725X operation type CREATE](/img/standards/lsp0/LSP0-CREATE.jpeg)
+# ![ERC725X tipo de operación CREATE](/img/standards/lsp0/LSP0-CREATE.jpeg)
 
-#### Operation 2 - CREATE2
+#### Operación 2 - CREATE2
 
-# ![ERC725X operation type CREATE2](/img/standards/lsp0/LSP0-CREATE2.jpeg)
+# ![ERC725X tipo de operación CREATE2](/img/standards/lsp0/LSP0-CREATE2.jpeg)
 
-#### Operation 3 - STATICCALL
+#### Operación 3 - STATICCALL
 
-# ![ERC725X operation type STATICCALL](/img/standards/lsp0/LSP0-STATICCALL.jpeg)
+# ![ERC725X tipo de operación STATICCALL](/img/standards/lsp0/LSP0-STATICCALL.jpeg)
 
-#### Operation 4 - DELEGATECALL
+#### Operación 4 - DELEGATECALL
 
-# ![ERC725X operation type DELEGATECALL](/img/standards/lsp0/LSP0-DELEGATECALL.jpeg)
+# ![ERC725X tipo de operación DELEGATECALL](/img/standards/lsp0/LSP0-DELEGATECALL.jpeg)
 
-### ERC725Y - Generic Key-Value Store
+### ERC725Y - Almacén Genérico Clave-Valor
 
 :::tip
 
-See the **[ERC725](../lsp-background//erc725.md)** standard for more information.
+Consulta el estándar **[ERC725](../lsp-background//erc725.md)** para más información.
 
-Check the [**setData functions**](../smart-contracts/lsp0-erc725-account.md#setdata) provided by **ERC725Y** that allows attaching data to the contract.
+Consulta las funciones [**setData functions**](../smart-contracts/lsp0-erc725-account.md#setdata) proporcionadas por **ERC725Y** que permiten adjuntar datos al contrato.
 
-Check the **javascript** guides to know [**How to Edit a Profile (setData)**](../../guides/universal-profile/edit-profile.md) or [**How to Read from a Profile (getData)**](../../guides/universal-profile/read-profile-data.md).
+Consulta las guías **javascript** para conocer [**Cómo editar un perfil (setData)**](../../guides/universal-profile/edit-profile.md) o [**Cómo leer de un perfil (getData)**](../../guides/universal-profile/read-profile-data.md).
 
 :::
 
-Once a smart contract is deployed with a specific set of variables containing data, it cannot be modified to include new variables. This can be a problem for smart contract based accounts that need to store more and more data in the future.
+Una vez que un contrato inteligente se despliega con un conjunto específico de variables que contienen datos, no puede ser modificado para incluir nuevas variables. Esto puede ser un problema para las cuentas basadas en contratos inteligentes que necesiten almacenar más y más datos en el futuro.
 
-ERC725Y standardizes a mapping of data keys to data values to store data dynamically, and to have the ability to add or remove data across time without the need of redeploying the contract. It gives flexibility to the contract storage.
+ERC725Y estandariza un mapeo de claves de datos a valores de datos para almacenar datos dinámicamente, y tener la capacidad de añadir o eliminar datos a lo largo del tiempo sin necesidad de volver a desplegar el contrato. Da flexibilidad al almacenamiento del contrato.
 
-- **Data Keys** are represented as `bytes32` values.
-- **Data Values** under these keys are stored as `bytes`.
+- Las **Claves de datos** se representan como valores `bytes32`.
+- Los **Valores de datos** bajo estas claves se almacenan como `bytes`.
 
-![ERC725Y key-value store vs standard contract storage](/img/standards/lsp0/LSP0-Storage.jpeg)
+![Almacenamiento de claves y valores ERC725Y frente al almacenamiento de contratos estándar](/img/standards/lsp0/LSP0-Storage.jpeg)
 
-Developers can access the data stored in the contract via data keys instead of referencing the storage slot where the data resides.
+Los desarrolladores pueden acceder a los datos almacenados en el contrato a través de claves de datos en lugar de hacer referencia a la ranura de almacenamiento donde residen los datos.
 
-Thanks to ERC725Y, contracts become more interoperable, as their storage is represented in the same way. Contracts and interfaces can then read and write data from or to the storage in the same manner via the functions [`getData(...)`](../smart-contracts/lsp0-erc725-account.md#getdata) and [`setData(...)`](../smart-contracts/lsp0-erc725-account.md#setdata).
+Gracias al ERC725Y, los contratos son más interoperables, ya que su almacenamiento se representa de la misma manera. Los contratos y las interfaces pueden entonces leer y escribir datos desde o hacia el almacenamiento de la misma manera a través de las funciones [`getData(...)`](../smart-contracts/lsp0-erc725-account.md#getdata) y [`setData(...)`](../smart-contracts/lsp0-erc725-account.md#setdata).
 
 ### ERC1271
 
 :::tip
 
-See the **[ERC1271](https://eips.ethereum.org/EIPS/eip-1271)** standard for more information.
+Consulta el estándar **[ERC1271](https://eips.ethereum.org/EIPS/eip-1271)** para obtener más información.
 
-Check the [**isValidSignature**](../smart-contracts/lsp0-erc725-account.md#isvalidsignature) function documentation.
+Consulta la documentación de la función [**isValidSignature**](../smart-contracts/lsp0-erc725-account.md#isvalidsignature).
 
 :::
 
-Unlike Externally Owned Accounts (EOAs), **smart contracts cannot sign messages** since they do not have private keys. This standard defines a way for contracts to verify if a signature and a message provided are valid according to the contract's logic. There will be many contracts that want to utilize signed messages to validate rights-to-move assets or other purposes.
+A diferencia de las cuentas de propiedad externa (EOA), **los contratos inteligentes no pueden firmar mensajes**, ya que no disponen de claves privadas. Este estándar define una forma para que los contratos verifiquen si una firma y un mensaje proporcionado son válidos de acuerdo con la lógica del contrato. Habrá muchos contratos que quieran utilizar mensajes firmados para validar derechos de movimiento de activos u otros fines.
 
-The **LSP0-ERC725Account** implements the **ERC1271** standard in a flexible way that allows for future upgradeability when different type of owners are set.
+El **LSP0-CuentaERC725** implementa el estándar **ERC1271** de una manera flexible que permite la actualización futura cuando se establecen diferentes tipos de propietarios.
 
-When the owner of the account is an EOA, the **ECDSA algorithm** is used to recover the address of the signer from the provided signature and message, and the function `isValidSignature(..)` will return **valid** if the recovered signer address matches the address of the owner.
+Cuando el propietario de la cuenta es una EOA, se utiliza el algoritmo **ECDSA** para recuperar la dirección del firmante a partir de la firma y el mensaje proporcionados, y la función `isValidSignature(..)` devolverá **valid** si la dirección del firmante recuperada coincide con la dirección del propietario.
 
-When the owner is a smart contract, the `isValidSignature(..)` function will be called on the owner and return whether the signature and the message are **valid** according to the logic in `isValidSignature(..)` on the owner contract.
+Cuando el propietario es un contrato inteligente, la función `isValidSignature(..)` será llamada en el propietario y devolverá si la firma y el mensaje son **valid** de acuerdo con la lógica en `isValidSignature(..)` en el contrato propietario.
 
 ### LSP1 - UniversalReceiver
 
 :::tip
 
-See the **[LSP1-UniversalReceiver](../generic-standards/lsp1-universal-receiver.md)** standard for more information.
+Consulta el estándar **[LSP1-ReceptorUniversal](../generic-standards/lsp1-universal-receiver.md)** para obtener más información.
 
-Check the [**universalReceiver functions**](../smart-contracts/lsp0-erc725-account.md#universalreceiver) provided by **LSP1** that allows notifying about incoming/ outgoing transactions.
+Consulta las funciones [**universalReceiver functions**](../smart-contracts/lsp0-erc725-account.md#universalreceiver) proporcionadas por **LSP1** que permiten notificar las transacciones entrantes/salientes.
 
-Check the **javascript** guides to know [**How to set a UniversalReceiverDelegate built by LUKSO**](../../guides/universal-receiver-delegate/set-default-implementation.md) or [**How to set your own UniversalReceiverDelegate**](../../guides/universal-receiver-delegate/accept-reject-assets.md).
+Consulta las guías **javascript** para saber [**Cómo configurar un ReceptorDelegadoUniversal construido por LUKSO**](../../guides/universal-receiver-delegate/set-default-implementation.md) o [**Cómo configurar tu propio ReceptorDelegadoUniversal**](../../guides/universal-receiver-delegate/accept-reject-assets.md).
 
 :::
 
-This standard enables the account to be notified of incoming transactions such as token transfer, vault transfer, information transfer, etc. Notifications are handy for situations where users want to customize how their account contract reacts to certain tokens by either rejecting them or operating a specific call on each token received.
+Este estándar permite que la cuenta sea notificada de transacciones entrantes tales como transferencia de tokens, transferencia de bóvedas, transferencia de información, etc. Las notificaciones son útiles para situaciones en las que los usuarios quieren personalizar la forma en que el contrato de su cuenta reacciona a ciertos tokens, ya sea rechazándolos u operando una llamada específica en cada token recibido.
 
-The **[LSP0-ERC725Account](#)** implements the `universalReceiver(..)` function that:
+El **[LSP0-ERC725Account](#)** implementa la función `universalReceiver(..)` que:
 
-Emits an [`UniversalReceiver`](../smart-contracts/lsp0-erc725-account.md#universalreceiver-1) event with the `typeId` and `data`, as well as additional parameters such as the amount sent to the function, the caller of the function, and the return value of the delegate contracts.
+Emite un evento [`UniversalReceiver`](../smart-contracts/lsp0-erc725-account.md#universalreceiver-1) con el `typeId` y `data`, así como parámetros adicionales como la cantidad enviada a la función, el llamante de la función y el valor de retorno de los contratos delegados.
 
-The `typeId` is a **bytes32** value that represents the type of action being notified about. For instance, if you want to notify an account about a specific type of token, you could hash the word **"TOKENXX"** which would result in a `bytes32`, and then use it as a `typeId`.
+El `typeId` es un valor **bytes32** que representa el tipo de acción sobre la que se notifica. Por ejemplo, si quieres notificar a una cuenta sobre un tipo específico de token, puedes hacer un hash de la palabra **"TOKENXX "** que resultaría en un `bytes32`, y luego usarlo como `typeId`.
 
-The `data` field can contain relevant information related to the `typeId` used when the `universalReceiver(...)` function was called. In the case of token transfers, it could be any encoded information such as the recipient balance, time, royalties, etc.
+El campo `data` puede contener información relevante relacionada con el `typeId` utilizado cuando se llamó a la función `universalReceiver(...)`. En el caso de las transferencias de tokens, podría ser cualquier información cifrada, como el saldo del receptor, la hora, los derechos, etc.
 
-The typeId provides a unique identifier for the type of notification, while the data field provides the specific information related to the notification. This allows for efficient and effective communication of information related to the token, without the need for extensive parsing or decoding of data.
+El campo typeId proporciona un identificador único para el tipo de notificación, mientras que el campo data proporciona la información específica relacionada con la notificación. Esto permite una comunicación eficiente y efectiva de la información relacionada con el token, sin necesidad de un extenso análisis sintáctico o decodificación de los datos.
 
-The `universalReceiver(...)` function and its `UniversalReceiver` event are the mechanisms through which an **LSP0-ERC725Account** can receive notifications. Websites can monitor and listen to the event and previous events to understand what the account has been notified about.
+La función `universalReceiver(...)` y su evento `UniversalReceiver` son los mecanismos a través de los cuales una **LSP0-ERC725Account** puede recibir notificaciones. Los sitios web pueden monitorizar y escuchar el evento y los eventos anteriores para entender sobre qué ha sido notificada la cuenta.
 
 # ![LSP0 being notified](/img/standards/lsp0/LSP0-Notification.jpeg)
 
-This innovation is particularly beneficial for all type of contracts that have a connection with the account, especially token standards, as it streamlines the blockchain user experience by allowing the recipient of a token to be notified directly.
+Esta innovación es especialmente beneficiosa para todo tipo de contratos que tengan una conexión con la cuenta, especialmente los estándares de tokens, ya que agiliza la experiencia del usuario de blockchain al permitir que se notifique directamente al destinatario de un token.
 
-Currently, determining which tokens an address owns requires going through all events of all token contracts on the blockchain network and filtering out the tokens that the address owns based on the events of those contracts.
+Actualmente, para determinar qué tokens posee una dirección es necesario revisar todos los eventos de todos los contratos de tokens de la red blockchain y filtrar los tokens que posee la dirección en función de los eventos de esos contratos.
 
-However, with the **UniversalReceiver** event, contracts can call the `universalReceiver(..)` function and emit the event on the account itself. This way, to determine which tokens an account holds, one would simply listen to the UniversalReceiver event emitted on that account. This method is much simpler and more efficient.
+Sin embargo, con el evento **UniversalReceiver**, los contratos pueden llamar a la función `universalReceiver(..)` y emitir el evento en la propia cuenta. De esta forma, para determinar qué tokens posee una cuenta, basta con escuchar el evento UniversalReceiver emitido en esa cuenta. Este método es mucho más sencillo y eficiente.
 
-# ![LSP0 being notified](/img/standards/lsp0/LSP-Notification-Token.jpeg)
+# ![LSP0 siendo notificado](/img/standards/lsp0/LSP-Notification-Token.jpeg)
 
-In addition to the **UniversalReceiver** event, the account owner has the ability to set in the storage of the account the addresses of contracts labeled as **UniversalReceiverDelegates** (URD). These contracts can be chosen to run on each call to the `universalReceiver(..)` function or on a specific `typeId` passed to the function.
+Además del evento **UniversalReceiver**, el propietario de la cuenta tiene la posibilidad de establecer en el almacenamiento de la cuenta las direcciones de contratos etiquetados como **ReceptoresUniversalesDelegados** (URD). Estos contratos pueden ser elegidos para ejecutarse en cada llamada a la función `universalReceiver(..)` o en un `typeId` específico pasado a la función.
 
-This provides a way to react to calls, not just to be informed. For example, if the account receives any type of token, regardless of the typeId, it could specify in the main **UniversalReceiverDelegate** that the transfer should be automatically reverted.
+Esto permite reaccionar a las llamadas, no sólo ser informado. Por ejemplo, si la cuenta recibe cualquier tipo de token, independientemente del typeId, podría especificar en el **ReceptorUniversalDelegado** principal que la transferencia se revierta automáticamente.
 
-Or, for a specific type of token represented by a specific `typeId`, account could specify in the **MappedUniversalReceiverDelegate** (Mapped to a specific typeId) that the token should be automatically forwarded to a vault that the account own.
+O, para un tipo específico de token representado por un `typeId` específico, la cuenta podría especificar en el **MappedUniversalReceiverDelegate** (Mapeado a un typeId específico) que el token debería ser automáticamente reenviado a una cámara acorazada que la cuenta posea.
 
 # ![LSP0 reacting](/img/standards/lsp0/LSP0-Token-Reacting.jpeg)
 
-The **UniversalReceiverDelegate** contracts **provides optional interactions** that allows the account to go beyond simply being informed and provides a way to actively respond to different types of notifications as they occur.
+Los contratos **ReceptorDelegadoUniversal**, **proporcionan interacciones opcionales** que permiten a la cuenta ir más allá de ser simplemente informada y proporciona una manera de responder activamente a diferentes tipos de notificaciones a medida que ocurren.
 
-### LSP14 - Ownable2Step
+### LSP14 - Propiedad 2-Pasos
 
 :::tip
 
-See the **[LSP14 - Ownable2Step](../generic-standards/lsp14-ownable-2-step.md)** standard for more information.
+Consulta el estándar **[LSP14 - Propiedad 2-Pasos](../generic-standards/lsp14-ownable-2-step.md)** para más información.
 
-Check the [**LSP14 functions**](../smart-contracts/lsp14-ownable-2-step.md) allowing 2 step ownership transfers.
+Consulta las [**funciones LSP14**](../smart-contracts/lsp14-ownable-2-step.md) que permiten transferencias de propiedad en 2 pasos.
 
-Check the **javascript** guides to know [**How to transferOwnership of a Profile**](../../guides/key-manager/upgrade-lsp6.md).
+Consulta las guías **javascript** para saber [**Cómo transferir la propiedad de un perfil**](../../guides/key-manager/upgrade-lsp6.md).
 
 :::
 
-An account that holds valuable assets and represents your digital identity should be secure to prevent mistakes that may result in losing it. Therefore, a safe and secure ownership management system should be in place for this account.
+Una cuenta que contiene activos valiosos y representa tu identidad digital debe ser segura para evitar errores que puedan resultar en su pérdida. Por lo tanto, debe existir un sistema de gestión de propiedad seguro para esta cuenta.
 
-**LSP14-Ownable2Step** is a standard that allows for the ownership of an account to be transferred or renounced through a 2-step process, making it more resistant to phishing attacks. This standard allows for any address, such as an EOA or smart contract, to be the owner of the account. The owner can be a **voting contract**, or a **multisig**, or a **KeyManager** that allow for permission-based access control. (Check **[LSP6-KeyManager](../universal-profile/lsp6-key-manager.md)**)
+**LSP14-Propiedad 2-Pasos** es un estándar que permite transferir o renunciar a la titularidad de una cuenta mediante un proceso de 2 pasos, haciéndola más resistente a los ataques de phishing. Este estándar permite que cualquier dirección, como una EOA o un contrato inteligente, sea el propietario de la cuenta. El propietario puede ser un **contrato inteligente**, o un **multisig**, o un **GestordeClaves** que permita un control de acceso basado en permisos. (Consulta **[LSP6-GestordeClaves](../universal-profile/lsp6-key-manager.md)**)
 
 ![ERC725Y key-value store vs standard contract storage](/img/standards/lsp0/LSP0-Owner.jpeg)
 
-The transfer of ownership is conducted in two stages, where a pending owner is designated and then in another transaction the pending owner must confirm their acceptance of ownership. In the process of ownership transfer, the 2 parties are notified using **[LSP1-UniversalReceiver](#lsp1---universalreceiver)** standard.
+La transferencia de propiedad se realiza en dos etapas, en la que se designa un propietario pendiente y, a continuación, en otra transacción, el propietario pendiente debe confirmar la aceptación de la propiedad. En el proceso de transferencia de propiedad, las 2 partes se notifican utilizando el estándar **[LSP1-ReceptorUniversal](#lsp1---universalreceiver)**.
 
-#### Initiate the transfer
+#### Iniciar la transferencia
 
 ![ERC725Y key-value store vs standard contract storage](/img/standards/lsp0/LSP0-Transfer1.jpeg)
 
-#### Accept ownership
+#### Aceptar propiedad
 
 ![ERC725Y key-value store vs standard contract storage](/img/standards/lsp0/LSP0-Transfer2.jpeg)
 
-#### Transfer Finalized
+#### Transferencia Completada
 
 ![ERC725Y key-value store vs standard contract storage](/img/standards/lsp0/LSP0-Transfer3.jpeg)
 
-The process for renouncing ownership follows a similar structure, where an initial call is made, followed by a waiting period and a specific timeframe during which the ownership can be renounced before the process is reset.
+El proceso para renunciar a la propiedad sigue una estructura similar, en la que se realiza una llamada inicial, seguida de un periodo de espera y un plazo específico durante el cual se puede renunciar a la propiedad antes de que se reinicie el proceso.
 
 ![Renounce Ownership](/img/standards/lsp0/LSP0-Renounce.jpeg)
 
-### LSP17 - Contract Extension
+### LSP17 - Extensión del Contrato
 
 :::tip
 
-See the **[LSP17 - ContractExtension](../generic-standards/lsp17-contract-extension.md)** standard for more information.
+Consulta el estándar **[LSP17 - ExtensiónContrato](../generic-standards/lsp17-contract-extension.md)** para más información.
 
-Check the [**fallback function**](../smart-contracts/lsp0-erc725-account.md#fallback) that allows calls for the extensions.
+Verifica la [**función fallback**](../smart-contracts/lsp0-erc725-account.md#fallback) que permite llamadas para las extensiones.
 
 :::
 
-Once a smart contract based account is deployed on the blockchain, it is not possible to modify the contract to add new native functions or change the behavior of existing ones. This can be a limitation for these accounts, that may need to support new use cases, functions, and standards that may be adopted in the future.
+Una vez que una cuenta basada en un contrato inteligente se despliega en la blockchain, no es posible modificar el contrato para añadir nuevas funciones nativas o cambiar el comportamiento de las existentes. Esto puede ser una limitación para estas cuentas, que pueden necesitar soportar nuevos casos de uso, funciones y estándares que puedan adoptarse en el futuro.
 
-**[LSP17-ContractExtension](../generic-standards/lsp17-contract-extension.md)** defines a mechanism for extending a contract to support new standard and functions through the use of **extensions**.
+**[LSP17-ExtensiónContrato](../generic-standards/lsp17-contract-extension.md)** define un mecanismo para extender un contrato para soportar nuevos estándares y funciones mediante el uso de **extensiones**.
 
-#### Support New Functions
+#### Compatibilidad con nuevas funciones
 
-The **LSP0-ERC725Account** contains basic functionality for interacting with other addresses, storing and retrieving data, verifying signatures, handling transactions, managing ownership, and checking interface support with the functions listed below.
+La **LSP0-CuentaERC725** contiene funciones básicas para interactuar con otras direcciones, almacenar y recuperar datos, verificar firmas, gestionar transacciones, gestionar la propiedad y comprobar la compatibilidad de la interfaz con las funciones enumeradas a continuación.
 
-![LSP0 base functions](/img/standards/lsp0/LSP0-Functions.jpeg)
+![Funciones básicas de LSP0](/img/standards/lsp0/LSP0-Functions.jpeg)
 
-To ensure the longevity and continued evolution of the LSP0 as a blockchain account, it is important for it to support new functions that will become standardized in the future. This can be accomplished through the use of extension contracts, which allow the account owner to add new functionality not natively supported by the LSP0.
+Para garantizar la longevidad y la evolución continua de la LSP0 como cuenta de blockchain, es importante que admita nuevas funciones que se estandarizarán en el futuro. Esto puede lograrse mediante el uso de contratos de extensión, que permiten al propietario de la cuenta añadir nuevas funcionalidades no soportadas de forma nativa por la LSP0.
 
-![LSP0 extended with onERC721Received and validateUserOp functions](/img/standards/lsp0/LSP0-Extended.jpeg)
+![LSP0 ampliado con las funciones onERC721Received y validateUserOp](/img/standards/lsp0/LSP0-Extended.jpeg)
 
-For example, in the figure above, the LSP0 was extended with the `onERC721Received(..)` function which will allow the contract to receive safe ERC721 transfers.
+Por ejemplo, en la figura anterior, la LSP0 se amplió con la función `onERC721Received(..)` que permitirá al contrato recibir transferencias ERC721 seguras.
 
-By utilizing these extensions, the account can be updated with new features and remain adaptable to changes in the blockchain ecosystem.
+Utilizando estas extensiones, la cuenta puede ser actualizada con nuevas funciones y permanecer adaptable a los cambios en el ecosistema blockchain.
 
-#### Support New Standards
+#### Admite nuevos estándares
 
-The ability to add new functions to the LSP0 is crucial for its extendibility post-deployment, but it is also important for the LSP0 to be able to support the new interface IDs of any standards that are added through extensions. Initially, the LSP0 supports a set of interfaces at the time of deployment:
+La capacidad de añadir nuevas funciones a la LSP0 es crucial para su extensibilidad post-despliegue, pero también es importante que la LSP0 sea capaz de soportar los nuevos IDs de interfaz de cualquier estándar que se añada a través de extensiones. Inicialmente, el LSP0 soporta un conjunto de interfaces en el momento del despliegue:
 
 ![LSP0 base interfaceIds](/img/standards/lsp0/LSP0-SupportedInterface.jpeg)
 
-However, the account can declare support for new interface IDs after it has been extended. This is especially beneficial for contracts that check if a contract supports a specific interface ID before interacting with it.
+Sin embargo, la cuenta puede declarar la compatibilidad con nuevos ID de interfaz después de haber sido ampliada. Esto es especialmente ventajoso para los contratos que comprueban si un contrato admite un ID de interfaz específico antes de interactuar con él.
 
 ![LSP0 Extended interfaceIds](/img/standards/lsp0/LSP0-Extended-Interfaces.jpeg)
