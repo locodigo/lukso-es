@@ -119,7 +119,7 @@ module.exports = {
           position: 'right',
         },
         {
-          href: 'https://github.com/lukso-network/',
+          href: 'https://github.com/locodigo/lukso-es/',
           className: 'header-github-link',
           position: 'right',
         },
