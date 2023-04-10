@@ -13,7 +13,7 @@ sidebar_position: 8
 
 ## Introducción
 
-Para realizar un seguimiento de todas las bóvedas que posee una dirección, debemos evitar el mismo problema mencionado en [LSP5-ActivosRecibidos](./lsp5-activos-recibidos.md), que es no informar a los receptores y remitentes sobre la transferencia de propiedad de las [Bóvedas LSP9](./lsp9-vault.md).
+Para realizar un seguimiento de todas las bóvedas que posee una dirección, debemos evitar el mismo problema mencionado en [LSP5-ActivosRecibidos](./lsp5-received-assets.md), que es no informar a los receptores y remitentes sobre la transferencia de propiedad de las [Bóvedas LSP9](./lsp9-vault.md).
 
 Una forma de evitar este problema es crear claves de metadatos genéricas que los desarrolladores deberían registrar en el almacén de contratos inteligentes, representando cuántas bóvedas diferentes se poseen, su tipo y la dirección del contrato de bóveda transferido.
 

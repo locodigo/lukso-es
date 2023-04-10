@@ -79,7 +79,7 @@ La llamada a esta función devolverá un valor bytes4 específico (definido en e
 
 ### Ejemplo de Metadatos
 
-Un **[LSP7ActivoDigital](./nft-2.0/LSP7-ActivoDigital.md)** es un contrato que contiene claves de datos ERC725Y definidas en **[LSP4 - Metadatos de Activos Digitales](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-4-DigitalAsset-Metadata.md)**. Por lo tanto, el contrato **DEBERÍA** tener definidas por defecto las siguientes claves de datos ERC725Y: `LSP4TokenName`, `LSP4TokenSymbol`, `LSP4Metadata`, `LSP4CreatorsMap:<address>` y `LSP4Creators[]`.
+Un **[LSP7ActivoDigital](./nft-2.0/LSP7-Digital-Asset.md)** es un contrato que contiene claves de datos ERC725Y definidas en **[LSP4 - Metadatos de Activos Digitales](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-4-DigitalAsset-Metadata.md)**. Por lo tanto, el contrato **DEBERÍA** tener definidas por defecto las siguientes claves de datos ERC725Y: `LSP4TokenName`, `LSP4TokenSymbol`, `LSP4Metadata`, `LSP4CreatorsMap:<address>` y `LSP4Creators[]`.
 
 <!-- prettier-ignore-start -->
 

@@ -11,7 +11,7 @@ sidebar_position: 7
 
 :::
 
-El **LSP4MetadatosActivoDigital** es un contrato que establece los **Token-Metadata** (nombre y símbolo) para los contratos de token **[LSP7ActivoDigital](./lsp7-activo-digital.md)** y **[LSP8ActivoDigitalIdentificable](./lsp8-activo-digital-identificable.md)**.
+El **LSP4MetadatosActivoDigital** es un contrato que establece los **Token-Metadata** (nombre y símbolo) para los contratos de token **[LSP7ActivoDigital](./lsp7-digital-asset.md)** y **[LSP8ActivoDigitalIdentificable](./lsp8-identifiable-digital-asset.md)**.
 
 Como este contrato utiliza **[ERC725Y Almacén General de Claves/Valores de Datos](https://eips.ethereum.org/EIPS/eip-725)** para establecer los metadatos, podría añadirse cualquier información, como la **lista de creadores, archivos JSON**, etc.
 
