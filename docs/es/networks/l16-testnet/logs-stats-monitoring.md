@@ -2,7 +2,7 @@
 sidebar_position: 5
 ---
 
-# Registros, Estadísticas y Monitorización
+# Registros, Estadísticas y Monitoreo
 
 ## Registros de ejecución
 

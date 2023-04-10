@@ -66,7 +66,7 @@ function Index() {
           <Box
             icon={FAQIcon}
             link="./es/faq/lukso"
-            title="Preguntas frecuentes"
+            title="PREGUNTAS FRECUENTES"
             className="faq"
             content="Las preguntas más frecuentes."
           />
