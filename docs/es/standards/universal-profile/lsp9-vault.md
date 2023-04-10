@@ -103,8 +103,8 @@ Consulta el estándar **[LSP14 - Propiedad 2-Pasos](../generic-standards/lsp14-o
 Este estándar permite que la propiedad del contrato **Bóveda LSP9** sea controlada por una EOA o por otro contrato, implementando **3 métodos esenciales**:
 
 - [`transferOwnership()`](../smart-contracts/lsp14-ownable-2-step.md#transferownership)
-- [`acceptOwnership()`](../contratos-inteligentes/lsp14-propietario-2-paso.md#acceptownership)
-- [`renounceOwnership()`](../contratos-inteligentes/lsp14-propietario-2-paso.md#renounceownership)
+- [`acceptOwnership()`](../smart-contracts/lsp14-ownable-2-step.md#acceptownership)
+- [`renounceOwnership()`](../smart-contracts/lsp14-ownable-2-step.md#renounceownership)
 
 ### Flujo
 

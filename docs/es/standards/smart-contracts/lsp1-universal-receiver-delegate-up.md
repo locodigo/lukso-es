@@ -13,9 +13,9 @@ sidebar_position: 5
 
 El **LSP1ReceptorDelegadoUniversalUP** es un contrato llamado por la función **[`universalReceiver(...)`](./lsp0-erc725-account.md#universalreceiver)** del contrato **[LSP0CuentaERC725](./lsp0-erc725-account.md)** que:
 
-- Escribe las claves de datos que representan los activos recibidos del tipo **[LSP7-ActivoDigital](./lsp7-activo digital.md)** y **[LSP8-ActivoDigitalIdentificable](./lsp8-activo-digital-identificable.md)** en el almacenamiento de la cuenta, y las elimina cuando el saldo es cero de acuerdo el **[Estándar LSP5-ActivosRecibidos](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-5-ReceivedAssets.md)**.
+- Escribe las claves de datos que representan los activos recibidos del tipo **[LSP7-ActivoDigital](./lsp7-activo digital.md)** y **[LSP8-ActivoDigitalIdentificable](./lsp8-identifiable-digital-asset.md)** en el almacenamiento de la cuenta, y las elimina cuando el saldo es cero de acuerdo el **[Estándar LSP5-ActivosRecibidos](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-5-ReceivedAssets.md)**.
 
-- Escribe las claves de datos que representan las bóvedas de propiedad del tipo **[LSP9-Bóveda](./lsp9-bóveda.md)** en el almacenamiento de su cuenta, y las elimina cuando **transfiere la propiedad** a otras cuentas de acuerdo con la **[Norma LSP10-BóvedasRecibidas](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-5-ReceivedAssets.md)**.
+- Escribe las claves de datos que representan las bóvedas de propiedad del tipo **[LSP9-Bóveda](./lsp9-vault.md)** en el almacenamiento de su cuenta, y las elimina cuando **transfiere la propiedad** a otras cuentas de acuerdo con la **[Norma LSP10-BóvedasRecibidas](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-5-ReceivedAssets.md)**.
 
 Los siguientes dos requisitos son necesarios para ejecutar la lógica anterior correctamente:
 

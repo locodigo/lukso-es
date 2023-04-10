@@ -13,7 +13,7 @@ sidebar_position: 6
 
 El **LSP1ReceptorDelegadoUniversalBóveda** es un contrato llamado por la función **[`universalReceiver(...)`](./lsp9-vault.md#universalreceiver)** del contrato **[LSP9Bóveda](./lsp9-vault.md)** que:
 
-- Escribe las claves de datos que representan activos recibidos de tipo **[LSP7-ActivoDigital](./lsp7-digital.asset.md)** y **[LSP8-ActivoDigitalIdentificable](./lsp8-identifiable-digital-asset.md)** en el almacenamiento de la cuenta, y las elimina cuando el saldo es cero de acuerdo con el **[Estándar LSP5-ActivosRecibidos](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-5-ReceivedAssets.md)**.
+- Escribe las claves de datos que representan activos recibidos de tipo **[LSP7-ActivoDigital](./lsp7-digital-asset.md)** y **[LSP8-ActivoDigitalIdentificable](./lsp8-identifiable-digital-asset.md)** en el almacenamiento de la cuenta, y las elimina cuando el saldo es cero de acuerdo con el **[Estándar LSP5-ActivosRecibidos](https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-5-ReceivedAssets.md)**.
 
 Los requisitos establecidos en el contrato **[LSP1ReceptorDelegadoUniversalUP](./lsp1-universal-receiver-delegate-up.md)** no se aplican en este contrato para ejecutar la lógica anterior correctamente, ya que la dirección registrada en la clave de datos [LSP1ReceptorDelegadoUniversal](../generic-standards/lsp1-universal-receiver.md/#extension) tiene acceso de escritura al almacenamiento.
 

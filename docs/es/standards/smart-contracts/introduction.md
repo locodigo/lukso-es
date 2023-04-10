@@ -42,7 +42,7 @@ Los contratos del **Perfil Universal** permiten una mejor representación de la 
 Los contratos de **Activos Digitales (Token y NFT 2.0)** son la versión avanzada más reciente de los estándares de token existentes. Vienen con muchas características que mejoran la seguridad y la experiencia general del usuario y la compatibilidad con las [CuentasERC725](../universal-profile/lsp0-erc725account.md) y los [Receptores Universales](../generic-standards/lsp1-universal-receiver.md).
 
 - **[LSP4MetadatosActivoDigital](./lsp4-digital-asset-metadata)**: contrato que establece los **metadatos** del **activo digital**.
-- **[LSP7ActivoDigital](./lsp7-activo-digital.md)**: contrato que representa un token fungible o no fungible (NFT).
+- **[LSP7ActivoDigital](./lsp7-digital-asset.md)**: contrato que representa un token fungible o no fungible (NFT).
 - **[LSP8ActivoDigitalIdentificable](./lsp8-identifiable-digital-asset.md)**: contrato que representa un token no fungible (NFT). Utiliza un bytes32 tokenId para permitir muchos usos de la identificación de tokens, incluidos números, direcciones de contrato y valores hash (por ejemplo, números de serie).
 
 ### Periferia
