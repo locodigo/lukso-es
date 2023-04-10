@@ -96,7 +96,7 @@ El `CHANGEPERMISSIONS` también es necesario para:
 - 🖊️ **Editar** una entrada en el Array `AddressPermissions[index]`, lo que significa cambiar la dirección almacenada en un índice específico.
   > ⚠️ **Atención:** una dirección de controlador con `CHANGEPERMISSIONS` también puede editar sus propios permisos. ¡Tenga cuidado al conceder este permiso!
 
-![CAMBIAR PERMISOS](/img/standards/lsp6/lsp6-cambiar-permisos.jpeg)
+![CAMBIAR PERMISOS](/img/standards/lsp6/lsp6-change-permissions.jpeg)
 
 Ten en cuenta que el comportamiento de `CHANGEPERMISSIONS` varía ligeramente en función del nuevo valor de permisos que se establezca (véase la figura siguiente).
 

@@ -41,7 +41,7 @@ Devuelve la cuota disponible que queda para un Perfil Universal registrado.
 [Web3.js](https://web3js.readthedocs.io/en/v1.8.0/web3-eth-accounts.html?#sign) y [ethers.js](https://docs.ethers.io/v5/api/signer/#Signer-signMessage) hacen hash automáticamente cuando usan sus funciones de firma nativas. Puede ser necesario hacerlo manualmente si se utiliza una librería diferente.
 - `timestamp` en **segundos**. Debe ser ahora +/- 5 segundos.
 
-<detalles>
+<details>
   <summary>Cómo generar y verificar la firma.</summary>
 
 <Tabs>
