@@ -22,7 +22,7 @@ function Index() {
           bgColor="#6270A4"
           color="#ffffff"
           link="./es/guides/browser-extension/install-browser-extension"
-          text="DESCARGA LA EXTENSION PARA EL NAVEGADOR"
+          text="DESCARGA LA EXTENSIÓN PARA EL NAVEGADOR"
         />
         <br />
         <CallToActionButton
@@ -38,7 +38,7 @@ function Index() {
             link="./es/networks/l16-testnet/parameters"
             title="REDES"
             className="networks"
-            content="Descubre como participar en las redes de prueba LUKSO."
+            content="Descubre cómo participar en las redes de prueba LUKSO."
           />
           <Box
             icon={StandardsIcon}
